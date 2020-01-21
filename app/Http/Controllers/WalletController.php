@@ -64,6 +64,8 @@ class WalletController extends Controller
                     $input["f_wallet"]=$input["f_wallet"] - $charges;
 
                     Transaction::create($input);
+
+                    $amount-=$charges;
                 }
                 $user->wallet+=$amount;
                 $user->save();
