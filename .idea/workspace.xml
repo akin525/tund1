@@ -30,6 +30,9 @@
   <component name="FavoritesManager">
     <favorites_list name="MCD-Admin" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/ramsey/uuid" />
@@ -207,6 +210,7 @@
       <workItem from="1579454398526" duration="1111000" />
       <workItem from="1579471351072" duration="1342000" />
       <workItem from="1579564256831" duration="773000" />
+      <workItem from="1579595340311" duration="536000" />
     </task>
     <servers />
   </component>
@@ -218,9 +222,9 @@
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1579340643160" />
-    <state x="410" y="207" key="com.intellij.ide.util.TipDialog" timestamp="1579564278106">
+    <state x="410" y="207" key="com.intellij.ide.util.TipDialog" timestamp="1579595862986">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="410" y="207" key="com.intellij.ide.util.TipDialog/62.0.1304.768@62.0.1304.768" timestamp="1579564278106" />
+    <state x="410" y="207" key="com.intellij.ide.util.TipDialog/62.0.1304.768@62.0.1304.768" timestamp="1579595862986" />
   </component>
 </project>
