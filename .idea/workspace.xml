@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WalletController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WalletController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/agents.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/reseller.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/users.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,7 +219,21 @@
       <workItem from="1579454398526" duration="1111000" />
       <workItem from="1579471351072" duration="1342000" />
       <workItem from="1579564256831" duration="773000" />
-      <workItem from="1579595340311" duration="1182000" />
+      <workItem from="1579595340311" duration="1830000" />
+      <workItem from="1579598978076" duration="1681000" />
+      <workItem from="1579600694927" duration="2705000" />
+      <workItem from="1579603664000" duration="590000" />
+      <workItem from="1579636142803" duration="1106000" />
+      <workItem from="1579637829814" duration="1769000" />
+      <workItem from="1579639631958" duration="1639000" />
+      <workItem from="1579641556895" duration="797000" />
+      <workItem from="1579692841812" duration="1330000" />
+      <workItem from="1579694401671" duration="1491000" />
+      <workItem from="1579696143161" duration="1308000" />
+      <workItem from="1579697902224" duration="2021000" />
+      <workItem from="1579700313597" duration="1605000" />
+      <workItem from="1579702534243" duration="1272000" />
+      <workItem from="1579704990992" duration="379000" />
     </task>
     <servers />
   </component>
@@ -225,9 +245,9 @@
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1579340643160" />
-    <state x="410" y="207" key="com.intellij.ide.util.TipDialog" timestamp="1579595862986">
+    <state x="410" y="207" key="com.intellij.ide.util.TipDialog" timestamp="1579705118236">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="410" y="207" key="com.intellij.ide.util.TipDialog/62.0.1304.768@62.0.1304.768" timestamp="1579595862986" />
+    <state x="410" y="207" key="com.intellij.ide.util.TipDialog/62.0.1304.768@62.0.1304.768" timestamp="1579705118236" />
   </component>
 </project>
