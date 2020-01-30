@@ -28,7 +28,7 @@ Route::get('/profile/{id}', 'UsersController@profile')->name('profile');
 Route::get('/wallet', 'WalletController@index')->name('wallet');
 Route::get('/transaction', 'TransactionController@index')->name('transaction');
 Route::get('/rechargecard', 'TransactionController@rechargecard')->name('rechargecard');
-Route::get('/monnify', 'TransactionController@monnify')->name('monnify');
+Route::post('/monnify', 'TransactionController@monnify')->name('monnify');
 //Route::get('/addfund', 'WalletController@addfund')->name('addfund');
 //Route::view('/profile', 'profile');
 Route::view('/addfund', 'addfund');
