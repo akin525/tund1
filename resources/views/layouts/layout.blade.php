@@ -1,475 +1,720 @@
 <!DOCTYPE html>
-<html lang="en">
-    
+<html>
+
 <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="A panel for admins">
-        <meta name="author" content="5Star Company">
-        <title>MCD Admin Panel</title>
 
-        <!-- Bootstrap core CSS -->
-        <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!-- Custom fonts for this template -->
-        <link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <title>MCD | Dashboard</title>
 
-        <!-- Custom fonts for this template -->
-        <link href="assets/plugins/themify/css/themify.css" rel="stylesheet" type="text/css">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet">
 
-        <!-- Angular Tooltip Css -->
-        <link href="assets/plugins/angular-tooltip/angular-tooltips.css" rel="stylesheet">
-        <link rel="stylesheet" href="assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <!-- Morris -->
+    <link href="../css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
 
-        <!-- Page level plugin CSS -->
-        <link href="assets/dist/css/animate.css" rel="stylesheet">
+    <!-- Gritter -->
+    <link href="../js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 
-        <!-- Custom styles for this template -->
-        <link href="assets/dist/css/adminfier.css" rel="stylesheet">
-        <link href="assets/dist/css/adminfier-responsive.css" rel="stylesheet">
+    <link href="../css/animate.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
 
-        <!-- Custom styles for Color -->
-        <link id="jssDefault" rel="stylesheet" href="assets/dist/css/skins/default.css">
-    </head>
+    <!-- Data Tables -->
+    <link href="../css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="../css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+    <link href="../css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
 
-    <body class="fixed-nav sticky-footer <?php echo $theme ?? 'green-skin' ?>" id="page-top">
-    
-        <!-- ===============================
-            Navigation Start
-        ====================================-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-            
-            <!-- Start Header -->
-            <header class="header-logo">
-                <a class="nav-link text-center mr-lg-3 hidden-xs" id="sidenavToggler"><i class="ti-align-left"></i></a>
-                <img src="../uploads/logo.png" alt="user-img" width="36" class="img-circle">
-            </header>
-            <!-- End Header -->
-            
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="ti-align-left"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                 
-                <!-- =============== Start Side Menu ============== -->
-                <div class="navbar-side">
-                  <ul class="navbar-nav side-navbar" id="exampleAccordion">
-                  
-                    <!-- Start Dashboard-->
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Projects">
-                      <a class="nav-link" href="dashboard.php">
-                        <i class="ti i-cl-2 ti-layers"></i>
-                        <span class="nav-link-text">Dashboard</span>
-                        
-                      </a>
-                    </li>
-                        <!-- Start UI Elements -->
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-                      <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#Components" data-parent="#exampleAccordion">
-                        <i class="ti ti-user"></i>
-                        <span class="nav-link-text">Manage Users</span>
-                      </a>
-                      <ul class="sidenav-second-level collapse" id="Components">
-                      
-                            <li>
-                          <a href="viewusers.php">View All Users</a>
-                        </li>
-                        
-                        <li>
-                          <a href="createuser.php">Create User</a>
-                        </li>
-                        
-                        
-                      </ul>
-                    </li>
-                    <!-- End UI Elements -->
-                    <!-- Start projects -->
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Projects">
-                      <a class="nav-link" href="creditwallet.php">
-                        <i class="ti i-cl-2 ti-wallet"></i>
-                        <span class="nav-link-text">Credit Wallet</span>
-                        
-                      </a>
-                    </li>
-                    <!-- End Projects -->
-                    
-                    
-                    
-                    <!-- Start UI Elements -->
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-                      <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#Componen" data-parent="#exampleAccordion">
-                        <i class="ti ti-money"></i>
-                        <span class="nav-link-text">Manage Deposits</span>
-                      </a>
-                      <ul class="sidenav-second-level collapse" id="Componen">
-                      
-                            <li>
-                          <a href="viewdeposits.php">Deposited Funds</a>
-                        </li>
-                        
-                        <li>
-                          <a href="managedeposits.php">Manage Deposits</a>
-                        </li>
-                        
-                        
-                      </ul>
-                    </li>
-                    <!-- End UI Elements -->
-                    
-                        <!-- Start UI Elements -->
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-                      <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#Component" data-parent="#exampleAccordion">
-                        <i class="ti ti-user"></i>
-                        <span class="nav-link-text">Manage Products</span>
-                      </a>
-                      <ul class="sidenav-second-level collapse" id="Component">
-                      
-                            <li>
-                          <a href="viewproducts.php">View All Products</a>
-                        </li>
-                        
-                        <li>
-                          <a href="createproduct.php">Create New Product</a>
-                        </li>
-                        
-                        
-                      </ul>
-                    </li>
-                    <!-- End UI Elements -->
-                    
-                    <!-- Start UI Elements -->
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-                      <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#Compone" data-parent="#exampleAccordion">
-                        <i class="ti ti-support"></i>
-                        <span class="nav-link-text">Support Tickets</span>
-                      </a>
-                      <ul class="sidenav-second-level collapse" id="Compone">
-                      
-                            <li>
-                          <a href="alltickets.php">View All Tickets</a>
-                        </li>
-                        
-                        <li>
-                          <a href="activetickets.php">Opened Ticket</a>
-                        </li>
-                        
-                        
-                      </ul>
-                    </li>
-                    <!-- End UI Elements -->
-                    
-                    <!-- Start UI Elements -->
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-                      <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#Compon" data-parent="#exampleAccordion">
-                        <i class="ti ti-credit-card"></i>
-                        <span class="nav-link-text">Payment Gateways</span>
-                      </a>
-                      <ul class="sidenav-second-level collapse" id="Compon">
-                      
-                            <li>
-                          <a href="cryptogateway.php">Crypto Currency</a>
-                        </li>
-                        <li>
-                          <a href="creditcard.php">Credit/Debit Card</a>
-                        </li>
-                        <li>
-                          <a href="banktransfer.php">Bank Transfer</a>
-                        </li>
-                        
-                        
-                      </ul>
-                    </li>
-                    <!-- End UI Elements -->
-                    
-                    <!-- End Dashboard -->
-                    
-                    <!-- Start projects -->
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Projects">
-                      <a class="nav-link" href="systemsettings.php">
-                        <i class="ti i-cl-2 ti-settings"></i>
-                        <span class="nav-link-text">System Settings</span>
-                        </a>
-                    </li>
-                    <!-- End Projects -->
-                    
-                    
-                    
-                    <!-- End Projects -->
-                        <!-- Start UI Elements -->
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-                      <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#Componens" data-parent="#exampleAccordion">
-                        <i class="ti ti-lock"></i>
-                        <span class="nav-link-text">Manage Admin</span>
-                      </a>
-                      <ul class="sidenav-second-level collapse" id="Componens">
-                      
-                            <li>
-                          <a href="editprofile.php">Edit Admin Profile</a>
-                        </li>
-                        
-                        <li>
-                          <a href="updatepassword.php">Update Password</a>
-                        </li>
-                        
-                        
-                      </ul>
-                    </li>
-                    <!-- End UI Elements -->
-                    
-                    
-                    <!-- End Advance Pages -->
-                    
-                    
-                    
-                    
-                    <!-- Start Help & Support -->
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Help-Support">
-                        <a class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="ti ti-power-off"></i>
-                                        {{ __('Logout') }}
-                                    </a>
+    <link href="../css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+    <link href="../css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
 
-                    </li>
-                    <!-- End Help & Support -->
-                  </ul>
-              </div>
-             <!-- =============== End Side Menu ============== -->
-              
-              <!-- =============== Search Bar ============== -->
-              <ul class="navbar-nav ml-left">
-                <li class="nav-item">
-                  <form class="form-inline my-2 my-lg-0 mr-lg-2">
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <button class="btn btn-primary" type="button">
-                              <i class="ti-search"></i>
-                            </button>
-                        </span>
-                      <input class="form-control" type="text" placeholder="Type In TO Search">
+    <!-- Mainly scripts -->
+    <script src="../js/jquery-2.1.1.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Flot -->
+    <script src="../js/plugins/flot/jquery.flot.js"></script>
+    <script src="../js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="../js/plugins/flot/jquery.flot.spline.js"></script>
+    <script src="../js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="../js/plugins/flot/jquery.flot.pie.js"></script>
+    <script src="../js/plugins/flot/jquery.flot.symbol.js"></script>
+    <script src="../js/plugins/flot/jquery.flot.time.js"></script>
+
+    <!-- Peity -->
+    <script src="../js/plugins/peity/jquery.peity.min.js"></script>
+    <script src="../js/demo/peity-demo.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="../js/inspinia.js"></script>
+    <script src="../js/plugins/pace/pace.min.js"></script>
+
+    <!-- jQuery UI -->
+    <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- Jvectormap -->
+    <script src="../js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="../js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+
+    <!-- EayPIE -->
+    <script src="../js/plugins/easypiechart/jquery.easypiechart.js"></script>
+
+    <!-- Sparkline -->
+    <script src="../js/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- Sparkline demo data  -->
+    <script src="../js/demo/sparkline-demo.js"></script>
+
+    <script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../js/plugins/jeditable/jquery.jeditable.js"></script>
+
+</head>
+
+<body>
+<div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element"> <span>
+                            <img alt="image" class="img-circle" src="../img/profile_small.jpg" />
+                             </span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="../#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
+                             </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="../profile.html">Profile</a></li>
+                            <li><a href="../contacts.html">Contacts</a></li>
+                            <li><a href="../mailbox.html">Mailbox</a></li>
+                            <li class="divider"></li>
+                            <li><a href="../login.html">Logout</a></li>
+                        </ul>
                     </div>
-                  </form>
+                    <div class="logo-element">
+                        IN+
+                    </div>
                 </li>
-              </ul>
-              <!-- =============== End Search Bar ============== -->
-              
-              <!-- =============== Header Rightside Menu ============== -->
-              <ul class="navbar-nav ml-auto">
-              
-                
-                
-                
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle mr-lg-0 user-img a-topbar__nav a-nav" id="userDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="../uploads/logo.png" alt="user-img" width="36" class="img-circle">
-                    </a>
-                  
-                    <ul class="dropdown-menu dropdown-user animated flipInX" aria-labelledby="userDropdown">
-                        <li class="top-header-dropdown green-bg">
-                            <div class="header-user-pic">
-                                <img src="../uploads/logo.png" alt="user-img" width="36" class="img-circle">
-                            </div>
-                            <div class="header-user-det">
-                                <span class="a-dropdown--title">Admin</span>
-                                </div>
-                        </li>
-                        <li><a class="dropdown-item" href="systemsettings.php"><i class="ti-settings"></i> System Setting</a></li>
-                        <li><a class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-power-off"></i> Logout</a></li>
+                <li class="active">
+                    <a href="../index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="/users">Users</a></li>
+{{--                        <li><a href="/addfund">Fund Wallet</a></li>--}}
+                        <li><a href="/pending_request">Pending Request</a></li>
+                        <li><a href="/agents">Agents</a></li>
+                        <li><a href="/resellers">Resellers</a></li>
+                        <li><a href="/transaction">Transactions</a></li>
+                        <li><a href="/wallet">Wallet</a></li>
+                        <li class="active"><a href="dashboard_2.html">Dashboard v.2</a></li>
+                        <li><a href="dashboard_3.html">Dashboard v.3</a></li>
+                        <li><a href="dashboard_4_1.html">Dashboard v.4</a></li>
                     </ul>
                 </li>
-              </ul>
-              <!-- =============== End Header Rightside Menu ============== -->
-            </div>
-            <button class="w3-button w3-teal w3-xlarge w3-right" onclick="openRightMenu()"><i class="spin fa fa-cog" aria-hidden="true"></i></button>
-        </nav>
-        <!-- =====================================================
-                            End Navigations
-        ======================================================= -->
-            @yield('content')
+                <li>
+                    <a href="../layouts.html"><i class="fa fa-diamond"></i> <span class="nav-label">Layouts</span> <span class="label label-primary pull-right">NEW</span></a>
+                </li>
+                <li>
+                    <a href="../#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Graphs</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="../graph_flot.html">Flot Charts</a></li>
+                        <li><a href="../graph_morris.html">Morris.js Charts</a></li>
+                        <li><a href="../graph_rickshaw.html">Rickshaw Charts</a></li>
+                        <li><a href="../graph_chartjs.html">Chart.js</a></li>
+                        <li><a href="../graph_peity.html">Peity Charts</a></li>
+                        <li><a href="../graph_sparkline.html">Sparkline Charts</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../mailbox.html"><i class="fa fa-envelope"></i> <span class="nav-label">Mailbox </span><span class="label label-warning pull-right">16/24</span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="../mailbox.html">Inbox</a></li>
+                        <li><a href="../mail_detail.html">Email view</a></li>
+                        <li><a href="../mail_compose.html">Compose email</a></li>
+                        <li><a href="../email_template.html">Email templates</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../widgets.html"><i class="fa fa-flask"></i> <span class="nav-label">Widgets</span> </a>
+                </li>
+                <li>
+                    <a href="../#"><i class="fa fa-edit"></i> <span class="nav-label">Forms</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="../form_basic.html">Basic form</a></li>
+                        <li><a href="../form_advanced.html">Advanced Plugins</a></li>
+                        <li><a href="../form_wizard.html">Wizard</a></li>
+                        <li><a href="../form_file_upload.html">File Upload</a></li>
+                        <li><a href="../form_editors.html">Text Editor</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../#"><i class="fa fa-desktop"></i> <span class="nav-label">App Views</span>  <span class="pull-right label label-primary">SPECIAL</span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="../contacts.html">Contacts</a></li>
+                        <li><a href="../profile.html">Profile</a></li>
+                        <li><a href="../projects.html">Projects</a></li>
+                        <li><a href="../project_detail.html">Project detail</a></li>
+                        <li><a href="../file_manager.html">File manager</a></li>
+                        <li><a href="../calendar.html">Calendar</a></li>
+                        <li><a href="../faq.html">FAQ</a></li>
+                        <li><a href="../timeline.html">Timeline</a></li>
+                        <li><a href="../pin_board.html">Pin board</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../#"><i class="fa fa-files-o"></i> <span class="nav-label">Other Pages</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="../search_results.html">Search results</a></li>
+                        <li><a href="../lockscreen.html">Lockscreen</a></li>
+                        <li><a href="../invoice.html">Invoice</a></li>
+                        <li><a href="../login.html">Login</a></li>
+                        <li><a href="../login_two_columns.html">Login v.2</a></li>
+                        <li><a href="../register.html">Register</a></li>
+                        <li><a href="../404.html">404 Page</a></li>
+                        <li><a href="../500.html">500 Page</a></li>
+                        <li><a href="../empty_page.html">Empty page</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../#"><i class="fa fa-globe"></i> <span class="nav-label">Miscellaneous</span><span class="label label-info pull-right">NEW</span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="../toastr_notifications.html">Notification</a></li>
+                        <li><a href="../nestable_list.html">Nestable list</a></li>
+                        <li><a href="../timeline_2.html">Timeline v.2</a></li>
+                        <li><a href="../forum_main.html">Forum view</a></li>
+                        <li><a href="../google_maps.html">Google maps</a></li>
+                        <li><a href="../code_editor.html">Code editor</a></li>
+                        <li><a href="../modal_window.html">Modal window</a></li>
+                        <li><a href="../validation.html">Validation</a></li>
+                        <li><a href="../tree_view.html">Tree view</a></li>
+                        <li><a href="../chat_view.html">Chat view</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../#"><i class="fa fa-flask"></i> <span class="nav-label">UI Elements</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="../typography.html">Typography</a></li>
+                        <li><a href="../icons.html">Icons</a></li>
+                        <li><a href="../draggable_panels.html">Draggable Panels</a></li>
+                        <li><a href="../buttons.html">Buttons</a></li>
+                        <li><a href="../video.html">Video</a></li>
+                        <li><a href="../tabs_panels.html">Tabs & Panels</a></li>
+                        <li><a href="../notifications.html">Notifications & Tooltips</a></li>
+                        <li><a href="../badges_labels.html">Badges, Labels, Progress</a></li>
+                    </ul>
+                </li>
 
-    <!-- Footer -->
-            <footer class="sticky-footer">
-              <div class="container">
-                <div class="text-center">
-                  <small class="font-15">All rights reserved - 5Star Inn Company
-                     <i class="fa fa-copyright cl-danger"></i>{{ $dateYear ?? '2019' }}</small>
-                </div>
-              </div>
-            </footer>
-            <!-- /Footer -->
-            
-            <!-- Switcher Start -->
-            <div class="w3-ch-sideBar w3-bar-block w3-card-2 w3-animate-right" style="display:none;right:0;" id="rightMenu">
-                <div class="rightMenu-scroll">
-                
-                    <button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large theme-bg">Setting Pannel <i class="ti-close"></i></button>
-                    <div class="right-ch-sideBar" id="side-scroll">
-                        <div class="user-box">
-                        
-                            <div class="profile-img">
-                                <img src="../uploads/logo.png" alt="user">
-                                <!-- this is blinking heartbit-->
-                                <div class="notify setp"> <span class="heartbit"></span> <span class="point"></span> </div>
-                            </div>
-                            <div class="profile-text">
-                                <h4>Admin</h4>
-                                 <a href="updatepassword.php" class="bg-info-light"><i class="ti-settings"></i></a>
-                                 <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="bg-danger-light"><i class="ti-power-off"></i></a>
-                            </div>
-                            
-                            <div class="tabbable-line">
-                            
-                                <ul class="nav nav-tabs ">
-                                
-                                    <li class="active">
-                                        <a class="bg-primary-light" href="#options" data-toggle="tab">
-                                        <i class="ti-palette"></i> </a>
-                                    </li>
-                                    
-                                    <li>
-                                        <a class="bg-danger-light" href="#notification" data-toggle="tab">
-                                        <i class="ti-bell"></i> </a>
-                                    </li>
-                                    
-                                    <li>
-                                        <a class="bg-success-light" href="#all-messages" data-toggle="tab">
-                                        <i class="ti-comment-alt"></i> </a>
-                                    </li>
-                                    
-                                </ul>
-                                
-                                <div class="tab-content">                                 
-                                        
-                                    </div>
-                                    
-                                </div>
-                            </div>
+                <li>
+                    <a href="../grid_options.html"><i class="fa fa-laptop"></i> <span class="nav-label">Grid options</span></a>
+                </li>
+                <li>
+                    <a href="../#"><i class="fa fa-table"></i> <span class="nav-label">Tables</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="../table_basic.html">Static Tables</a></li>
+                        <li><a href="../table_data_tables.html">Data Tables</a></li>
+                        <li><a href="../jq_grid.html">jqGrid</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../#"><i class="fa fa-picture-o"></i> <span class="nav-label">Gallery</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="../basic_gallery.html">Lightbox Gallery</a></li>
+                        <li><a href="../carousel.html">Bootstrap Carusela</a></li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="../#"><i class="fa fa-sitemap"></i> <span class="nav-label">Menu Levels </span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="../#">Third Level <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li>
+                                    <a href="../#">Third Level Item</a>
+                                </li>
+                                <li>
+                                    <a href="../#">Third Level Item</a>
+                                </li>
+                                <li>
+                                    <a href="../#">Third Level Item</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li><a href="../#">Second Level Item</a></li>
+                        <li>
+                            <a href="../#">Second Level Item</a></li>
+                        <li>
+                            <a href="../#">Second Level Item</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../css_animation.html"><i class="fa fa-magic"></i> <span class="nav-label">CSS Animations </span><span class="label label-info pull-right">62</span></a>
+                </li>
+                <li class="landing_link">
+                    <a target="_blank" href="../Landing_page/index.html"><i class="fa fa-star"></i> <span class="nav-label">Landing Page</span> <span class="label label-warning pull-right">NEW</span></a>
+                </li>
+                <li class="special_link">
+                    <a href="../package.html"><i class="fa fa-database"></i> <span class="nav-label">Package</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="../#"><i class="fa fa-bars"></i> </a>
+                    <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
+                        <div class="form-group">
+                            <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
                         </div>
-                    </div>
-                
+                    </form>
                 </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <span class="m-r-sm text-muted welcome-message">Welcome to MCD Admin Portal</span>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="../#">
+                            <i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages">
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a href="../profile.html" class="pull-left">
+                                        <img alt="image" class="img-circle" src="../img/a7.jpg">
+                                    </a>
+                                    <div>
+                                        <small class="pull-right">46h ago</small>
+                                        <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
+                                        <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a href="../profile.html" class="pull-left">
+                                        <img alt="image" class="img-circle" src="../img/a4.jpg">
+                                    </a>
+                                    <div>
+                                        <small class="pull-right text-navy">5h ago</small>
+                                        <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
+                                        <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a href="../profile.html" class="pull-left">
+                                        <img alt="image" class="img-circle" src="../img/profile.jpg">
+                                    </a>
+                                    <div>
+                                        <small class="pull-right">23h ago</small>
+                                        <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
+                                        <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="text-center link-block">
+                                    <a href="../mailbox.html">
+                                        <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="../#">
+                            <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-alerts">
+                            <li>
+                                <a href="../mailbox.html">
+                                    <div>
+                                        <i class="fa fa-envelope fa-fw"></i> You have 16 messages
+                                        <span class="pull-right text-muted small">4 minutes ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="../profile.html">
+                                    <div>
+                                        <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                        <span class="pull-right text-muted small">12 minutes ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="../grid_options.html">
+                                    <div>
+                                        <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                        <span class="pull-right text-muted small">4 minutes ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="text-center link-block">
+                                    <a href="../notifications.html">
+                                        <strong>See All Alerts</strong>
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <a href="../login.html">
+                            <i class="fa fa-sign-out"></i> Log out
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+
+        @yield('content')
+
+        <div class="footer">
+            <div class="pull-right">
+                Mega <strong>Cheap</strong> Data.
             </div>
-            <!-- /Switcher -->
-    
-            
-            
-            <!-- Scroll to Top Button-->  
-            <a class="scroll-to-top rounded cl-white theme-bg" href="#page-top">
-              <i class="ti-angle-double-up"></i>
-            </a>
-            <script src="assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js"></script>
-            
-            <!-- Bootstrap core JavaScript-->
-            <script src="assets/plugins/jquery/jquery.min.js"></script>
-            <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-            
-            <!-- Core plugin JavaScript-->
-            <script src="assets/plugins/jquery-easing/jquery.easing.min.js"></script>
-            
-             <!-- Slick Slider Js -->
-            <script src="assets/plugins/slick-slider/slick.js"></script>
-            
-            <!-- Slim Scroll -->
-            <script src="assets/plugins/slim-scroll/jquery.slimscroll.min.js"></script>
-            <!-- ChartJS -->
-            <script src="assets/plugins/chart.js/Chart.bundle.js"></script>
-            <script src="assets/plugins/chart.js/Chart.js"></script>
-            
-            <!-- Angular Tooltip -->
-            <script src="assets/plugins/angular-tooltip/angular.js"></script>
-            <script src="assets/plugins/angular-tooltip/angular-tooltips.js"></script>
-            <script src="assets/plugins/angular-tooltip/index.js"></script>
-            
-            <!-- Custom Chartjs JavaScript -->
-            
-            <!-- Custom scripts for all pages -->
-            <script src="assets/dist/js/adminfier.js"></script>
-            <script src="assets/dist/js/jQuery.style.switcher.js"></script>
-            <script>
-                
-                $(document).ready(function() {
-                    $('#styleOptions').styleSwitcher();
-                });
-      
-              $('.dropdown-toggle').dropdown()
- 
-        $(function () {
-    "use strict";
-    // Bar chart
-    new Chart(document.getElementById("bar-chart"), {
-        type: 'bar',
-        data: {
-          labels: ["Rave", "Paystack", "Payant", "Bank Transfer"],
-          datasets: [
+            <div>
+                <strong>Copyright</strong> 5Star Inn Company &copy; 2016-2019
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    $(document).ready(function() {
+        $('.chart').easyPieChart({
+            barColor: '#f8ac59',
+//                scaleColor: false,
+            scaleLength: 5,
+            lineWidth: 4,
+            size: 80
+        });
+
+        $('.chart2').easyPieChart({
+            barColor: '#1c84c6',
+//                scaleColor: false,
+            scaleLength: 5,
+            lineWidth: 4,
+            size: 80
+        });
+
+        var data2 = [
+            [gd(2012, 1, 1), 7], [gd(2012, 1, 2), 6], [gd(2012, 1, 3), 4], [gd(2012, 1, 4), 8],
+            [gd(2012, 1, 5), 9], [gd(2012, 1, 6), 7], [gd(2012, 1, 7), 5], [gd(2012, 1, 8), 4],
+            [gd(2012, 1, 9), 7], [gd(2012, 1, 10), 8], [gd(2012, 1, 11), 9], [gd(2012, 1, 12), 6],
+            [gd(2012, 1, 13), 4], [gd(2012, 1, 14), 5], [gd(2012, 1, 15), 11], [gd(2012, 1, 16), 8],
+            [gd(2012, 1, 17), 8], [gd(2012, 1, 18), 11], [gd(2012, 1, 19), 11], [gd(2012, 1, 20), 6],
+            [gd(2012, 1, 21), 6], [gd(2012, 1, 22), 8], [gd(2012, 1, 23), 11], [gd(2012, 1, 24), 13],
+            [gd(2012, 1, 25), 7], [gd(2012, 1, 26), 9], [gd(2012, 1, 27), 9], [gd(2012, 1, 28), 8],
+            [gd(2012, 1, 29), 5], [gd(2012, 1, 30), 8], [gd(2012, 1, 31), 25]
+        ];
+
+        var data3 = [
+            [gd(2012, 1, 1), 800], [gd(2012, 1, 2), 500], [gd(2012, 1, 3), 600], [gd(2012, 1, 4), 700],
+            [gd(2012, 1, 5), 500], [gd(2012, 1, 6), 456], [gd(2012, 1, 7), 800], [gd(2012, 1, 8), 589],
+            [gd(2012, 1, 9), 467], [gd(2012, 1, 10), 876], [gd(2012, 1, 11), 689], [gd(2012, 1, 12), 700],
+            [gd(2012, 1, 13), 500], [gd(2012, 1, 14), 600], [gd(2012, 1, 15), 700], [gd(2012, 1, 16), 786],
+            [gd(2012, 1, 17), 345], [gd(2012, 1, 18), 888], [gd(2012, 1, 19), 888], [gd(2012, 1, 20), 888],
+            [gd(2012, 1, 21), 987], [gd(2012, 1, 22), 444], [gd(2012, 1, 23), 999], [gd(2012, 1, 24), 567],
+            [gd(2012, 1, 25), 786], [gd(2012, 1, 26), 666], [gd(2012, 1, 27), 888], [gd(2012, 1, 28), 900],
+            [gd(2012, 1, 29), 178], [gd(2012, 1, 30), 555], [gd(2012, 1, 31), 993]
+        ];
+
+
+        var dataset = [
             {
-              label: "Counts",
-              backgroundColor: ["#ff3355","#3333ff","#000044","#e2b35b"],
-              data: [<?php echo $rave ?? ''; ?>,<?php echo $paystack ?? ''; ?>,<?php echo $payant; ?>,<?php echo $banktransfer ?? ''; ?>]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
-          title: {
-            display: true,
-            text: 'Payment Chart Total ('+<?php echo $total_fund; ?>+')'
-          }
-        }
-    });
-
-
-    // line second
-}); 
-
-// Horizental Bar Chart
-    new Chart(document.getElementById("bar-chart-horizontal"), {
-        type: 'horizontalBar',
-        data: {
-          labels: ["Data", "Airtime", "Tv", "Auto Charge", "Sim Swap"],
-          datasets: [
-            {
-              label: "Count",
-              backgroundColor: ["#0000FF","#00FF00","#e40503", "#229944", "#382710"],
-              data: [<?php echo $data ?? '' ; ?>,<?php echo $airtime ?? '' ; ?>,<?php echo $tv ?? '' ; ?>, <?php echo $autocharge ?? '' ; ?>, <?php echo $simswap ?? '0' ; ?>]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
-          title: {
-            display: true,
-            text: 'Transactions Chart'
-          }
-        }
-    });
-
-                function openRightMenu() {
-                    document.getElementById("rightMenu").style.display = "block";
-                }
-                function closeRightMenu() {
-                    document.getElementById("rightMenu").style.display = "none";
+                label: "Number of orders",
+                data: data3,
+                color: "#1ab394",
+                bars: {
+                    show: true,
+                    align: "center",
+                    barWidth: 24 * 60 * 60 * 600,
+                    lineWidth:0
                 }
 
-                $(document).ready(function() {
-                    $('#styleOptions').styleSwitcher();
-                });
+            }, {
+                label: "Payments",
+                data: data2,
+                yaxis: 2,
+                color: "#464f88",
+                lines: {
+                    lineWidth:1,
+                    show: true,
+                    fill: true,
+                    fillColor: {
+                        colors: [{
+                            opacity: 0.2
+                        }, {
+                            opacity: 0.2
+                        }]
+                    }
+                },
+                splines: {
+                    show: false,
+                    tension: 0.6,
+                    lineWidth: 1,
+                    fill: 0.1
+                },
+            }
+        ];
 
-            $('.dropdown-toggle').dropdown()
-   
-            
-                
-            </script>
-        
 
-            
-      </div>
-      <!-- Wrapper -->
-      
-    </body>
+        var options = {
+            xaxis: {
+                mode: "time",
+                tickSize: [3, "day"],
+                tickLength: 0,
+                axisLabel: "Date",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Arial',
+                axisLabelPadding: 10,
+                color: "#d5d5d5"
+            },
+            yaxes: [{
+                position: "left",
+                max: 1070,
+                color: "#d5d5d5",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Arial',
+                axisLabelPadding: 3
+            }, {
+                position: "right",
+                clolor: "#d5d5d5",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: ' Arial',
+                axisLabelPadding: 67
+            }
+            ],
+            legend: {
+                noColumns: 1,
+                labelBoxBorderColor: "#000000",
+                position: "nw"
+            },
+            grid: {
+                hoverable: false,
+                borderWidth: 0
+            }
+        };
 
+        function gd(year, month, day) {
+            return new Date(year, month - 1, day).getTime();
+        }
+
+        var previousPoint = null, previousLabel = null;
+
+        $.plot($("#flot-dashboard-chart"), dataset, options);
+
+        var mapData = {
+            "US": 298,
+            "SA": 200,
+            "DE": 220,
+            "FR": 540,
+            "CN": 120,
+            "AU": 760,
+            "BR": 550,
+            "IN": 200,
+            "GB": 120,
+        };
+
+        $('#world-map').vectorMap({
+            map: 'world_mill_en',
+            backgroundColor: "transparent",
+            regionStyle: {
+                initial: {
+                    fill: '#e4e4e4',
+                    "fill-opacity": 0.9,
+                    stroke: 'none',
+                    "stroke-width": 0,
+                    "stroke-opacity": 0
+                }
+            },
+
+            series: {
+                regions: [{
+                    values: mapData,
+                    scale: ["#1ab394", "#22d6b1"],
+                    normalizeFunction: 'polynomial'
+                }]
+            },
+        });
+    });
+</script>
+
+<!-- Mainly scripts -->
+<script src="../js/jquery-2.1.1.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../js/plugins/jeditable/jquery.jeditable.js"></script>
+
+<!-- Data Tables -->
+<script src="../js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="../js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="../js/plugins/dataTables/dataTables.responsive.js"></script>
+<script src="../js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="../js/inspinia.js"></script>
+<script src="../js/plugins/pace/pace.min.js"></script>
+<!-- Page-Level Scripts -->
+
+<!-- Mainly scripts -->
+<script src="../js/jquery-2.1.1.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Flot -->
+<script src="../js/plugins/flot/jquery.flot.js"></script>
+<script src="../js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script src="../js/plugins/flot/jquery.flot.spline.js"></script>
+<script src="../js/plugins/flot/jquery.flot.resize.js"></script>
+<script src="../js/plugins/flot/jquery.flot.pie.js"></script>
+<script src="../js/plugins/flot/jquery.flot.symbol.js"></script>
+<script src="../js/plugins/flot/curvedLines.js"></script>
+
+<!-- Peity -->
+<script src="../js/plugins/peity/jquery.peity.min.js"></script>
+<script src="../js/demo/peity-demo.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="../js/inspinia.js"></script>
+<script src="../js/plugins/pace/pace.min.js"></script>
+
+<!-- jQuery UI -->
+<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+<!-- Jvectormap -->
+<script src="../js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="../js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+
+<!-- Sparkline -->
+<script src="../js/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+<!-- Sparkline demo data  -->
+<script src="../js/demo/sparkline-demo.js"></script>
+
+<!-- ChartJS-->
+<script src="../js/plugins/chartJs/Chart.min.js"></script>
+
+<!-- Mainly scripts -->
+<script src="../js/jquery-2.1.1.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../js/plugins/jeditable/jquery.jeditable.js"></script>
+
+<!-- Data Tables -->
+<script src="../js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="../js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="../js/plugins/dataTables/dataTables.responsive.js"></script>
+<script src="../js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="../js/inspinia.js"></script>
+<script src="../js/plugins/pace/pace.min.js"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+    $(document).ready(function() {
+        $('.dataTables-example').dataTable({
+            responsive: true,
+            "dom": 'T<"clear">lfrtip',
+            "tableTools": {
+                "sSwfPath": "js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
+            }
+        });
+
+        /* Init DataTables */
+        var oTable = $('#editable').dataTable();
+
+        /* Apply the jEditable handlers to the table */
+        oTable.$('td').editable( '../example_ajax.php', {
+            "callback": function( sValue, y ) {
+                var aPos = oTable.fnGetPosition( this );
+                oTable.fnUpdate( sValue, aPos[0], aPos[1] );
+            },
+            "submitdata": function ( value, settings ) {
+                return {
+                    "row_id": this.parentNode.getAttribute('id'),
+                    "column": oTable.fnGetPosition( this )[2]
+                };
+            },
+
+            "width": "90%",
+            "height": "100%"
+        } );
+
+
+    });
+
+    function fnClickAddRow() {
+        $('#editable').dataTable().fnAddData( [
+            "Custom row",
+            "New row",
+            "New row",
+            "New row",
+            "New row" ] );
+
+    }
+</script>
+
+<style>
+    body.DTTT_Print {
+        background: #fff;
+
+    }
+    .DTTT_Print #page-wrapper {
+        margin: 0;
+        background:#fff;
+    }
+
+    button.DTTT_button, div.DTTT_button, a.DTTT_button {
+        border: 1px solid #e7eaec;
+        background: #fff;
+        color: #676a6c;
+        box-shadow: none;
+        padding: 6px 8px;
+    }
+    button.DTTT_button:hover, div.DTTT_button:hover, a.DTTT_button:hover {
+        border: 1px solid #d2d2d2;
+        background: #fff;
+        color: #676a6c;
+        box-shadow: none;
+        padding: 6px 8px;
+    }
+
+    .dataTables_filter label {
+        margin-right: 5px;
+
+    }
+</style>
+</body>
 </html>

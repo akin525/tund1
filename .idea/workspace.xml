@@ -2,11 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/agents.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/reseller.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/rechargecard.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WalletController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WalletController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/passwordhash.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/passwordhash.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/agents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/agents.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layout.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pending_request.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pending_request.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reseller.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/users.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
@@ -233,7 +241,50 @@
       <workItem from="1579697902224" duration="2021000" />
       <workItem from="1579700313597" duration="1605000" />
       <workItem from="1579702534243" duration="1272000" />
-      <workItem from="1579704990992" duration="379000" />
+      <workItem from="1579704990992" duration="1034000" />
+      <workItem from="1579721215271" duration="25000" />
+      <workItem from="1579721347972" duration="1752000" />
+      <workItem from="1579723139503" duration="1779000" />
+      <workItem from="1579725361103" duration="65000" />
+      <workItem from="1579784352656" duration="593000" />
+      <workItem from="1579787543569" duration="958000" />
+      <workItem from="1579789830451" duration="614000" />
+      <workItem from="1579794595289" duration="2013000" />
+      <workItem from="1579800376931" duration="949000" />
+      <workItem from="1579810473533" duration="86000" />
+      <workItem from="1579820226027" duration="530000" />
+      <workItem from="1579963493816" duration="860000" />
+      <workItem from="1579965366527" duration="305000" />
+      <workItem from="1579995904461" duration="816000" />
+      <workItem from="1579996754687" duration="1436000" />
+      <workItem from="1580053674343" duration="93000" />
+      <workItem from="1580213643199" duration="1124000" />
+      <workItem from="1580215857831" duration="1448000" />
+      <workItem from="1580217738316" duration="1769000" />
+      <workItem from="1580221464598" duration="1705000" />
+      <workItem from="1580223304493" duration="1718000" />
+      <workItem from="1580225155163" duration="264000" />
+      <workItem from="1580226890317" duration="493000" />
+      <workItem from="1580227430056" duration="1771000" />
+      <workItem from="1580229331740" duration="1281000" />
+      <workItem from="1580231906358" duration="633000" />
+      <workItem from="1580246362683" duration="1671000" />
+      <workItem from="1580248110472" duration="1898000" />
+      <workItem from="1580250064557" duration="359000" />
+      <workItem from="1580289090529" duration="904000" />
+      <workItem from="1580294149496" duration="593000" />
+      <workItem from="1580305659621" duration="1719000" />
+      <workItem from="1580322910813" duration="412000" />
+      <workItem from="1580328883094" duration="615000" />
+      <workItem from="1580330788570" duration="1174000" />
+      <workItem from="1580393821310" duration="1230000" />
+      <workItem from="1580395163096" duration="1173000" />
+      <workItem from="1580397022868" duration="1537000" />
+      <workItem from="1580415830959" duration="1726000" />
+      <workItem from="1580417594678" duration="1789000" />
+      <workItem from="1580419411150" duration="1785000" />
+      <workItem from="1580421223774" duration="2124000" />
+      <workItem from="1580423954653" duration="1053000" />
     </task>
     <servers />
   </component>
@@ -245,9 +296,20 @@
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1579340643160" />
-    <state x="410" y="207" key="com.intellij.ide.util.TipDialog" timestamp="1579705118236">
+    <state x="410" y="207" key="com.intellij.ide.util.TipDialog" timestamp="1580424041904">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="410" y="207" key="com.intellij.ide.util.TipDialog/62.0.1304.768@62.0.1304.768" timestamp="1579705118236" />
+    <state x="410" y="207" key="com.intellij.ide.util.TipDialog/62.0.1304.768@62.0.1304.768" timestamp="1580424041904" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/Http/Controllers/WalletController.php</url>
+          <line>2</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

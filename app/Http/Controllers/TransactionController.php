@@ -43,4 +43,21 @@ class TransactionController extends Controller
         return view('transactions', ['data' => $data, 'tt'=>$tt, 'ft'=>$ft, 'st'=>$st, 'g_date'=>substr($gdate, 1), 'g_tran'=>substr($gtrans, 1), 'g_wallet'=>substr($gwallet, 1)]);
 
     }
+
+    public function rechargecard(Request $request){
+
+        $users = DB::table('tbl_agents')->where('status', 'reseller')->orderBy('id', 'desc')->get();
+        $user = DB::table('tbl_agents')->where('user_name', 'samji')->first();
+
+        return view('rechargecard', ['user' => $user]);
+    }
+
+    public function monnify(Request $request){
+        $input = $request->all();
+
+        DB::table('monnify')->insert(
+            ['request' => $request, 'input'=>$input]
+        );
+    }
+
 }

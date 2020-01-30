@@ -23,11 +23,15 @@
             @foreach($users as $user)
                 <div class="col-lg-4" style="margin-bottom: 5px">
                     <div class="contact-box">
-                        <a href="users/{{ $user->id }}">
+                        <a href="profile/{{ $user->user_name }}">
                             <div class="col-sm-4">
                                 <div class="text-center">
-                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
-                                    <div class="m-t-xs font-bold">{{$user->user_name }}</div>
+                                    @if($user->photo!=null)
+                                        <img alt="image" class="img-circle m-t-xs img-responsive" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
+                                    @else
+                                        <img alt="image" class="img-circle m-t-xs img-responsive" src="/img/mcd_logo.png">
+                                    @endif
+                                        <div class="m-t-xs font-bold">{{$user->user_name }}</div>
                                 </div>
                             </div>
                             <div class="col-sm-8">

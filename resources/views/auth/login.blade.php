@@ -61,7 +61,7 @@
                     showMethod: 'slideDown',
                     timeOut: 4000
                 };
-                                        toastr.error('<?php echo $message; ?>', 'Login Error' );</script>
+                                        toastr.error('{{ $message }}', 'Login Error' );</script>
                                 @enderror
                 </div>
                 <div class="form-group">
@@ -72,11 +72,11 @@
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                    <script type="text/javascript">toastr.error('<?php echo $message; ?>', 'Login Error' );</script>
+                                    <script type="text/javascript">toastr.error('{{ $message }}', 'Login Error' );</script>
                                 @enderror
                 </div>
                 <div class="form-group">
-                   
+
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember"  {{ old('remember') ? 'checked' : '' }} >
 
                                     <label class="form-check-label" for="remember">

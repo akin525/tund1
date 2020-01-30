@@ -101,7 +101,13 @@
                 <li class="active">
                     <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="index.html">Dashboard v.1</a></li>
+                        <li><a href="/users">Users</a></li>
+{{--                        <li><a href="/addfund">Fund Wallet</a></li>--}}
+                        <li><a href="/pending_request">Pending Request</a></li>
+                        <li><a href="/agents">Agents</a></li>
+                        <li><a href="/resellers">Resellers</a></li>
+                        <li><a href="/transaction">Transactions</a></li>
+                        <li><a href="/wallet">Wallet</a></li>
                         <li class="active"><a href="dashboard_2.html">Dashboard v.2</a></li>
                         <li><a href="dashboard_3.html">Dashboard v.3</a></li>
                         <li><a href="dashboard_4_1.html">Dashboard v.4</a></li>

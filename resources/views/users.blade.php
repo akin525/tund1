@@ -119,7 +119,7 @@
                                         <td>{{$user->wallet}}</td>
                                         <td>{{$user->phoneno}}</td>
                                         <td class="center">{{$user->status}}</td>
-                                        <td class="center"><a data-toggle="modal" class="btn btn-primary" href="users/{{ $user->id }}">View</a></td>
+                                        <td class="center"><a data-toggle="modal" class="btn btn-primary" href="profile/{{ $user->user_name }}">View</a></td>
                                     </tr>
                                 @endforeach
 
