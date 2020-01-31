@@ -297,7 +297,7 @@
                                 </tr>
                                 <tr>
                                     <td class="content-block">
-                                        Dear {{$name}}, you have been activated as an Agent on {{$date}}.
+                                        Dear {{$name ?? ''}}, you have been activated as an Agent on {{$date ?? ''}}.
                                         Kindly do your best to reach higher level for better incentives.
                                     </td>
                                 </tr>

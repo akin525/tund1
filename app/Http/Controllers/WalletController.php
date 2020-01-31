@@ -71,18 +71,21 @@ class WalletController extends Controller
 
                     Transaction::create($input);
 
-                    $input["description"]="Being sms charge";
-                    $input["name"]="SMS Charge";
-                    $input["amount"]=$sms_charges;
-                    $input["code"]="smsc";
-                    $input["i_wallet"]=$input["f_wallet"];
-                    $input["f_wallet"]=$input["f_wallet"] - $sms_charges;
-
-                    Transaction::create($input);
 
                     $amount-=$charges;
-                    $amount-=$sms_charges;
                 }
+
+                $input["description"]="Being sms charge";
+                $input["name"]="SMS Charge";
+                $input["amount"]=$sms_charges;
+                $input["code"]="smsc";
+                $input["i_wallet"]=$input["f_wallet"];
+                $input["f_wallet"]=$input["f_wallet"] - $sms_charges;
+
+                Transaction::create($input);
+
+                $amount-=$sms_charges;
+
                 $user->wallet+=$amount;
                 $user->save();
 
