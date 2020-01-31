@@ -79,7 +79,7 @@ class UsersController extends Controller
 
             $GLOBALS['email']=$ap->email;
 
-             $data = array('name'=>$ap->name, 'date'=>date("D, d M Y"));
+             $data = array('name'=>$ap->full_name, 'date'=>date("D, d M Y"));
              Mail::send('email_agent', $data, function($message) {
                 $message->to($GLOBALS['email'], 'MCD Agent')->subject('MCD Agent Approval');
                 $message->from('info@5starcompany.com.ng','5Star Company');

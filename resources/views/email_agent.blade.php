@@ -287,7 +287,7 @@
                             <table  cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td>
-                                        <img class="img-responsive" src="img/mcd_logo.png" width="100px" height="100px"/>
+                                        <img class="img-responsive" src="https://admin-mcd.5starcompany.com.ng/img/mcd_logo.png" width="100px" height="100px"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -308,7 +308,7 @@
                                 </tr>
                                 <tr>
                                     <td class="content-block aligncenter">
-                                        <a href="#" class="btn-primary">We wish you good-luck</a>
+                                        <a class="btn-primary">We wish you good-luck</a>
                                     </td>
                                 </tr>
                             </table>
