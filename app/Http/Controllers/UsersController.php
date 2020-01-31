@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 
 class UsersController extends Controller
@@ -72,6 +73,17 @@ class UsersController extends Controller
 
         if($input["type"]=="agent"){
             DB::table('tbl_agents')->where('user_name', $input['user_name'])->update(["status"=>"agent", "target"=>"Target: Buy 60 data and 30 airtime this month to complete your level."]);
+
+            $ap = User::where('user_name', $input['user_name'])->first();
+
+
+            $GLOBALS['email']=$ap->email;
+
+             $data = array('name'=>$ap->name, 'date'=>date("D, d M Y"));
+             Mail::send('email_agent', $data, function($message) {
+                $message->to($GLOBALS['email'], 'MCD Agent')->subject('MCD Agent Approval');
+                $message->from('info@5starcompany.com.ng','5Star Company');
+             });
         }else if($input["type"]=="reseller"){
             DB::table('tbl_agents')->where('user_name', $input['user_name'])->update(["status"=>"reseller", "target"=>"Reseller Activated"]);
         }

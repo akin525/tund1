@@ -30,7 +30,7 @@ Route::get('/transaction', 'TransactionController@index')->name('transaction');
 Route::get('/rechargecard', 'TransactionController@rechargecard')->name('rechargecard');
 Route::post('/monnify', 'TransactionController@monnify')->name('monnify');
 //Route::get('/addfund', 'WalletController@addfund')->name('addfund');
-//Route::view('/profile', 'profile');
+Route::view('/profile', 'email_agent');
 Route::view('/addfund', 'addfund');
 Route::post('/addfund', 'WalletController@addfund')->name('addfund');
 
