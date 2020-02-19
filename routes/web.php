@@ -27,10 +27,11 @@ Route::post('/request_approve', 'UsersController@approve')->name('user approval'
 Route::get('/profile/{id}', 'UsersController@profile')->name('profile');
 Route::get('/wallet', 'WalletController@index')->name('wallet');
 Route::get('/transaction', 'TransactionController@index')->name('transaction');
-Route::get('/rechargecard', 'TransactionController@rechargecard')->name('rechargecard');
+Route::post('/rechargecard', 'TransactionController@rechargecard')->name('rechargecard');
 Route::post('/monnify', 'TransactionController@monnify')->name('monnify');
 //Route::get('/addfund', 'WalletController@addfund')->name('addfund');
 Route::view('/profile', 'email_agent');
 Route::view('/addfund', 'addfund');
+Route::view('/rechargecard', 'rechargecard');
 Route::post('/addfund', 'WalletController@addfund')->name('addfund');
 

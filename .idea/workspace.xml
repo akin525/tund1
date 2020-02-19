@@ -2,9 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/views/mail_rechargecard.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/pdf_rechargecard.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/fonts/Helvetica-Bold.afm.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/fonts/Helvetica.afm.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/fonts/Times-Bold.afm.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/fonts/dompdf_font_family_cache.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/fonts/fontawesome-normal_44dca126d6768c67a91bf98f98062146.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/fonts/fontawesome-normal_44dca126d6768c67a91bf98f98062146.ufm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/fonts/fontawesome-normal_44dca126d6768c67a91bf98f98062146.ufm.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/fonts/glyphicons-halflings-normal_8f5d14fce8edd73a2e83295b2d0b070e.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/fonts/glyphicons-halflings-normal_8f5d14fce8edd73a2e83295b2d0b070e.ufm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/MCD-Admin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MCD-Admin.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WalletController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WalletController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/email_agent.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/email_agent.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/Inspinia-master/assets/mail_compose.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/Inspinia-master/assets/mail_compose.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/rechargecard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/rechargecard.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,15 +145,24 @@
       <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
       <path value="$PROJECT_DIR$/vendor/psr/container" />
       <path value="$PROJECT_DIR$/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vendor/dompdf/dompdf" />
+      <path value="$PROJECT_DIR$/vendor/sabberworm/php-css-parser" />
+      <path value="$PROJECT_DIR$/vendor/barryvdh/laravel-dompdf" />
+      <path value="$PROJECT_DIR$/vendor/phenx/php-font-lib" />
+      <path value="$PROJECT_DIR$/vendor/phenx/php-svg-lib" />
     </include_path>
   </component>
   <component name="ProjectId" id="1SVybxDmn2bQAkatpRCRjswbXmM" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -278,22 +307,65 @@
       <workItem from="1580468970360" duration="2021000" />
       <workItem from="1580475927303" duration="57000" />
       <workItem from="1580482476033" duration="237000" />
-      <workItem from="1580500705174" duration="126000" />
+      <workItem from="1580500705174" duration="241000" />
+      <workItem from="1580572910718" duration="1351000" />
+      <workItem from="1580595851670" duration="1153000" />
+      <workItem from="1580598976222" duration="1188000" />
+      <workItem from="1580600813454" duration="591000" />
+      <workItem from="1580602880048" duration="583000" />
+      <workItem from="1580605147370" duration="1193000" />
+      <workItem from="1580606952548" duration="1440000" />
+      <workItem from="1580609031271" duration="597000" />
+      <workItem from="1580610856726" duration="1254000" />
+      <workItem from="1580623699561" duration="597000" />
+      <workItem from="1580625646066" duration="1699000" />
+      <workItem from="1580627388034" duration="1783000" />
+      <workItem from="1580629220323" duration="412000" />
+      <workItem from="1580647874398" duration="1643000" />
+      <workItem from="1580649911642" duration="1620000" />
+      <workItem from="1580651747999" duration="1412000" />
+      <workItem from="1580665534233" duration="1808000" />
+      <workItem from="1580667468787" duration="1941000" />
+      <workItem from="1580669457213" duration="1688000" />
+      <workItem from="1580671363689" duration="1803000" />
+      <workItem from="1580680589548" duration="1390000" />
+      <workItem from="1580706676796" duration="1673000" />
+      <workItem from="1580708560066" duration="834000" />
+      <workItem from="1580763371623" duration="770000" />
+      <workItem from="1580766126261" duration="1733000" />
+      <workItem from="1580793501604" duration="1255000" />
+      <workItem from="1580813484466" duration="629000" />
+      <workItem from="1580815295825" duration="698000" />
+      <workItem from="1580892328719" duration="511000" />
+      <workItem from="1581068526686" duration="1575000" />
+      <workItem from="1581084373843" duration="736000" />
+      <workItem from="1581180000284" duration="49000" />
+      <workItem from="1581196588118" duration="467000" />
+      <workItem from="1581197982901" duration="1719000" />
+      <workItem from="1581203401948" duration="120000" />
+      <workItem from="1581327064935" duration="775000" />
+      <workItem from="1581828384958" duration="1282000" />
+      <workItem from="1581877936279" duration="328000" />
+      <workItem from="1581962109804" duration="437000" />
+      <workItem from="1582110065120" duration="7451000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1579340643160">
+    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1582117390559">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1579340643160" />
-    <state x="410" y="207" key="com.intellij.ide.util.TipDialog" timestamp="1580475950087">
+    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1582117390559" />
+    <state x="155" y="168" key="com.intellij.ide.util.TipDialog" timestamp="1581203401858">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="410" y="207" key="com.intellij.ide.util.TipDialog/62.0.1304.768@62.0.1304.768" timestamp="1580475950087" />
+    <state x="155" y="168" key="com.intellij.ide.util.TipDialog/62.0.1304.768@62.0.1304.768" timestamp="1581203401858" />
     <state x="370" y="43" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1580426464257">
       <screen x="62" y="0" width="1304" height="768" />
     </state>

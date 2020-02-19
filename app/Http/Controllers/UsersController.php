@@ -62,9 +62,12 @@ class UsersController extends Controller
         $pld = DB::table('tbl_p_nd_l')->where('narration', 'like', '%'.$user.'%')->orderBy('id', 'desc')->get();
         $ap = User::where('user_name', $user)->first();
         $referrals = User::where('referral', $user)->get();
+        $sms = DB::table('tbl_smslog')->where('user_name', $user)->orderBy('id', 'desc')->get();
+        $email = DB::table('tbl_emaillog')->where('user_name', $user)->orderBy('id', 'desc')->get();
 
 
-        return view('profile', ['user'=>$ap, 'tt'=>$tt, 'td'=>$td, 'tw'=>$tw, 'wd'=>$wd, 'tpld'=>$tpld, 'pld'=>$pld, 'referrals'=>$referrals, 'version'=>$v]);
+
+        return view('profile', ['user'=>$ap, 'tt'=>$tt, 'td'=>$td, 'tw'=>$tw, 'wd'=>$wd, 'tpld'=>$tpld, 'pld'=>$pld, 'referrals'=>$referrals, 'version'=>$v, 'sms'=>$sms, 'email'=>$email]);
 
     }
 
@@ -88,6 +91,60 @@ class UsersController extends Controller
             DB::table('tbl_agents')->where('user_name', $input['user_name'])->update(["status"=>"reseller", "target"=>"Reseller Activated"]);
         }
 
+
+        return redirect('profile/'.$input['user_name']);
+
+    }
+
+    public function sendsms(Request $request){
+        $input = $request->all();
+
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "http://www.sms.5starcompany.com.ng/smsapi?pd_m=send&id=".$sms_id."&secret=".$sms_secret."&pass=".$sms_pass."&senderID=".$sms_senderid."&to_number=".$user->phoneno."&textmessage=".$sms_description,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => [
+                "content-type: application/json",
+                "cache-control: no-cache"
+            ],
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        if($err){
+            // there was an error contacting the SMS Portal
+            die('Curl returned error: ' . $err);
+        }
+
+        DB::table('tbl_smslog')->insert(
+            ['user_name' => $input["user_name"], 'message' => $sms_description, 'phoneno' => $user->phoneno, 'response' => $response]
+        );
+
+
+        return redirect('profile/'.$input['user_name']);
+
+    }
+
+    public function sendemail(Request $request){
+        $input = $request->all();
+
+            $ap = User::where('user_name', $input['user_name'])->first();
+
+
+            $GLOBALS['email']=$ap->email;
+
+             $data = array('name'=>$ap->full_name, 'date'=>date("D, d M Y"));
+             Mail::send('email_agent', $data, function($message) {
+                $message->to($GLOBALS['email'], 'MCD Agent')->subject('MCD Agent Approval');
+                $message->from('info@5starcompany.com.ng','5Star Company');
+             });
+
+        DB::table('tbl_emaillog')->insert(
+            ['user_name' => $input["user_name"], 'message' => $sms_description, 'phoneno' => $user->phoneno, 'response' => $response]
+        );
 
         return redirect('profile/'.$input['user_name']);
 

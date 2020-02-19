@@ -85,13 +85,19 @@
                                         </div>
                                     </div>
 
+
+
                                     <div class="col-md-6">
-                                        <span><strong>{{$user->wallet}}</strong></span>
-                                        <h5>Wallet Balance</h5>
+                                        <button type="button" class="btn btn-warning m-r-sm">{{$user->wallet}}</button>
+                                        Wallet
+                                        {{--<span><strong>{{$user->wallet}}</strong></span>
+                                        <h5>Wallet Balance</h5>--}}
                                     </div>
                                     <div class="col-md-6">
-                                        <span><strong>{{$user->bonus}}</strong></span>
-                                        <h5>Bonus</h5>
+                                        <button type="button" class="btn btn-warning m-r-sm">{{$user->bonus}}</button>
+                                        Bonus
+                                        {{--<span><strong>{{$user->bonus}}</strong></span>
+                                        <h5>Bonus</h5>--}}
                                     </div>
                                 </div>
 
@@ -120,7 +126,7 @@
                                         @endif
 
                                         <div class="col-md-6">
-                                            <button type="button" class="btn btn-default btn-sm btn-block"><i class="fa fa-flag-checkered"></i> Flag Fraud</button>
+                                            <button type="button" class="btn btn-danger btn-sm btn-block"><i class="fa fa-flag-checkered"></i> Flag Fraud</button>
                                         </div>
                                     </div>
                                 </div>
@@ -142,11 +148,101 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                     </div>
                 </div>
+
+                    <div class="row m-t-lg">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <h5>SMS Log</h5>
+                                    <div>
+                                        <div class="chat-activity-list">
+                                            @foreach($sms as $sms)
+                                            <div class="chat-element">
+                                                <a href="#" class="pull-left">
+                                                    @if($user->photo!=null)
+                                                        <img alt="image" class="img-circle" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
+                                                    @else
+                                                        <img alt="image" class="img-circle" src="/img/mcd_logo.png">
+                                                    @endif
+                                                </a>
+                                                <div class="media-body ">
+                                                    <small class="pull-right text-navy">{{$sms->response}}</small>
+                                                    <strong>{{$sms->phoneno}}</strong>
+                                                    <p class="m-b-xs">
+                                                        {{$sms->message}}
+                                                    </p>
+                                                    <small class="text-muted">{{$sms->created_at}}</small>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="chat-form">
+                                        <form role="form">
+                                            <div class="form-group">
+                                                <textarea class="form-control" placeholder="Message"></textarea>
+                                            </div>
+                                            <div class="text-right">
+                                                <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong>Send message</strong></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+
+                    <div class="row m-t-lg">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <h5>Email Log</h5>
+                                    <div>
+                                        <div class="chat-activity-list">
+                                            @foreach($email as $email)
+                                                <div class="chat-element">
+                                                    <a href="#" class="pull-left">
+                                                        @if($user->photo!=null)
+                                                            <img alt="image" class="img-circle" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
+                                                        @else
+                                                            <img alt="image" class="img-circle" src="/img/mcd_logo.png">
+                                                        @endif
+                                                    </a>
+                                                    <div class="media-body ">
+                                                        <small class="pull-right text-navy">{{$email->response}}</small>
+                                                        <strong>{{$email->phoneno}}</strong>
+                                                        <p class="m-b-xs">
+                                                            {{$email->message}}
+                                                        </p>
+                                                        <small class="text-muted">{{$sms->created_at}}</small>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="chat-form">
+                                        <form role="form">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" value="" placeholder="Subject">
+                                                <textarea class="form-control" placeholder="Message"></textarea>
+                                            </div>
+                                            <div class="text-right">
+                                                <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong>Send message</strong></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
                 <div class="col-md-8">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
@@ -332,6 +428,53 @@
                     </div>
 
                 </div>
+
+                <div class="col-lg-12 animated fadeInRight">
+                    <div class="mail-box-header">
+                        <div class="pull-right tooltip-demo">
+                            <a href="mailbox.html" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Move to draft folder"><i class="fa fa-pencil"></i> Draft</a>
+                            <a href="mailbox.html" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Discard email"><i class="fa fa-times"></i> Discard</a>
+                        </div>
+                        <h2>
+                            Compse mail
+                        </h2>
+                    </div>
+                    <div class="mail-box">
+
+
+                        <div class="mail-body">
+
+                            <form class="form-horizontal" method="get">
+                                <div class="form-group"><label class="col-sm-2 control-label">To:</label>
+
+                                    <div class="col-sm-10"><input type="text" class="form-control" value="alex.smith@corporat.com"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Subject:</label>
+
+                                    <div class="col-sm-10"><input type="text" class="form-control" value=""></div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                        <div class="mail-text h-200" style="margin: 20px">
+
+                            <textarea class="form-control" placeholder="Message" cols="18"></textarea>
+
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="mail-body text-right tooltip-demo">
+                            <a href="mailbox.html" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Send"><i class="fa fa-reply"></i> Send</a>
+                            <a href="mailbox.html" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Discard email"><i class="fa fa-times"></i> Discard</a>
+                            <a href="mailbox.html" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Move to draft folder"><i class="fa fa-pencil"></i> Draft</a>
+                        </div>
+                        <div class="clearfix"></div>
+
+
+
+                    </div>
+                </div>
+
             </div>
         </div>
 
