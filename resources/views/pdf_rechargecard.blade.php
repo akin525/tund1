@@ -108,9 +108,9 @@
                                 <strong></strong>
                                 <div class="well" style="font-size:14px">
                                         <strong>Card Pin:  {{$card->pin}}</strong> |
-                                        Serial No: {{$card->sno}}
+                                        Serial No: {{$card->serial}}
                                     <div class="pull-right">
-                                        <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> {{$card->mobilenetwork}} #{{$card->amount}} </a>
+                                        <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> {{$card->network}} #{{$card->amount}} </a>
                                     </div>
                                 </div>
                                 <div class="text-center">

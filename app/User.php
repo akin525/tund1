@@ -19,7 +19,7 @@ class User extends Authenticatable
     protected $table='tbl_agents';
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'user_name', 'wallet', 'gnews'
     ];
 
     /**

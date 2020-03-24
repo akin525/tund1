@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\model\PndL;
+use App\model\Transaction;
+use App\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use PDF;
 
 class TransactionController extends Controller
@@ -130,12 +134,171 @@ class TransactionController extends Controller
             ->with('success','Recharge sent successfully to '.$user->email . ' @ '. $user->user_name);
     }
 
-    public function monnify(Request $request){
+    public function rechargemanual(Request $request)
+    {
+        $user_name="Fashamos";
+        $quantity=5;
+        $network="MTN";
+
+        $user = DB::table('tbl_agents')->where('user_name', $user_name)->first();
+
+        if (!$user) {
+            return redirect()->route('rechargecard')
+                ->with('success', 'User doesnt exist');
+        }
+
+        $cards = DB::table('tbl_rechargecards')->where([['status', 'unused'], ['network', $network] ])->skip(0)->take($quantity)->get();
+
+        $data = ['user' => $user, 'cards'=>$cards];
+        $pdf = PDF::loadView('pdf_rechargecard', $data);
+
+                foreach ($cards as $card){
+                    DB::table('tbl_rechargecards')->where('id', $card->id)->update(["status"=>"sent", "user_name"=>$user_name]);
+                }
+
+        return $pdf->stream($user_name.'_rechargecard.pdf');
+
+    }
+
+
+        public function monnify(Request $request){
         $input = $request->all();
 
         DB::table('monnify')->insert(
-            ['request' => $request, 'input'=>$input]
+            ['request' => $request, 'input'=>'hello']
         );
     }
 
-}
+    public function addtransaction(Request $request){
+        $input = $request->all();
+        $rules = array(
+            'user_name'      => 'required',
+            'network'      => 'required',
+            'amount' => 'required');
+
+        $validator = Validator::make($input, $rules);
+
+        if ($validator->passes())
+        {
+            $sms_id="15658";
+            $sms_secret="66Wby95tGM15Wo3uQk1OwiYO3muum4Ds";
+            $sms_pass="zEKJKdpxfvuDzYtTZipihelDJQ0NttZ28JMSXbpcHT";
+            $sms_senderid="MCD Transaction";
+            $sms_charges=3;
+            $charge_treshold=2000;
+            $charges=50;
+            $amount=$input["amount"];
+            $user= User::where('user_name', $input["user_name"])->first();
+            $sms_description="Dear ".$input['user_name'].", a transaction of ".$input["network"]. " #".$amount." on ".$input["phoneno"]. " just occured on your account by admin. Regards.";
+
+            if($user){
+                $amt=0.02 * $input["amount"];
+                $input["amount"] -= $amt;
+                $input["description"]=$input["user_name"] . " buy airtime_".$input["network"]. "_".$amount. " on ".$input["phoneno"]. " using wallet";
+                $input["i_wallet"]=$user->wallet;
+                $input["f_wallet"]=$input["i_wallet"] - $input["amount"];
+                $input["ip_address"]="127.0.0.1";
+                $input["code"]="airtime_".$input["network"]. "_".$amount;
+                $input["status"]="delivered";
+                $input["date"]=date("y-m-d H:i:s");
+                $input["name"]=$input["network"]. "airtime";
+
+                Transaction::create($input);
+
+                $input["description"]="Being sms charge";
+                $input["name"]="SMS Charge";
+                $input["amount"]=$sms_charges;
+                $input["code"]="smsc";
+                $input["i_wallet"]=$input["f_wallet"];
+                $input["f_wallet"]=$input["f_wallet"] - $sms_charges;
+
+                Transaction::create($input);
+
+                $amount+=$sms_charges;
+
+                $user->wallet-=$amount;
+                $user->save();
+
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "http://www.sms.5starcompany.com.ng/smsapi?pd_m=send&id=".$sms_id."&secret=".$sms_secret."&pass=".$sms_pass."&senderID=".$sms_senderid."&to_number=".$user->phoneno."&textmessage=".$sms_description,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_CUSTOMREQUEST => "GET",
+                    CURLOPT_HTTPHEADER => [
+                        "content-type: application/json",
+                        "cache-control: no-cache"
+                    ],
+                ));
+
+                $response = curl_exec($curl);
+                $err = curl_error($curl);
+
+                if($err){
+                    // there was an error contacting the SMS Portal
+                    die('Curl returned error: ' . $err);
+                }
+
+
+                DB::table('tbl_smslog')->insert(
+                    ['user_name' => $input["user_name"], 'message' => $sms_description, 'phoneno' => $user->phoneno, 'response' => $response]
+                );
+
+
+                return redirect('/addtransaction')->with('success', $input["user_name"]. ' transaction added successfully!');
+            }else{
+                $validator->errors()->add('username', 'The username does not exist!');
+
+                return redirect('/addtransaction')
+                    ->withErrors($validator)
+                    ->withInput($input);
+            }
+
+        }else{
+
+            return redirect('/addtransaction')
+                ->withErrors($validator)
+                ->withInput($input);
+//            return response()->json(['status'=> 0, 'message'=>'Unable to login with errors', 'error' => $validator->errors()]);;
+        }
+    }
+
+    public function reversal_confirm(Request $request)
+    {
+        $input = $request->all();
+
+        $tran = Transaction::where('id', '=', $input["id"])->first();
+
+        if (!$tran) {
+            return redirect('/reversal')->with('success', 'Transaction doesnt exist!');
+
+        }
+                return view('reversal', ['data' => $tran, 'val'=>true]);
+    }
+
+    public function reverse(Request $request, $id)
+    {
+        $input = $request->all();
+
+        $tran = Transaction::find($id);
+        $tran->status="reversed";
+        $tran->save();
+
+
+        $user=User::where("user_name", "=", $tran->user_name)->first();
+        $input["description"]="Being reversal of " . $tran->description;
+        $input["name"]="Reversal";
+        $input["status"]="successful";
+        $input["code"]="reversal";
+        $input["amount"]=$tran->amount;
+        $input["user_name"]=$tran->user_name;
+        $input["i_wallet"]=$user->wallet;
+        $input["f_wallet"]=$user->wallet + $tran->amount;
+
+        $user->update(["wallet"=> $user->wallet + $tran->amount]);
+        Transaction::create($input);
+
+        return redirect('/reversal')->with('success', 'Transaction reversed successfully!');
+
+    }
+
+    }

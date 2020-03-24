@@ -2,28 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/mail_rechargecard.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/pdf_rechargecard.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/fonts/Helvetica-Bold.afm.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/fonts/Helvetica.afm.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/fonts/Times-Bold.afm.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/fonts/dompdf_font_family_cache.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/fonts/fontawesome-normal_44dca126d6768c67a91bf98f98062146.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/fonts/fontawesome-normal_44dca126d6768c67a91bf98f98062146.ufm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/fonts/fontawesome-normal_44dca126d6768c67a91bf98f98062146.ufm.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/fonts/glyphicons-halflings-normal_8f5d14fce8edd73a2e83295b2d0b070e.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/fonts/glyphicons-halflings-normal_8f5d14fce8edd73a2e83295b2d0b070e.ufm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/MCD-Admin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MCD-Admin.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/addgnews.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/addtransaction.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/email_notification.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/reversal.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vendor.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Inspinia-master/assets/mail_compose.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/Inspinia-master/assets/mail_compose.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layout.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pdf_rechargecard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pdf_rechargecard.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/rechargecard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/rechargecard.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -347,7 +339,25 @@
       <workItem from="1581828384958" duration="1282000" />
       <workItem from="1581877936279" duration="328000" />
       <workItem from="1581962109804" duration="437000" />
-      <workItem from="1582110065120" duration="7451000" />
+      <workItem from="1582110065120" duration="8689000" />
+      <workItem from="1582198086757" duration="1700000" />
+      <workItem from="1582202312509" duration="688000" />
+      <workItem from="1582358553874" duration="746000" />
+      <workItem from="1582390118236" duration="2157000" />
+      <workItem from="1582485082517" duration="771000" />
+      <workItem from="1582551651662" duration="392000" />
+      <workItem from="1582556238491" duration="2329000" />
+      <workItem from="1582754671801" duration="1015000" />
+      <workItem from="1583041479044" duration="531000" />
+      <workItem from="1583156461328" duration="1324000" />
+      <workItem from="1583701716714" duration="2240000" />
+      <workItem from="1583939784227" duration="1592000" />
+      <workItem from="1584091050213" duration="800000" />
+      <workItem from="1584650237548" duration="17572000" />
+      <workItem from="1584715887578" duration="549000" />
+      <workItem from="1584728239838" duration="6458000" />
+      <workItem from="1584765559279" duration="9631000" />
+      <workItem from="1584987506212" duration="857000" />
     </task>
     <servers />
   </component>
@@ -358,18 +368,22 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1582117390559">
+    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1584654463517">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1582117390559" />
-    <state x="155" y="168" key="com.intellij.ide.util.TipDialog" timestamp="1581203401858">
+    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1584654463517" />
+    <state x="155" y="168" key="com.intellij.ide.util.TipDialog" timestamp="1584770937376">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="155" y="168" key="com.intellij.ide.util.TipDialog/62.0.1304.768@62.0.1304.768" timestamp="1581203401858" />
+    <state x="155" y="168" key="com.intellij.ide.util.TipDialog/62.0.1304.768@62.0.1304.768" timestamp="1584770937376" />
     <state x="370" y="43" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1580426464257">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="370" y="43" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/62.0.1304.768@62.0.1304.768" timestamp="1580426464257" />
+    <state x="370" y="172" key="run.anything.popup" timestamp="1584667145616">
+      <screen x="62" y="0" width="1304" height="768" />
+    </state>
+    <state x="370" y="172" key="run.anything.popup/62.0.1304.768@62.0.1304.768" timestamp="1584667145616" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
