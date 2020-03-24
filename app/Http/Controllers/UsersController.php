@@ -146,7 +146,6 @@ class UsersController extends Controller
 
         $ap = User::where('user_name', $input['user_name'])->first();
 
-
         $GLOBALS['email'] = $ap->email;
 
         $data = array('name' => $ap->full_name, 'message' => $input['message']);

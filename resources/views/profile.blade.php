@@ -182,6 +182,7 @@
                                     </div>
                                     <div class="chat-form">
                                         <form name="form" method="POST" action="{{ route('user.sms') }}" role="form">
+                                            @csrf
                                             <div class="form-group">
                                                 <input type="hidden" name="phoneno" value="{{$user->phoneno}}" />
                                                 <input type="hidden" name="user_name" value="{{$user->user_name}}" />
@@ -228,6 +229,7 @@
                                     </div>
                                     <div class="chat-form">
                                         <form role="form" method="POST" action="{{ route('user.email') }}">
+                                            @csrf
                                             <div class="form-group">
                                                 <input type="hidden" name="user_name" value="{{$user->user_name}}" />
                                                 <textarea name="message" class="form-control" placeholder="Message"></textarea>
