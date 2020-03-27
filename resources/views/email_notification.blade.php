@@ -297,7 +297,7 @@
                                 </tr>
                                 <tr>
                                     <td class="content-block">
-                                        {{$message ?? ''}}
+                                        {{$message}}
                                     </td>
                                 </tr>
 
@@ -311,7 +311,7 @@
                             <td class="aligncenter content-block">Follow <a href="https://5starcompany.com.ng">5Star Company</a> on Facebook.</td>
                         </tr>
                         <tr>
-                            <td class="aligncenter content-block">This message was sent to {{$name ?? ''}}</td>
+                            <td class="aligncenter content-block">This message was sent to {{$name}}</td>
                         </tr>
                     </table>
                 </div></div>

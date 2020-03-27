@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
+use App\Mail\Notification;
 
 class UsersController extends Controller
 {
@@ -112,28 +113,30 @@ class UsersController extends Controller
         $sms_senderid="MCD Notification";
         $sms_charges=3;
 
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "http://www.sms.5starcompany.com.ng/smsapi?pd_m=send&id=" . $sms_id . "&secret=" . $sms_secret . "&pass=" . $sms_pass . "&senderID=" . $sms_senderid . "&to_number=" . $input['phoneno'] . "&textmessage=" . $input['message'],
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => [
-                "content-type: application/json",
-                "cache-control: no-cache"
-            ],
-        ));
+//        $curl = curl_init();
+//        curl_setopt_array($curl, array(
+//            CURLOPT_URL => "http://www.sms.5starcompany.com.ng/smsapi?pd_m=send&id=" . $sms_id . "&secret=" . $sms_secret . "&pass=" . $sms_pass . "&senderID=" . $sms_senderid . "&to_number=" . $input['phoneno'] . "&textmessage=" . $input['message'],
+//            CURLOPT_RETURNTRANSFER => true,
+//            CURLOPT_CUSTOMREQUEST => "GET",
+//            CURLOPT_HTTPHEADER => [
+//                "content-type: application/json",
+//                "cache-control: no-cache"
+//            ],
+//        ));
+//
+//        $response = curl_exec($curl);
+//        $err = curl_error($curl);
+//
+//        if ($err) {
+//            // there was an error contacting the SMS Portal
+//            die('Curl returned error: ' . $err);
+//        }
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
+        Mail::to('odejinmisamuel@gmail.com')->send(new Notification());
 
-        if ($err) {
-            // there was an error contacting the SMS Portal
-            die('Curl returned error: ' . $err);
-        }
-
-        DB::table('tbl_smslog')->insert(
-            ['user_name' => $input["user_name"], 'message' => $input['message'], 'phoneno' => $input['phoneno'], 'response' => $response]
-        );
+//        DB::table('tbl_smslog')->insert(
+//            ['user_name' => $input["user_name"], 'message' => $input['message'], 'phoneno' => $input['phoneno'], 'response' => $response]
+//        );
 
 
         return redirect('profile/' . $input['user_name']);
