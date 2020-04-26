@@ -151,14 +151,14 @@ class UsersController extends Controller
 
         $GLOBALS['email'] = $ap->email;
 
-        $data = array('name' => $ap->full_name, 'message' => $input['message']);
+        $data = array('name' => $ap->full_name, 'messag' => $input['message']);
         $mail=Mail::send('email_notification', $data, function ($message) {
             $message->to($GLOBALS['email'], 'MCD Client')->subject('MCD Notification');
             $message->from('info@5starcompany.com.ng', '5Star Company');
         });
 
         DB::table('tbl_emaillog')->insert(
-            ['user_name' => $input["user_name"], 'message' => $input['message'], 'email' => $ap->email, 'response' => $mail]
+            ['user_name' => $input["user_name"], 'message' => $input['message'], 'email' => $ap->email, 'response' => 'sent']
         );
 
         return redirect('profile/' . $input['user_name']);

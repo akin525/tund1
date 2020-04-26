@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Mail/Notification.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/email_notification.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/email_notification.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -349,7 +351,59 @@
       <workItem from="1584987506212" duration="3798000" />
       <workItem from="1585068265339" duration="988000" />
       <workItem from="1585074523898" duration="918000" />
-      <workItem from="1585286546456" duration="4132000" />
+      <workItem from="1585286546456" duration="6259000" />
+      <workItem from="1585407615805" duration="1929000" />
+      <workItem from="1585515618970" duration="854000" />
+      <workItem from="1585545132662" duration="1323000" />
+      <workItem from="1585666556024" duration="41000" />
+      <workItem from="1585681493166" duration="236000" />
+      <workItem from="1585929518355" duration="2160000" />
+      <workItem from="1586032556110" duration="1800000" />
+      <workItem from="1586093422814" duration="114000" />
+      <workItem from="1586255515260" duration="719000" />
+      <workItem from="1586423560765" duration="1246000" />
+      <workItem from="1586485004342" duration="1141000" />
+      <workItem from="1586535148505" duration="2083000" />
+      <workItem from="1586696103667" duration="669000" />
+      <workItem from="1586699056622" duration="1110000" />
+      <workItem from="1586700876605" duration="122000" />
+      <workItem from="1586716471425" duration="566000" />
+      <workItem from="1586801834233" duration="90000" />
+      <workItem from="1586862360084" duration="944000" />
+      <workItem from="1586866600241" duration="270000" />
+      <workItem from="1586869263799" duration="1087000" />
+      <workItem from="1586883581244" duration="967000" />
+      <workItem from="1586933677211" duration="151000" />
+      <workItem from="1586948869440" duration="32000" />
+      <workItem from="1586952422996" duration="931000" />
+      <workItem from="1587022500979" duration="345000" />
+      <workItem from="1587023802559" duration="66000" />
+      <workItem from="1587195983078" duration="1098000" />
+      <workItem from="1587199260979" duration="468000" />
+      <workItem from="1587207031944" duration="679000" />
+      <workItem from="1587230601768" duration="1127000" />
+      <workItem from="1587233615062" duration="463000" />
+      <workItem from="1587239487490" duration="148000" />
+      <workItem from="1587297817795" duration="359000" />
+      <workItem from="1587307038362" duration="1167000" />
+      <workItem from="1587318529043" duration="1021000" />
+      <workItem from="1587322453572" duration="610000" />
+      <workItem from="1587325014292" duration="52000" />
+      <workItem from="1587470531419" duration="882000" />
+      <workItem from="1587501710221" duration="1352000" />
+      <workItem from="1587503750916" duration="1281000" />
+      <workItem from="1587535633622" duration="34000" />
+      <workItem from="1587592226080" duration="383000" />
+      <workItem from="1587626861427" duration="593000" />
+      <workItem from="1587628852017" duration="1381000" />
+      <workItem from="1587630628657" duration="595000" />
+      <workItem from="1587663854363" duration="81000" />
+      <workItem from="1587664263279" duration="1066000" />
+      <workItem from="1587740875100" duration="27000" />
+      <workItem from="1587846207521" duration="1271000" />
+      <workItem from="1587884189671" duration="1637000" />
+      <workItem from="1587886124865" duration="731000" />
+      <workItem from="1587892161099" duration="1130000" />
     </task>
     <servers />
   </component>
@@ -360,18 +414,18 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1584654463517">
+    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1586952473811">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1584654463517" />
+    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1586952473811" />
     <state x="494" y="139" key="FileChooserDialogImpl" timestamp="1585118920359">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="494" y="139" key="FileChooserDialogImpl/62.0.1304.768@62.0.1304.768" timestamp="1585118920359" />
-    <state x="155" y="168" key="com.intellij.ide.util.TipDialog" timestamp="1584770937376">
+    <state x="155" y="168" key="com.intellij.ide.util.TipDialog" timestamp="1587892176831">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="155" y="168" key="com.intellij.ide.util.TipDialog/62.0.1304.768@62.0.1304.768" timestamp="1584770937376" />
+    <state x="155" y="168" key="com.intellij.ide.util.TipDialog/62.0.1304.768@62.0.1304.768" timestamp="1587892176831" />
     <state x="370" y="43" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1580426464257">
       <screen x="62" y="0" width="1304" height="768" />
     </state>

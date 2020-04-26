@@ -136,8 +136,8 @@ class TransactionController extends Controller
 
     public function rechargemanual(Request $request)
     {
-        $user_name="Fashamos";
-        $quantity=5;
+        $user_name="shuaibukg";
+        $quantity=15;
         $network="MTN";
 
         $user = DB::table('tbl_agents')->where('user_name', $user_name)->first();
@@ -161,12 +161,25 @@ class TransactionController extends Controller
     }
 
 
-        public function monnify(Request $request){
+    public function monnify(Request $request){
         $input = $request->all();
 
         DB::table('monnify')->insert(
             ['request' => $request, 'input'=>'hello']
         );
+    }
+
+    function hook(Request $request){
+        $input = $request->all();
+
+        echo $request;
+        echo "<p> </p>";
+        $data1= implode($input);
+        echo "<p> </p>";
+        $data2= json_encode($input);
+//        echo $data;
+
+        DB::table('test')->insert(['name'=> 'webhook', 'request'=>$request, 'data1'=>$data1, 'data2'=>$data2]);
     }
 
     public function addtransaction(Request $request){

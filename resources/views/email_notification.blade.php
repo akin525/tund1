@@ -297,7 +297,7 @@
                                 </tr>
                                 <tr>
                                     <td class="content-block">
-                                        {{$message}}
+                                        {{$messag}}
                                     </td>
                                 </tr>
 

@@ -221,7 +221,7 @@
                                                         <p class="m-b-xs">
                                                             {{$email->message}}
                                                         </p>
-                                                        <small class="text-muted">{{$sms->created_at}}</small>
+                                                        <small class="text-muted">{{$email->created_at}}</small>
                                                     </div>
                                                 </div>
                                             @endforeach
