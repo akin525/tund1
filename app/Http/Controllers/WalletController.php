@@ -75,43 +75,43 @@ class WalletController extends Controller
                     $amount-=$charges;
                 }
 
-                $input["description"]="Being sms charge";
-                $input["name"]="SMS Charge";
-                $input["amount"]=$sms_charges;
-                $input["code"]="smsc";
-                $input["i_wallet"]=$input["f_wallet"];
-                $input["f_wallet"]=$input["f_wallet"] - $sms_charges;
-
-                Transaction::create($input);
-
-                $amount-=$sms_charges;
+//                $input["description"]="Being sms charge";
+//                $input["name"]="SMS Charge";
+//                $input["amount"]=$sms_charges;
+//                $input["code"]="smsc";
+//                $input["i_wallet"]=$input["f_wallet"];
+//                $input["f_wallet"]=$input["f_wallet"] - $sms_charges;
+//
+//                Transaction::create($input);
+//
+//                $amount-=$sms_charges;
 
                 $user->wallet+=$amount;
                 $user->save();
 
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => "http://www.sms.5starcompany.com.ng/smsapi?pd_m=send&id=".$sms_id."&secret=".$sms_secret."&pass=".$sms_pass."&senderID=".$sms_senderid."&to_number=".$user->phoneno."&textmessage=".$sms_description,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_CUSTOMREQUEST => "GET",
-                    CURLOPT_HTTPHEADER => [
-                        "content-type: application/json",
-                        "cache-control: no-cache"
-                    ],
-                ));
-
-                $response = curl_exec($curl);
-                $err = curl_error($curl);
-
-                if($err){
-                    // there was an error contacting the SMS Portal
-                    die('Curl returned error: ' . $err);
-                }
-
-                DB::table('tbl_smslog')->insert(
-                    ['user_name' => $input["user_name"], 'message' => $sms_description, 'phoneno' => $user->phoneno, 'response' => $response]
-                );
-
+//                $curl = curl_init();
+//                curl_setopt_array($curl, array(
+//                    CURLOPT_URL => "http://www.sms.5starcompany.com.ng/smsapi?pd_m=send&id=".$sms_id."&secret=".$sms_secret."&pass=".$sms_pass."&senderID=".$sms_senderid."&to_number=".$user->phoneno."&textmessage=".$sms_description,
+//                    CURLOPT_RETURNTRANSFER => true,
+//                    CURLOPT_CUSTOMREQUEST => "GET",
+//                    CURLOPT_HTTPHEADER => [
+//                        "content-type: application/json",
+//                        "cache-control: no-cache"
+//                    ],
+//                ));
+//
+//                $response = curl_exec($curl);
+//                $err = curl_error($curl);
+//
+//                if($err){
+//                    // there was an error contacting the SMS Portal
+//                    die('Curl returned error: ' . $err);
+//                }
+//
+//                DB::table('tbl_smslog')->insert(
+//                    ['user_name' => $input["user_name"], 'message' => $sms_description, 'phoneno' => $user->phoneno, 'response' => $response]
+//                );
+//
 
                 return redirect('/addfund')->with('success', $input["user_name"]. ' wallet funded successfully!');
             }else{

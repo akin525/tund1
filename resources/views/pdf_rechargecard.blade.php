@@ -81,9 +81,8 @@
 
         <div class="row">
             @foreach($cards as $card)
-                <div class="col-lg-4" style="margin-bottom: 1px">
+                <div class="col-lg-6">
                     <div class="contact-box">
-                        <a href="#">
                             <div class="col-sm-12">
                                 <div class="text-center">
                                     <div class="m-t-xs font-bold">
@@ -105,21 +104,21 @@
                                         Tel No: {{$user->phoneno}}<br />
                                     @endif
                                 </div>
-                                <strong></strong>
-                                <div class="well" style="font-size:14px">
+                                <div class="well">
                                         <strong>Card Pin:  {{$card->pin}}</strong> |
                                         Serial No: {{$card->serial}}
                                     <div class="pull-right">
                                         <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> {{$card->network}} #{{$card->amount}} </a>
                                     </div>
                                 </div>
+                                <div>
+
+                                </div>
                                 <div class="text-center">
-                                <span>Powered by Mega Cheap Data</span>
+                                    <span>Powered by Mega Cheap Data</span>
                                 </div>
 
                             </div>
-                            <div class="clearfix"></div>
-                        </a>
                     </div>
                 </div>
 
