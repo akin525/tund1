@@ -101,7 +101,7 @@ class ServeRequestController extends Controller
 
                 case "g_jinja":
                     $tv_type = "GOTV";
-                    $tv_package = "GOTV";
+                    $tv_package = "GOTVNJ1";
                     $amount = "1600";
                     $link = "gotv";
                     $tv_type_code = "02";
@@ -111,7 +111,7 @@ class ServeRequestController extends Controller
 
                 case "g_jolli":
                     $tv_type = "GOTV";
-                    $tv_package = "GOTV";
+                    $tv_package = "GOTVNJ2";
                     $amount = "2400";
                     $link = "gotv";
                     $tv_type_code = "02";
@@ -275,7 +275,7 @@ class ServeRequestController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => "{\n\t\"service_category_id\": \"" . $service_id . "\",\n\t\"smartcard\": \"" . $phone . "\",\n\t\"bundleCode\": \"" . $amount . "\",\n\t\"amount\": \"" . $amount . "\",\n\t\"name\": \"" . $name . "\",\n\t\"invoicePeriod\": \"1\",\n\t\"phone\": \"08000000000\"\n}",
+                CURLOPT_POSTFIELDS => "{\n\t\"service_category_id\": \"" . $service_id . "\",\n\t\"smartcard\": \"" . $phone . "\",\n\t\"bundleCode\": \"" . $tv_package . "\",\n\t\"amount\": \"" . $amount . "\",\n\t\"name\": \"" . $name . "\",\n\t\"invoicePeriod\": \"1\",\n\t\"phone\": \"08000000000\"\n}",
                 CURLOPT_HTTPHEADER => array(
                     "Content-Type: application/json",
                     "Authorization: " . $token,
