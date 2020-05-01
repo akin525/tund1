@@ -52,6 +52,7 @@ class ServeRequestController extends Controller
                 case "d_access":
                     $tv_type = "DSTV";
                     $tv_package = "ACSSE36";
+                    $bundle_code = "ACSSE36";
                     $link = "dstv";
                     $amount = "2000";
                     $tv_type_code = "14";
@@ -62,6 +63,7 @@ class ServeRequestController extends Controller
                 case "d_family":
                     $tv_type = "DSTV";
                     $tv_package = "COFAME36";
+                    $bundle_code = "COFAME36";
                     $link = "dstv";
                     $amount = "4000";
                     $tv_type_code = "01";
@@ -72,6 +74,7 @@ class ServeRequestController extends Controller
                 case "d_compact":
                     $tv_type = "DSTV";
                     $tv_package = "COMPE36";
+                    $bundle_code = "MINIBW4";
                     $link = "dstv";
                     $amount = "6800";
                     $tv_type_code = "01";
@@ -82,6 +85,7 @@ class ServeRequestController extends Controller
                 case "d_compactplus":
                     $tv_type = "DSTV";
                     $tv_package = "COMPLE36";
+                    $bundle_code = "COMPLW7";
                     $link = "dstv";
                     $amount = "10650";
                     $tv_type_code = "01";
@@ -92,6 +96,7 @@ class ServeRequestController extends Controller
                 case "g_lite":
                     $tv_type = "GOTV";
                     $tv_package = "GOLITE";
+                    $bundle_code = "GOLITE";
                     $link = "gotv";
                     $amount = "400";
                     $tv_type_code = "02";
@@ -102,6 +107,7 @@ class ServeRequestController extends Controller
                 case "g_jinja":
                     $tv_type = "GOTV";
                     $tv_package = "GOTVNJ1";
+                    $bundle_code = "GOTVNJ1";
                     $amount = "1600";
                     $link = "gotv";
                     $tv_type_code = "02";
@@ -112,6 +118,7 @@ class ServeRequestController extends Controller
                 case "g_jolli":
                     $tv_type = "GOTV";
                     $tv_package = "GOTVNJ2";
+                    $bundle_code = "GOTVNJ2";
                     $amount = "2400";
                     $link = "gotv";
                     $tv_type_code = "02";
@@ -122,6 +129,7 @@ class ServeRequestController extends Controller
                 case "g_value":
                     $tv_type = "GOTV";
                     $tv_package = "GOTV";
+                    $bundle_code = "GOTV";
                     $amount = "1250";
                     $link = "gotv";
                     $tv_type_code = "02";
@@ -132,6 +140,7 @@ class ServeRequestController extends Controller
                 case "g_plus":
                     $tv_type = "GOTV";
                     $tv_package = "GOTVPLS";
+                    $bundle_code = "GOTVPLS";
                     $link = "gotv";
                     $amount = "1900";
                     $tv_type_code = "02";
@@ -142,6 +151,7 @@ class ServeRequestController extends Controller
                 case "g_max":
                     $tv_type = "GOTV";
                     $tv_package = "GOTVMAX";
+                    $bundle_code = "GOMAX";
                     $link = "gotv";
                     $amount = "3200";
                     $tv_type_code = "02";
@@ -153,6 +163,7 @@ class ServeRequestController extends Controller
                 case "s_nova":
                     $tv_type = "STARTIMES";
                     $tv_package = "STARN";
+                    $bundle_code = "900";
                     $link = "startimes";
                     $amount = "900";
                     $tv_type_code = "03";
@@ -163,6 +174,7 @@ class ServeRequestController extends Controller
                 case "s_basic":
                     $tv_type = "STARTIMES";
                     $tv_package = "STARB";
+                    $bundle_code = "1300";
                     $link = "startimes";
                     $amount = "1300";
                     $tv_type_code = "03";
@@ -173,6 +185,7 @@ class ServeRequestController extends Controller
                 case "s_smart":
                     $tv_type = "STARTIMES";
                     $tv_package = "STARS";
+                    $bundle_code = "1900";
                     $link = "startimes";
                     $amount = "1900";
                     $tv_type_code = "03";
@@ -183,6 +196,7 @@ class ServeRequestController extends Controller
                 case "s_classic":
                     $tv_type = "STARTIMES";
                     $tv_package = "STARC";
+                    $bundle_code = "2600";
                     $link = "startimes";
                     $amount = "2600";
                     $tv_type_code = "03";
@@ -275,7 +289,7 @@ class ServeRequestController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => "{\n\t\"service_category_id\": \"" . $service_id . "\",\n\t\"smartcard\": \"" . $phone . "\",\n\t\"bundleCode\": \"" . $tv_package . "\",\n\t\"amount\": \"" . $amount . "\",\n\t\"name\": \"" . $name . "\",\n\t\"invoicePeriod\": \"1\",\n\t\"phone\": \"08000000000\"\n}",
+                CURLOPT_POSTFIELDS => "{\n\t\"service_category_id\": \"" . $service_id . "\",\n\t\"smartcard\": \"" . $phone . "\",\n\t\"bundleCode\": \"" . $bundle_code . "\",\n\t\"amount\": \"" . $amount . "\",\n\t\"name\": \"" . $name . "\",\n\t\"invoicePeriod\": \"1\",\n\t\"phone\": \"08000000000\"\n}",
                 CURLOPT_HTTPHEADER => array(
                     "Content-Type: application/json",
                     "Authorization: " . $token,
@@ -289,19 +303,19 @@ class ServeRequestController extends Controller
             $response = json_decode($response, true);
             $status = $response['status'];
 
-            if ($status == "success") {
-                $tran_stat = "1";
-                $tran_msg = "Package " . $_REQUEST['coded'] . " Delivered on "
-                    . $phone;
-
-                echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "service":"' . $tv_type . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
-
-            } else {
-                $tran_stat = "0";
-                $tran_msg = "Unsuccessful Order " . $_REQUEST['coded'] . " for " . $phone;
-
-                echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "service":"' . $tv_type . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
-            }
+//            if ($status == "success") {
+//                $tran_stat = "1";
+//                $tran_msg = "Package " . $_REQUEST['coded'] . " Delivered on "
+//                    . $phone;
+//
+//                echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "service":"' . $tv_type . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
+//
+//            } else {
+//                $tran_stat = "0";
+//                $tran_msg = "Unsuccessful Order " . $_REQUEST['coded'] . " for " . $phone;
+//
+//                echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "service":"' . $tv_type . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
+//            }
 
 //            }catch(\Exception $e){
                 //dd($e);
