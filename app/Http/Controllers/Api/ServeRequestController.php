@@ -52,7 +52,7 @@ class ServeRequestController extends Controller
                 case "d_access":
                     $tv_type = "DSTV";
                     $tv_package = "ACSSE36";
-                    $bundle_code = "ACSSE36";
+                    $bundle_code = "ACSSW4";
                     $link = "dstv";
                     $amount = "2000";
                     $tv_type_code = "14";
@@ -63,7 +63,7 @@ class ServeRequestController extends Controller
                 case "d_family":
                     $tv_type = "DSTV";
                     $tv_package = "COFAME36";
-                    $bundle_code = "COFAME36";
+                    $bundle_code = "COFAMW4";
                     $link = "dstv";
                     $amount = "4000";
                     $tv_type_code = "01";
