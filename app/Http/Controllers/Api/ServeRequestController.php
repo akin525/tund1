@@ -242,7 +242,7 @@ class ServeRequestController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://api.myflex.ng/services/category/16/verify",
+                CURLOPT_URL => "https://api.myflex.ng/services/category/".$service_id."/verify",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
