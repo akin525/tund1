@@ -33,7 +33,7 @@ class ServeRequestController extends Controller
             httpParams . put("version", NavigationDrawerConstants . version);
             httpParams . put("transid", ref);*/
 
-            try {
+//            try {
                 $api = $input['api'];
                 $coded = $input['coded'];
                 $phone = $input['phone'];
@@ -303,10 +303,10 @@ class ServeRequestController extends Controller
                 echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "service":"' . $tv_type . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
             }
 
-            }catch(\Exception $e){
+//            }catch(\Exception $e){
                 //dd($e);
                 return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
-            }
+//            }
         }else{
             return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
         }
@@ -339,7 +339,7 @@ class ServeRequestController extends Controller
             httpParams . put("version", NavigationDrawerConstants . version);
             httpParams . put("transid", ref);*/
 
-            try {
+//            try {
                 $api = $input['api'];
                 $coded = $input['coded'];
                 $phone = $input['phone'];
@@ -486,10 +486,10 @@ class ServeRequestController extends Controller
 //            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 3"}';
 //        }
 
-            }catch(\Exception $e){
+//            }catch(\Exception $e){
                 //dd($e);
                 return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
-            }
+//            }
         }else{
             return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
         }
