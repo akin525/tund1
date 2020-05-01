@@ -305,7 +305,7 @@ class ServeRequestController extends Controller
 
 //            }catch(\Exception $e){
                 //dd($e);
-                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
+//                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
 //            }
         }else{
             return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
@@ -488,7 +488,7 @@ class ServeRequestController extends Controller
 
 //            }catch(\Exception $e){
                 //dd($e);
-                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
+//                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
 //            }
         }else{
             return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
