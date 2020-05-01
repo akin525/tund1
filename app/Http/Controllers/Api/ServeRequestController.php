@@ -235,8 +235,8 @@ class ServeRequestController extends Controller
 
             $response = curl_exec($curl);
             curl_close($curl);
-            $response = json_decode($response, true);
             echo $response;
+            $response = json_decode($response, true);
             $token = $response['token'];
 
             $curl = curl_init();
@@ -443,8 +443,8 @@ class ServeRequestController extends Controller
 
         $response = curl_exec($curl);
         curl_close($curl);
-        $response = json_decode($response, true);
         echo $response;
+        $response = json_decode($response, true);
         $token = $response['token'];
 
         $curl = curl_init();
