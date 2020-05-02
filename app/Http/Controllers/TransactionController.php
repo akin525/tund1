@@ -136,9 +136,9 @@ class TransactionController extends Controller
 
     public function rechargemanual(Request $request)
     {
-        $user_name="amicable";
+        $user_name="kennyt";
         $quantity=5;
-        $network="MTN";
+        $network="AIRTEL";
 
         $user = DB::table('tbl_agents')->where('user_name', $user_name)->first();
 

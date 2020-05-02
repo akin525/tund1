@@ -13,7 +13,7 @@ class ServeRequestController extends Controller
 
         $input = $request->all();
         $rules = array(
-            'username' => 'required',
+            'user_name' => 'required',
             'api' => 'required',
             'coded' => 'required',
             'phone' => 'required',
@@ -33,12 +33,12 @@ class ServeRequestController extends Controller
             httpParams . put("version", NavigationDrawerConstants . version);
             httpParams . put("transid", ref);*/
 
-//            try {
+            try {
             $api = $input['api'];
             $coded = $input['coded'];
             $phone = $input['phone'];
             $service = $input['service'];
-            $username = $input['username'];
+            $user_name = $input['user_name'];
             $wallet = $input['wallet'];
             $deviceid = $input['deviceid'];
             $version = $input['version'];
@@ -235,13 +235,13 @@ class ServeRequestController extends Controller
             if ($tv_package == "GOTVNJ1" || $tv_package == "GOTVNJ2" || $tv_package == "GOTVMAX") {
                 $this->paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
             } else {
-                $this->paytvProcess($amount, $tv_package, $link, $tv_type, $coded);
+                $this->paytvProcess($amount, $tv_package, $link, $tv_type, $coded, $phone);
             }
 
-//            }catch(\Exception $e){
-                //dd($e);
-//                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
-//            }
+            }catch(\Exception $e){
+                dd($e);
+                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
+            }
 
         }else{
             return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
@@ -254,7 +254,7 @@ class ServeRequestController extends Controller
     public function buyairtime(Request $request){
         $input = $request->all();
         $rules = array(
-            'username' => 'required',
+            'user_name' => 'required',
             'api' => 'required',
             'coded' => 'required',
             'phone' => 'required',
@@ -275,13 +275,13 @@ class ServeRequestController extends Controller
             httpParams . put("version", NavigationDrawerConstants . version);
             httpParams . put("transid", ref);*/
 
-//            try {
+            try {
                 $api = $input['api'];
                 $coded = $input['coded'];
                 $phone = $input['phone'];
                 $amnt = $input['amount'];
                 $service = $input['service'];
-                $username = $input['username'];
+                $user_name = $input['user_name'];
                 $wallet = $input['wallet'];
                 $deviceid = $input['deviceid'];
                 $version = $input['version'];
@@ -352,18 +352,18 @@ class ServeRequestController extends Controller
                 return response()->json(['status'=> 0, 'message'=>'Invalid Network. Available are m for MTN, 9 for 9MOBILE, g for GLO, a for AIRTEL.']);
         }
 
-        if(!is_numeric($amnt)){
-            // required field is missing
-            // echoing JSON response
-            return response()->json(['status'=> 0, 'message'=>'Invalid amount, retry with valid amount.']);
-        }else{
-            $this->airtimeProcess4($amnt, $service_id, $phone, $network);
-        }
+            if(!is_numeric($amnt)){
+                // required field is missing
+                // echoing JSON response
+                return response()->json(['status'=> 0, 'message'=>'Invalid amount, retry with valid amount.']);
+            }else{
+                $this->airtimeProcess4($amnt, $service_id, $phone, $network, $coded);
+            }
 
-//            }catch(\Exception $e){
-            //dd($e);
-//                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
-//            }
+            }catch(\Exception $e){
+                dd($e);
+                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
+            }
 
         }else{
             return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
@@ -393,7 +393,6 @@ class ServeRequestController extends Controller
 
         $response = curl_exec($curl);
         curl_close($curl);
-        echo $response;
         $response = json_decode($response, true);
         $token = $response['token'];
 
@@ -461,9 +460,8 @@ class ServeRequestController extends Controller
         }
     }
 
-    function paytvProcess($amnt, $tv_package, $link, $tv_type, $coded){
+    function paytvProcess($amnt, $tv_package, $link, $tv_type, $coded, $phone){
         $ref=date('ymdhis');
-        $phone=$_REQUEST['phone'];
 //start of checking
         $url="https://mobilenig.com/api/bills/user_check?username=samji10&password=Emmanuel@10&service=".$tv_type."&number=".$phone;
         // Perform initialize to validate name on server
@@ -531,11 +529,10 @@ class ServeRequestController extends Controller
         }*/
     }
 
-    public function airtimeProcess($amnt, $network){
+    public function airtimeProcess($amnt, $network, $coded, $phone){
         $ref=date('ymdhis');
-        $phone=$_REQUEST['phone'];
 
-        $url="https://mobilenig.com/api/airtime.php/?username=samji10&password=Emmanuel@10&network=".$network."&phoneNumber=".$phone."&amount=".$amnt;
+        $url="https://mobilenig.com/api/airtime.php/?user_name=samji10&password=Emmanuel@10&network=".$network."&phoneNumber=".$phone."&amount=".$amnt;
 
         $result = file_get_contents($url);
 
@@ -543,18 +540,18 @@ class ServeRequestController extends Controller
             $tran_stat="1";
             $tran_msg=$network." Airtime ".$amnt." Delivered on ".$phone;
 
-            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "network":"'.$network.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
+            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
+
         }else {
 
             $tran_stat="0";
             $tran_msg="Unsuccessful ".$network." Airtime ".$amnt." for ".$phone;
 
-            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "network":"'.$network.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
+            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
         }
     }
 
-    public function airtimeProcess2($amnt, $network_code){
-        $phone=$_REQUEST['phone'];
+    public function airtimeProcess2($amnt, $network_code, $network, $phone, $coded){
 //01 for MTN, 02 for Glo, 03 for Etisalat, 04 for Airtel
 
         $url="https://www.nellobytesystems.com/APIAirtimeV1.asp?UserID=CK10123847&APIKey=W5352Q23GDS924D7UA1B84YYY506178I69DDE4JR1ZRAR80FCBQF819D4T7HKI85&MobileNetwork=".$network_code."&Amount=".$amnt."&MobileNumber=".$phone."&CallBackURL=https://www.5starcompany.com.ng";
@@ -572,26 +569,24 @@ class ServeRequestController extends Controller
             $tran_stat="1";
             $tran_msg="Data ".$_REQUEST['coded']." Delivered on ".$phone;
 
-            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "network":"'.$network_code.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 2"}';
+            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
 
         }else if ($result == "INVALID_RECIPIENT") {
             $tran_stat="0";
             $tran_msg="An invalid mobile phone number was entered (".$phone. ")";
 
-            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "network":"'.$network_code.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 2"}';
+            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
         }else {
 
             $tran_stat="0";
             $tran_msg="Unsuccessful Order ".$_REQUEST['coded']." for ".$phone;
 
-            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "network":"'.$network_code.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 2"}';
+            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
         }
     } //ending function
 
-    public function airtimeProcess3($amnt, $network)
+    public function airtimeProcess3($amnt, $network, $coded, $phone)
     {
-        $phone = $_REQUEST['phone'];
-
         $url = "https://minitechs.com.ng/api/vtu.php?username=08166939205&password=Emmanuel@10&network=" . $network . "&number=" . $phone . "&amount=" . $amnt;
 
         $result = file_get_contents($url);
@@ -599,19 +594,19 @@ class ServeRequestController extends Controller
             $tran_stat = "1";
             $tran_msg = $network . " Airtime " . $amnt . " Delivered on " . $phone;
 
-            echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "network":"' . $network . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
+            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 3"]);
         } else {
 
             $tran_stat = "0";
             $tran_msg = "Unsuccessful " . $network . " Airtime " . $amnt . " for " . $phone;
 
-            echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "network":"' . $network . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
+            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 3"]);
         }
     }
 
 
 
-    public function airtimeProcess4($amnt, $service_id, $phone, $network)
+    public function airtimeProcess4($amnt, $service_id, $phone, $network, $coded)
     {
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -632,7 +627,6 @@ class ServeRequestController extends Controller
 
         $response = curl_exec($curl);
         curl_close($curl);
-        echo $response;
         $response = json_decode($response, true);
         $token = $response['token'];
 
@@ -655,6 +649,7 @@ class ServeRequestController extends Controller
         ));
 
         $response = curl_exec($curl);
+        #Todo:: delete $response
         echo $response;
 
         curl_close($curl);
@@ -665,13 +660,13 @@ class ServeRequestController extends Controller
             $tran_stat = "1";
             $tran_msg = $network . " Airtime " . $amnt . " Delivered on " . $phone;
 
-            echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "network":"' . $network . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
+            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
         } else {
 
             $tran_stat = "0";
             $tran_msg = "Unsuccessful " . $network . " Airtime " . $amnt . " for " . $phone;
 
-            echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "network":"' . $network . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
+            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
         }
 
     }

@@ -18,10 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('monnify', 'TransactionController@monnify')->name('monnify');
-Route::post('/hook', 'TransactionController@hook')->name('hook');
+
 
 Route::group(['namespace' => 'Api'], function () {
-    Route::post('paytv', 'ServeRequestController@paytv')->name('paytv');
-    Route::post('buyairtime', 'ServeRequestController@buyairtime')->name('buyairtime');
+    Route::post('paytv', 'ServeRequestController@paytv')->name('paytv')->middleware("server_log");
+    Route::post('buyairtime', 'ServeRequestController@buyairtime')->name('buyairtime')->middleware("server_log");
     Route::post('log_mcdvoice', 'UltilityController@mcd_logvoice')->name('logvoice');
+    Route::post('/hook', 'UltilityController@hook')->name('hook');
 });
