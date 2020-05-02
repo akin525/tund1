@@ -225,176 +225,18 @@ class ServeRequestController extends Controller
             }
 
             if ($tv_type == "DSTV") {
-                paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
+                $this->paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
             }
 
             if ($tv_type == "STARTIMES") {
-                paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
+                $this->paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
             }
 
             if ($tv_package == "GOTVNJ1" || $tv_package == "GOTVNJ2" || $tv_package == "GOTVMAX") {
-                paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
+                $this->paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
             } else {
-                paytvProcess($amount, $tv_package, $link, $tv_type, $coded);
+                $this->paytvProcess($amount, $tv_package, $link, $tv_type, $coded);
             }
-
-
-            function paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type)
-            {
-                $curl = curl_init();
-
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => "https://api.myflex.ng/users/account/authenticate",
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => "",
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => "POST",
-                    CURLOPT_POSTFIELDS => "{\n  \"phone\": \"+2348166939205\",\n  \"password\": \"Emmanuel@10\"\n}",
-                    CURLOPT_HTTPHEADER => array(
-                        "Content-Type: application/json",
-                        "Content-Type: text/plain"
-                    ),
-                ));
-
-                $response = curl_exec($curl);
-                curl_close($curl);
-                echo $response;
-                $response = json_decode($response, true);
-                $token = $response['token'];
-
-                $curl = curl_init();
-
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => "https://api.myflex.ng/services/category/" . $service_id . "/verify",
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => "",
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => "POST",
-                    CURLOPT_POSTFIELDS => "{\n  \"account\": \"" . $phone . "\"\n}",
-                    CURLOPT_HTTPHEADER => array(
-                        "Authorization: " . $token,
-                        "Content-Type: application/json",
-                        "Content-Type: text/plain"
-                    ),
-                ));
-
-                $response = curl_exec($curl);
-                curl_close($curl);
-                echo $response;
-                $response = json_decode($response, true);
-                $name = $response['data']['name'];
-
-                $curl = curl_init();
-
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => "https://api.myflex.ng/bills/pay/tv",
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => "",
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => "POST",
-                    CURLOPT_POSTFIELDS => "{\n\t\"service_category_id\": \"" . $service_id . "\",\n\t\"smartcard\": \"" . $phone . "\",\n\t\"bundleCode\": \"" . $bundle_code . "\",\n\t\"amount\": \"" . $amount . "\",\n\t\"name\": \"" . $name . "\",\n\t\"invoicePeriod\": \"1\",\n\t\"phone\": \"08000000000\"\n}",
-                    CURLOPT_HTTPHEADER => array(
-                        "Content-Type: application/json",
-                        "Authorization: " . $token,
-                        "Content-Type: text/plain"
-                    ),
-                ));
-
-                $response = curl_exec($curl);
-                curl_close($curl);
-                echo $response;
-                $response = json_decode($response, true);
-                $status = $response['status'];
-
-                if ($status == "success") {
-                    $tran_stat = "1";
-                    $tran_msg = "Package " . $coded . " Delivered on "
-                        . $phone;
-
-                    echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "service":"' . $tv_type . '","number":"' . $phone . '","order_code":"' . $coded . '", "server":"server 4"}';
-
-                } else {
-                    $tran_stat = "0";
-                    $tran_msg = "Unsuccessful Order " . $_REQUEST['coded'] . " for " . $phone;
-
-                    echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "service":"' . $tv_type . '","number":"' . $phone . '","order_code":"' . $coded . '", "server":"server 4"}';
-                }
-            }
-
-
-                function paytvProcess($amnt, $tv_package, $link, $tv_type, $coded){
-                    $ref=date('ymdhis');
-                    $phone=$_REQUEST['phone'];
-//start of checking
-                    $url="https://mobilenig.com/api/bills/user_check?username=samji10&password=Emmanuel@10&service=".$tv_type."&number=".$phone;
-                    // Perform initialize to validate name on server
-
-                    $result = file_get_contents($url);
-                    echo $result;
-                    $findme   = 'accountStatus';
-                    $pos = strpos($result, $findme);
-                    $arr = json_decode($result, true);
-                    // Note our use of ===.  Simply == would not work as expected
-                    if ($pos === false) {
-                        $findme   = 'billAmount';
-                        $pos = strpos($result, $findme);
-
-                        if ($pos === false) {
-                            $GLOBALS['success'] = 0;
-                            $response["message"] = "The device number supplied did not return any data.";
-                        }else{
-                            if($arr["details"]["returnCode"]==0){
-                                // Print a single value
-                                $GLOBALS['success'] = 1;
-                                $GLOBALS['customer_name'] ="samji";
-                                $GLOBALS['customer_number'] = $arr["details"]["customerNumber"];
-                            }else{
-                                $GLOBALS['success'] = 0;
-                                $response["message"] = "The device number supplied did not return any data.";
-                            }
-                        }
-                    } else {
-                        // Print a single value
-                        $GLOBALS['success'] = 1;
-                        $GLOBALS['customer_name'] = "samji";
-                        $GLOBALS['customer_number'] = $arr["details"]["customerNumber"];
-                    }
-
-//begining of buying
-                    /*if($GLOBALS['success'] ==1){
-                        $url="https://mobilenig.com/api/bills/".$link."?username=samji10&password=Emmanuel@10&smartno=".$phone."&product_code=".$tv_package."&customer_name=".$GLOBALS['customer_name']."&customer_number=".$GLOBALS['customer_number']."&ref=".$ref."&amount=".$amnt;
-
-                        $result = file_get_contents($url);
-
-                        if ($result == "00") {
-                            $tran_stat="1";
-                            $tran_msg="Package ".$_REQUEST['coded']." Delivered on ".$phone;
-
-                            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
-                        }else {
-
-                            $tran_stat="0";
-                            $tran_msg="Unsuccessful Order ".$_REQUEST['coded']." for ".$phone;
-
-                            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
-                        }
-                    }else{
-                        $tran_stat="0";
-                        $tran_msg="Unsuccessful Order ".$_REQUEST['coded']." for ".$phone;
-
-                        echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
-                    }*/
-                }
-
 
 //            }catch(\Exception $e){
                 //dd($e);
@@ -511,13 +353,266 @@ class ServeRequestController extends Controller
         }
 
         if(!is_numeric($amnt)){
-
-// required field is missing
-// echoing JSON response
+            // required field is missing
+            // echoing JSON response
             return response()->json(['status'=> 0, 'message'=>'Invalid amount, retry with valid amount.']);
+        }else{
+            $this->airtimeProcess4($amnt, $service_id, $phone, $network);
         }
 
+//            }catch(\Exception $e){
+            //dd($e);
+//                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
+//            }
 
+        }else{
+            return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
+        }
+
+    }
+
+    public function paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.myflex.ng/users/account/authenticate",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "{\n  \"phone\": \"+2348166939205\",\n  \"password\": \"Emmanuel@10\"\n}",
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Content-Type: text/plain"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        echo $response;
+        $response = json_decode($response, true);
+        $token = $response['token'];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.myflex.ng/services/category/" . $service_id . "/verify",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "{\n  \"account\": \"" . $phone . "\"\n}",
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: " . $token,
+                "Content-Type: application/json",
+                "Content-Type: text/plain"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        echo $response;
+        $response = json_decode($response, true);
+        $name = $response['data']['name'];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.myflex.ng/bills/pay/tv",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "{\n\t\"service_category_id\": \"" . $service_id . "\",\n\t\"smartcard\": \"" . $phone . "\",\n\t\"bundleCode\": \"" . $bundle_code . "\",\n\t\"amount\": \"" . $amount . "\",\n\t\"name\": \"" . $name . "\",\n\t\"invoicePeriod\": \"1\",\n\t\"phone\": \"08000000000\"\n}",
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Authorization: " . $token,
+                "Content-Type: text/plain"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        echo $response;
+        $response = json_decode($response, true);
+        $status = $response['status'];
+
+        if ($status == "success") {
+            $tran_stat = "1";
+            $tran_msg = "Package " . $coded . " Delivered on "
+                . $phone;
+
+            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
+        } else {
+            $tran_stat = "0";
+            $tran_msg = "Unsuccessful Order " . $_REQUEST['coded'] . " for " . $phone;
+
+            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
+        }
+    }
+
+    function paytvProcess($amnt, $tv_package, $link, $tv_type, $coded){
+        $ref=date('ymdhis');
+        $phone=$_REQUEST['phone'];
+//start of checking
+        $url="https://mobilenig.com/api/bills/user_check?username=samji10&password=Emmanuel@10&service=".$tv_type."&number=".$phone;
+        // Perform initialize to validate name on server
+
+        $result = file_get_contents($url);
+        echo $result;
+        $findme   = 'accountStatus';
+        $pos = strpos($result, $findme);
+        $arr = json_decode($result, true);
+        // Note our use of ===.  Simply == would not work as expected
+        if ($pos === false) {
+            $findme   = 'billAmount';
+            $pos = strpos($result, $findme);
+
+            if ($pos === false) {
+                $GLOBALS['success'] = 0;
+                $response["message"] = "The device number supplied did not return any data.";
+            }else{
+                if($arr["details"]["returnCode"]==0){
+                    // Print a single value
+                    $GLOBALS['success'] = 1;
+                    $GLOBALS['customer_name'] ="samji";
+                    $GLOBALS['customer_number'] = $arr["details"]["customerNumber"];
+                }else{
+                    $GLOBALS['success'] = 0;
+                    $response["message"] = "The device number supplied did not return any data.";
+                }
+            }
+        } else {
+            // Print a single value
+            $GLOBALS['success'] = 1;
+            $GLOBALS['customer_name'] = "samji";
+            $GLOBALS['customer_number'] = $arr["details"]["customerNumber"];
+        }
+
+//begining of buying
+        /*if($GLOBALS['success'] ==1){
+            $url="https://mobilenig.com/api/bills/".$link."?username=samji10&password=Emmanuel@10&smartno=".$phone."&product_code=".$tv_package."&customer_name=".$GLOBALS['customer_name']."&customer_number=".$GLOBALS['customer_number']."&ref=".$ref."&amount=".$amnt;
+
+            $result = file_get_contents($url);
+
+            if ($result == "00") {
+                $tran_stat="1";
+                $tran_msg="Package ".$_REQUEST['coded']." Delivered on ".$phone;
+
+                echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
+            }else {
+
+                $tran_stat="0";
+                $tran_msg="Unsuccessful Order ".$_REQUEST['coded']." for ".$phone;
+
+                    return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
+
+
+                echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
+            }
+        }else{
+            $tran_stat="0";
+            $tran_msg="Unsuccessful Order ".$_REQUEST['coded']." for ".$phone;
+
+                    return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
+
+
+            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
+        }*/
+    }
+
+    public function airtimeProcess($amnt, $network){
+        $ref=date('ymdhis');
+        $phone=$_REQUEST['phone'];
+
+        $url="https://mobilenig.com/api/airtime.php/?username=samji10&password=Emmanuel@10&network=".$network."&phoneNumber=".$phone."&amount=".$amnt;
+
+        $result = file_get_contents($url);
+
+        if ($result == "00" || $result == "01") {
+            $tran_stat="1";
+            $tran_msg=$network." Airtime ".$amnt." Delivered on ".$phone;
+
+            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "network":"'.$network.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
+        }else {
+
+            $tran_stat="0";
+            $tran_msg="Unsuccessful ".$network." Airtime ".$amnt." for ".$phone;
+
+            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "network":"'.$network.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
+        }
+    }
+
+    public function airtimeProcess2($amnt, $network_code){
+        $phone=$_REQUEST['phone'];
+//01 for MTN, 02 for Glo, 03 for Etisalat, 04 for Airtel
+
+        $url="https://www.nellobytesystems.com/APIAirtimeV1.asp?UserID=CK10123847&APIKey=W5352Q23GDS924D7UA1B84YYY506178I69DDE4JR1ZRAR80FCBQF819D4T7HKI85&MobileNetwork=".$network_code."&Amount=".$amnt."&MobileNumber=".$phone."&CallBackURL=https://www.5starcompany.com.ng";
+
+        // Perform transaction/initialize on our server to buy
+
+        $result = file_get_contents($url);
+
+        // Convert JSON string to Array
+        $someArray = json_decode($result, true);
+        // Dump all data of the Array
+        $result=$someArray["status"]; // Access Array data
+
+        if ($result == "ORDER_RECEIVED" || $result == "ORDER_COMPLETED") {
+            $tran_stat="1";
+            $tran_msg="Data ".$_REQUEST['coded']." Delivered on ".$phone;
+
+            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "network":"'.$network_code.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 2"}';
+
+        }else if ($result == "INVALID_RECIPIENT") {
+            $tran_stat="0";
+            $tran_msg="An invalid mobile phone number was entered (".$phone. ")";
+
+            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "network":"'.$network_code.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 2"}';
+        }else {
+
+            $tran_stat="0";
+            $tran_msg="Unsuccessful Order ".$_REQUEST['coded']." for ".$phone;
+
+            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "network":"'.$network_code.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 2"}';
+        }
+    } //ending function
+
+    public function airtimeProcess3($amnt, $network)
+    {
+        $phone = $_REQUEST['phone'];
+
+        $url = "https://minitechs.com.ng/api/vtu.php?username=08166939205&password=Emmanuel@10&network=" . $network . "&number=" . $phone . "&amount=" . $amnt;
+
+        $result = file_get_contents($url);
+        if ($result == "00") {
+            $tran_stat = "1";
+            $tran_msg = $network . " Airtime " . $amnt . " Delivered on " . $phone;
+
+            echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "network":"' . $network . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
+        } else {
+
+            $tran_stat = "0";
+            $tran_msg = "Unsuccessful " . $network . " Airtime " . $amnt . " for " . $phone;
+
+            echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "network":"' . $network . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
+        }
+    }
+
+
+
+    public function airtimeProcess4($amnt, $service_id, $phone, $network)
+    {
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://api.myflex.ng/users/account/authenticate",
@@ -528,7 +623,7 @@ class ServeRequestController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS =>"{\n  \"phone\": \"+2348166939205\",\n  \"password\": \"Emmanuel@10\"\n}",
+            CURLOPT_POSTFIELDS => "{\n  \"phone\": \"+2348166939205\",\n  \"password\": \"Emmanuel@10\"\n}",
             CURLOPT_HTTPHEADER => array(
                 "Content-Type: application/json",
                 "Content-Type: text/plain"
@@ -551,9 +646,9 @@ class ServeRequestController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS =>"{\n  \"amount\": \"1\",\n  \"service_category_id\": \"".$service_id."\",\n  \"phonenumber\": \"".$phone."\",\n  \"status_url\": \"http://api.mydomain.com/airtime_callback\"\n}",
+            CURLOPT_POSTFIELDS => "{\n  \"amount\": \"".$amnt."\",\n  \"service_category_id\": \"" . $service_id . "\",\n  \"phonenumber\": \"" . $phone . "\",\n  \"status_url\": \"http://api.mydomain.com/airtime_callback\"\n}",
             CURLOPT_HTTPHEADER => array(
-                "Authorization: ".$token,
+                "Authorization: " . $token,
                 "Content-Type: application/json",
                 "Content-Type: text/plain"
             ),
@@ -566,27 +661,19 @@ class ServeRequestController extends Controller
         $response = json_decode($response, true);
         $status = $response['status'];
 
-//        if ($status == "success") {
-//            $tran_stat="1";
-//            $tran_msg="Package ".$_REQUEST['coded']." Delivered on "
-//                .$phone;
-//
-//            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 3"}';
-//
-//        }else {
-//            $tran_stat="0";
-//            $tran_msg="Unsuccessful Order ".$_REQUEST['coded']." for ".$phone;
-//
-//            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 3"}';
-//        }
+        if ($status == "success") {
+            $tran_stat = "1";
+            $tran_msg = $network . " Airtime " . $amnt . " Delivered on " . $phone;
 
-//            }catch(\Exception $e){
-                //dd($e);
-//                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
-//            }
-        }else{
-            return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
+            echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "network":"' . $network . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
+        } else {
+
+            $tran_stat = "0";
+            $tran_msg = "Unsuccessful " . $network . " Airtime " . $amnt . " for " . $phone;
+
+            echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "network":"' . $network . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
         }
 
     }
+
 }

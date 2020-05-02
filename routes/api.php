@@ -23,4 +23,5 @@ Route::post('/hook', 'TransactionController@hook')->name('hook');
 Route::group(['namespace' => 'Api'], function () {
     Route::post('paytv', 'ServeRequestController@paytv')->name('paytv');
     Route::post('buyairtime', 'ServeRequestController@buyairtime')->name('buyairtime');
+    Route::post('log_mcdvoice', 'UltilityController@mcd_logvoice')->name('logvoice');
 });
