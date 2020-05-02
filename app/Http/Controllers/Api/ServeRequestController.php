@@ -34,19 +34,19 @@ class ServeRequestController extends Controller
             httpParams . put("transid", ref);*/
 
 //            try {
-                $api = $input['api'];
-                $coded = $input['coded'];
-                $phone = $input['phone'];
-                $service = $input['service'];
-                $username = $input['username'];
-                $wallet = $input['wallet'];
-                $deviceid = $input['deviceid'];
-                $version = $input['version'];
-                $transid = $input['transid'];
+            $api = $input['api'];
+            $coded = $input['coded'];
+            $phone = $input['phone'];
+            $service = $input['service'];
+            $username = $input['username'];
+            $wallet = $input['wallet'];
+            $deviceid = $input['deviceid'];
+            $version = $input['version'];
+            $transid = $input['transid'];
 
-                if ($api != "mcd_app_9876234875356148750") {
-                    return response()->json(['status'=> 0, 'message'=>'Error, invalid request']);
-                }
+            if ($api != "mcd_app_9876234875356148750") {
+                return response()->json(['status' => 0, 'message' => 'Error, invalid request']);
+            }
 
             switch ($coded) {
                 case "d_access":
@@ -140,7 +140,7 @@ class ServeRequestController extends Controller
                 case "g_plus":
                     $tv_type = "GOTV";
                     $tv_package = "GOTVPLS";
-                    $bundle_code = "GOTVPLS";
+//                    $bundle_code = "GOTVPLS";
                     $link = "gotv";
                     $amount = "1900";
                     $tv_type_code = "02";
@@ -217,110 +217,190 @@ class ServeRequestController extends Controller
                 default:
                     $tv_type = "";
                     // required field is missing
-                    return response()->json(['status'=> 0, 'message'=>'Error, Invalid coded Type. Contact info@5starcompany.com.ng for help']);
+                    return response()->json(['status' => 0, 'message' => 'Error, Invalid coded Type. Contact info@5starcompany.com.ng for help']);
             }
 
             if ($tv_type == "") {
-                return response()->json(['status'=> 0, 'message'=>'Error, invalid request check and try again']);
+                return response()->json(['status' => 0, 'message' => 'Error, invalid request check and try again']);
+            }
 
-//                paytvProcess($amount, $tv_package, $link, $tv_type);
-                //paytvProcess2($tv_type_code, $tv_package_code, $tv_type);
-                //paytvProcess3($amount, $tv_type);
+            if ($tv_type == "DSTV") {
+                paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
+            }
+
+            if ($tv_type == "STARTIMES") {
+                paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
+            }
+
+            if ($tv_package == "GOTVNJ1" || $tv_package == "GOTVNJ2" || $tv_package == "GOTVMAX") {
+                paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
+            } else {
+                paytvProcess($amount, $tv_package, $link, $tv_type, $coded);
             }
 
 
-            $curl = curl_init();
+            function paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type)
+            {
+                $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://api.myflex.ng/users/account/authenticate",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => "{\n  \"phone\": \"+2348166939205\",\n  \"password\": \"Emmanuel@10\"\n}",
-                CURLOPT_HTTPHEADER => array(
-                    "Content-Type: application/json",
-                    "Content-Type: text/plain"
-                ),
-            ));
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "https://api.myflex.ng/users/account/authenticate",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "POST",
+                    CURLOPT_POSTFIELDS => "{\n  \"phone\": \"+2348166939205\",\n  \"password\": \"Emmanuel@10\"\n}",
+                    CURLOPT_HTTPHEADER => array(
+                        "Content-Type: application/json",
+                        "Content-Type: text/plain"
+                    ),
+                ));
 
-            $response = curl_exec($curl);
-            curl_close($curl);
-            echo $response;
-            $response = json_decode($response, true);
-            $token = $response['token'];
+                $response = curl_exec($curl);
+                curl_close($curl);
+                echo $response;
+                $response = json_decode($response, true);
+                $token = $response['token'];
 
-            $curl = curl_init();
+                $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://api.myflex.ng/services/category/".$service_id."/verify",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => "{\n  \"account\": \"" . $phone . "\"\n}",
-                CURLOPT_HTTPHEADER => array(
-                    "Authorization: " . $token,
-                    "Content-Type: application/json",
-                    "Content-Type: text/plain"
-                ),
-            ));
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "https://api.myflex.ng/services/category/" . $service_id . "/verify",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "POST",
+                    CURLOPT_POSTFIELDS => "{\n  \"account\": \"" . $phone . "\"\n}",
+                    CURLOPT_HTTPHEADER => array(
+                        "Authorization: " . $token,
+                        "Content-Type: application/json",
+                        "Content-Type: text/plain"
+                    ),
+                ));
 
-            $response = curl_exec($curl);
-            curl_close($curl);
-            echo $response;
-            $response = json_decode($response, true);
-            $name = $response['data']['name'];
+                $response = curl_exec($curl);
+                curl_close($curl);
+                echo $response;
+                $response = json_decode($response, true);
+                $name = $response['data']['name'];
 
-            $curl = curl_init();
+                $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://api.myflex.ng/bills/pay/tv",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => "{\n\t\"service_category_id\": \"" . $service_id . "\",\n\t\"smartcard\": \"" . $phone . "\",\n\t\"bundleCode\": \"" . $bundle_code . "\",\n\t\"amount\": \"" . $amount . "\",\n\t\"name\": \"" . $name . "\",\n\t\"invoicePeriod\": \"1\",\n\t\"phone\": \"08000000000\"\n}",
-                CURLOPT_HTTPHEADER => array(
-                    "Content-Type: application/json",
-                    "Authorization: " . $token,
-                    "Content-Type: text/plain"
-                ),
-            ));
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "https://api.myflex.ng/bills/pay/tv",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "POST",
+                    CURLOPT_POSTFIELDS => "{\n\t\"service_category_id\": \"" . $service_id . "\",\n\t\"smartcard\": \"" . $phone . "\",\n\t\"bundleCode\": \"" . $bundle_code . "\",\n\t\"amount\": \"" . $amount . "\",\n\t\"name\": \"" . $name . "\",\n\t\"invoicePeriod\": \"1\",\n\t\"phone\": \"08000000000\"\n}",
+                    CURLOPT_HTTPHEADER => array(
+                        "Content-Type: application/json",
+                        "Authorization: " . $token,
+                        "Content-Type: text/plain"
+                    ),
+                ));
 
-            $response = curl_exec($curl);
-            curl_close($curl);
-            echo $response;
-            $response = json_decode($response, true);
-            $status = $response['status'];
+                $response = curl_exec($curl);
+                curl_close($curl);
+                echo $response;
+                $response = json_decode($response, true);
+                $status = $response['status'];
 
-//            if ($status == "success") {
-//                $tran_stat = "1";
-//                $tran_msg = "Package " . $_REQUEST['coded'] . " Delivered on "
-//                    . $phone;
-//
-//                echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "service":"' . $tv_type . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
-//
-//            } else {
-//                $tran_stat = "0";
-//                $tran_msg = "Unsuccessful Order " . $_REQUEST['coded'] . " for " . $phone;
-//
-//                echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "service":"' . $tv_type . '","number":"' . $phone . '","order_code":"' . $_REQUEST['coded'] . '", "server":"server 3"}';
-//            }
+                if ($status == "success") {
+                    $tran_stat = "1";
+                    $tran_msg = "Package " . $coded . " Delivered on "
+                        . $phone;
+
+                    echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "service":"' . $tv_type . '","number":"' . $phone . '","order_code":"' . $coded . '", "server":"server 4"}';
+
+                } else {
+                    $tran_stat = "0";
+                    $tran_msg = "Unsuccessful Order " . $_REQUEST['coded'] . " for " . $phone;
+
+                    echo '{"success":' . $tran_stat . ',"message":"' . $tran_msg . '", "service":"' . $tv_type . '","number":"' . $phone . '","order_code":"' . $coded . '", "server":"server 4"}';
+                }
+            }
+
+
+                function paytvProcess($amnt, $tv_package, $link, $tv_type, $coded){
+                    $ref=date('ymdhis');
+                    $phone=$_REQUEST['phone'];
+//start of checking
+                    $url="https://mobilenig.com/api/bills/user_check?username=samji10&password=Emmanuel@10&service=".$tv_type."&number=".$phone;
+                    // Perform initialize to validate name on server
+
+                    $result = file_get_contents($url);
+                    echo $result;
+                    $findme   = 'accountStatus';
+                    $pos = strpos($result, $findme);
+                    $arr = json_decode($result, true);
+                    // Note our use of ===.  Simply == would not work as expected
+                    if ($pos === false) {
+                        $findme   = 'billAmount';
+                        $pos = strpos($result, $findme);
+
+                        if ($pos === false) {
+                            $GLOBALS['success'] = 0;
+                            $response["message"] = "The device number supplied did not return any data.";
+                        }else{
+                            if($arr["details"]["returnCode"]==0){
+                                // Print a single value
+                                $GLOBALS['success'] = 1;
+                                $GLOBALS['customer_name'] ="samji";
+                                $GLOBALS['customer_number'] = $arr["details"]["customerNumber"];
+                            }else{
+                                $GLOBALS['success'] = 0;
+                                $response["message"] = "The device number supplied did not return any data.";
+                            }
+                        }
+                    } else {
+                        // Print a single value
+                        $GLOBALS['success'] = 1;
+                        $GLOBALS['customer_name'] = "samji";
+                        $GLOBALS['customer_number'] = $arr["details"]["customerNumber"];
+                    }
+
+//begining of buying
+                    /*if($GLOBALS['success'] ==1){
+                        $url="https://mobilenig.com/api/bills/".$link."?username=samji10&password=Emmanuel@10&smartno=".$phone."&product_code=".$tv_package."&customer_name=".$GLOBALS['customer_name']."&customer_number=".$GLOBALS['customer_number']."&ref=".$ref."&amount=".$amnt;
+
+                        $result = file_get_contents($url);
+
+                        if ($result == "00") {
+                            $tran_stat="1";
+                            $tran_msg="Package ".$_REQUEST['coded']." Delivered on ".$phone;
+
+                            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
+                        }else {
+
+                            $tran_stat="0";
+                            $tran_msg="Unsuccessful Order ".$_REQUEST['coded']." for ".$phone;
+
+                            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
+                        }
+                    }else{
+                        $tran_stat="0";
+                        $tran_msg="Unsuccessful Order ".$_REQUEST['coded']." for ".$phone;
+
+                        echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
+                    }*/
+                }
+
 
 //            }catch(\Exception $e){
                 //dd($e);
 //                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
 //            }
+
         }else{
             return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
         }
