@@ -442,19 +442,17 @@ class ServeRequestController extends Controller
 
         $response = curl_exec($curl);
         curl_close($curl);
-        echo $response;
         $response = json_decode($response, true);
         $status = $response['status'];
 
         if ($status == "success") {
             $tran_stat = "1";
-            $tran_msg = "Package " . $coded . " Delivered on "
-                . $phone;
+            $tran_msg = "Package " . $coded . " Delivered on " . $phone;
 
             return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
         } else {
             $tran_stat = "0";
-            $tran_msg = "Unsuccessful Order " . $_REQUEST['coded'] . " for " . $phone;
+            $tran_msg = "Unsuccessful Order " . $coded . " for " . $phone;
 
             return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
         }
@@ -498,35 +496,32 @@ class ServeRequestController extends Controller
         }
 
 //begining of buying
-        /*if($GLOBALS['success'] ==1){
+        if($GLOBALS['success'] ==1){
             $url="https://mobilenig.com/api/bills/".$link."?username=samji10&password=Emmanuel@10&smartno=".$phone."&product_code=".$tv_package."&customer_name=".$GLOBALS['customer_name']."&customer_number=".$GLOBALS['customer_number']."&ref=".$ref."&amount=".$amnt;
 
             $result = file_get_contents($url);
 
             if ($result == "00") {
                 $tran_stat="1";
-                $tran_msg="Package ".$_REQUEST['coded']." Delivered on ".$phone;
+                $tran_msg="Package ".$coded." Delivered on ".$phone;
 
-                echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
+                return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
             }else {
 
                 $tran_stat="0";
-                $tran_msg="Unsuccessful Order ".$_REQUEST['coded']." for ".$phone;
+                $tran_msg="Unsuccessful Order ".$coded." for ".$phone;
 
-                    return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
-
-
-                echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
+                return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
             }
         }else{
             $tran_stat="0";
-            $tran_msg="Unsuccessful Order ".$_REQUEST['coded']." for ".$phone;
+            $tran_msg="Unsuccessful Order ".$coded." for ".$phone;
 
                     return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
 
 
-            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$_REQUEST['coded'].'", "server":"server 1"}';
-        }*/
+            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$coded.'", "server":"server 1"}';
+        }
     }
 
     public function airtimeProcess($amnt, $network, $coded, $phone){
@@ -536,7 +531,7 @@ class ServeRequestController extends Controller
 
         $result = file_get_contents($url);
 
-        if ($result == "00" || $result == "01") {
+        if ($result == "00") {
             $tran_stat="1";
             $tran_msg=$network." Airtime ".$amnt." Delivered on ".$phone;
 
@@ -567,7 +562,7 @@ class ServeRequestController extends Controller
 
         if ($result == "ORDER_RECEIVED" || $result == "ORDER_COMPLETED") {
             $tran_stat="1";
-            $tran_msg="Data ".$_REQUEST['coded']." Delivered on ".$phone;
+            $tran_msg="Data ".$coded." Delivered on ".$phone;
 
             return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
 
@@ -579,7 +574,7 @@ class ServeRequestController extends Controller
         }else {
 
             $tran_stat="0";
-            $tran_msg="Unsuccessful Order ".$_REQUEST['coded']." for ".$phone;
+            $tran_msg="Unsuccessful Order ".$coded." for ".$phone;
 
             return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
         }
@@ -640,7 +635,7 @@ class ServeRequestController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n  \"amount\": \"".$amnt."\",\n  \"service_category_id\": \"" . $service_id . "\",\n  \"phonenumber\": \"" . $phone . "\",\n  \"status_url\": \"http://api.mydomain.com/airtime_callback\"\n}",
+            CURLOPT_POSTFIELDS => "{\n  \"amount\": \"".$amnt."\",\n  \"service_category_id\": \"" . $service_id . "\",\n  \"phonenumber\": \"" . $phone . "\",\n  \"status_url\": \"https://admin-mcd.5starcompany.com.ng/api/paytv/hook\"\n}",
             CURLOPT_HTTPHEADER => array(
                 "Authorization: " . $token,
                 "Content-Type: application/json",
@@ -649,8 +644,6 @@ class ServeRequestController extends Controller
         ));
 
         $response = curl_exec($curl);
-        #Todo:: delete $response
-        echo $response;
 
         curl_close($curl);
         $response = json_decode($response, true);

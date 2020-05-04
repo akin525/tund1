@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\model\PndL;
-use App\model\Transaction;
+use App\Model\PndL;
+use App\Model\Transaction;
 use App\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
@@ -136,8 +136,8 @@ class TransactionController extends Controller
 
     public function rechargemanual(Request $request)
     {
-        $user_name="kennyt";
-        $quantity=5;
+        $user_name="shuaibukg";
+        $quantity=10;
         $network="AIRTEL";
 
         $user = DB::table('tbl_agents')->where('user_name', $user_name)->first();
