@@ -357,7 +357,7 @@ class ServeRequestController extends Controller
                 // echoing JSON response
                 return response()->json(['status'=> 0, 'message'=>'Invalid amount, retry with valid amount.']);
             }else{
-                $this->airtimeProcess4($amnt, $service_id, $phone, $network, $coded);
+               $this->airtimeProcess4($amnt, $service_id, $phone, $network, $coded);
             }
 
             }catch(\Exception $e){
@@ -417,7 +417,6 @@ class ServeRequestController extends Controller
 
         $response = curl_exec($curl);
         curl_close($curl);
-        echo $response;
         $response = json_decode($response, true);
         $name = $response['data']['name'];
 
@@ -449,12 +448,12 @@ class ServeRequestController extends Controller
             $tran_stat = "1";
             $tran_msg = "Package " . $coded . " Delivered on " . $phone;
 
-            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
+            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
         } else {
             $tran_stat = "0";
             $tran_msg = "Unsuccessful Order " . $coded . " for " . $phone;
 
-            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
+            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
         }
     }
 
@@ -505,22 +504,22 @@ class ServeRequestController extends Controller
                 $tran_stat="1";
                 $tran_msg="Package ".$coded." Delivered on ".$phone;
 
-                return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
+                echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
             }else {
 
                 $tran_stat="0";
                 $tran_msg="Unsuccessful Order ".$coded." for ".$phone;
 
-                return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
+                echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
             }
         }else{
             $tran_stat="0";
             $tran_msg="Unsuccessful Order ".$coded." for ".$phone;
 
-                    return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
+                    echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
 
 
-            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$coded.'", "server":"server 1"}';
+//            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$coded.'", "server":"server 1"}';
         }
     }
 
@@ -535,14 +534,14 @@ class ServeRequestController extends Controller
             $tran_stat="1";
             $tran_msg=$network." Airtime ".$amnt." Delivered on ".$phone;
 
-            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
+            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
 
         }else {
 
             $tran_stat="0";
             $tran_msg="Unsuccessful ".$network." Airtime ".$amnt." for ".$phone;
 
-            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
+            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
         }
     }
 
@@ -564,19 +563,19 @@ class ServeRequestController extends Controller
             $tran_stat="1";
             $tran_msg="Data ".$coded." Delivered on ".$phone;
 
-            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
+            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
 
         }else if ($result == "INVALID_RECIPIENT") {
             $tran_stat="0";
             $tran_msg="An invalid mobile phone number was entered (".$phone. ")";
 
-            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
+            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
         }else {
 
             $tran_stat="0";
             $tran_msg="Unsuccessful Order ".$coded." for ".$phone;
 
-            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
+            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
         }
     } //ending function
 
@@ -589,13 +588,13 @@ class ServeRequestController extends Controller
             $tran_stat = "1";
             $tran_msg = $network . " Airtime " . $amnt . " Delivered on " . $phone;
 
-            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 3"]);
+            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 3"]);
         } else {
 
             $tran_stat = "0";
             $tran_msg = "Unsuccessful " . $network . " Airtime " . $amnt . " for " . $phone;
 
-            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 3"]);
+            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 3"]);
         }
     }
 
@@ -649,17 +648,17 @@ class ServeRequestController extends Controller
         $response = json_decode($response, true);
         $status = $response['status'];
 
-        if ($status == "success") {
-            $tran_stat = "1";
+        if($status == "success"){
+            $tran_stat = 1;
             $tran_msg = $network . " Airtime " . $amnt . " Delivered on " . $phone;
 
-            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
-        } else {
+            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> 'server 4']);
+        }else {
 
-            $tran_stat = "0";
+            $tran_stat = 0;
             $tran_msg = "Unsuccessful " . $network . " Airtime " . $amnt . " for " . $phone;
 
-            return response()->json(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
+            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> 'server 4']);
         }
 
     }
