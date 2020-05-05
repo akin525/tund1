@@ -32,9 +32,9 @@
                                 <h5>Total Users</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">40 886,200</h1>
+                                <h1 class="no-margins">{{number_format($t_users)}}</h1>
                                 <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-                                <small>Total Users</small>
+{{--                                <small>Total Users</small>--}}
                             </div>
                         </div>
                     </div>
@@ -46,9 +46,9 @@
                                 <h5>Total Referred</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">40 886,200</h1>
+                                <h1 class="no-margins">{{number_format($r_users)}}</h1>
                                 <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-                                <small>Total Referred</small>
+{{--                                <small>Total Referred</small>--}}
                             </div>
                         </div>
                     </div>
@@ -60,9 +60,9 @@
                                 <h5>Total Agent</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">40 886,200</h1>
+                                <h1 class="no-margins">{{number_format($a_users)}}</h1>
                                 <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-                                <small>Total Referred</small>
+{{--                                <small>Total Referred</small>--}}
                             </div>
                         </div>
                     </div>
@@ -74,9 +74,9 @@
                                 <h5>Total Wallet</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">40 886,200</h1>
+                                <h1 class="no-margins">#{{number_format($u_wallet)}}</h1>
                                 <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-                                <small>Total Referred</small>
+{{--                                <small>Total Referred</small>--}}
                             </div>
                         </div>
                     </div>

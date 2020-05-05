@@ -14,7 +14,7 @@ class UltilityController extends Controller
 
         $input = $request->all();
         $rules = array(
-            'username' => 'required',
+            'user_name' => 'required',
             'name' => 'required',
             'voice' => 'required',
             'page' => 'required',
@@ -27,6 +27,7 @@ class UltilityController extends Controller
         if ($validator->passes()) {
             try {
                logvoice::create($input);
+                return response()->json(['status'=> 1, 'message'=>'Voice logged Successfully']);
             }catch(\Exception $e){
                 return response()->json(['status'=> 0, 'message'=>'Error logging voice','error' => $e]);
             }

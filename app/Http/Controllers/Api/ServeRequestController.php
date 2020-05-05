@@ -235,7 +235,9 @@ class ServeRequestController extends Controller
             if ($tv_package == "GOTVNJ1" || $tv_package == "GOTVNJ2" || $tv_package == "GOTVMAX") {
                 $this->paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
             } else {
-                $this->paytvProcess($amount, $tv_package, $link, $tv_type, $coded, $phone);
+//                $this->paytvProcess($amount, $tv_package, $link, $tv_type, $coded, $phone);
+                return response()->json(['success' => 1, 'message' => "pending", 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 0"]);
+
             }
 
             }catch(\Exception $e){

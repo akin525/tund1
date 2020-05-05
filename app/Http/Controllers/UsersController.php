@@ -17,9 +17,13 @@ class UsersController extends Controller
     public function index(Request $request)
     {
 
-        $users = DB::table('tbl_agents')->orderBy('id', 'desc')->paginate(500);
+        $users = DB::table('tbl_agents')->get();
+        $t_users = DB::table('tbl_agents')->count();
+        $r_users = DB::table('tbl_agents')->where("referral","!=","")->count();
+        $a_users = DB::table('tbl_agents')->where("status","=","agent")->count();
+        $u_wallet = DB::table('tbl_agents')->where("status","!=","admin")->sum('wallet');
 
-        return view('users', ['users' => $users]);
+        return view('users', ['users' => $users, 't_users'=>$t_users, 'r_users'=>$r_users, 'u_wallet'=>$u_wallet, 'a_users'=>$a_users]);
 
     }
 
