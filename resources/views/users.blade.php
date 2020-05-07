@@ -28,13 +28,13 @@
                     <div class="col-lg-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <span class="label label-success pull-right">Monthly</span>
+                                <span class="label label-success pull-right">All Time</span>
                                 <h5>Total Users</h5>
                             </div>
                             <div class="ibox-content">
                                 <h1 class="no-margins">{{number_format($t_users)}}</h1>
-                                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-{{--                                <small>Total Users</small>--}}
+                                <div class="stat-percent font-bold text-success">{{round(($ac_users/$t_users) * 100)}}% <i class="fa fa-bolt"></i></div>
+                                <small>Active Users : {{number_format($ac_users)}} | Inactive Users : {{number_format($iac_users)}} | Fraud Users : {{number_format($f_users)}}</small>
                             </div>
                         </div>
                     </div>
@@ -42,12 +42,12 @@
                     <div class="col-lg-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <span class="label label-success pull-right">Monthly</span>
+                                <span class="label label-success pull-right">All Time</span>
                                 <h5>Total Referred</h5>
                             </div>
                             <div class="ibox-content">
                                 <h1 class="no-margins">{{number_format($r_users)}}</h1>
-                                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
+{{--                                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>--}}
 {{--                                <small>Total Referred</small>--}}
                             </div>
                         </div>
@@ -61,8 +61,8 @@
                             </div>
                             <div class="ibox-content">
                                 <h1 class="no-margins">{{number_format($a_users)}}</h1>
-                                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-{{--                                <small>Total Referred</small>--}}
+{{--                                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>--}}
+{{--                                <small>Active Wallet: {{number_format($au_wallet)}}</small>--}}
                             </div>
                         </div>
                     </div>
@@ -70,13 +70,13 @@
                     <div class="col-lg-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <span class="label label-success pull-right">Monthly</span>
+                                <span class="label label-success pull-right">All Time</span>
                                 <h5>Total Wallet</h5>
                             </div>
                             <div class="ibox-content">
                                 <h1 class="no-margins">#{{number_format($u_wallet)}}</h1>
-                                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-{{--                                <small>Total Referred</small>--}}
+                                <div class="stat-percent font-bold text-success">{{round((($au_wallet/$u_wallet) * 100))}} <i class="fa fa-bolt"></i></div>
+                                <small>Active Wallet: {{number_format($au_wallet)}} | Inactive Wallet: {{number_format($iau_wallet)}} | Fraud Wallet: {{number_format($fu_wallet)}}</small>
                             </div>
                         </div>
                     </div>

@@ -17,13 +17,25 @@ class UsersController extends Controller
     public function index(Request $request)
     {
 
-        $users = DB::table('tbl_agents')->get();
-        $t_users = DB::table('tbl_agents')->count();
-        $r_users = DB::table('tbl_agents')->where("referral","!=","")->count();
-        $a_users = DB::table('tbl_agents')->where("status","=","agent")->count();
-        $u_wallet = DB::table('tbl_agents')->where("status","!=","admin")->sum('wallet');
+        $users = DB::table('tbl_agents')->paginate(50);
 
-        return view('users', ['users' => $users, 't_users'=>$t_users, 'r_users'=>$r_users, 'u_wallet'=>$u_wallet, 'a_users'=>$a_users]);
+        $t_users = DB::table('tbl_agents')->count();
+        $ac_users = DB::table('tbl_agents')->where([["wallet",">=","50"], ["fraud","=",""]])->count();
+        $iac_users = DB::table('tbl_agents')->where([["wallet","<","50"], ["fraud","=",""]])->count();
+        $f_users = DB::table('tbl_agents')->where("fraud","!=","")->count();
+
+        $r_users = DB::table('tbl_agents')->where("referral","!=","")->count();
+
+        $a_users = DB::table('tbl_agents')->where("status","=","agent")->count();
+        $aca_users = DB::table('tbl_agents')->where([["status","=","agent"], ["wallet",">=","50"]])->count();
+        $iaca_users = DB::table('tbl_agents')->where([["status","=","agent"], ["wallet","<","50"]])->count();
+
+        $u_wallet = DB::table('tbl_agents')->where("status","!=","admin")->sum('wallet');
+        $fu_wallet = DB::table('tbl_agents')->where([["status","!=","admin"], ["fraud","!=",""] ])->sum('wallet');
+        $au_wallet = DB::table('tbl_agents')->where([["status","!=","admin"], ["fraud","=",""], ["wallet",">=","50"] ])->sum('wallet');
+        $iau_wallet = DB::table('tbl_agents')->where([["status","!=","admin"], ["fraud","=",""], ["wallet","<","50"] ])->sum('wallet');
+
+        return view('users', ['users' => $users, 't_users'=>$t_users, 'ac_users' =>$ac_users, 'iac_users' => $iac_users, 'f_users'=>$f_users, 'r_users'=>$r_users, 'u_wallet'=>$u_wallet, 'a_users'=>$a_users, 'aca_users'=>$aca_users, 'iaca_users'=>$iaca_users, 'fu_wallet'=>$fu_wallet, 'iau_wallet'=>$iau_wallet, 'au_wallet'=>$au_wallet]);
 
     }
 
@@ -31,8 +43,9 @@ class UsersController extends Controller
     {
 
         $users = DB::table('tbl_agents')->where('status', 'agent')->orderBy('id', 'desc')->get();
+        $trans=Transaction::where('date', 'LIKE', '%'.date("Y-m-d").'%')->get();
 
-        return view('agents', ['users' => $users]);
+        return view('agents', ['users' => $users, 'trans'=>$trans]);
 
     }
 

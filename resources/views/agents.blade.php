@@ -44,6 +44,55 @@
                                     <abbr title="Note"><i class="fa fa-book"></i>:</abbr> {{$user->note}}
                                 </address>
                             </div>
+                            <?php $d=0; $a=0; $r=0; $w=0; ?>
+                            <div class="col-sm-12">Data:
+                            @foreach($trans as $tran)
+                                @if($tran->user_name == $user->user_name)
+                                    @if(strpos($tran->name, "data") !== false)
+                                            @if($tran->status == "delivered")
+                                                $d++;
+                                            @endif
+                                    @endif
+                                @endif
+                            @endforeach
+                                {{$d}}
+                                |
+                                Airtime:
+                                @foreach($trans as $tran)
+                                    @if($tran->user_name == $user->user_name)
+                                        @if(strpos($tran->name, "airtime") !== false)
+                                            @if($tran->status == "delivered")
+                                                $a++;
+                                            @endif
+                                        @endif
+                                    @endif
+                                @endforeach
+                                {{$a}}
+                                |
+                                Recharge Card:
+                                @foreach($trans as $tran)
+                                    @if($tran->user_name == $user->user_name)
+                                        @if(strpos($tran->name, "Recharge Card") !== false)
+                                            @if($tran->status == "submitted")
+                                                $r++;
+                                            @endif
+                                        @endif
+                                    @endif
+                                @endforeach
+                                {{$r}}
+                                |
+                                Wallet Funding:
+                                @foreach($trans as $tran)
+                                    @if($tran->user_name == $user->user_name)
+                                        @if(strpos($tran->name, "wallet funding") !== false)
+                                            @if($tran->status == "successful")
+                                                $w++;
+                                            @endif
+                                        @endif
+                                    @endif
+                                @endforeach
+                                {{$w}}
+                            </div>
                             <div class="clearfix"></div>
                         </a>
                     </div>
