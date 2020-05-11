@@ -136,9 +136,9 @@ class TransactionController extends Controller
 
     public function rechargemanual(Request $request)
     {
-        $user_name="yussufolamide47";
+        $user_name="oluwakemi";
         $quantity=5;
-        $network="AIRTEL";
+        $network="MTN";
 
         $user = DB::table('tbl_agents')->where('user_name', $user_name)->first();
 
@@ -218,7 +218,7 @@ class TransactionController extends Controller
 
                 Transaction::create($input);
 
-                $input["description"]="Being sms charge";
+                /*$input["description"]="Being sms charge";
                 $input["name"]="SMS Charge";
                 $input["amount"]=$sms_charges;
                 $input["code"]="smsc";
@@ -227,12 +227,12 @@ class TransactionController extends Controller
 
                 Transaction::create($input);
 
-                $amount+=$sms_charges;
+                $amount+=$sms_charges;*/
 
                 $user->wallet-=$amount;
                 $user->save();
 
-                $curl = curl_init();
+                /*$curl = curl_init();
                 curl_setopt_array($curl, array(
                     CURLOPT_URL => "http://www.sms.5starcompany.com.ng/smsapi?pd_m=send&id=".$sms_id."&secret=".$sms_secret."&pass=".$sms_pass."&senderID=".$sms_senderid."&to_number=".$user->phoneno."&textmessage=".$sms_description,
                     CURLOPT_RETURNTRANSFER => true,
@@ -254,7 +254,35 @@ class TransactionController extends Controller
 
                 DB::table('tbl_smslog')->insert(
                     ['user_name' => $input["user_name"], 'message' => $sms_description, 'phoneno' => $user->phoneno, 'response' => $response]
-                );
+                );*/
+
+                $topic=$user->user_name;
+
+                $topi=str_replace(" ","", $topic);
+
+                $curl = curl_init();
+
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "POST",
+                    CURLOPT_POSTFIELDS =>"{\n\"to\": \"/topics/".$topi."\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"MCD Notification\",\n\t\"text\":\"". $sms_description."\"\n\t}\n}\n",
+                    CURLOPT_HTTPHEADER => array(
+                        "Authorization: key=AAAAOW0II6E:APA91bHyum5pMhub2JVHcHnQghuWOdktOuhW9e4ZvmMDudjMZk9y1u71Nr7yl_FZLpsjuC6Hz1Fd49OrWfPYNKpAvahAZ5Rjv0y7IW24nqjYrPnMer8IvTkzZFB5W3hrOHAwbq2EOMOE",
+                        "Content-Type: application/json",
+                        "Content-Type: text/plain"
+                    ),
+                ));
+
+                $response = curl_exec($curl);
+
+                curl_close($curl);
+//                echo $response;
 
 
                 return redirect('/addtransaction')->with('success', $input["user_name"]. ' transaction added successfully!');
