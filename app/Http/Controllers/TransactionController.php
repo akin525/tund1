@@ -61,7 +61,7 @@ class TransactionController extends Controller
         }
 
 
-        $curl = curl_init();
+/*        $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://www.nellobytesystems.com/APIEPINV1.asp?UserID=CK10123847&APIKey=W5352Q23GDS924D7UA1B84YYY506178I69DDE4JR1ZRAR80FCBQF819D4T7HKI85&MobileNetwork=".$input['network']."&Value=".$input['amount']."&Quantity=".$input['quantity']."&CallBackURL=http://www.5starcompany.com.ng",
             CURLOPT_RETURNTRANSFER => true,
@@ -78,7 +78,11 @@ class TransactionController extends Controller
         if($err){
             // there was an error contacting the Paystack API
             die('Curl returned error: ' . $err);
-        }
+        }*/
+
+//        $response='{"TXN_EPIN":[{"transactionid":"6342727713","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984254","pin":"146297803330390","amount":"100"},{"transactionid":"6342727714","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984255","pin":"146297845881340","amount":"100"},{"transactionid":"6342727715","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984256","pin":"146297693718491","amount":"100"},{"transactionid":"6342727716","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984257","pin":"146297614150942","amount":"100"},{"transactionid":"6342727717","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984258","pin":"146297845985782","amount":"100"}]}';
+//        $response='{"TXN_EPIN":[{"transactionid":"6342615591","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005099279064","pin":"17287167093507274","amount":"100"},{"transactionid":"6342615594","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005105116628","pin":"58508681769179769","amount":"100"},{"transactionid":"6342615584","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005164416614","pin":"50815693195674413","amount":"100"},{"transactionid":"6342615587","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005208228089","pin":"74256074917601404","amount":"100"},{"transactionid":"6342615588","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005239979674","pin":"07022003391573100","amount":"100"}]}';
+        $response='{"TXN_EPIN":[{"transactionid":"6342612073","transactiondate":"5/16/2020 10:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005105110428","pin":"17513320606440509","amount":"100"},{"transactionid":"6342612084","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005105110435","pin":"68563134373079667","amount":"100"},{"transactionid":"6342612093","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005105110446","pin":"28390623537741531","amount":"100"},{"transactionid":"6342612068","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005137291476","pin":"60458848743348868","amount":"100"},{"transactionid":"6342612088","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005137291551","pin":"85820113112941931","amount":"100"},{"transactionid":"6342612065","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005148478582","pin":"09490758842167575","amount":"100"},{"transactionid":"6342612075","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005148478629","pin":"29859945318599167","amount":"100"},{"transactionid":"6342612086","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005148478647","pin":"95629776700934451","amount":"100"},{"transactionid":"6342612091","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005148478655","pin":"65461596129427119","amount":"100"},{"transactionid":"6342612064","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005148811911","pin":"81553876877120545","amount":"100"},{"transactionid":"6342612072","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005148811918","pin":"58805726877532190","amount":"100"},{"transactionid":"6342612080","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005148811924","pin":"99263313277628451","amount":"100"},{"transactionid":"6342612087","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005148811940","pin":"53669203722847006","amount":"100"},{"transactionid":"6342612063","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005164409093","pin":"89844771202162725","amount":"100"},{"transactionid":"6342612074","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005164409101","pin":"13832432873626252","amount":"100"},{"transactionid":"6342612083","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005164409127","pin":"70677730294343725","amount":"100"},{"transactionid":"6342612089","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005164409144","pin":"70814733081738011","amount":"100"},{"transactionid":"6342612069","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005200351412","pin":"23443992929769078","amount":"100"},{"transactionid":"6342612085","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005200351445","pin":"53674716886764658","amount":"100"},{"transactionid":"6342612092","transactiondate":"5/16/202010:15:00AM","batchno":"208770","mobilenetwork":"MTN","sno":"00000005200351465","pin":"77173178739077100","amount":"100"}]}';
 
         $tranx = json_decode($response, true);
 
@@ -92,7 +96,7 @@ class TransactionController extends Controller
         }else{
             foreach ($tranx['TXN_EPIN'] as $pin){
                 DB::table('tbl_rechargecards')->insert(
-                    ['pin' => $pin->pin, 'serial' => $pin->sno , 'network' => $pin->mobilenetwork, 'amount'=>$pin->amount, 'status'=>'sent', 'user_name'=>$input['user_name']]
+                    ['pin' => $pin['pin'], 'serial' => $pin['sno'] , 'network' => $pin['mobilenetwork'], 'amount'=>$pin['amount'], 'status'=>'unused', 'user_name'=>$input['user_name']]
                 );
             }
         }
@@ -136,8 +140,8 @@ class TransactionController extends Controller
 
     public function rechargemanual(Request $request)
     {
-        $user_name="oluwakemi";
-        $quantity=5;
+        $user_name="shuaibukg";
+        $quantity=20;
         $network="MTN";
 
         $user = DB::table('tbl_agents')->where('user_name', $user_name)->first();

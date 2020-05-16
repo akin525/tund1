@@ -50,43 +50,37 @@
                                 @if($tran->user_name == $user->user_name)
                                     @if(strpos($tran->name, "data") !== false)
                                             @if($tran->status == "delivered")
-                                                $d++;
+                                                <?php $d++; ?>
                                             @endif
                                     @endif
                                 @endif
                             @endforeach
-                                {{$d}}
-                                |
-                                Airtime:
+                                {{$d}} | Airtime:
                                 @foreach($trans as $tran)
                                     @if($tran->user_name == $user->user_name)
                                         @if(strpos($tran->name, "airtime") !== false)
                                             @if($tran->status == "delivered")
-                                                $a++;
+                                                <?php $a++; ?>
                                             @endif
                                         @endif
                                     @endif
                                 @endforeach
-                                {{$a}}
-                                |
-                                Recharge Card:
+                                {{$a}} | Recharge Card:
                                 @foreach($trans as $tran)
                                     @if($tran->user_name == $user->user_name)
                                         @if(strpos($tran->name, "Recharge Card") !== false)
                                             @if($tran->status == "submitted")
-                                                $r++;
+                                                <?php $r++; ?>
                                             @endif
                                         @endif
                                     @endif
                                 @endforeach
-                                {{$r}}
-                                |
-                                Wallet Funding:
+                                {{$r}} | Wallet Funding:
                                 @foreach($trans as $tran)
                                     @if($tran->user_name == $user->user_name)
                                         @if(strpos($tran->name, "wallet funding") !== false)
                                             @if($tran->status == "successful")
-                                                $w++;
+                                               <?php $w++; ?>
                                             @endif
                                         @endif
                                     @endif

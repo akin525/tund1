@@ -17,7 +17,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
 
-        $users = DB::table('tbl_agents')->paginate(50);
+        $users = DB::table('tbl_agents')->get();
 
         $t_users = DB::table('tbl_agents')->count();
         $ac_users = DB::table('tbl_agents')->where([["wallet",">=","50"], ["fraud","=",""]])->count();
