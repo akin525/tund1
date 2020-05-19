@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/product_price.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/ServeRequestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ServeRequestController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/agents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/agents.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -454,7 +452,17 @@
       <workItem from="1589320371274" duration="1081000" />
       <workItem from="1589405923690" duration="1746000" />
       <workItem from="1589450698231" duration="5824000" />
-      <workItem from="1589619407476" duration="3479000" />
+      <workItem from="1589619407476" duration="3908000" />
+      <workItem from="1589660612206" duration="1788000" />
+      <workItem from="1589705350975" duration="1265000" />
+      <workItem from="1589738304673" duration="1136000" />
+      <workItem from="1589782796978" duration="1946000" />
+      <workItem from="1589794968750" duration="1946000" />
+      <workItem from="1589810533279" duration="1993000" />
+      <workItem from="1589818422631" duration="1839000" />
+      <workItem from="1589829411399" duration="1632000" />
+      <workItem from="1589869475233" duration="2254000" />
+      <workItem from="1589896766282" duration="152000" />
     </task>
     <servers />
   </component>
@@ -477,18 +485,14 @@
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="155" y="168" key="com.intellij.ide.util.TipDialog/62.0.1304.768@62.0.1304.768" timestamp="1588082376708" />
-    <state x="370" y="43" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1580426464257">
-      <screen x="62" y="0" width="1304" height="768" />
-    </state>
-    <state x="370" y="43" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/62.0.1304.768@62.0.1304.768" timestamp="1580426464257" />
     <state x="345" y="81" width="737" height="606" key="find.popup" timestamp="1588583510375">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="345" y="81" width="737" height="606" key="find.popup/62.0.1304.768@62.0.1304.768" timestamp="1588583510375" />
-    <state x="370" y="172" key="run.anything.popup" timestamp="1584667145616">
+    <state x="370" y="172" key="run.anything.popup" timestamp="1589830494949">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="370" y="172" key="run.anything.popup/62.0.1304.768@62.0.1304.768" timestamp="1584667145616" />
+    <state x="370" y="172" key="run.anything.popup/62.0.1304.768@62.0.1304.768" timestamp="1589830494949" />
     <state x="377" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1588834205604">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
