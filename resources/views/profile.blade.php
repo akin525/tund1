@@ -244,6 +244,51 @@
                         </div>
                     </div>
 
+                    <div class="row m-t-lg">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <h5>Push Notification Log</h5>
+                                    <div>
+                                        <div class="chat-activity-list">
+                                            @foreach($push as $pus)
+                                                <div class="chat-element">
+                                                    <a href="#" class="pull-left">
+                                                        @if($user->photo!=null)
+                                                            <img alt="image" class="img-circle" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
+                                                        @else
+                                                            <img alt="image" class="img-circle" src="/img/mcd_logo.png">
+                                                        @endif
+                                                    </a>
+                                                    <div class="media-body ">
+                                                        <small class="pull-right text-navy">sent</small>
+                                                        <strong>{{$push->response}}</strong>
+                                                        <p class="m-b-xs">
+                                                            {{$pus->message}}
+                                                        </p>
+                                                        <small class="text-muted">{{$email->created_at}}</small>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="chat-form">
+                                        <form role="form" method="POST" action="{{ route('user.pushnotif') }}">
+                                            @csrf
+                                            <div class="form-group">
+                                                <input type="hidden" name="user_name" value="{{$user->user_name}}" />
+                                                <textarea name="message" class="form-control" placeholder="Message"></textarea>
+                                            </div>
+                                            <div class="text-right">
+                                                <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong>Send message</strong></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="col-md-8">

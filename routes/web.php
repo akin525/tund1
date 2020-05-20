@@ -44,6 +44,7 @@ Route::view('/gnews', 'addgnews');
 Route::post('/gnews', 'UsersController@addgnews')->name('addgnews');
 Route::post('/user-sms', 'UsersController@sendsms')->name('user.sms');
 Route::post('/user-email', 'UsersController@sendemail')->name('user.email');
+Route::post('/user-pushnotif', 'UsersController@sendpushnotif')->name('user.pushnotif');
 
 
 

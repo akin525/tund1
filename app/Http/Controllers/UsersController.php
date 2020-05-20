@@ -87,9 +87,10 @@ class UsersController extends Controller
         $referrals = User::where('referral', $user)->get();
         $sms = DB::table('tbl_smslog')->where('user_name', $user)->orderBy('id', 'desc')->get();
         $email = DB::table('tbl_emaillog')->where('user_name', $user)->orderBy('id', 'desc')->get();
+        $push = DB::table('tbl_pushnotiflog')->where('user_name', $user)->orderBy('id', 'desc')->get();
 
 
-        return view('profile', ['user' => $ap, 'tt' => $tt, 'td' => $td, 'tw' => $tw, 'wd' => $wd, 'tpld' => $tpld, 'pld' => $pld, 'referrals' => $referrals, 'version' => $v, 'sms' => $sms, 'email' => $email]);
+        return view('profile', ['user' => $ap, 'tt' => $tt, 'td' => $td, 'tw' => $tw, 'wd' => $wd, 'tpld' => $tpld, 'pld' => $pld, 'referrals' => $referrals, 'version' => $v, 'sms' => $sms, 'email' => $email, 'push'=>$push]);
 
     }
 
@@ -176,6 +177,48 @@ class UsersController extends Controller
 
         DB::table('tbl_emaillog')->insert(
             ['user_name' => $input["user_name"], 'message' => $input['message'], 'email' => $ap->email, 'response' => 'sent']
+        );
+
+        return redirect('profile/' . $input['user_name']);
+    }
+
+    public function sendpushnotif(Request $request)
+    {
+        $input = $request->all();
+
+        $ap = User::where('user_name', $input['user_name'])->first();
+
+        $topic=$ap->user_name;
+
+        $topi=str_replace(" ","", $topic);
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS =>"{\n\"to\": \"/topics/".$topi."\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"MCD Notification\",\n\t\"text\":\"". $input['message']."\"\n\t}\n}\n",
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: key=AAAAOW0II6E:APA91bHyum5pMhub2JVHcHnQghuWOdktOuhW9e4ZvmMDudjMZk9y1u71Nr7yl_FZLpsjuC6Hz1Fd49OrWfPYNKpAvahAZ5Rjv0y7IW24nqjYrPnMer8IvTkzZFB5W3hrOHAwbq2EOMOE",
+                "Content-Type: application/json",
+                "Content-Type: text/plain"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+               $json=json_decode($response, true);
+
+
+        DB::table('tbl_pushnotiflog')->insert(
+            ['user_name' => $input["user_name"], 'message' => $input['message'], 'response' => $json['message_id']]
         );
 
         return redirect('profile/' . $input['user_name']);

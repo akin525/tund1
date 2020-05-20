@@ -32,7 +32,7 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins">{{$tt}}</h1>
-                            <div class="stat-percent font-bold text-success">{{round(($st+$ft)/$tt * 100)}}% <i class="fa fa-bolt"></i></div>
+                            <div class="stat-percent font-bold text-success">100% <i class="fa fa-bolt"></i></div>
                             <small>Total Transactions</small>
                         </div>
                     </div>
@@ -41,12 +41,12 @@
                 <div class="col-lg-3">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <span class="label label-success pull-right">All Time</span>
+                            <span class="label label-success pull-right">Today</span>
                             <h5>Total Successful</h5>
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins">{{$st}}</h1>
-                            <div class="stat-percent font-bold text-success">{{round($st/$tt * 100)}}% <i class="fa fa-bolt"></i></div>
+                            <div class="stat-percent font-bold text-success">{{round($st/($st+$ft+$rt) * 100)}}% <i class="fa fa-bolt"></i></div>
                             <small>Total Successful</small>
                         </div>
                     </div>
@@ -55,12 +55,12 @@
                 <div class="col-lg-3">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <span class="label label-success pull-right">All Time</span>
+                            <span class="label label-success pull-right">Today</span>
                             <h5>Total Failed</h5>
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins">{{$ft}}</h1>
-                            <div class="stat-percent font-bold text-success">{{round($ft/$tt * 100)}}% <i class="fa fa-bolt"></i></div>
+                            <div class="stat-percent font-bold text-success">{{round($ft/($st+$ft+$rt) * 100)}}% <i class="fa fa-bolt"></i></div>
                             <small>Total Failed</small>
                         </div>
                     </div>
@@ -69,13 +69,13 @@
                 <div class="col-lg-3">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <span class="label label-success pull-right">Monthly</span>
-                            <h5>Total Wallet</h5>
+                            <span class="label label-success pull-right">Today</span>
+                            <h5>Total Reversed</h5>
                         </div>
                         <div class="ibox-content">
-                            <h1 class="no-margins">40 886,200</h1>
-                            <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-                            <small>Total Referred</small>
+                            <h1 class="no-margins">{{$rt}}</h1>
+                            <div class="stat-percent font-bold text-success">{{round($rt/($st+$ft+$rt) * 100)}}% <i class="fa fa-bolt"></i></div>
+                            <small>Total Reversed</small>
                         </div>
                     </div>
                 </div>

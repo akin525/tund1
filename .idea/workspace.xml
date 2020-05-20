@@ -5,6 +5,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/ServeRequestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ServeRequestController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/transactions.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/transactions.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -462,7 +466,8 @@
       <workItem from="1589818422631" duration="1839000" />
       <workItem from="1589829411399" duration="1632000" />
       <workItem from="1589869475233" duration="2254000" />
-      <workItem from="1589896766282" duration="152000" />
+      <workItem from="1589896766282" duration="4403000" />
+      <workItem from="1589931177495" duration="5556000" />
     </task>
     <servers />
   </component>
@@ -489,10 +494,10 @@
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="345" y="81" width="737" height="606" key="find.popup/62.0.1304.768@62.0.1304.768" timestamp="1588583510375" />
-    <state x="370" y="172" key="run.anything.popup" timestamp="1589830494949">
+    <state x="370" y="172" key="run.anything.popup" timestamp="1589897836941">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="370" y="172" key="run.anything.popup/62.0.1304.768@62.0.1304.768" timestamp="1589830494949" />
+    <state x="370" y="172" key="run.anything.popup/62.0.1304.768@62.0.1304.768" timestamp="1589897836941" />
     <state x="377" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1588834205604">
       <screen x="62" y="0" width="1304" height="768" />
     </state>

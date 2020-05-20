@@ -359,8 +359,7 @@ class ServeRequestController extends Controller
                 // echoing JSON response
                 return response()->json(['status'=> 0, 'message'=>'Invalid amount, retry with valid amount.']);
             }else{
-//               $this->airtimeProcess4($amnt, $service_id, $phone, $network, $coded);
-               $this->airtimeProcess2($amnt, $network_code, $network, $phone, $coded);
+               $this->airtimeProcess4($amnt, $service_id, $phone, $network, $coded);
             }
 
             }catch(\Exception $e){

@@ -17,10 +17,11 @@ class TransactionController extends Controller
 {
     public function index(Request $request){
 
-        $data = DB::table('tbl_transactions')->orderBy('id', 'desc')->paginate(30);
+        $data = DB::table('tbl_transactions')->orderBy('id', 'desc')->limit(1000)->get();
         $tt = DB::table('tbl_transactions')->get()->count();
-        $ft = DB::table('tbl_transactions')->where('status', '=', 'Not Delivered')->orWhere('status', '=', 'not_delivered')->orWhere('status', '=', 'ORDER_CANCELLED')->orWhere('status', '=', 'Invalid Number')->orWhere('status', '=', 'Unsuccessful')->orWhere('status', '=', 'Error')->get()->count();
-        $st = DB::table('tbl_transactions')->where('status', '=', 'Delivered')->orWhere('status', '=', 'delivered')->orWhere('status', '=', 'ORDER_RECEIVED')->orWhere('status', '=', 'ORDER_COMPLETED')->get()->count();
+        $ft = DB::table('tbl_transactions')->where([['status', '=', 'cancelled'], ['date', 'like', date('Y-m-d').'%']])->orWhere([['status', '=', 'Unsuccessful'], ['date', 'like', date('Y-m-d').'%']])->orWhere([['status', '=', 'Error'], ['date', 'like', date('Y-m-d').'%']])->get()->count();
+        $st = DB::table('tbl_transactions')->where([['status', '=', 'delivered'], ['date', 'like', date('Y-m-d').'%']])->orWhere([['status', '=', 'submitted'], ['date', 'like', date('Y-m-d').'%']])->orWhere([['status', '=', 'API_successful'], ['date', 'like', date('Y-m-d').'%']])->count();
+        $rt = DB::table('tbl_transactions')->where([['status', '=', 'reversed'], ['date', 'like', date('Y-m-d').'%']])->count();
 
         $mutable = Carbon::now();
         $gdate="";
@@ -46,7 +47,7 @@ class TransactionController extends Controller
 
         }
 
-        return view('transactions', ['data' => $data, 'tt'=>$tt, 'ft'=>$ft, 'st'=>$st, 'g_date'=>substr($gdate, 1), 'g_tran'=>substr($gtrans, 1), 'g_wallet'=>substr($gwallet, 1)]);
+        return view('transactions', ['data' => $data, 'tt'=>$tt, 'ft'=>$ft, 'st'=>$st, 'rt'=>$rt, 'g_date'=>substr($gdate, 1), 'g_tran'=>substr($gtrans, 1), 'g_wallet'=>substr($gwallet, 1)]);
 
     }
 
@@ -82,7 +83,7 @@ class TransactionController extends Controller
 
 //        $response='{"TXN_EPIN":[{"transactionid":"6342727713","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984254","pin":"146297803330390","amount":"100"},{"transactionid":"6342727714","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984255","pin":"146297845881340","amount":"100"},{"transactionid":"6342727715","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984256","pin":"146297693718491","amount":"100"},{"transactionid":"6342727716","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984257","pin":"146297614150942","amount":"100"},{"transactionid":"6342727717","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984258","pin":"146297845985782","amount":"100"}]}';
 //        $response='{"TXN_EPIN":[{"transactionid":"6342615591","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005099279064","pin":"17287167093507274","amount":"100"},{"transactionid":"6342615594","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005105116628","pin":"58508681769179769","amount":"100"},{"transactionid":"6342615584","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005164416614","pin":"50815693195674413","amount":"100"},{"transactionid":"6342615587","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005208228089","pin":"74256074917601404","amount":"100"},{"transactionid":"6342615588","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005239979674","pin":"07022003391573100","amount":"100"}]}';
-        $response='{"TXN_EPIN":[{"transactionid":"6343910529","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005319943479","pin":"59879917013230241","amount":"100"},{"transactionid":"6343910519","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005335159850","pin":"13606250767171733","amount":"100"},{"transactionid":"6343910530","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005335159863","pin":"73306873321339221","amount":"100"},{"transactionid":"6343910525","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005351702036","pin":"39391571485701680","amount":"100"},{"transactionid":"6343910534","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005351702090","pin":"90896551580552111","amount":"100"},{"transactionid":"6343910526","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005424291488","pin":"39647961890067819","amount":"100"},{"transactionid":"6343910520","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005440028861","pin":"31197563702572679","amount":"100"},{"transactionid":"6343910533","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005440028886","pin":"84297791516418257","amount":"100"},{"transactionid":"6343910521","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005442828209","pin":"99667286179386334","amount":"100"},{"transactionid":"6343910531","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005442828265","pin":"59705737130331013","amount":"100"},{"transactionid":"6343910527","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005442903624","pin":"79320135092980029","amount":"100"},{"transactionid":"6343910535","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005442903628","pin":"26640577949636215","amount":"100"},{"transactionid":"6343910528","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005447868064","pin":"79609361726028288","amount":"100"},{"transactionid":"6343910522","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005467734507","pin":"77946202556573634","amount":"100"},{"transactionid":"6343910532","transactiondate":"5/19/2020 8:25:00 AM","batchno":"214303","mobilenetwork":"MTN","sno":"00000005467734517","pin":"49898917994433172","amount":"100"}]}';
+        $response='{"TXN_EPIN":[{"transactionid":"6343814449","transactiondate":"5/20/2020 1:03:00 AM","batchno":"217049","mobilenetwork":"AirTel","sno":"20316273534194355956","pin":"0523517909680869","amount":"100"},{"transactionid":"6343814451","transactiondate":"5/20/2020 1:03:00 AM","batchno":"217049","mobilenetwork":"AirTel","sno":"20316273534194355957","pin":"0924655434094801","amount":"100"},{"transactionid":"6343814452","transactiondate":"5/20/2020 1:03:00 AM","batchno":"217049","mobilenetwork":"AirTel","sno":"20316273534194355958","pin":"0315074487984156","amount":"100"},{"transactionid":"6343814453","transactiondate":"5/20/2020 1:03:00 AM","batchno":"217049","mobilenetwork":"AirTel","sno":"20316273534194355959","pin":"0350548168513639","amount":"100"},{"transactionid":"6343814455","transactiondate":"5/20/2020 1:03:00 AM","batchno":"217049","mobilenetwork":"AirTel","sno":"20316273534194355960","pin":"0421668662841800","amount":"100"},{"transactionid":"6343814456","transactiondate":"5/20/2020 1:03:00 AM","batchno":"217049","mobilenetwork":"AirTel","sno":"20316273534194355961","pin":"0432205504739114","amount":"100"},{"transactionid":"6343814457","transactiondate":"5/20/2020 1:03:00 AM","batchno":"217049","mobilenetwork":"AirTel","sno":"20316273534194355962","pin":"0988364941428688","amount":"100"},{"transactionid":"6343814459","transactiondate":"5/20/2020 1:03:00 AM","batchno":"217049","mobilenetwork":"AirTel","sno":"20316273534194355963","pin":"0626174052422943","amount":"100"},{"transactionid":"6343814460","transactiondate":"5/20/2020 1:03:00 AM","batchno":"217049","mobilenetwork":"AirTel","sno":"20316273534194355964","pin":"0589779176856776","amount":"100"},{"transactionid":"6343814462","transactiondate":"5/20/2020 1:03:00 AM","batchno":"217049","mobilenetwork":"AirTel","sno":"20316273534194355965","pin":"0924647245536046","amount":"100"}]}';
 
         $tranx = json_decode($response, true);
 
@@ -96,7 +97,7 @@ class TransactionController extends Controller
         }else{
             foreach ($tranx['TXN_EPIN'] as $pin){
                 DB::table('tbl_rechargecards')->insert(
-                    ['pin' => $pin['pin'], 'serial' => $pin['sno'] , 'network' => $pin['mobilenetwork'], 'amount'=>$pin['amount'], 'status'=>'unused', 'user_name'=>$input['user_name']]
+                    ['pin' => $pin['pin'], 'serial' => $pin['sno'] , 'network' => $pin['mobilenetwork'], 'amount'=>$pin['amount'], 'batchno'=> $pin['batchno'], 'transactionno'=> $pin['transactionid'], 'status'=>'unused', 'user_name'=>$input['user_name']]
                 );
             }
         }
@@ -140,9 +141,10 @@ class TransactionController extends Controller
 
     public function rechargemanual(Request $request)
     {
-        $user_name="ASSORTED";
+        $user_name="shuaibukg";
         $quantity=15;
-        $network="MTN";
+        $network="AIRTEL";
+        $amount=100;
 
         $user = DB::table('tbl_agents')->where('user_name', $user_name)->first();
 
@@ -151,7 +153,7 @@ class TransactionController extends Controller
                 ->with('success', 'User doesnt exist');
         }
 
-        $cards = DB::table('tbl_rechargecards')->where([['status', 'unused'], ['network', $network] ])->skip(0)->take($quantity)->get();
+        $cards = DB::table('tbl_rechargecards')->where([['status', 'unused'], ['network', $network], ['amount', $amount] ])->skip(0)->take($quantity)->get();
 
         $data = ['user' => $user, 'cards'=>$cards];
         $pdf = PDF::loadView('pdf_rechargecard', $data);
