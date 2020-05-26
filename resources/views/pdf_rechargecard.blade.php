@@ -79,8 +79,11 @@
 
     <div class="wrapper wrapper-content animated fadeInRight">
 
+        <div class="text-right">
+            <span style="color: white">Powered by Mega Cheap Data</span>
+        </div>
         <div class="row">
-            @foreach($cards as $card)
+            {{--@foreach($cards as $card)
                 <div class="col-lg-6">
                     <div class="contact-box">
                             <div class="col-sm-12">
@@ -111,18 +114,40 @@
                                         <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> {{$card->network}} #{{$card->amount}} </a>
                                     </div>
                                 </div>
-                                <div>
-
-                                </div>
-                                <div class="text-center">
-                                    <span>Powered by Mega Cheap Data</span>
-                                </div>
-
                             </div>
                     </div>
                 </div>
 
-            @endforeach
+            @endforeach--}}
+
+
+                @foreach($cards as $card)
+                <div class="well" style="margin: 10px;">
+                    <div class="pull-left" style="margin-right: 20px; font-size: 15px; font-family: '28 Days Later'; border-right-style: double; font-style: oblique; ">
+                        @if($user->company_name!=null)
+                            {{$user->company_name }}
+                        @else
+                            {{$user->user_name }}
+                        @endif
+
+                        <br />
+                        @if($user->address!=null)
+                            Address: {{$user->address}} <br />
+                        @endif
+                        @if($user->phoneno!=null)
+                            {{$user->phoneno}} <br />
+                        @endif
+                    </div>
+                    <div class="pull-center">
+                        <strong> Card Pin:  {{$card->pin}}</strong> <br />
+                        Serial No: {{$card->serial}}
+                    </div>
+                    <div class="pull-right">
+                        <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> {{$card->network}} #{{$card->amount}} </a>
+                    </div>
+                </div>
+
+                @endforeach
 
         </div>
     </div>
