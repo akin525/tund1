@@ -360,7 +360,7 @@ class ServeRequestController extends Controller
                 // echoing JSON response
                 return response()->json(['status'=> 0, 'message'=>'Invalid amount, retry with valid amount.']);
             }else{
-                $sys=SystemSettings::where('name','=','control')->first();
+                /*$sys=SystemSettings::where('name','=','control')->first();
                 if($sys->airtime=='1'){
                     $this->airtimeProcess($amnt, $network, $coded, $phone);
                 }elseif ($sys->airtime=='2'){
@@ -369,8 +369,13 @@ class ServeRequestController extends Controller
                     $this->airtimeProcess3($amnt, $network, $coded, $phone);
                 }elseif ($sys->airtime=='4'){
                     $this->airtimeProcess4($amnt, $service_id, $phone, $network, $coded);
-                }
+                }*/
 
+                if($service_id="8"){
+                    $this->airtimeProcess2($amnt, $network_code, $network, $phone, $coded);
+                }else{
+                    $this->airtimeProcess4($amnt, $service_id, $phone, $network, $coded);
+                }
             }
 
             }catch(\Exception $e){
