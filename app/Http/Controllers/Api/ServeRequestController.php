@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Model\SystemSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -359,7 +360,17 @@ class ServeRequestController extends Controller
                 // echoing JSON response
                 return response()->json(['status'=> 0, 'message'=>'Invalid amount, retry with valid amount.']);
             }else{
-               $this->airtimeProcess2($amnt, $network_code, $network, $phone, $coded);
+                $sys=SystemSettings::where('name','=','control')->first();
+                if($sys->airtime==1){
+                    $this->airtimeProcess($amnt, $network, $coded, $phone);
+                }elseif ($sys->airtime==2){
+                    $this->airtimeProcess2($amnt, $network_code, $network, $phone, $coded);
+                }elseif ($sys->airtime==3){
+                    $this->airtimeProcess3($amnt, $network, $coded, $phone);
+                }elseif ($sys->airtime==4){
+                    $this->airtimeProcess4($amnt, $service_id, $phone, $network, $coded);
+                }
+
             }
 
             }catch(\Exception $e){
