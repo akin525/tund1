@@ -294,59 +294,70 @@ class ServeRequestController extends Controller
                     return response()->json(['status'=> 0, 'message'=>'Error, invalid request']);
                 }
 
+                $sys=SystemSettings::where('name','=','airtime')->first();
+
         switch ($coded){
             case "m":
                 $network="MTN";
                 $network_code="01";
                 $service_id="7";
+                $server=$sys->mtn;
                 break;
 
             case "M":
                 $network="MTN";
                 $network_code="01";
                 $service_id="7";
+                $server=$sys->mtn;
                 break;
 
             case "e":
                 $network="9MOBILE";
                 $network_code="03";
                 $service_id="9";
+                $server=$sys->etisalat;
                 break;
 
             case "E":
                 $network="9MOBILE";
                 $network_code="03";
                 $service_id="9";
+                $server=$sys->etisalat;
                 break;
 
             case "9":
                 $network="9MOBILE";
                 $network_code="03";
                 $service_id="9";
+                $server=$sys->etisalat;
                 break;
 
             case "g":
                 $network="GLO";
                 $network_code="02";
                 $service_id="8";
+                $server=$sys->glo;
                 break;
 
             case "G":
                 $network="GLO";
                 $network_code="02";
                 $service_id="8";
+                $server=$sys->glo;
                 break;
 
             case "a":
                 $network="AIRTEL";
                 $network_code="04";
                 $service_id="6";
+                $server=$sys->airtel;
                 break;
 
             case "A":
                 $network="AIRTEL";
                 $network_code="04";
                 $service_id="6";
+                $server=$sys->airtel;
                 break;
 
             default:
@@ -360,22 +371,24 @@ class ServeRequestController extends Controller
                 // echoing JSON response
                 return response()->json(['status'=> 0, 'message'=>'Invalid amount, retry with valid amount.']);
             }else{
-                /*$sys=SystemSettings::where('name','=','control')->first();
-                if($sys->airtime=='1'){
-                    $this->airtimeProcess($amnt, $network, $coded, $phone);
-                }elseif ($sys->airtime=='2'){
-                    $this->airtimeProcess2($amnt, $network_code, $network, $phone, $coded);
-                }elseif ($sys->airtime=='3'){
-                    $this->airtimeProcess3($amnt, $network, $coded, $phone);
-                }elseif ($sys->airtime=='4'){
-                    $this->airtimeProcess4($amnt, $service_id, $phone, $network, $coded);
-                }*/
 
-                if($service_id=="6"){
-                    $this->airtimeProcess2($amnt, $network_code, $network, $phone, $coded);
-                }else{
+                if($server=='1'){
+                    $this->airtimeProcess($amnt, $network, $coded, $phone, $transid);
+                }elseif($server=='1b'){
+                    $this->airtimeProcess1b($amnt, $network, $coded, $phone,$transid);
+                }elseif ($server=='2'){
+                    $this->airtimeProcess2($amnt, $network_code, $network, $phone, $coded, $transid);
+                }elseif ($server=='3'){
+                    $this->airtimeProcess3($amnt, $network, $coded, $phone);
+                }elseif ($server=='4'){
                     $this->airtimeProcess4($amnt, $service_id, $phone, $network, $coded);
                 }
+
+//                if($service_id=="6"){
+//                    $this->airtimeProcess2($amnt, $network_code, $network, $phone, $coded);
+//                }else{
+//                    $this->airtimeProcess4($amnt, $service_id, $phone, $network, $coded);
+//                }
             }
 
             }catch(\Exception $e){
@@ -394,7 +407,7 @@ class ServeRequestController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.myflex.ng/users/account/authenticate",
+            CURLOPT_URL => env("SERVER4")."/users/account/authenticate",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -417,7 +430,7 @@ class ServeRequestController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.myflex.ng/services/category/" . $service_id . "/verify",
+            CURLOPT_URL => env("SERVER4")."/services/category/" . $service_id . "/verify",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -441,7 +454,7 @@ class ServeRequestController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.myflex.ng/bills/pay/tv",
+            CURLOPT_URL => env("SERVER4")."/bills/pay/tv",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -541,10 +554,10 @@ class ServeRequestController extends Controller
         }
     }
 
-    public function airtimeProcess($amnt, $network, $coded, $phone){
+    public function airtimeProcess($amnt, $network, $coded, $phone, $transid){
         $ref=date('ymdhis');
 
-        $url="https://mobilenig.com/api/airtime.php/?user_name=samji10&password=Emmanuel@10&network=".$network."&phoneNumber=".$phone."&amount=".$amnt;
+        $url=env("SERVER1")."&network=".$network."&phoneNumber=".$phone."&amount=".$amnt."&ref=".$transid;
 
         $result = file_get_contents($url);
 
@@ -563,10 +576,32 @@ class ServeRequestController extends Controller
         }
     }
 
-    public function airtimeProcess2($amnt, $network_code, $network, $phone, $coded){
+    public function airtimeProcess1b($amnt, $network, $coded, $phone, $transid){
+        $ref=date('ymdhis');
+
+        $url=env("SERVER1b")."&network=".$network."&phoneNumber=".$phone."&amount=".$amnt."&trans_id=".$transid."&return_url=https://admin-mcd.5starcompany.com.ng/api/hook";
+
+        $result = file_get_contents($url);
+
+//        if ($result == "00") {
+            $tran_stat="1";
+            $tran_msg=$network." Airtime ".$amnt." Delivered on ".$phone;
+
+            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
+
+//        }else {
+//
+//            $tran_stat="0";
+//            $tran_msg="Unsuccessful ".$network." Airtime ".$amnt." for ".$phone;
+//
+//            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
+//        }
+    }
+
+    public function airtimeProcess2($amnt, $network_code, $network, $phone, $coded, $transid){
 //01 for MTN, 02 for Glo, 03 for Etisalat, 04 for Airtel
 
-        $url="https://www.nellobytesystems.com/APIAirtimeV1.asp?UserID=CK10123847&APIKey=W5352Q23GDS924D7UA1B84YYY506178I69DDE4JR1ZRAR80FCBQF819D4T7HKI85&MobileNetwork=".$network_code."&Amount=".$amnt."&MobileNumber=".$phone."&CallBackURL=https://www.5starcompany.com.ng";
+        $url=env("SERVER2")."&MobileNetwork=".$network_code."&Amount=".$amnt."&MobileNumber=".$phone."&RequestID=".$transid."&CallBackURL=https://www.5starcompany.com.ng";
 
         // Perform transaction/initialize on our server to buy
 
@@ -599,7 +634,7 @@ class ServeRequestController extends Controller
 
     public function airtimeProcess3($amnt, $network, $coded, $phone)
     {
-        $url = "https://minitechs.com.ng/api/vtu.php?username=08166939205&password=Emmanuel@10&network=" . $network . "&number=" . $phone . "&amount=" . $amnt;
+        $url = env("SERVER3")."&network=" . $network . "&number=" . $phone . "&amount=" . $amnt;
 
         $result = file_get_contents($url);
         if ($result == "00") {
@@ -630,7 +665,7 @@ class ServeRequestController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n  \"phone\": \"+2348166939205\",\n  \"password\": \"Emmanuel@10\"\n}",
+            CURLOPT_POSTFIELDS => env("SERVER4_AUTH"),
             CURLOPT_HTTPHEADER => array(
                 "Content-Type: application/json",
                 "Content-Type: text/plain"
@@ -644,7 +679,7 @@ class ServeRequestController extends Controller
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.myflex.ng/bills/pay/airtime",
+            CURLOPT_URL => env("SERVER4")."/bills/pay/airtime",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
