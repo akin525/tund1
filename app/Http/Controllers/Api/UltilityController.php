@@ -40,10 +40,10 @@ class UltilityController extends Controller
     function hook(Request $request){
         $input = $request->all();
 
-        $data1= implode($input);
+//        $data1= implode($input);
         $data2= json_encode($input);
 
-        DB::table('test')->insert(['name'=> 'webhook', 'request'=>$request, 'data1'=>$data1, 'data2'=>$data2]);
+        DB::table('test')->insert(['name'=> 'webhook', 'request'=>$request, 'data2'=>$data2]);
 
         echo "success";
     }

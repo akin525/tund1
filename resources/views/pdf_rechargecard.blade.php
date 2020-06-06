@@ -82,6 +82,11 @@
         <div class="text-right">
             <span style="color: white">Powered by Mega Cheap Data</span>
         </div>
+
+        <div class="text-left">
+            <span style="color: white">**In case of incomplete PIN kindly add zero in front of the pin to complete the pin</span>
+        </div>
+
         <div class="row">
             {{--@foreach($cards as $card)
                 <div class="col-lg-6">
@@ -150,6 +155,7 @@
                 @endforeach
 
         </div>
+
     </div>
 </div>
 </body>

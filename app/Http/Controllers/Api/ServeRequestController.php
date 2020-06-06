@@ -614,7 +614,7 @@ class ServeRequestController extends Controller
 
         if ($result == "ORDER_RECEIVED" || $result == "ORDER_COMPLETED") {
             $tran_stat="1";
-            $tran_msg="Data ".$coded." Delivered on ".$phone;
+            $tran_msg="Airtime ".$coded." Delivered on ".$phone;
 
             echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
 
@@ -657,7 +657,7 @@ class ServeRequestController extends Controller
     {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.myflex.ng/users/account/authenticate",
+            CURLOPT_URL => env("SERVER4")."/users/account/authenticate",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
