@@ -30,6 +30,7 @@ class UltilityController extends Controller
         if ($validator->passes()) {
             try {
                logvoice::create($input);
+
                 return response()->json(['status'=> 1, 'message'=>'Voice logged Successfully']);
             }catch(\Exception $e){
                 return response()->json(['status'=> 0, 'message'=>'Error logging voice','error' => $e]);
@@ -46,6 +47,10 @@ class UltilityController extends Controller
 
         if(!$u){
             return "invalid account";
+        }
+
+        if($u->account_number!='0'){
+            return "Account created already";
         }
 
 
@@ -97,7 +102,6 @@ class UltilityController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
 
         $response=json_decode($response, true);
 
@@ -116,6 +120,10 @@ class UltilityController extends Controller
 
         DB::table('tbl_reserveaccount_monnify')->insert(['contract_code'=> $contract_code, 'account_reference'=>$account_reference, 'currency_code'=>$currency_code, 'customer_email'=> $customer_email, 'customer_name'=>$customer_name, 'account_number'=>$account_number, 'bank_name'=> $bank_name, 'collection_channel'=>$collection_channel, 'status'=>$status, 'reservation_reference'=> $reservation_reference, 'created_on'=>$created_on, 'extra'=>$extra]);
 
+        $u->account_number=$account_number;
+        $u->save();
+
+        return "success";
     }
 
     function monnifyhook(Request $request){
@@ -157,9 +165,6 @@ class UltilityController extends Controller
                 $this->RAfundwallet($acctd_name,$paymentamount,$product_reference);
             }
         }
-
-
-//        DB::table('test')->insert(['name'=> 'webhook', 'request'=>$request, 'data2'=>$data2]);
 
         echo "success";
     }
