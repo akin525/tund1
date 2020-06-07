@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Model\logvoice;
-use App\model\PndL;
-use App\model\Transaction;
+use App\Model\PndL;
+use App\Model\Transaction;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -114,7 +114,7 @@ class UltilityController extends Controller
         $reservation_reference=$response['responseBody']['reservationReference'];
         $extra=$respons;
 
-        DB::table('tbl_reserveaccount_monnify')->insert(['	contract_code'=> $contract_code, 'account_reference'=>$account_reference, 'currency_code'=>$currency_code, 'customer_email'=> $customer_email, 'customer_name'=>$customer_name, 'account_number'=>$account_number, 'bank_name'=> $bank_name, 'collection_channel'=>$collection_channel, 'status'=>$status, 'reservation_reference'=> $reservation_reference, 'created_on'=>$created_on, 'extra'=>$extra]);
+        DB::table('tbl_reserveaccount_monnify')->insert(['contract_code'=> $contract_code, 'account_reference'=>$account_reference, 'currency_code'=>$currency_code, 'customer_email'=> $customer_email, 'customer_name'=>$customer_name, 'account_number'=>$account_number, 'bank_name'=> $bank_name, 'collection_channel'=>$collection_channel, 'status'=>$status, 'reservation_reference'=> $reservation_reference, 'created_on'=>$created_on, 'extra'=>$extra]);
 
     }
 
