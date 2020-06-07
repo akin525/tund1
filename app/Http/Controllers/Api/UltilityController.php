@@ -66,6 +66,7 @@ class UltilityController extends Controller
         ));
 
         $response = curl_exec($curl);
+        $respons = $response;
 
         curl_close($curl);
 
@@ -74,8 +75,6 @@ class UltilityController extends Controller
         $response=json_decode($response, true);
 
         $token=$response['responseBody']['accessToken'];
-        echo $token;
-
 
         $curl = curl_init();
 
@@ -113,7 +112,7 @@ class UltilityController extends Controller
         $status=$response['responseBody']['status'];
         $created_on=$response['responseBody']['createdOn'];
         $reservation_reference=$response['responseBody']['reservationReference'];
-        $extra=json_decode($response);
+        $extra=$respons;
 
         DB::table('tbl_reserveaccount_monnify')->insert(['	contract_code'=> $contract_code, 'account_reference'=>$account_reference, 'currency_code'=>$currency_code, 'customer_email'=> $customer_email, 'customer_name'=>$customer_name, 'account_number'=>$account_number, 'bank_name'=> $bank_name, 'collection_channel'=>$collection_channel, 'status'=>$status, 'reservation_reference'=> $reservation_reference, 'created_on'=>$created_on, 'extra'=>$extra]);
 
@@ -160,7 +159,7 @@ class UltilityController extends Controller
         }
 
 
-        DB::table('test')->insert(['name'=> 'webhook', 'request'=>$request, 'data2'=>$data2]);
+//        DB::table('test')->insert(['name'=> 'webhook', 'request'=>$request, 'data2'=>$data2]);
 
         echo "success";
     }
