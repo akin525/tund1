@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\logvoice;
 use App\Model\PndL;
 use App\Model\Transaction;
+use App\Model\VoiceSuggesstion;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +32,24 @@ class UltilityController extends Controller
             try {
                logvoice::create($input);
 
-                return response()->json(['status'=> 1, 'message'=>'Voice logged Successfully']);
+               try {
+                   $findme = $input['voice'];
+
+                   if ($input['c'] === 'no') {
+
+                       $s = VoiceSuggesstion::get();
+
+                       foreach ($s as $su) {
+                           $pos = strpos($findme, $su->find);
+                           // Note our use of ===.  Simply == would not work as expected
+                           if ($pos !== false) {
+                               return response()->json(['status' => 1, 'message' => $su->response]);
+                           }
+                       }
+                   }
+               }catch (\Exception $e){}
+
+                return response()->json(['status'=> 1, 'message'=>'Is neither part of my command or words I understand, I will respond to you next time. Keep using me and I will learn more']);
             }catch(\Exception $e){
                 return response()->json(['status'=> 0, 'message'=>'Error logging voice','error' => $e]);
             }
@@ -182,8 +200,8 @@ class UltilityController extends Controller
             $input['user_name']=$u->user_name;
             $input['code']='afund_Bank Transfer';
             $input['i_wallet']=$u->wallet;
-            $wallet=$u->wallet;
-            $input['f_wallet']=$u->wallet + $amount;
+            $wallet=$u->wallet + $amount;
+            $input['f_wallet']=$wallet;
             $input["ip_address"]="127.0.0.1:A";
             $input["date"]=date("y-m-d H:i:s");
 
@@ -227,8 +245,8 @@ class UltilityController extends Controller
             $input['user_name']=$u->user_name;
             $input['code']='afund_Bank Transfer';
             $input['i_wallet']=$u->wallet;
-            $wallet=$u->wallet;
-            $input['f_wallet']=$u->wallet + $amount;
+            $wallet=$u->wallet + $amount;
+            $input['f_wallet']=$wallet;
             $input["ip_address"]="127.0.0.1:A";
             $input["date"]=date("y-m-d H:i:s");
 
