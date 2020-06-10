@@ -374,7 +374,7 @@ class ServeRequestController extends Controller
 
                 if($server=='1'){
                     $this->airtimeProcess($amnt, $network, $coded, $phone, $transid);
-                }elseif($server=='1b'){
+                }elseif ($server=='1b'){
                     $this->airtimeProcess1b($amnt, $network, $coded, $phone,$transid);
                 }elseif ($server=='2'){
                     $this->airtimeProcess2($amnt, $network_code, $network, $phone, $coded, $transid);

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Model\Airtime2Cash;
+use App\Model\Airtime2CashSettings;
 use App\Model\logvoice;
 use App\Model\PndL;
 use App\Model\Transaction;
@@ -35,8 +37,6 @@ class UltilityController extends Controller
                try {
                    $findme = $input['voice'];
 
-                   if ($input['c'] === 'no') {
-
                        $s = VoiceSuggesstion::get();
 
                        foreach ($s as $su) {
@@ -46,7 +46,6 @@ class UltilityController extends Controller
                                return response()->json(['status' => 1, 'message' => $su->response]);
                            }
                        }
-                   }
                }catch (\Exception $e){}
 
                 return response()->json(['status'=> 1, 'message'=>'Is neither part of my command or words I understand, I will respond to you next time. Keep using me and I will learn more']);
@@ -55,6 +54,38 @@ class UltilityController extends Controller
             }
         }else{
             return response()->json(['status'=> 0, 'message'=>'Error logging voice', 'error' => $validator->errors()]);
+        }
+
+    }
+
+    public function mcd_a2ca2b(Request $request){
+
+        $input = $request->all();
+        $rules = array(
+            'user_name' => 'required',
+            'network' => 'required',
+            'phoneno' => 'required',
+            'amount' => 'required',
+            'receiver' => 'required',
+            'ref' => 'required',
+            'version' => 'required',
+            'device_details' => 'required');
+
+        $validator = Validator::make($input, $rules);
+
+        if ($validator->passes()) {
+            try {
+                $input['ip']=$_SERVER['REMOTE_ADDR'];
+               Airtime2Cash::create($input);
+
+               $number=Airtime2CashSettings::where('network', '=', $input['network'])->first();
+
+                return response()->json(['status'=> 1, 'message'=>'Transfer #' .$input['amount']. ' to ' . $number.' and get your value instantly. \n Reference: '.$input['ref']]);
+            }catch(\Exception $e){
+                return response()->json(['status'=> 0, 'message'=>'An error occured','error' => $e]);
+            }
+        }else{
+            return response()->json(['status'=> 0, 'message'=>'Some forms are left out', 'error' => $validator->errors()]);
         }
 
     }
@@ -190,7 +221,7 @@ class UltilityController extends Controller
     public function MCDatfundwallet($name, $amount){
         $charge_treshold=2000;
         $charges=50;
-        $u=User::where('full_name', '=', $name)->first();
+        $u=User::where('full_name', 'LIKE', '%'.$name.'%')->first();
 
         if($u){
             $input['name']="wallet funding";
