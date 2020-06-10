@@ -61,6 +61,28 @@ class ServeRequestController extends Controller
                     $service_id = "14";
                     break;
 
+                case "d_yanga":
+                    $tv_type = "DSTV";
+                    $tv_package = "ACSSE36";
+                    $bundle_code = "NNJ1E36";
+                    $link = "dstv";
+                    $amount = "2565";
+                    $tv_type_code = "14";
+                    $tv_package_code = "01";
+                    $service_id = "14";
+                    break;
+
+                    case "d_confam":
+                    $tv_type = "DSTV";
+                    $tv_package = "ACSSE36";
+                    $bundle_code = "NNJ2E36";
+                    $link = "dstv";
+                    $amount = "4615";
+                    $tv_type_code = "14";
+                    $tv_package_code = "01";
+                    $service_id = "14";
+                    break;
+
                 case "d_family":
                     $tv_type = "DSTV";
                     $tv_package = "COFAME36";
@@ -77,7 +99,7 @@ class ServeRequestController extends Controller
                     $tv_package = "COMPE36";
                     $bundle_code = "MINIBW4";
                     $link = "dstv";
-                    $amount = "6800";
+                    $amount = "6975";
                     $tv_type_code = "01";
                     $tv_package_code = "03";
                     $service_id = "14";
@@ -88,7 +110,7 @@ class ServeRequestController extends Controller
                     $tv_package = "COMPLE36";
                     $bundle_code = "COMPLW7";
                     $link = "dstv";
-                    $amount = "10650";
+                    $amount = "10925";
                     $tv_type_code = "01";
                     $tv_package_code = "04";
                     $service_id = "14";
@@ -99,7 +121,7 @@ class ServeRequestController extends Controller
                     $tv_package = "GOLITE";
                     $bundle_code = "GOLITE";
                     $link = "gotv";
-                    $amount = "400";
+                    $amount = "410";
                     $tv_type_code = "02";
                     $tv_package_code = "01";
                     $service_id = "15";
@@ -109,7 +131,7 @@ class ServeRequestController extends Controller
                     $tv_type = "GOTV";
                     $tv_package = "GOTVNJ1";
                     $bundle_code = "GOTVNJ1";
-                    $amount = "1600";
+                    $amount = "1640";
                     $link = "gotv";
                     $tv_type_code = "02";
 //                $tv_package_code="02";
@@ -120,7 +142,7 @@ class ServeRequestController extends Controller
                     $tv_type = "GOTV";
                     $tv_package = "GOTVNJ2";
                     $bundle_code = "GOTVNJ2";
-                    $amount = "2400";
+                    $amount = "2460";
                     $link = "gotv";
                     $tv_type_code = "02";
 //                $tv_package_code="02";
@@ -154,7 +176,7 @@ class ServeRequestController extends Controller
                     $tv_package = "GOTVMAX";
                     $bundle_code = "GOMAX";
                     $link = "gotv";
-                    $amount = "3200";
+                    $amount = "3280";
                     $tv_type_code = "02";
                     $tv_package_code = "04";
                     $service_id = "15";
@@ -233,12 +255,8 @@ class ServeRequestController extends Controller
                 $this->paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
             }
 
-            if ($tv_package == "GOTVNJ1" || $tv_package == "GOTVNJ2" || $tv_package == "GOTVMAX") {
+            if ($tv_type == "GOTV") {
                 $this->paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
-            } else {
-//                $this->paytvProcess($amount, $tv_package, $link, $tv_type, $coded, $phone);
-                return response()->json(['success' => 1, 'message' => "pending", 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 0"]);
-
             }
 
             }catch(\Exception $e){

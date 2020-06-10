@@ -90,9 +90,9 @@ class UltilityController extends Controller
 
     }
 
-    public function monnifyRA($id){
+    public function monnifyRA($user_name){
 
-        $u=User::find($id);
+        $u=User::where('user_name', '=', $user_name);
 
         if(!$u){
             return "invalid account";
