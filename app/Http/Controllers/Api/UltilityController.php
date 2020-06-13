@@ -95,6 +95,7 @@ class UltilityController extends Controller
         $last=$id+1000;
 
         for ($i=$id; $i<=$last; $i++){
+            echo "<br />";
             echo $i . "-";
 
             $u = User::find($i);
@@ -185,8 +186,6 @@ class UltilityController extends Controller
                 echo "Error encountered ";
                 continue;
             }
-
-            echo "<br />";
 
         }
         return "success";
