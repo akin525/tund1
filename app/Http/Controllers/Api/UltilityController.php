@@ -99,15 +99,13 @@ class UltilityController extends Controller
 
             if (!$u) {
                 echo "invalid account";
-                $i++;
+                continue;
             }
 
             if ($u->account_number != '0') {
                 echo "Account created already";
-                $i++;
+                continue;
             }
-
-            $u = User::find($i);
 
             try {
 
@@ -182,7 +180,8 @@ class UltilityController extends Controller
 
                 echo $account_number . "|| ";
             }catch (\Exception $e){
-                echo "Error encountered " . $e;
+                echo "Error encountered ";
+                continue;
             }
 
         }
