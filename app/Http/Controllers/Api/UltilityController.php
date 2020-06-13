@@ -92,7 +92,9 @@ class UltilityController extends Controller
 
     public function monnifyRA($id){
 
-        for ($i=$id; $i<=10000; $i++){
+        $last=$id+1000;
+
+        for ($i=$id; $i<=$last; $i++){
             echo $i . "-";
 
             $u = User::find($i);
