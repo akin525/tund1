@@ -245,6 +245,14 @@ class UsersController extends Controller
 
     }
 
+    public function agent_list()
+    {
+
+        $users=User::where('status', '=', 'agent')->get();
+
+        return view('agent_payment', ['users' => $users, 'alist'=>true]);
+    }
+
     public function agent_confirm(Request $request)
     {
 
@@ -260,13 +268,14 @@ class UsersController extends Controller
             return back()->with('error', 'User is not an Agent!');
         }
 
-        $trans = Transaction::where([['user_name', '=', $input["user_name"]], ['status', '=', 'delivered'], ['date', 'LIKE', '%'.Carbon::now()->subMonth()->format("Y-m").'%']])->get();
+        $trans = Transaction::where([['user_name', '=', $input["user_name"]], ['name', 'NOT LIKE', '%airtime%'], ['status', '=', 'delivered'], ['date', 'LIKE', '%'.Carbon::now()->subMonth()->format("Y-m").'%']])->get();
+        $trans_count = Transaction::where([['user_name', '=', $input["user_name"]], ['name', 'NOT LIKE', '%airtime%'], ['status', '=', 'delivered'], ['date', 'LIKE', '%'.Carbon::now()->subMonth()->format("Y-m").'%']])->count();
 
         if ($trans->isEmpty()) {
             return back()->with('error', 'No Transaction done last month!');
         }
 
-        return view('agent_payment', ['trans' => $trans, 'user' =>$user, 'val'=>true]);
+        return view('agent_payment', ['trans' => $trans, 'count'=> $trans_count, 'user' =>$user, 'val'=>true]);
     }
 
     public function agent_payment(Request $request)
