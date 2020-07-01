@@ -45,6 +45,10 @@ Route::post('/gnews', 'UsersController@addgnews')->name('addgnews');
 Route::post('/user-sms', 'UsersController@sendsms')->name('user.sms');
 Route::post('/user-email', 'UsersController@sendemail')->name('user.email');
 Route::post('/user-pushnotif', 'UsersController@sendpushnotif')->name('user.pushnotif');
+Route::view('/agentpayment', 'agent_payment');
+Route::post('/agentpayment-confirm', 'UsersController@agent_confirm')->name('agent.payment.confirmation');
+Route::post('/agentpayment', 'UsersController@agent_payment')->name('agent.payment');
+
 
 
 

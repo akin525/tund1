@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Transaction;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -242,5 +243,63 @@ class UsersController extends Controller
 
         return redirect('/gnews')->with('success', 'Message sent successfully!');
 
+    }
+
+    public function agent_confirm(Request $request)
+    {
+
+        $input = $request->all();
+
+        $user=User::where('user_name', '=', $input["user_name"])->first();
+
+        if(!$user){
+            return back()->with('error', 'Username does not exist!');
+        }
+
+        if($user->status != "agent"){
+            return back()->with('error', 'User is not an Agent!');
+        }
+
+        $trans = Transaction::where([['user_name', '=', $input["user_name"]], ['status', '=', 'delivered'], ['date', 'LIKE', '%'.Carbon::now()->subMonth()->format("Y-m").'%']])->get();
+
+        if ($trans->isEmpty()) {
+            return back()->with('error', 'No Transaction done last month!');
+        }
+
+        return view('agent_payment', ['trans' => $trans, 'user' =>$user, 'val'=>true]);
+    }
+
+    public function agent_payment(Request $request)
+    {
+        $input = $request->all();
+
+        $user=User::where('user_name', $input['user_name'])->first();
+
+        $f=$user->level;
+
+        if($f==1){
+            $fa=3;
+        }
+        if($f==2){
+            $fa=6;
+        }
+
+        $amount=$fa * $input['count'];
+
+        $user=User::where("user_name", "=", $input['user_name'])->first();
+        $input["description"]="Being agent commission paid for the month of " . Carbon::now()->subMonth()->format('M, Y') . " with transaction count of " . $input['count'] . ' as a Level ' . $f . ' agent' ;
+        $input["name"]="Agent Commission";
+        $input["status"]="successful";
+        $input["code"]="acp_".Carbon::now()->subMonth()->format('m.y');
+        $input["ip_address"]="127.0.0.1";
+        $input["amount"]=$amount;
+        $input["user_name"]=$input['user_name'];
+        $input["i_wallet"]=$user->wallet;
+        $input["f_wallet"]=$user->wallet + $amount;
+
+        $user->update(["wallet"=> $user->wallet + $amount]);
+        Transaction::create($input);
+
+        return redirect('/agentpayment')->with('success', 'Agent Payment paid successfully to '.$user->user_name.' with the sum of '.$amount);
     }
 }

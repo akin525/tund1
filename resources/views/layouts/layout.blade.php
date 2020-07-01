@@ -105,6 +105,7 @@
 {{--                        <li><a href="/addfund">Fund Wallet</a></li>--}}
                         <li><a href="/pending_request">Pending Request</a></li>
                         <li><a href="/agents">Agents</a></li>
+                        <li><a href="/agentpayment">Agent Payment</a></li>
                         <li><a href="/resellers">Resellers</a></li>
                         <li><a href="/transaction">Transactions</a></li>
                         <li><a href="/wallet">Wallet</a></li>
