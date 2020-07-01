@@ -268,6 +268,13 @@ class UsersController extends Controller
             return back()->with('error', 'User is not an Agent!');
         }
 
+        $tc = Transaction::where([['code', '=', "acp_".Carbon::now()->subMonth()->format('m.y')], ['user_name', '=', $input["user_name"]]])->get();
+
+            if(!$tc->isEmpty()){
+                return back()->with('error', 'Payment made already!');
+            }
+
+
         $trans = Transaction::where([['user_name', '=', $input["user_name"]], ['name', 'NOT LIKE', '%airtime%'], ['status', '=', 'delivered'], ['date', 'LIKE', '%'.Carbon::now()->subMonth()->format("Y-m").'%']])->get();
         $trans_count = Transaction::where([['user_name', '=', $input["user_name"]], ['name', 'NOT LIKE', '%airtime%'], ['status', '=', 'delivered'], ['date', 'LIKE', '%'.Carbon::now()->subMonth()->format("Y-m").'%']])->count();
 
