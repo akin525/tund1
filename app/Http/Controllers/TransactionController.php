@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Airtime2Cash;
 use App\Model\PndL;
 use App\Model\Transaction;
 use App\User;
@@ -143,7 +144,7 @@ class TransactionController extends Controller
     {
         $user_name="Emmacop";
         $quantity=10;
-        $network="MTN";
+        $network="GLO";
         $amount=200;
 
         $user = DB::table('tbl_agents')->where('user_name', $user_name)->first();
@@ -348,4 +349,45 @@ class TransactionController extends Controller
 
     }
 
+    public function airtime2cash()
+    {
+        $datas=Airtime2Cash::where('receiver', '=', 'wallet')->orderBy('id', 'desc')->limit(20)->get();
+
+        return view('airtime_cash', ['datas' => $datas, 'alist'=>true]);
     }
+
+    public function airtime2cashpayment(Request $request)
+    {
+        $ref=Airtime2Cash::where('ref',$request->input('ref'))->first();
+
+        if(!$ref){
+            return back()->with('error', 'Invalid Reference Number!');
+        }
+
+        if($ref->status=="successful"){
+            return back()->with('error', 'Payment made already!');
+        }
+
+        $r=0.2 * $ref->amount;
+        $r_amount=$ref->amount - $r;
+
+        $user=User::where("user_name", "=", $ref->user_name)->first();
+
+        $input["description"]=$ref->user_name ." wallet funded using Airtime2Wallet with the sum of #". $ref->amount ." Ref=>" . $ref->ref;
+        $input["name"]="wallet funding";
+        $input["status"]="successful";
+        $input["code"]="fund_a2w";
+        $input["amount"]=$r_amount;
+        $input["user_name"]=$ref->user_name;
+        $input["i_wallet"]=$user->wallet;
+        $input["f_wallet"]=$user->wallet + $r_amount;
+
+        $ref->status="successful";
+        $ref->save();
+        $user->update(["wallet"=> $user->wallet + $r_amount]);
+        Transaction::create($input);
+
+        return redirect('/airtime2cash')->with('success', 'Transaction successful!');
+    }
+
+}

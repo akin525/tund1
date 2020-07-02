@@ -110,6 +110,7 @@
                         <li><a href="/transaction">Transactions</a></li>
                         <li><a href="/wallet">Wallet</a></li>
                         <li><a href="/addtransaction">Add Transaction</a></li>
+                        <li><a href="/airtime2cash">Airtime 2 Cash</a></li>
                         <li><a href="/reversal">Reversal</a></li>
                         <li><a href="/gnews">General News</a></li>
                         <li class="active"><a href="dashboard_2.html">Dashboard v.2</a></li>

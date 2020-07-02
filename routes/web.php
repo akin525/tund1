@@ -48,6 +48,9 @@ Route::post('/user-pushnotif', 'UsersController@sendpushnotif')->name('user.push
 Route::get('/agentpayment', 'UsersController@agent_list')->name('agent.payment.list');
 Route::post('/agentpayment-confirm', 'UsersController@agent_confirm')->name('agent.payment.confirmation');
 Route::post('/agentpayment', 'UsersController@agent_payment')->name('agent.payment');
+Route::get('/airtime2cash', 'TransactionController@airtime2cash')->name('transaction.airtime2cash');
+Route::post('/airtime2cash', 'TransactionController@airtime2cashpayment')->name('transaction.airtime2cash.payment');
+
 
 
 
