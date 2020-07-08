@@ -109,7 +109,8 @@
                         <li><a href="/resellers">Resellers</a></li>
                         <li><a href="/transaction">Transactions</a></li>
                         <li><a href="/wallet">Wallet</a></li>
-                        <li><a href="/addtransaction">Add Transaction</a></li>
+                        <li><a href="/addtransaction">Add Airtime Transaction</a></li>
+                        <li><a href="/adddatatransaction">Add Data Transaction</a></li>
                         <li><a href="/airtime2cash">Airtime 2 Cash</a></li>
                         <li><a href="/reversal">Reversal</a></li>
                         <li><a href="/gnews">General News</a></li>

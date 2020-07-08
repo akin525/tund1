@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/airtime_cash.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/addtransaction_data.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layout.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
@@ -530,7 +529,14 @@
       <workItem from="1593376806801" duration="2150000" />
       <workItem from="1593408347638" duration="735000" />
       <workItem from="1593516770727" duration="15560000" />
-      <workItem from="1593629983843" duration="16547000" />
+      <workItem from="1593629983843" duration="16905000" />
+      <workItem from="1593716388105" duration="468000" />
+      <workItem from="1593789546056" duration="774000" />
+      <workItem from="1593813008355" duration="2436000" />
+      <workItem from="1594127284586" duration="947000" />
+      <workItem from="1594137982354" duration="3916000" />
+      <workItem from="1594206841970" duration="898000" />
+      <workItem from="1594210064958" duration="1411000" />
     </task>
     <servers />
   </component>

@@ -143,9 +143,9 @@ class TransactionController extends Controller
     public function rechargemanual(Request $request)
     {
         $user_name="Emmacop";
-        $quantity=10;
-        $network="GLO";
-        $amount=200;
+        $quantity=20;
+        $network="MTN";
+        $amount=100;
 
         $user = DB::table('tbl_agents')->where('user_name', $user_name)->first();
 
@@ -214,6 +214,11 @@ class TransactionController extends Controller
             if($user){
                 $amt=0.02 * $input["amount"];
                 $input["amount"] -= $amt;
+
+                if($user->wallet<$input["amount"]){
+                    return redirect('/adddatatransaction')->with('success', $input["user_name"]. ' wallet balance is too low!');
+                }
+
                 $input["description"]=$input["user_name"] . " buy airtime_".$input["network"]. "_".$amount. " on ".$input["phoneno"]. " using wallet";
                 $input["i_wallet"]=$user->wallet;
                 $input["f_wallet"]=$input["i_wallet"] - $input["amount"];
@@ -304,6 +309,58 @@ class TransactionController extends Controller
         }else{
 
             return redirect('/addtransaction')
+                ->withErrors($validator)
+                ->withInput($input);
+//            return response()->json(['status'=> 0, 'message'=>'Unable to login with errors', 'error' => $validator->errors()]);;
+        }
+    }
+
+    public function addtransaction_data(Request $request){
+        $input = $request->all();
+        $rules = array(
+            'user_name'      => 'required',
+            'network'      => 'required',
+            'plan'      => 'required',
+            'amount' => 'required|int|min:2');
+
+        $validator = Validator::make($input, $rules);
+
+        if ($validator->passes())
+        {
+
+            $amount=$input["amount"];
+            $user= User::where('user_name', $input["user_name"])->first();
+
+            if($user){
+                if($user->wallet<$input["amount"]){
+                    return redirect('/adddatatransaction')->with('success', $input["user_name"]. ' wallet balance is too low!');
+                }
+                $input["description"]=$input["user_name"] . " buy data_".$input["network"]. "_".$input["plan"]. " on ".$input["phoneno"]. " using wallet";
+                $input["i_wallet"]=$user->wallet;
+                $input["f_wallet"]=$input["i_wallet"] - $input["amount"];
+                $input["ip_address"]="127.0.0.1";
+                $input["code"]="data_".$input["network"]. "_".$input["plan"];
+                $input["status"]="delivered";
+                $input["date"]=date("y-m-d H:i:s");
+                $input["name"]=$input["network"]. "data";
+
+                Transaction::create($input);
+
+                $user->wallet-=$input["amount"];
+                $user->save();
+
+                return redirect('/adddatatransaction')->with('success', $input["user_name"]. ' transaction added successfully!');
+            }else{
+                $validator->errors()->add('username', 'The username does not exist!');
+
+                return redirect('/adddatatransaction')
+                    ->withErrors($validator)
+                    ->withInput($input);
+            }
+
+        }else{
+
+            return redirect('/adddatatransaction')
                 ->withErrors($validator)
                 ->withInput($input);
 //            return response()->json(['status'=> 0, 'message'=>'Unable to login with errors', 'error' => $validator->errors()]);;

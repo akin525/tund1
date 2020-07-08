@@ -37,6 +37,8 @@ Route::view('/rechargecard', 'rechargecard');
 Route::post('/addfund', 'WalletController@addfund')->name('addfund');
 Route::view('/addtransaction', 'addtransaction');
 Route::post('/addtransaction', 'TransactionController@addtransaction')->name('addtransaction');
+Route::view('/adddatatransaction', 'addtransaction_data');
+Route::post('/adddatatransaction', 'TransactionController@addtransaction_data')->name('adddatatransaction');
 Route::view('/reversal', 'reversal');
 Route::post('/reversal-confirm', 'TransactionController@reversal_confirm')->name('reversal.confirm');
 Route::get('/reverse-transaction/{id}', 'TransactionController@reverse')->name('reverse');
