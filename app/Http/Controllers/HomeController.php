@@ -35,35 +35,41 @@ class HomeController extends Controller
         $data['client'] = DB::table('tbl_agents')->where('status', '=', 'client')->get()->count();
         $data['agent'] = DB::table('tbl_agents')->where('status', '=', 'agent')->get()->count();
         $data['reseller'] = DB::table('tbl_agents')->where('status', '=', 'reseller')->get()->count();
-        $today =  Carbon::now();
-        $data['online_user'] = DB::table('tbl_agents')->where('last_login', '>=', $today)->get()->count();
+        $today =  Carbon::now()->format('Y-m-d');
+        $data['online_user'] = DB::table('tbl_agents')->where('last_login', 'LIKE', $today.'%')->get()->count();
         $data['total_deposits'] = DB::table('tbl_agents')->get()->sum('wallet');
+        $data['today_deposits'] = DB::table('tbl_transactions')->where([['name', '=', 'wallet funding'], ['date', 'LIKE', '%'.Carbon::now()->format('Y-m-d').'%']])->sum('amount');
         $data['total_transaction'] = DB::table('tbl_transactions')->get()->count();
         $data['fail_transaction'] = DB::table('tbl_transactions')->where('status', '=', 'Not Delivered')->orWhere('status', '=', 'not_delivered')->orWhere('status', '=', 'ORDER_CANCELLED')->orWhere('status', '=', 'Invalid Number')->orWhere('status', '=', 'Unsuccessful')->get()->count();
         $data['successful_transaction'] = DB::table('tbl_transactions')->where('status', '=', 'Delivered')->orWhere('status', '=', 'delivered')->orWhere('status', '=', 'ORDER_RECEIVED')->get()->count();
         $data['banktransfer'] = DB::table('tbl_transactions')->where('code', '=', 'fund_Banktransfer')->get()->count();
-  
+        $data['banktransfer_today'] = DB::table('tbl_transactions')->where([['code', '=', 'fund_Banktransfer'], ['date', 'LIKE', $today.'%' ]])->get()->count();
         $data['paystack'] = DB::table('tbl_transactions')->where('code', '=', 'fund_Paystack')->get()->count();
+        $data['paystack_today'] = DB::table('tbl_transactions')->where([['code', '=', 'fund_Paystack'], ['date', 'LIKE', $today.'%' ]])->get()->count();
         $data['payant'] = DB::table('tbl_transactions')->where('code', '=', 'fund_Payant')->get()->count();
-        $data['payant_value'] = DB::table('tbl_transactions')->where([['code', '=', 'fund_Rave'],['status', '=', 'successful'],])->get()->sum('amount');
-        $data['rave'] = DB::table('tbl_transactions')->where([['code', '=', 'fund_Rave'],['status', '=', 'successful'],])->get()->count();
-        $data['rave_value'] = DB::table('tbl_transactions')->where([['code', '=', 'fund_Rave'],['status', '=', 'successful'],])->get()->sum('amount');
-        $data['total_fund'] = DB::table('tbl_transactions')->where('code', '=', 'fund_Payant')->orWhere('code', '=', 'fund_Paystack')->orWhere('code', '=', 'fund_Banktransfer')->orWhere('code', '=', 'fund_Rave')->get()->count();
+        $data['payant_today'] = DB::table('tbl_transactions')->where([['code', '=', 'fund_Payant'], ['date', 'LIKE', $today.'%' ]])->get()->count();
+        $data['payant_value'] = DB::table('tbl_transactions')->where([['code', '=', 'fund_Rave'],['status', '=', 'successful'],])->sum('amount');
+        $data['rave'] = DB::table('tbl_transactions')->where([['code', '=', 'fund_Rave'],['status', '=', 'successful'],])->count();
+        $data['rave_today'] = DB::table('tbl_transactions')->where([['code', '=', 'fund_Rave'], ['date', 'LIKE', $today.'%' ]])->count();
+        $data['rave_value'] = DB::table('tbl_transactions')->where([['code', '=', 'fund_Rave'],['status', '=', 'successful'],])->sum('amount');
+        $data['total_fund'] = DB::table('tbl_transactions')->where('code', '=', 'fund_Payant')->orWhere('code', '=', 'fund_Paystack')->orWhere('code', '=', 'fund_Banktransfer')->orWhere('code', '=', 'fund_Rave')->count();
         $data['transactions'] = DB::table('tbl_transactions')->orderBy('id', 'DESC')->limit(10)->get();
         $data['users'] = DB::table('tbl_agents')->orderBy('id', 'DESC')->limit(15)->get();
         $data['serverlog'] = DB::table('tbl_severlog')->orderBy('id', 'DESC')->limit(10)->get();
-        $data['data'] = DB::table('tbl_transactions')->where([['name', 'like', '%data%'],['status', '=', 'delivered'],])->orWhere([['name', 'like', '%data%'],['status', '=', 'Delivered'],])->orWhere([['name', 'like', '%data%'],['status', '=', 'ORDER_RECEIVED'],])->get()->count();
-        $data['airtime'] = DB::table('tbl_transactions')->where([['name', 'like', '%airtime%'],['status', '=', 'delivered'],])->orWhere([['name', 'like', '%airtime%'],['status', '=', 'Delivered'],])->orWhere([['name', 'like', '%airtime%'],['status', '=', 'ORDER_RECEIVED'],])->get()->count();
-        $data['tv'] = DB::table('tbl_transactions')->where([['code', 'like', '%tv%'],['status', 'like', 'delivered'],])->get()->count();
-        $data['autocharge'] = DB::table('tbl_transactions')->where([['name', '=', 'Auto Charge'],['status', '=', 'successful'],])->get()->count();
-        $data['simswap'] = DB::table('tbl_transactions')->where([['code', '=', 'swap'],['status', '=', 'successful'],])->get()->count();
+        $data['data'] = DB::table('tbl_transactions')->where([['name', 'like', '%data%'],['status', '=', 'delivered'],])->orWhere([['name', 'like', '%data%'],['status', '=', 'Delivered'],])->orWhere([['name', 'like', '%data%'],['status', '=', 'ORDER_RECEIVED'],])->count();
+        $data['airtime'] = DB::table('tbl_transactions')->where([['name', 'like', '%airtime%'],['status', '=', 'delivered'],])->orWhere([['name', 'like', '%airtime%'],['status', '=', 'Delivered'],])->orWhere([['name', 'like', '%airtime%'],['status', '=', 'ORDER_RECEIVED'],])->count();
+        $data['tv'] = DB::table('tbl_transactions')->where([['code', 'like', '%tv%'],['status', 'like', 'delivered'],])->count();
+        $data['autocharge'] = DB::table('tbl_transactions')->where([['name', '=', 'Auto Charge'],['status', '=', 'successful'],])->count();
+        $data['simswap'] = DB::table('tbl_transactions')->where([['code', '=', 'swap'],['status', '=', 'successful'],])->count();
+        $data['walletlogs'] = DB::table('tbl_wallet')->orderBy('id', 'DESC')->limit(9)->get();
+
 
 
         $url="https://mobilenig.com/api/balance.php";
         $myvars ="username=samji10&password=Emmanuel@10";
 
         //$data['server1'] = file_get_contents($url.'?'.$myvars);
-                    
+
         $url="https://www.nellobytesystems.com/APIWalletBalanceV1.asp";
         $myvars ="UserID=CK10123847&APIKey=W5352Q23GDS924D7UA1B84YYY506178I69DDE4JR1ZRAR80FCBQF819D4T7HKI85";
 
@@ -80,7 +86,7 @@ class HomeController extends Controller
         // Convert JSON string to Array
         //$data['server2'] = json_decode($result);
        // Dump all data of the Array
-       
+
         //$data['server2']=$someArray["balance"]; // Access Array data
 
         /**
@@ -92,7 +98,7 @@ class HomeController extends Controller
         $string= str_replace('!= location)','',$string);
         $string= str_replace('</script>','',$string);
         $data['server2']= str_replace('{ //tof; }','',$string);
-        
+
 
 
 
@@ -107,10 +113,10 @@ class HomeController extends Controller
 
         */
 
-        
 
 
-        
+
+
 
         return view('home', $data);
     }

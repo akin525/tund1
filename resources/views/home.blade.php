@@ -3,207 +3,61 @@
 @section('content')
 <div class="wrapper wrapper-content">
         <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 col-md-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <span class="label label-success pull-right">Monthly</span>
+                                <span class="label label-success pull-right">All Time</span>
                                 <h5>Users</h5>
                             </div>
                             <div class="ibox-content">
                                 <h3 class="no-margins">{{ $total_user ?? 'Active User Calculated' }} | {{ $active_user ?? 'Active User Calculated' }} | {{ $inactive_user ?? 'Inactive User Calculated' }}</h3>
-                                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
+{{--                                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>--}}
                                 <small>Total | Active | Inactive</small>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 col-md-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <span class="label label-info pull-right">Annual</span>
+                                <span class="label label-info pull-right">Current</span>
                                 <h5>Transactions</h5>
                             </div>
                             <div class="ibox-content">
                                 <h3 class="no-margins">{{ $total_transaction ?? 'Total Transactions Calculated' }} | {{ $successful_transaction ?? 'Total Transactions Calculated' }} | {{ $fail_transaction ?? 'Total Transactions Calculated' }}</h3>
-                                <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
+{{--                                <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>--}}
                                 <small>Total | Successful | Unsuccessful</small>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 col-md-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <span class="label label-primary pull-right">Today</span>
-                                <h5>Visits</h5>
+                                <h5>Deposit</h5>
                             </div>
                             <div class="ibox-content">
-                                <h3 class="no-margins">{{ $online_user ?? 'Online User Calculated' }} | {{ $total_deposits ?? 'Total Calculated' }}</h3>
-                                <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>
-                                <small>New visits | Total Deposits</small>
+                                <h3 class="no-margins">{{ $today_deposits ?? 'Today Deposits' }} | {{ $total_deposits ?? 'Total Calculated' }}</h3>
+{{--                                <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>--}}
+                                <small>Today Deposits | Total Deposits</small>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 col-md-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <span class="label label-danger pull-right">Low value</span>
+                                <span class="label label-danger pull-right">All Time</span>
                                 <h5>User Segment</h5>
                             </div>
                             <div class="ibox-content">
                                 <h3 class="no-margins">{{ $client ?? 'Online User Calculated' }} | {{ $agent ?? 'Online User Calculated' }} | {{ $reseller ?? 'Online User Calculated' }}</h3>
-                                <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>
+{{--                                <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>--}}
                                 <small>Clients | Agents | Resellers</small>
                             </div>
                         </div>
             </div>
         </div>
-        <div class="row">
-                    <div class="col-lg-12">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Orders</h5>
-                                <div class="pull-right">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-xs btn-white active">Today</button>
-                                        <button type="button" class="btn btn-xs btn-white">Monthly</button>
-                                        <button type="button" class="btn btn-xs btn-white">Annual</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ibox-content">
-                                <div class="row">
-                                <div class="col-lg-9">
-                                    <div class="flot-chart">
-                                        <div class="flot-chart-content" id="flot-dashboard-chart"></div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <ul class="stat-list">
-                                        <li>
-                                            <h2 class="no-margins">2,346</h2>
-                                            <small>Total orders in period</small>
-                                            <div class="stat-percent">48% <i class="fa fa-level-up text-navy"></i></div>
-                                            <div class="progress progress-mini">
-                                                <div style="width: 48%;" class="progress-bar"></div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <h2 class="no-margins ">4,422</h2>
-                                            <small>Orders in last month</small>
-                                            <div class="stat-percent">60% <i class="fa fa-level-down text-navy"></i></div>
-                                            <div class="progress progress-mini">
-                                                <div style="width: 60%;" class="progress-bar"></div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <h2 class="no-margins ">9,180</h2>
-                                            <small>Monthly income from orders</small>
-                                            <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
-                                            <div class="progress progress-mini">
-                                                <div style="width: 22%;" class="progress-bar"></div>
-                                            </div>
-                                        </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Messages</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                    <a class="close-link">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-content ibox-heading">
-                                <h3><i class="fa fa-envelope-o"></i> New messages</h3>
-                                <small><i class="fa fa-tim"></i> You have 22 new messages and 16 waiting in draft folder.</small>
-                            </div>
-                            <div class="ibox-content">
-                                <div class="feed-activity-list">
-
-                                    <div class="feed-element">
-                                        <div>
-                                            <small class="pull-right text-navy">1m ago</small>
-                                            <strong>Monica Smith</strong>
-                                            <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</div>
-                                            <small class="text-muted">Today 5:60 pm - 12.06.2014</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="feed-element">
-                                        <div>
-                                            <small class="pull-right">2m ago</small>
-                                            <strong>Jogn Angel</strong>
-                                            <div>There are many variations of passages of Lorem Ipsum available</div>
-                                            <small class="text-muted">Today 2:23 pm - 11.06.2014</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="feed-element">
-                                        <div>
-                                            <small class="pull-right">5m ago</small>
-                                            <strong>Jesica Ocean</strong>
-                                            <div>Contrary to popular belief, Lorem Ipsum</div>
-                                            <small class="text-muted">Today 1:00 pm - 08.06.2014</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="feed-element">
-                                        <div>
-                                            <small class="pull-right">5m ago</small>
-                                            <strong>Monica Jackson</strong>
-                                            <div>The generated Lorem Ipsum is therefore </div>
-                                            <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="feed-element">
-                                        <div>
-                                            <small class="pull-right">5m ago</small>
-                                            <strong>Anna Legend</strong>
-                                            <div>All the Lorem Ipsum generators on the Internet tend to repeat </div>
-                                            <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                                        </div>
-                                    </div>
-                                    <div class="feed-element">
-                                        <div>
-                                            <small class="pull-right">5m ago</small>
-                                            <strong>Damian Nowak</strong>
-                                            <div>The standard chunk of Lorem Ipsum used </div>
-                                            <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                                        </div>
-                                    </div>
-                                    <div class="feed-element">
-                                        <div>
-                                            <small class="pull-right">5m ago</small>
-                                            <strong>Gary Smith</strong>
-                                            <div>200 Latin words, combined with a handful</div>
-                                            <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-8">
-
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="ibox float-e-margins">
                                     <div class="ibox-title">
                                         <h5>Payment Channels</h5>
@@ -221,34 +75,34 @@
                                             <thead>
                                             <tr>
                                                 <th>Channel</th>
-                                                <th>Count</th>
-                                                <th>Value</th>
+                                                <th>Total Count</th>
+                                                <th>Today Count</th>
                                                 <th>%</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr> {{$total=$banktransfer + $paystack + $payant + $rave }}
+                                            <tr> <?php $total=$banktransfer + $paystack + $payant + $rave; ?>
                                                 <td><small class="label" style="background-color: #995566; color: white">Bank Transfer</small></td>
                                                 <td><i class="fa fa-clock-o"></i> {{$banktransfer ?? ''}}</td>
-                                                <td></td>
+                                                <td>{{$banktransfer_today ?? ''}}</td>
                                                 <td class="text-navy"> <i class="fa fa-level-up"></i> {{ round(($banktransfer/$total) * 100, 2) }} </td>
                                             </tr>
                                             <tr>
-                                                <td><a class="label" style="background-color: #3333ff; color: white" href="https://dashboard.paystack.com/#/dashboard?period=30">Paystack</a> </td>
+                                                <td><a class="label" style="background-color: #3333ff; color: white">Paystack</a> </td>
                                                 <td><i class="fa fa-clock-o"></i> {{$paystack ?? ''}}</td>
-                                                <td><a>Click Here</a></td>
+                                                <td>{{$paystack_today ?? ''}}</td>
                                                 <td class="text-navy"> <i class="fa fa-level-up"></i> {{ round(($paystack/$total) * 100, 2) }} </td>
                                             </tr>
                                             <tr>
-                                                <td><a href="https://dashboard.payant.ng/" class="label" style="background-color: #000044; color: white">Payant</a> </td>
+                                                <td><a class="label" style="background-color: #000044; color: white">Payant</a> </td>
                                                 <td><i class="fa fa-clock-o"></i> {{$payant ?? ''}}</td>
-                                                <td>{{$payant_value ?? ''}}</td>
+                                                <td>{{$payant_today ?? ''}}</td>
                                                 <td class="text-navy"> <i class="fa fa-level-up"></i> {{ round(($payant/$total) * 100, 2) }} </td>
                                             </tr>
                                             <tr>
-                                                <td><a href="https://rave.flutterwave.com/dashboard/overview/total" class="label label-warning">Rave</a> </td>
+                                                <td><a class="label label-warning">Rave</a> </td>
                                                 <td><i class="fa fa-clock-o"></i> {{$rave ?? ''}}</td>
-                                                <td>{{$rave_value ?? ''}}</td>
+                                                <td>{{$rave_today ?? ''}}</td>
                                                 <td class="text-navy"> <i class="fa fa-level-up"></i> {{ round(($rave/$total ) * 100, 2) }} </td>
                                             </tr>
                                             <tr style="font-weight: bolder;">
@@ -263,10 +117,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+
+                            <div class="col-lg-8">
                                 <div class="ibox float-e-margins">
                                     <div class="ibox-title">
-                                        <h5>Small todo list</h5>
+                                        <h5>Payment todo list</h5>
                                         <div class="ibox-tools">
                                             <a class="collapse-link">
                                                 <i class="fa fa-chevron-up"></i>
@@ -278,37 +133,28 @@
                                     </div>
                                     <div class="ibox-content">
                                         <ul class="todo-list m-t small-list">
+                                            @foreach($walletlogs as $data)
+                                                @if($data->status=='successful')
                                             <li>
                                                 <a href="#" class="check-link"><i class="fa fa-check-square"></i> </a>
-                                                <span class="m-l-xs todo-completed">Buy a milk</span>
+                                                <span class="m-l-xs todo-completed">User Name: {{$data->user_name}}; Channel: {{$data->medium}}; Amount: {{$data->amount}}; </span>
+                                                <small class="label label-primary"><i class="fa fa-clock-o"></i> {{\Carbon\Carbon::parse($data->date)->toFormattedDateString() }} </small>
+                                            </li>
+                                                @elseif($data->status=='cancelled')
+                                            <li>
+                                                <a href="#" class="check-link"><i class="fa fa-check-o"></i> </a>
+                                                <span class="m-l-xs todo-completed">User Name: {{$data->user_name}}; Channel: {{$data->medium}}; Amount: {{$data->amount}};</span>
+                                                <small class="label label-danger"><i class="fa fa-clock-o"></i> {{\Carbon\Carbon::parse($data->date)->toFormattedDateString() }} </small>
+                                            </li>
+                                                @else
+                                            <li>
+                                                <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                                                <span class="m-l-xs">User Name: {{$data->user_name}}; Channel: {{$data->medium}}; Amount: {{$data->amount}};</span>
+                                                <small class="label label-warning"><i class="fa fa-clock-o"></i> {{\Carbon\Carbon::parse($data->date)->toFormattedDateString() }} </small>
+                                            </li>
+                                                @endif
+                                                    @endforeach
 
-                                            </li>
-                                            <li>
-                                                <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                                <span class="m-l-xs">Go to shop and find some products.</span>
-
-                                            </li>
-                                            <li>
-                                                <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                                <span class="m-l-xs">Send documents to Mike</span>
-                                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1 mins</small>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                                <span class="m-l-xs">Go to the doctor dr Smith</span>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="check-link"><i class="fa fa-check-square"></i> </a>
-                                                <span class="m-l-xs todo-completed">Plan vacation</span>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                                <span class="m-l-xs">Create new stuff</span>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                                <span class="m-l-xs">Call to Anna for dinner</span>
-                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -318,7 +164,7 @@
                             <div class="col-lg-12">
                                 <div class="ibox float-e-margins">
                                     <div class="ibox-title">
-                                        <h5>Transactions worldwide</h5>
+                                        <h5>Recent Transactions</h5>
                                         <div class="ibox-tools">
                                             <a class="collapse-link">
                                                 <i class="fa fa-chevron-up"></i>
@@ -352,7 +198,7 @@
                                                         @if ($trans->status =="delivered" || $trans->status =="successful" )
                                                         <td class="text-center"><span class="label label-primary">{{$trans->amount}}</span></td>
                                                         @elseif ($trans->status =="not_delivered" || $trans->status =="cancelled")
-                                                            <td class="text-center"><span class="label label-warning">{{$trans->amount}}</span></td>
+                                                            <td class="text-center"><span class="label label-warning">#{{$trans->amount}}</span></td>
                                                         @endif
                                                         <td class="text-center">{{$trans->i_wallet}}</td>
                                                         <td class="text-center">{{$trans->f_wallet}}</td>
@@ -368,9 +214,5 @@
                             </div>
                         </div>
 
-                    </div>
-
-
-                </div>
-                </div>
+        </div>
 @endsection

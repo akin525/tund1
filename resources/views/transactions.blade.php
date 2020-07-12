@@ -46,7 +46,7 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins">{{$st}}</h1>
-                            <div class="stat-percent font-bold text-success">{{round($st/($st+$ft+$rt) * 100)}}% <i class="fa fa-bolt"></i></div>
+{{--                            <div class="stat-percent font-bold text-success">{{round($st/($st+$ft+$rt)*100 )}}% <i class="fa fa-bolt"></i></div>--}}
                             <small>Total Successful</small>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins">{{$ft}}</h1>
-                            <div class="stat-percent font-bold text-success">{{round($ft/($st+$ft+$rt) * 100)}}% <i class="fa fa-bolt"></i></div>
+{{--                            <div class="stat-percent font-bold text-success">{{round($ft/($st+$ft+$rt) * 100)}}% <i class="fa fa-bolt"></i></div>--}}
                             <small>Total Failed</small>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins">{{$rt}}</h1>
-                            <div class="stat-percent font-bold text-success">{{round($rt/($st+$ft+$rt) * 100)}}% <i class="fa fa-bolt"></i></div>
+{{--                            <div class="stat-percent font-bold text-success">{{round($rt/($st+$ft+$rt) * 100)}}% <i class="fa fa-bolt"></i></div>--}}
                             <small>Total Reversed</small>
                         </div>
                     </div>
@@ -111,10 +111,7 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <div class="">
-                            <a onclick="fnClickAddRow();" href="javascript:void(0);" class="btn btn-primary ">Add a new row</a>
-                        </div>
-                        <table class="table table-striped table-bordered table-hover " id="editable" >
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                             <tr>
                                 <th>id</th>

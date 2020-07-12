@@ -174,7 +174,7 @@ class ServeRequestController extends Controller
                 case "g_max":
                     $tv_type = "GOTV";
                     $tv_package = "GOTVMAX";
-                    $bundle_code = "GOMAX";
+                    $bundle_code = "GOTVMAX";
                     $link = "gotv";
                     $amount = "3280";
                     $tv_type_code = "02";
@@ -602,19 +602,24 @@ class ServeRequestController extends Controller
 
         $result = file_get_contents($url);
 
+        $findme   = 'trans_id';
+        $pos = strpos($result, $findme);
+        // Note our use of ===.  Simply == would not work as expected
+
+         if ($pos !== false) {
+
 //        if ($result == "00") {
             $tran_stat="1";
             $tran_msg=$network." Airtime ".$amnt." Delivered on ".$phone;
 
             echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
 
-//        }else {
-//
-//            $tran_stat="0";
-//            $tran_msg="Unsuccessful ".$network." Airtime ".$amnt." for ".$phone;
-//
-//            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
-//        }
+        }else {
+            $tran_stat="0";
+            $tran_msg="Unsuccessful ".$network." Airtime ".$amnt." for ".$phone;
+
+            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
+        }
     }
 
     public function airtimeProcess2($amnt, $network_code, $network, $phone, $coded, $transid){

@@ -35,10 +35,9 @@
 <body class="gray-bg">
 
     <div class="middle-box text-center loginscreen  animated fadeInDown">
-        <div>
-            <p></p>
-            <div class="animated lightSpeedIn">
-                 <img class="img img-responsive" src="img/mcd_logo.png" />
+        <div style="margin-top: 50px">
+            <div align="center" class="animated lightSpeedIn">
+                 <img class="img img-responsive" width="150px" height="150px" src="img/mcd_logo.png" />
 
             </div>
             <h3>Welcome to Mega Cheap Data</h3>
@@ -63,7 +62,38 @@
                 };
                                         toastr.error('{{ $message }}', 'Login Error' );</script>
                                 @enderror
+
+                    @if (session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            <strong>{{ session('error') }}</strong> Change a few things up and try submitting again.
+                        </div>
+                        <script type="text/javascript">
+                            toastr.options = {
+                                closeButton: true,
+                                progressBar: true,
+                                showMethod: 'slideDown',
+                                timeOut: 4000
+                            };
+                            toastr.error('{{ session('error') }}', 'Login Error' );
+                        </script>
+                    @endif
+
+                    @if (session('success'))
+                        <div class="alert alert-success" role="alert">
+                            <strong>{{ session('success') }}</strong>
+                        </div>
+                        <script type="text/javascript">
+                            toastr.options = {
+                                closeButton: true,
+                                progressBar: true,
+                                showMethod: 'slideDown',
+                                timeOut: 4000
+                            };
+                            toastr.success('{{ session('success') }}', 'Success' );
+                        </script>
+                    @endif
                 </div>
+
                 <div class="form-group">
 
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">

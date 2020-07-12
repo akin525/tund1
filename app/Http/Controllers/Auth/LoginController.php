@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -18,7 +21,52 @@ class LoginController extends Controller
     |
     */
 
+    public function login(Request $request)
+    {
+
+        $input = $request->all();
+
+//        if (Auth::attempt(['email' => $input['email'], 'password' => $input['password'], 'location_id' => $input['location_id']])) {
+        if (Auth::attempt(['email' => $input['email'], 'password' => $input['password']])) {
+            // Authentication passed...
+            if(auth()->user()->status!="admin"){
+                $status=auth()->user()->status;
+
+//                DB::table('audit_trail')->insert(
+//                    ['admin_id' => auth()->user()->id, 'subject' => 'User '.$status, 'action' => 'Login', 'type'=> 'Account', 'ip' => $_SERVER['REMOTE_ADDR'], 'device' => $_SERVER['HTTP_USER_AGENT']]
+//                );
+
+                $this->guard()->logout();
+                $request->session()->invalidate();
+
+                return redirect('/login')->with('error', 'User '.$status.', kindly contact support at '.$loc->email);
+            }else{
+//                DB::table('audit_trail')->insert(
+//                    ['admin_id' => auth()->user()->id, 'subject' => 'Login Successfully', 'action' => 'Login', 'type'=> 'Account', 'ip' => $_SERVER['REMOTE_ADDR'], 'device' => $_SERVER['HTTP_USER_AGENT']]
+//                );
+
+                return redirect()->intended('dashboard');
+            }
+
+        }else{
+            return redirect('/login')->with('error', 'These credentials do not match our records!');
+        }
+    }
+
     use AuthenticatesUsers;
+
+
+    public function authenticate(Request $request)
+    {
+        $credentials = $request->only('email', 'admin_password');
+
+        if (Auth::attempt($credentials)) {
+            // Authentication passed...
+            return redirect()->intended('dashboard');
+        }
+
+        return "not working";
+    }
 
     /**
      * Where to redirect users after login.

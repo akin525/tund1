@@ -18,7 +18,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
 
-        $users = DB::table('tbl_agents')->orderBy('id', 'desc')->limit(1000)->get();
+        $users = DB::table('tbl_agents')->orderBy('id', 'desc')->paginate(1000);
 
         $t_users = DB::table('tbl_agents')->count();
         $ac_users = DB::table('tbl_agents')->where([["wallet",">=","50"], ["fraud","=",""]])->count();
@@ -73,8 +73,11 @@ class UsersController extends Controller
 
     public function profile($user)
     {
+        $ap = User::where('user_name', $user)->first();
 
-//        echo $user;
+        if(!$ap){
+            return redirect('/users')->with("error", "User does not exist");
+        }
 
 //        $users = DB::table('tbl_agents')->where('target', 'like', '%in progress%')->orderBy('id', 'desc')->get();
         $tt = Transaction::where('user_name', $user)->count();
@@ -84,15 +87,12 @@ class UsersController extends Controller
         $wd = DB::table('tbl_wallet')->where('user_name', $user)->orderBy('id', 'desc')->get();
         $tpld = DB::table('tbl_p_nd_l')->where('narration', 'like', '%' . $user . '%')->count();
         $pld = DB::table('tbl_p_nd_l')->where('narration', 'like', '%' . $user . '%')->orderBy('id', 'desc')->get();
-        $ap = User::where('user_name', $user)->first();
         $referrals = User::where('referral', $user)->get();
         $sms = DB::table('tbl_smslog')->where('user_name', $user)->orderBy('id', 'desc')->get();
         $email = DB::table('tbl_emaillog')->where('user_name', $user)->orderBy('id', 'desc')->get();
         $push = DB::table('tbl_pushnotiflog')->where('user_name', $user)->orderBy('id', 'desc')->get();
 
-
         return view('profile', ['user' => $ap, 'tt' => $tt, 'td' => $td, 'tw' => $tw, 'wd' => $wd, 'tpld' => $tpld, 'pld' => $pld, 'referrals' => $referrals, 'version' => $v, 'sms' => $sms, 'email' => $email, 'push'=>$push]);
-
     }
 
     public function approve(Request $request)

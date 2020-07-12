@@ -8,7 +8,7 @@
                     <h2>User List</h2>
                     <ol class="breadcrumb">
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="/">Home</a>
                         </li>
                         <li>
                             <a>User</a>
@@ -96,6 +96,36 @@
                                 <div class="text-center">
                            </div>
 
+                            @if (session('error'))
+                                <div class="alert alert-danger" role="alert">
+                                    <strong>{{ session('error') }}</strong>
+                                </div>
+                                <script type="text/javascript">
+                                    toastr.options = {
+                                        closeButton: true,
+                                        progressBar: true,
+                                        showMethod: 'slideDown',
+                                        timeOut: 4000
+                                    };
+                                    toastr.error('{{ session('error') }}', 'Login Error' );
+                                </script>
+                            @endif
+
+                            @if (session('success'))
+                                <div class="alert alert-success" role="alert">
+                                    <strong>{{ session('success') }}</strong>
+                                </div>
+                                <script type="text/javascript">
+                                    toastr.options = {
+                                        closeButton: true,
+                                        progressBar: true,
+                                        showMethod: 'slideDown',
+                                        timeOut: 4000
+                                    };
+                                    toastr.success('{{ session('success') }}', 'Success' );
+                                </script>
+                            @endif
+
                             <table class="table table-striped table-bordered table-hover dataTables-example" >
                                 <thead>
                                 <tr>
@@ -138,6 +168,7 @@
                                 </tr>
                                 </tfoot>
                             </table>
+                            {{ $users->links() }}
                         </div>
                     </div>
                 </div>

@@ -13,6 +13,11 @@ use Illuminate\Support\Str;
 
 class WalletController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Request $request){
 
         $wallet = DB::table('tbl_wallet')->orderBy('id', 'desc')->limit(500)->get();

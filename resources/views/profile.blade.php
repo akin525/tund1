@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.layouts')
 
 @section('content')
             <div class="row wrapper border-bottom white-bg page-heading">
