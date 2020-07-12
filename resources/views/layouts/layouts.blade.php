@@ -82,7 +82,7 @@
                 <li class="nav-header">
                     <div class="dropdown profile-element"> <span>
                             @if(\Illuminate\Support\Facades\Auth::user()->photo)
-                            <img alt="image" class="img-circle" src="avatar/{{\Illuminate\Support\Facades\Auth::user()->photo}}" />
+                            <img alt="image" class="img-circle" width="50px" height="50px" src="https://mcd.5starcompany.com.ng/app/avatar/{{\Illuminate\Support\Facades\Auth::user()->photo}}" />
                             @else
                                 <img alt="image" class="img-circle" src="img/profile_small.jpg" />
                             @endif
@@ -262,7 +262,7 @@
 
 
                 <li>
-                    <a href="login.html">
+                    <a href="/logout">
                         <i class="fa fa-sign-out"></i> Log out
                     </a>
                 </li>

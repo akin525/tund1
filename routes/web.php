@@ -20,6 +20,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', 'HomeController@index')->name('home');
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/ayomi', 'passwordhash@update');
 //Route::post('/login', 'passwordhash@login');

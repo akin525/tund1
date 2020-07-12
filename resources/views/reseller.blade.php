@@ -7,7 +7,7 @@
             <h2>Resellers</h2>
             <ol class="breadcrumb">
                 <li>
-                    <a href="index.html">Home</a>
+                    <a href="/">Home</a>
                 </li>
                 <li>
                     Users
