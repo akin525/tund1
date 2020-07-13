@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use App\Mail\Notification;
@@ -312,6 +313,7 @@ class UsersController extends Controller
         $input["user_name"]=$input['user_name'];
         $input["i_wallet"]=$user->wallet;
         $input["f_wallet"]=$user->wallet + $amount;
+        $input["extra"]='Initiated by ' . Auth::user()->full_name;
 
         $user->update(["wallet"=> $user->wallet + $amount]);
         Transaction::create($input);

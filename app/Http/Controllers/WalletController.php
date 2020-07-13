@@ -58,6 +58,7 @@ class WalletController extends Controller
                 $input["status"]="successful";
                 $input["date"]=date("y-m-d H:i:s");
                 $input["name"]="wallet funding";
+                $input["extra"]='Initiated by ' . Auth::user()->full_name;
 
                 Transaction::create($input);
 

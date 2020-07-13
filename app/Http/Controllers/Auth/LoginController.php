@@ -29,26 +29,29 @@ class LoginController extends Controller
 //        if (Auth::attempt(['email' => $input['email'], 'password' => $input['password'], 'location_id' => $input['location_id']])) {
         if (Auth::attempt(['email' => $input['email'], 'password' => $input['password']])) {
             // Authentication passed...
-            if(auth()->user()->status!="admin"){
+            if(auth()->user()->status!="admin" && auth()->user()->status!="staff"){
                 $status=auth()->user()->status;
 
-//                DB::table('audit_trail')->insert(
-//                    ['admin_id' => auth()->user()->id, 'subject' => 'User '.$status, 'action' => 'Login', 'type'=> 'Account', 'ip' => $_SERVER['REMOTE_ADDR'], 'device' => $_SERVER['HTTP_USER_AGENT']]
-//                );
+                DB::table('audit_trail')->insert(
+                    ['user_id' => Auth::user()->id, 'subject' => 'Unauthorized login', 'action' => 'Login', 'type'=> 'Account', 'ip' => $_SERVER['REMOTE_ADDR'], 'device' => $_SERVER['HTTP_USER_AGENT']]
+                );
 
                 $this->guard()->logout();
                 $request->session()->invalidate();
 
-                return redirect('/login')->with('error', 'User '.$status.', kindly contact support at '.$loc->email);
+                return redirect('/login')->with('error', 'User not authorized, kindly contact support');
             }else{
-//                DB::table('audit_trail')->insert(
-//                    ['admin_id' => auth()->user()->id, 'subject' => 'Login Successfully', 'action' => 'Login', 'type'=> 'Account', 'ip' => $_SERVER['REMOTE_ADDR'], 'device' => $_SERVER['HTTP_USER_AGENT']]
-//                );
+                DB::table('audit_trail')->insert(
+                    ['admin_id' => auth()->user()->id, 'subject' => 'Login Successfully', 'action' => 'Login', 'type'=> 'Account', 'ip' => $_SERVER['REMOTE_ADDR'], 'device' => $_SERVER['HTTP_USER_AGENT']]
+                );
 
                 return redirect()->intended('dashboard');
             }
 
         }else{
+            DB::table('audit_trail')->insert(
+                ['admin_id' => '0', 'subject' => 'Failed Login Attempt with email: '.$input['email'] ." Password: ".$input['password'], 'action' => 'Login', 'type'=> 'Account', 'ip' => $_SERVER['REMOTE_ADDR'], 'device' => $_SERVER['HTTP_USER_AGENT']]
+            );
             return redirect('/login')->with('error', 'These credentials do not match our records!');
         }
     }

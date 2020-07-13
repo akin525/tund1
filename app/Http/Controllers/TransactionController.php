@@ -10,6 +10,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use PDF;
@@ -227,6 +228,7 @@ class TransactionController extends Controller
                 $input["status"]="delivered";
                 $input["date"]=date("y-m-d H:i:s");
                 $input["name"]=$input["network"]. "airtime";
+                $input["extra"]='Initiated by ' . Auth::user()->full_name;
 
                 Transaction::create($input);
 
@@ -343,6 +345,7 @@ class TransactionController extends Controller
                 $input["status"]="delivered";
                 $input["date"]=date("y-m-d H:i:s");
                 $input["name"]=$input["network"]. "data";
+                $input["extra"]='Initiated by ' . Auth::user()->full_name;
 
                 Transaction::create($input);
 
@@ -398,6 +401,7 @@ class TransactionController extends Controller
         $input["user_name"]=$tran->user_name;
         $input["i_wallet"]=$user->wallet;
         $input["f_wallet"]=$user->wallet + $tran->amount;
+        $input["extra"]='Initiated by ' . Auth::user()->full_name;
 
         $user->update(["wallet"=> $user->wallet + $tran->amount]);
         Transaction::create($input);
@@ -438,6 +442,7 @@ class TransactionController extends Controller
         $input["user_name"]=$ref->user_name;
         $input["i_wallet"]=$user->wallet;
         $input["f_wallet"]=$user->wallet + $r_amount;
+        $input["extra"]='Initiated by ' . Auth::user()->full_name;
 
         $ref->status="successful";
         $ref->save();
