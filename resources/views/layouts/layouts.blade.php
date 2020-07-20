@@ -115,6 +115,7 @@
                     <a href="#"><i class="fa fa-user"></i> <span class="nav-label">User Management</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a href="/users">Users</a></li>
+                        <li><a href="/finduser">Find User</a></li>
                         <li><a href="/agents">Agents</a></li>
                         <li><a href="/pending_request">Pending Request</a></li>
                         <li><a href="/resellers">Resellers</a></li>

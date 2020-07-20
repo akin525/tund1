@@ -72,6 +72,10 @@ class UsersController extends Controller
 
     }
 
+    public function finduser(Request $request){
+        return redirect('/profile/'.$request->get('user_name'));
+    }
+
     public function profile($user)
     {
         $ap = User::where('user_name', $user)->first();

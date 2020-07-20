@@ -48,6 +48,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/monnify', 'TransactionController@monnify')->name('monnify');
 //Route::get('/addfund', 'WalletController@addfund')->name('addfund');
     Route::view('/profile', 'email_agent');
+    Route::view('/finduser', 'find_user');
+//    Route::POST('/finduser', 'UsersController@finduser')->name('finduser');
+    Route::POST('/finduser', 'UsersController@finduser')->name('finduser');
     Route::view('/addfund', 'addfund');
     Route::view('/rechargecard', 'rechargecard');
     Route::post('/addfund', 'WalletController@addfund')->name('addfund');

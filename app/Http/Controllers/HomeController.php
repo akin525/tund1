@@ -53,7 +53,7 @@ class HomeController extends Controller
         $data['rave_today'] = DB::table('tbl_transactions')->where([['code', '=', 'fund_Rave'], ['date', 'LIKE', $today.'%' ]])->count();
         $data['rave_value'] = DB::table('tbl_transactions')->where([['code', '=', 'fund_Rave'],['status', '=', 'successful'],])->sum('amount');
         $data['total_fund'] = DB::table('tbl_transactions')->where('code', '=', 'fund_Payant')->orWhere('code', '=', 'fund_Paystack')->orWhere('code', '=', 'fund_Banktransfer')->orWhere('code', '=', 'fund_Rave')->count();
-        $data['transactions'] = DB::table('tbl_transactions')->orderBy('id', 'DESC')->limit(10)->get();
+        $data['transactions'] = DB::table('tbl_transactions')->orderBy('id', 'DESC')->limit(20)->get();
         $data['users'] = DB::table('tbl_agents')->orderBy('id', 'DESC')->limit(15)->get();
         $data['serverlog'] = DB::table('tbl_severlog')->orderBy('id', 'DESC')->limit(10)->get();
         $data['data'] = DB::table('tbl_transactions')->where([['name', 'like', '%data%'],['status', '=', 'delivered'],])->orWhere([['name', 'like', '%data%'],['status', '=', 'Delivered'],])->orWhere([['name', 'like', '%data%'],['status', '=', 'ORDER_RECEIVED'],])->count();

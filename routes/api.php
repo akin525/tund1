@@ -21,6 +21,7 @@ Route::post('monnify', 'TransactionController@monnify')->name('monnify');
 
 
 Route::group(['namespace' => 'Api'], function () {
+    Route::post('signup', 'AuthenticationController@signup')->name('signup');
     Route::post('paytv', 'ServeRequestController@paytv')->name('paytv')->middleware("server_log");
     Route::post('buyairtime', 'ServeRequestController@buyairtime')->name('buyairtime')->middleware("server_log");
     Route::post('airtime2cash', 'UltilityController@mcd_a2ca2b')->name('mcd_a2ca2b');
