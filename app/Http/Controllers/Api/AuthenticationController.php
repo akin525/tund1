@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\model\Transaction;
+use App\Model\Settings;
+use App\Model\Transaction;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -190,11 +191,33 @@ class AuthenticationController extends Controller
             $user->last_login = $date;
             $user->save();
 
-            $response["total_fund"] =Transaction::where([['user_name',$input['user_name']], ['name', 'wallet funding'], ['status', 'successful']])->count();
-            $response["total_trans"] =Transaction::where([['user_name',$input['user_name']], ['status', 'delivered']])->count();
+            $uinfo['full_name']=$user->full_name;
+            $uinfo['company_name']=$user->company_name;
+            $uinfo['dob']=$user->dob;
+            $uinfo['wallet']=$user->wallet;
+            $uinfo['bonus']=$user->bonus;
+            $uinfo['status']=$user->status;
+            $uinfo['level']=$user->level;
+            $uinfo['photo']=$user->photo;
+            $uinfo['reg_date']=$user->reg_date;
+            $uinfo['target']=$user->target;
+            $uinfo['user_name']=$user->user_name;
+            $uinfo['email']=$user->email;
+            $uinfo['phoneno']=$user->phoneno;
+            $uinfo['gnews']=$user->gnews;
+            $uinfo['fraud']=$user->fraud;
+
+            $uinfo["total_fund"] =Transaction::where([['user_name',$input['user_name']], ['name', 'wallet funding'], ['status', 'successful']])->count();
+            $uinfo["total_trans"] =Transaction::where([['user_name',$input['user_name']], ['status', 'delivered']])->count();
             // get user transactions report from transactions table
 
-            echo "success";
+            $settings=Settings::all();
+            foreach ($settings as $setting){
+                $sett[$setting->name]=$setting->value;
+            }
+            $d=array_merge($uinfo, $sett);
+
+            return response()->json(['success'=> 1, 'message'=>'Login successfully', 'data'=>$d]);
 
         }else{
             // required field is missing
