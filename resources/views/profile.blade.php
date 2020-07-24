@@ -262,11 +262,11 @@
                                                     </a>
                                                     <div class="media-body ">
                                                         <small class="pull-right text-navy">sent</small>
-                                                        <strong>{{$push->response}}</strong>
+                                                        <strong>{{$pus->response}}</strong>
                                                         <p class="m-b-xs">
                                                             {{$pus->message}}
                                                         </p>
-                                                        <small class="text-muted">{{$email->created_at}}</small>
+                                                        <small class="text-muted">{{$pus->created_at}}</small>
                                                     </div>
                                                 </div>
                                             @endforeach
