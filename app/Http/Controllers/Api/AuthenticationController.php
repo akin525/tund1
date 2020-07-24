@@ -154,7 +154,7 @@ class AuthenticationController extends Controller
                 }// finish device checking
             }// end
 
-            if($input['user_name'] != null) {
+            if($input['user_name'] != "null") {
                 $user = User::where('user_name', $input['user_name'])->first();
                 if (!$user){
                     return response()->json(['success'=> 0, 'message'=>'User does not exist']);
@@ -183,7 +183,11 @@ class AuthenticationController extends Controller
                     }
                 }
             }else{
-                return response()->json(['success'=> 0, 'message'=>'DeviceID not found']);
+                if($GLOBALS['found'] == 0) {
+                    return response()->json(['success' => 0, 'message' => 'DeviceID not found']);
+                }else{
+                    return response()->json(['success' => 1, 'message' => 'DeviceID match found', 'user_name'=>$GLOBALS['found_username']]);
+                }
             }
 
             // mysql update row with matched user name
