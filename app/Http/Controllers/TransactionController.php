@@ -143,7 +143,7 @@ class TransactionController extends Controller
 
     public function rechargemanual(Request $request)
     {
-        $user_name="okelabi toyin";
+        $user_name="inyass";
         $quantity=5;
         $network="AIRTEL";
         $amount=100;

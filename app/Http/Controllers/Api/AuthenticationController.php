@@ -160,7 +160,11 @@ class AuthenticationController extends Controller
                     return response()->json(['success'=> 0, 'message'=>'User does not exist']);
                 }
                 if ($user->mcdpassword!=$input['password']){
-                    return response()->json(['success'=> 0, 'message'=>'Invalid credentials supplied']);
+                    if ($user->email!=$input['password']){
+                        return response()->json(['success'=> 0, 'message'=>'Invalid Attempt']);
+                    }else{
+                        return response()->json(['success'=> 0, 'message'=>'Invalid credentials supplied']);
+                    }
                 }
 
                 if($GLOBALS['found'] == 0) {
