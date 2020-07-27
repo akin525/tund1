@@ -26,7 +26,15 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('sociallogin', 'AuthenticationController@social_login')->name('social_login');
     Route::post('updateagent', 'AuthenticationController@updateAgent')->name('updateAgent');
     Route::post('resetpassword', 'AuthenticationController@resetpassword')->name('resetpassword');
+    Route::post('addreferral', 'AuthenticationController@update_referral')->name('update_referral');
+
     Route::post('transactions', 'TransactionsController@getTrans')->name('getTrans');
+    Route::post('getreferrals', 'TransactionsController@getReferrals')->name('getReferrals');
+    Route::post('resultchecker', 'TransactionsController@insertResultchecker')->name('insertResultchecker');
+    Route::post('rechargecard', 'TransactionsController@insertRechargecard')->name('insertRechargecard');
+    Route::post('fundwallet', 'TransactionsController@fundWallet')->name('fundWallet');
+    Route::post('freemoney', 'TransactionsController@insertFreemoney')->name('insertFreemoney');
+
     Route::post('paytv', 'ServeRequestController@paytv')->name('paytv')->middleware("server_log");
     Route::post('buyairtime', 'ServeRequestController@buyairtime')->name('buyairtime')->middleware("server_log");
     Route::post('airtime2cash', 'UltilityController@mcd_a2ca2b')->name('mcd_a2ca2b');

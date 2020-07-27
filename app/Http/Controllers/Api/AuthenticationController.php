@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Model\Settings;
+use App\Model\SocialLogin;
 use App\Model\Transaction;
 use App\User;
 use Illuminate\Http\Request;
@@ -162,8 +163,6 @@ class AuthenticationController extends Controller
                 if ($user->mcdpassword!=$input['password']){
                     if ($user->email!=$input['password']){
                         return response()->json(['success'=> 0, 'message'=>'Invalid Attempt']);
-                    }else{
-                        return response()->json(['success'=> 0, 'message'=>'Invalid credentials supplied']);
                     }
                 }
 
@@ -214,6 +213,8 @@ class AuthenticationController extends Controller
             $uinfo['phoneno']=$user->phoneno;
             $uinfo['gnews']=$user->gnews;
             $uinfo['fraud']=$user->fraud;
+            $uinfo['referral']=$user->referral;
+            $uinfo['account_number']=$user->account_number;
 
             $uinfo["total_fund"] =Transaction::where([['user_name',$input['user_name']], ['name', 'wallet funding'], ['status', 'successful']])->count();
             $uinfo["total_trans"] =Transaction::where([['user_name',$input['user_name']], ['status', 'delivered']])->count();
@@ -323,6 +324,9 @@ class AuthenticationController extends Controller
         $input = $request->all();
         $rules = array(
             'email'      => 'required',
+            'name'      => 'required',
+            'avatar'      => 'required',
+            'accesstoken'      => 'required',
             'version'      => 'required',
             'deviceid'      => 'required');
 
@@ -336,7 +340,42 @@ class AuthenticationController extends Controller
             if (!$user){
                 return response()->json(['success' => 0, 'message' => 'User does not exist']);
             }
-            return response()->json(['success' => 1, 'message' => 'Social login successful']);
+            SocialLogin::create($input);
+
+            // mysql update row with matched user name
+            $date = date("Y-m-d H:i:s");
+            $user->last_login = $date;
+            $user->save();
+
+            $uinfo['full_name']=$user->full_name;
+            $uinfo['company_name']=$user->company_name;
+            $uinfo['dob']=$user->dob;
+            $uinfo['wallet']=$user->wallet;
+            $uinfo['bonus']=$user->bonus;
+            $uinfo['status']=$user->status;
+            $uinfo['level']=$user->level;
+            $uinfo['photo']=$user->photo;
+            $uinfo['reg_date']=$user->reg_date;
+            $uinfo['target']=$user->target;
+            $uinfo['user_name']=$user->user_name;
+            $uinfo['email']=$user->email;
+            $uinfo['phoneno']=$user->phoneno;
+            $uinfo['gnews']=$user->gnews;
+            $uinfo['fraud']=$user->fraud;
+            $uinfo['referral']=$user->referral;
+            $uinfo['account_number']=$user->account_number;
+
+            $uinfo["total_fund"] =Transaction::where([['user_name',$user->user_name], ['name', 'wallet funding'], ['status', 'successful']])->count();
+            $uinfo["total_trans"] =Transaction::where([['user_name',$user->user_name], ['status', 'delivered']])->count();
+            // get user transactions report from transactions table
+
+            $settings=Settings::all();
+            foreach ($settings as $setting){
+                $sett[$setting->name]=$setting->value;
+            }
+            $d=array_merge($uinfo, $sett);
+
+            return response()->json(['success'=> 1, 'message'=>'Social login successful', 'data'=>$d]);
         }else{
             // required field is missing
             // echoing JSON response
