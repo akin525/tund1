@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\model\Transaction;
+use App\Model\Transaction;
 use App\Model\Wallet;
 use App\User;
 use Carbon\Carbon;
