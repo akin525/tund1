@@ -123,6 +123,7 @@ class TransactionsController extends Controller
             $input["i_wallet"]=$user->wallet;
             $email=$input["email"];
             $input['f_wallet']=$input["i_wallet"]-$p;
+            $input['amount']=$p;
 
             $input['description']=$uid." order ".$net."(#". $spec . ") recharge card of ".$qty." quantity with ref ".$ref;
             $input['extra']="qty-".$qty.", net-".$net.", spec-".$spec.", ref-".$ref;
@@ -180,6 +181,7 @@ class TransactionsController extends Controller
             $input["i_wallet"]=$user->wallet;
             $email=$input["email"];
             $input['f_wallet']=$input["i_wallet"]-$p;
+            $input['amount']=$p;
 
             $input['date']=Carbon::now();
             $input['ip_address']=$_SERVER['REMOTE_ADDR'];
