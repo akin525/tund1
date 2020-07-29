@@ -33,7 +33,7 @@ class TransactionsController extends Controller
             }
 
             if($user->status=="admin" || $user->status=="staff"){
-                $trans=Transaction::OrderBy('id', 'desc')->limit(50)->get();
+                $trans=Transaction::OrderBy('id', 'desc')->limit(100)->get();
             }else{
                 $trans=Transaction::where('user_name',$input["user_name"])->OrderBy('id', 'desc')->limit(50)->get();
 
@@ -278,7 +278,7 @@ class TransactionsController extends Controller
 
             // get referrals out
             $referrals=User::where('referral', $input["user_name"])->select('user_name', 'status', 'reg_date')->get();
-            $referrals_count=User::where('referral', $input["user_name"])->select('user_name', 'status', 'reg_date')->count();
+            $referrals_count=User::where('referral', $input["user_name"])->select('user_name', 'status', 'reg_date', 'referral_plan')->count();
 
             if($referrals_count == 0){
                 return response()->json(['success'=> 0, 'message'=>'No referral found']);

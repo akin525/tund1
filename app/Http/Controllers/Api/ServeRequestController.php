@@ -392,6 +392,8 @@ class ServeRequestController extends Controller
                 // required field is missing
                 // echoing JSON response
                 return response()->json(['status'=> 0, 'message'=>'Invalid amount, retry with valid amount.']);
+            }elseif($amnt < 100) {
+                $this->airtimeProcess2($amnt, $network_code, $network, $phone, $coded, $transid);
             }else{
 
                 if($server=='1'){

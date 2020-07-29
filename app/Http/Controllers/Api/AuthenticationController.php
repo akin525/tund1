@@ -416,8 +416,6 @@ class AuthenticationController extends Controller
 
             return response()->json(['success' => 1, 'message' => $referral->user_name . " has been added as your referral successfully"]);
 
-
-            return response()->json(['success' => 1, 'message' => 'Social login successful']);
         }else{
             // required field is missing
             // echoing JSON response
