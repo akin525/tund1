@@ -215,6 +215,7 @@ class AuthenticationController extends Controller
             $uinfo['fraud']=$user->fraud;
             $uinfo['referral']=$user->referral;
             $uinfo['account_number']=$user->account_number;
+            $uinfo['last_login']=$user->last_login;
 
             $uinfo["total_fund"] =Transaction::where([['user_name',$input['user_name']], ['name', 'wallet funding'], ['status', 'successful']])->count();
             $uinfo["total_trans"] =Transaction::where([['user_name',$input['user_name']], ['status', 'delivered']])->count();
@@ -266,7 +267,7 @@ class AuthenticationController extends Controller
                 $resultt = file_put_contents("avatar/" . $photo, $decodedImage);
 
                 $user->full_name = $input['full_name'];
-                $user->biz_name = $input['company_name'];
+                $user->company_name = $input['company_name'];
                 $user->dob = $input['dob'];
                 $user->bvn = $input['bvn'];
                 $user->address = $input['address'];
@@ -291,6 +292,7 @@ class AuthenticationController extends Controller
         $input = $request->all();
         $rules = array(
             'user_name'      => 'required',
+            'email'      => 'required',
             'version'      => 'required',
             'deviceid'      => 'required');
 
@@ -303,6 +305,10 @@ class AuthenticationController extends Controller
             $user=User::where('user_name',$input['user_name'])->first();
             if(!$user){
                 return response()->json(['success' => 0, 'message' => 'User does not exist']);
+            }
+
+            if($input['email'] != $user->email){
+                return response()->json(['success' => 0, 'message' => 'Invalid request detected']);
             }
 
             $user->mcdpassword="";

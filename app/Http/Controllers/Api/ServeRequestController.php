@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Model\SystemSettings;
+use App\model\Transaction;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -738,6 +741,25 @@ class ServeRequestController extends Controller
             echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> 'server 4']);
         }
 
+    }
+
+    public function addtrans($user_name){
+        $user = User::where('user_name', $input["user_name"])->first();
+        if (!$user) {
+            return response()->json(['success' => 0, 'message' => 'User not found']);
+        }
+        $input['description']=$uid." order ".$net."(#". $spec . ") recharge card of ".$qty." quantity with ref ".$ref;
+        $input['extra']="qty-".$qty.", net-".$net.", spec-".$spec.", ref-".$ref;
+        $input['ip_address']=$_SERVER['REMOTE_ADDR'];
+        $input['date']=Carbon::now();
+        $input['name']='Recharge Card';
+        $input['status']='submitted';
+        $input['code']='rcc';
+
+        Transaction::create($input);
+
+        $user->wallet=$input['f_wallet'];
+        $user->save();
     }
 
 }
