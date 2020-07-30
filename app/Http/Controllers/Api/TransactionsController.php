@@ -210,11 +210,7 @@ class TransactionsController extends Controller
         $input = $request->all();
         $rules = array(
             'user_name'      => 'required',
-            'net'      => 'required',
-            'qty'      => 'required',
-            'spec'      => 'required',
-            'price'      => 'required',
-            'ref'      => 'required',
+            'code'      => 'required',
             'i_wallet'      => 'required',
             'version'      => 'required',
             'device_details'      => 'required');
@@ -235,7 +231,6 @@ class TransactionsController extends Controller
             $input['status'] = "rewarded";
             $input['amount']=2;
             $input['description'] = "being payment of free money given to ".$input['user_name'];
-            $input['code'] = 'rc';
             $input['i_wallet'] = $user->wallet;
             $input['f_wallet'] = $input['i_wallet']+$input['amount'];
 

@@ -39,6 +39,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('buyairtime', 'ServeRequestController@buyairtime')->name('buyairtime')->middleware("server_log");
     Route::post('airtime2cash', 'UltilityController@mcd_a2ca2b')->name('mcd_a2ca2b');
     Route::post('log_mcdvoice', 'UltilityController@mcd_logvoice')->name('logvoice');
+
+    Route::post('hook/mcdassistant', 'UltilityController@assistantHook')->name('assistantHook');
     Route::post('hook', 'UltilityController@hook')->name('hook');
     Route::post('hook/monnify', 'UltilityController@monnifyhook')->name('monnifyhook');
     Route::get('ra/{id}', 'UltilityController@monnifyRA')->name('monnifyRA');
