@@ -8,6 +8,7 @@ use App\model\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ServeRequestController extends Controller
@@ -51,6 +52,7 @@ class ServeRequestController extends Controller
             if ($api != "mcd_app_9876234875356148750") {
                 return response()->json(['status' => 0, 'message' => 'Error, invalid request']);
             }
+                $sys=DB::table("tbl_serverconfig_tv")->where('name','=','tv')->first();
 
             switch ($coded) {
                 case "d_access":
@@ -62,6 +64,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "14";
                     $tv_package_code = "01";
                     $service_id = "14";
+                    $server=$sys->dstv;
                     break;
 
                 case "d_yanga":
@@ -73,6 +76,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "14";
                     $tv_package_code = "01";
                     $service_id = "14";
+                    $server=$sys->dstv;
                     break;
 
                     case "d_confam":
@@ -84,6 +88,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "14";
                     $tv_package_code = "01";
                     $service_id = "14";
+                    $server=$sys->dstv;
                     break;
 
                 case "d_family":
@@ -95,6 +100,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "01";
                     $tv_package_code = "02";
                     $service_id = "14";
+                    $server=$sys->dstv;
                     break;
 
                 case "d_compact":
@@ -106,6 +112,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "01";
                     $tv_package_code = "03";
                     $service_id = "14";
+                    $server=$sys->dstv;
                     break;
 
                 case "d_compactplus":
@@ -117,6 +124,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "01";
                     $tv_package_code = "04";
                     $service_id = "14";
+                    $server=$sys->dstv;
                     break;
 
                 case "g_lite":
@@ -128,6 +136,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "02";
                     $tv_package_code = "01";
                     $service_id = "15";
+                    $server=$sys->gotv;
                     break;
 
                 case "g_jinja":
@@ -139,6 +148,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "02";
 //                $tv_package_code="02";
                     $service_id = "15";
+                    $server=$sys->gotv;
                     break;
 
                 case "g_jolli":
@@ -150,6 +160,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "02";
 //                $tv_package_code="02";
                     $service_id = "15";
+                    $server=$sys->gotv;
                     break;
 
                 case "g_value":
@@ -161,6 +172,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "02";
                     $tv_package_code = "02";
                     $service_id = "15";
+                    $server=$sys->gotv;
                     break;
 
                 case "g_plus":
@@ -172,6 +184,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "02";
                     $tv_package_code = "03";
                     $service_id = "15";
+                    $server=$sys->gotv;
                     break;
 
                 case "g_max":
@@ -183,6 +196,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "02";
                     $tv_package_code = "04";
                     $service_id = "15";
+                    $server=$sys->gotv;
                     break;
 
 
@@ -195,6 +209,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "03";
                     $tv_package_code = "01";
                     $service_id = "16";
+                    $server=$sys->startimes;
                     break;
 
                 case "s_basic":
@@ -206,6 +221,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "03";
                     $tv_package_code = "02";
                     $service_id = "16";
+                    $server=$sys->startimes;
                     break;
 
                 case "s_smart":
@@ -217,6 +233,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "03";
                     $tv_package_code = "03";
                     $service_id = "16";
+                    $server=$sys->startimes;
                     break;
 
                 case "s_classic":
@@ -228,6 +245,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "03";
                     $tv_package_code = "04";
                     $service_id = "16";
+                    $server=$sys->startimes;
                     break;
 
                 case "s_unique":
@@ -238,6 +256,7 @@ class ServeRequestController extends Controller
                     $tv_type_code = "03";
                     $tv_package_code = "05";
                     $service_id = "16";
+                    $server=$sys->startimes;
                     break;
 
                 default:
@@ -250,16 +269,16 @@ class ServeRequestController extends Controller
                 return response()->json(['status' => 0, 'message' => 'Error, invalid request check and try again']);
             }
 
-            if ($tv_type == "DSTV") {
-                $this->paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
+            if($server==0){
+                $this->Process0($coded, $amount, $tv_type,$phone,$transid,$input);
             }
 
-            if ($tv_type == "STARTIMES") {
-                $this->paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
+            if($server==1){
+                $this->paytvProcess($amount, $tv_package, $link, $tv_type, $phone,$transid, $input);
             }
 
-            if ($tv_type == "GOTV") {
-                $this->paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type);
+            if($server==4){
+                $this->paytvProcess4($service_id, $phone, $bundle_code, $amount, $transid, $input);
             }
 
             }catch(\Exception $e){
@@ -271,6 +290,57 @@ class ServeRequestController extends Controller
             return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
         }
 
+    }
+
+    public function buydata(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'user_name' => 'required',
+            'api' => 'required',
+            'coded' => 'required',
+            'phone' => 'required',
+            'transid' => 'required');
+
+        $validator = Validator::make($input, $rules);
+
+        if ($validator->passes()) {
+            try {
+            $api = $input['api'];
+            $coded = $input['coded'];
+            $phone = $input['phone'];
+            $transid = $input['transid'];
+
+            if ($api != "mcd_app_9876234875356148750") {
+                return response()->json(['status' => 0, 'message' => 'Error, invalid request']);
+            }
+
+            $dbc=DB::table("tbl_serverconfig_data")->where('coded', $coded)->first();
+
+            if (!$dbc) {
+                return response()->json(['status' => 0, 'message' => 'Error, invalid request check and try again']);
+            }
+
+            if($dbc->server==0){
+                $this->Process0($coded,$dbc->price, $dbc->network,$phone,$transid,$input);
+            }
+
+            if($dbc->server==1){
+                $this->dataProcess($dbc->price, $dbc->product_code, $dbc->network, $coded, $phone,$transid, $input);
+            }
+
+            if($dbc->server==2){
+                $this->dataProcess2($dbc->dataplan, $dbc->network_code, $dbc->network, $phone,$transid,$dbc->price, $input);
+            }
+
+            }catch(\Exception $e){
+                dd($e);
+                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
+            }
+
+        }else{
+            return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
+        }
     }
 
 
@@ -288,35 +358,18 @@ class ServeRequestController extends Controller
         $validator = Validator::make($input, $rules);
 
         if ($validator->passes()) {
-
-            /*httpParams . put("api", "mcd_app_9876234875356148750");
-            httpParams . put("coded", getIntent() . getStringExtra("code"));
-            httpParams . put("phone", phone . getText() . toString());
-            httpParams . put("service", "paytv");
-            httpParams . put("user_name", sharedpreferences . getString(myJson . user_name, "nt/p"));
-            httpParams . put("wallet", sharedpreferences . getString(myJson . wallet, "nt/p"));
-            httpParams . put("deviceid", ansJson . androidId);
-            httpParams . put("version", NavigationDrawerConstants . version);
-            httpParams . put("transid", ref);*/
-
             try {
-
                 $api = $input['api'];
                 $coded = $input['coded'];
                 $phone = $input['phone'];
                 $amnt = $input['amount'];
-                $service = $input['service'];
-                $user_name = $input['user_name'];
-                $wallet = $input['wallet'];
-                $deviceid = $input['deviceid'];
-                $version = $input['version'];
                 $transid = $input['transid'];
 
                 if ($api != "mcd_app_9876234875356148750") {
                     return response()->json(['status'=> 0, 'message'=>'Error, invalid request']);
                 }
 
-                $sys=SystemSettings::where('name','=','airtime')->first();
+                $sys=DB::table("tbl_serverconfig_airtime")->where('name','=','airtime')->first();
 
         switch ($coded){
             case "m":
@@ -393,28 +446,23 @@ class ServeRequestController extends Controller
                 // echoing JSON response
                 return response()->json(['status'=> 0, 'message'=>'Invalid amount, retry with valid amount.']);
             }elseif($amnt < 100) {
-                $this->airtimeProcess2($amnt, $network_code, $network, $phone, $coded, $transid);
+                $this->airtimeProcess2($amnt, $network_code, $phone, $transid, $input);
             }else{
 
                 if($server=='1'){
-                    $this->airtimeProcess($amnt, $network, $coded, $phone, $transid);
+                    $this->airtimeProcess($amnt, $network, $phone, $transid, $input);
                 }elseif ($server=='1b'){
-                    $this->airtimeProcess1b($amnt, $network, $coded, $phone,$transid);
+                    $this->airtimeProcess1b($amnt, $network, $phone,$transid, $input);
                 }elseif ($server=='2'){
-                    $this->airtimeProcess2($amnt, $network_code, $network, $phone, $coded, $transid);
+                    $this->airtimeProcess2($amnt, $network_code, $phone, $transid, $input);
                 }elseif ($server=='3'){
-                    $this->airtimeProcess3($amnt, $network, $coded, $phone);
+                    $this->airtimeProcess3($amnt, $network, $phone,$transid, $input);
                 }elseif ($server=='4'){
-                    $this->airtimeProcess4($amnt, $service_id, $phone, $network, $coded);
+                    $this->airtimeProcess4($amnt, $service_id, $phone, $input);
+                }else{
+                    $this->Process0($coded,$amnt,$network,$phone,$transid,$input);
                 }
-
-//                if($service_id=="6"){
-//                    $this->airtimeProcess2($amnt, $network_code, $network, $phone, $coded);
-//                }else{
-//                    $this->airtimeProcess4($amnt, $service_id, $phone, $network, $coded);
-//                }
             }
-
             }catch(\Exception $e){
                 dd($e);
                 return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
@@ -423,10 +471,9 @@ class ServeRequestController extends Controller
         }else{
             return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
         }
-
     }
 
-    public function paytvProcess4($service_id, $phone, $bundle_code, $amount, $coded, $tv_type)
+    public function paytvProcess4($service_id, $phone, $bundle_code, $amount,$transid,$input)
     {
         $curl = curl_init();
 
@@ -494,39 +541,29 @@ class ServeRequestController extends Controller
             ),
         ));
 
-        $response = curl_exec($curl);
+        $respons = curl_exec($curl);
         curl_close($curl);
-        $response = json_decode($response, true);
+        $response = json_decode($respons, true);
         $status = $response['status'];
 
-        if ($status == "success") {
-            $tran_stat = "1";
-            $tran_msg = "Package " . $coded . " Delivered on " . $phone;
-
-            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
-        } else {
-            $tran_stat = "0";
-            $tran_msg = "Unsuccessful Order " . $coded . " for " . $phone;
-
-            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
+        if($status == "success"){
+            $this->addtrans("server4",$respons,$amount,1,$transid,$input);
+        }else {
+            $this->addtrans("server4",$respons,$amount,0,$transid,$input);
         }
     }
 
-    function paytvProcess($amnt, $tv_package, $link, $tv_type, $coded, $phone){
-        $ref=date('ymdhis');
-//start of checking
-        $url="https://mobilenig.com/api/bills/user_check?username=samji10&password=Emmanuel@10&service=".$tv_type."&number=".$phone;
+    function paytvProcess($amnt, $tv_package, $link, $tv_type, $phone, $transid, $input){
+        $url=env('SERVER1_TV')."user_check".env('SERVER1_CRED')."&service=".$tv_type."&number=".$phone;
         // Perform initialize to validate name on server
-
-        $result = file_get_contents($url);
-        echo $result;
+        $resul = file_get_contents($url);
         $findme   = 'accountStatus';
-        $pos = strpos($result, $findme);
-        $arr = json_decode($result, true);
+        $pos = strpos($resul, $findme);
+        $arr = json_decode($resul, true);
         // Note our use of ===.  Simply == would not work as expected
         if ($pos === false) {
             $findme   = 'billAmount';
-            $pos = strpos($result, $findme);
+            $pos = strpos($resul, $findme);
 
             if ($pos === false) {
                 $GLOBALS['success'] = 0;
@@ -535,7 +572,7 @@ class ServeRequestController extends Controller
                 if($arr["details"]["returnCode"]==0){
                     // Print a single value
                     $GLOBALS['success'] = 1;
-                    $GLOBALS['customer_name'] ="samji";
+                    $GLOBALS['customer_name'] =$arr["details"]["customerName"];
                     $GLOBALS['customer_number'] = $arr["details"]["customerNumber"];
                 }else{
                     $GLOBALS['success'] = 0;
@@ -545,144 +582,138 @@ class ServeRequestController extends Controller
         } else {
             // Print a single value
             $GLOBALS['success'] = 1;
-            $GLOBALS['customer_name'] = "samji";
+            $GLOBALS['customer_name'] = $arr["details"]["lastName"];
             $GLOBALS['customer_number'] = $arr["details"]["customerNumber"];
         }
 
 //begining of buying
         if($GLOBALS['success'] ==1){
-            $url="https://mobilenig.com/api/bills/".$link."?username=samji10&password=Emmanuel@10&smartno=".$phone."&product_code=".$tv_package."&customer_name=".$GLOBALS['customer_name']."&customer_number=".$GLOBALS['customer_number']."&ref=".$ref."&amount=".$amnt;
-
+            $url=env('SERVER1_TV').$link.env('SERVER1_CRED')."&smartno=".$phone."&product_code=".$tv_package."&customer_name=".$GLOBALS['customer_name']."&customer_number=".$GLOBALS['customer_number']."&trans_id=".$transid."&price=".$amnt;
             $result = file_get_contents($url);
 
-            if ($result == "00") {
-                $tran_stat="1";
-                $tran_msg="Package ".$coded." Delivered on ".$phone;
+            $findme   = 'service';
+            $pos = strpos($result, $findme);
+            // Note our use of ===.  Simply == would not work as expected
 
-                echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
+            if ($pos !== false) {
+                $this->addtrans("server1",$result,$amnt,1, $transid,$input);
             }else {
-
-                $tran_stat="0";
-                $tran_msg="Unsuccessful Order ".$coded." for ".$phone;
-
-                echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
+                $this->addtrans("server1",$result,$amnt,0, $transid,$input);
             }
         }else{
-            $tran_stat="0";
-            $tran_msg="Unsuccessful Order ".$coded." for ".$phone;
-
-                    echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'service'=> $tv_type, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 4"]);
-
-
-//            echo '{"success":'.$tran_stat.',"message":"'.$tran_msg.'", "service":"'.$tv_type.'","number":"'.$phone.'","order_code":"'.$coded.'", "server":"server 1"}';
+            $this->addtrans("server1",$resul,$amnt,0, $transid,$input);
         }
     }
 
-    public function airtimeProcess($amnt, $network, $coded, $phone, $transid){
-        $ref=date('ymdhis');
+    public function Process0($coded,$amnt, $network, $phone, $transid, $input){
+        $message=$coded . " | " . $phone . " | ". $amnt. " | " .$network;
 
-        $url=env("SERVER1")."&network=".$network."&phoneNumber=".$phone."&amount=".$amnt."&ref=".$transid;
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS =>"{\n\"to\": \"/topics/samji\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"MCD Data Purchase Notification\",\n\t\"text\":\"". $message."\"\n\t}\n}\n",
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: key=AAAAOW0II6E:APA91bHyum5pMhub2JVHcHnQghuWOdktOuhW9e4ZvmMDudjMZk9y1u71Nr7yl_FZLpsjuC6Hz1Fd49OrWfPYNKpAvahAZ5Rjv0y7IW24nqjYrPnMer8IvTkzZFB5W3hrOHAwbq2EOMOE",
+                "Content-Type: application/json",
+                "Content-Type: text/plain"
+            ),
+        ));
+        curl_exec($curl);
 
-        $result = file_get_contents($url);
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS =>"{\n\"to\": \"/topics/videx\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"MCD Data Purchase Notification\",\n\t\"text\":\"". $message."\"\n\t}\n}\n",
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: key=AAAAOW0II6E:APA91bHyum5pMhub2JVHcHnQghuWOdktOuhW9e4ZvmMDudjMZk9y1u71Nr7yl_FZLpsjuC6Hz1Fd49OrWfPYNKpAvahAZ5Rjv0y7IW24nqjYrPnMer8IvTkzZFB5W3hrOHAwbq2EOMOE",
+                "Content-Type: application/json",
+                "Content-Type: text/plain"
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
 
-        if ($result == "00") {
-            $tran_stat="1";
-            $tran_msg=$network." Airtime ".$amnt." Delivered on ".$phone;
-
-            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
-
-        }else {
-
-            $tran_stat="0";
-            $tran_msg="Unsuccessful ".$network." Airtime ".$amnt." for ".$phone;
-
-            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
-        }
+        $this->addtrans("server0",$response,$amnt,1, $transid,$input);
     }
 
-    public function airtimeProcess1b($amnt, $network, $coded, $phone, $transid){
-        $ref=date('ymdhis');
-
-        $url=env("SERVER1b")."&network=".$network."&phoneNumber=".$phone."&amount=".$amnt."&trans_id=".$transid."&return_url=https://admin-mcd.5starcompany.com.ng/api/hook";
-
+    public function airtimeProcess($amnt, $network, $phone, $transid, $input){
+        $url=env("SERVER1")."&network=".$network."&phoneNumber=".$phone."&amount=".$amnt."&trans_id=".$transid;
         $result = file_get_contents($url);
 
         $findme   = 'trans_id';
         $pos = strpos($result, $findme);
         // Note our use of ===.  Simply == would not work as expected
 
-         if ($pos !== false) {
-
-//        if ($result == "00") {
-            $tran_stat="1";
-            $tran_msg=$network." Airtime ".$amnt." Delivered on ".$phone;
-
-            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
-
+        if ($pos !== false) {
+            $this->addtrans("server1",$result,$amnt,1, $transid,$input);
         }else {
-            $tran_stat="0";
-            $tran_msg="Unsuccessful ".$network." Airtime ".$amnt." for ".$phone;
-
-            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 1"]);
+            $this->addtrans("server1",$result,$amnt,0, $transid,$input);
         }
     }
 
-    public function airtimeProcess2($amnt, $network_code, $network, $phone, $coded, $transid){
+    public function airtimeProcess1b($amnt, $network, $phone, $transid, $input){
+
+        $url=env("SERVER1b")."&network=".$network."&phoneNumber=".$phone."&amount=".$amnt."&trans_id=".$transid."&return_url=https://superadmin.mcd.5starcompany.com.ng/api/hook";
+        $result = file_get_contents($url);
+
+        $findme   = 'trans_id';
+        $pos = strpos($result, $findme);
+        // Note our use of ===.  Simply == would not work as expected
+
+        if ($pos !== false) {
+             $this->addtrans("server1b",$amnt,1,$transid,$input);
+        }else {
+             $this->addtrans("server1b",$amnt,1,$transid,$input);
+        }
+    }
+
+    public function airtimeProcess2($amnt, $network_code, $phone, $transid, $input){
 //01 for MTN, 02 for Glo, 03 for Etisalat, 04 for Airtel
 
         $url=env("SERVER2")."&MobileNetwork=".$network_code."&Amount=".$amnt."&MobileNumber=".$phone."&RequestID=".$transid."&CallBackURL=https://www.5starcompany.com.ng";
-
         // Perform transaction/initialize on our server to buy
-
-        $result = file_get_contents($url);
+        $resul = file_get_contents($url);
 
         // Convert JSON string to Array
-        $someArray = json_decode($result, true);
+        $someArray = json_decode($resul, true);
         // Dump all data of the Array
         $result=$someArray["status"]; // Access Array data
 
         if ($result == "ORDER_RECEIVED" || $result == "ORDER_COMPLETED") {
-            $tran_stat="1";
-            $tran_msg="Airtime ".$coded." Delivered on ".$phone;
-
-            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
-
-        }else if ($result == "INVALID_RECIPIENT") {
-            $tran_stat="0";
-            $tran_msg="An invalid mobile phone number was entered (".$phone. ")";
-
-            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
+            $this->addtrans("server2",$resul,$amnt,1,$someArray["orderid"],$input);
         }else {
-
-            $tran_stat="0";
-            $tran_msg="Unsuccessful Order ".$coded." for ".$phone;
-
-            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 2"]);
+            $this->addtrans("server2",$resul,$amnt,0,$someArray["orderid"],$input);
         }
     } //ending function
 
-    public function airtimeProcess3($amnt, $network, $coded, $phone)
+    public function airtimeProcess3($amnt, $network, $phone, $transid, $input)
     {
-        $url = env("SERVER3")."&network=" . $network . "&number=" . $phone . "&amount=" . $amnt;
-
+        $url = env("SERVER3")."&network=" . $network . "&number=" . $phone . "&amount=" . $amnt."&ref=".$transid;
         $result = file_get_contents($url);
+
         if ($result == "00") {
-            $tran_stat = "1";
-            $tran_msg = $network . " Airtime " . $amnt . " Delivered on " . $phone;
-
-            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 3"]);
+            $this->addtrans("server3",$result,$amnt,1,$transid,$input);
         } else {
-
-            $tran_stat = "0";
-            $tran_msg = "Unsuccessful " . $network . " Airtime " . $amnt . " for " . $phone;
-
-            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> "server 3"]);
+            $this->addtrans("server3",$result,$amnt,0,$transid,$input);
         }
     }
 
 
 
-    public function airtimeProcess4($amnt, $service_id, $phone, $network, $coded)
+    public function airtimeProcess4($amnt, $service_id, $phone, $input)
     {
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -716,7 +747,7 @@ class ServeRequestController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n  \"amount\": \"".$amnt."\",\n  \"service_category_id\": \"" . $service_id . "\",\n  \"phonenumber\": \"" . $phone . "\",\n  \"status_url\": \"https://admin-mcd.5starcompany.com.ng/api/hook\"\n}",
+            CURLOPT_POSTFIELDS => "{\n  \"amount\": \"".$amnt."\",\n  \"service_category_id\": \"" . $service_id . "\",\n  \"phonenumber\": \"" . $phone . "\",\n  \"status_url\": \"https://superadmin.mcd.5starcompany.com.ng/api/hook\"\n}",
             CURLOPT_HTTPHEADER => array(
                 "Authorization: " . $token,
                 "Content-Type: application/json",
@@ -724,44 +755,164 @@ class ServeRequestController extends Controller
             ),
         ));
 
-        $response = curl_exec($curl);
+        $respons = curl_exec($curl);
 
         curl_close($curl);
-        $response = json_decode($response, true);
+        $response = json_decode($respons, true);
         $status = $response['status'];
 
         if($status == "success"){
-            $tran_stat = 1;
-            $tran_msg = $network . " Airtime " . $amnt . " Delivered on " . $phone;
-
-            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> 'server 4']);
+            $this->addtrans("server4",$respons,$amnt,1,$response->transaction->response_payload->data->data->ref_code,$input);
         }else {
-
-            $tran_stat = 0;
-            $tran_msg = "Unsuccessful " . $network . " Airtime " . $amnt . " for " . $phone;
-
-            echo json_encode(['success' => $tran_stat, 'message' => $tran_msg, 'network'=> $network, 'number'=> $phone, 'order_code'=> $coded, 'server'=> 'server 4']);
+            $this->addtrans("server4",$respons,$amnt,0,$response->transaction->response_payload->data->data->ref_code,$input);
         }
-
     }
 
-    public function addtrans($user_name){
-        $user = User::where('user_name', $input["user_name"])->first();
-        if (!$user) {
-            return response()->json(['success' => 0, 'message' => 'User not found']);
+    function dataProcess($price, $productcode, $network, $phone, $transid, $input){
+        $url= "&network=".$network."&phoneNumber=".$phone."&price=".$price."&product_code=".$productcode."&trans_id=".$transid."&return_url=https://superadmin.mcd.5starcompany.com.ng/api/hook";
+        $result = file_get_contents($url);
+
+        $findme='trans_id';
+        $pos = strpos($result, $findme);
+        // Note our use of ===.  Simply == would not work as expected
+
+        if ($pos !== false) {
+            $this->addtrans("server1",$result,$price,1,$transid,$input);
+        }else {
+            $this->addtrans("server1",$result,$price,0,$transid,$input);
         }
-        $input['description']=$uid." order ".$net."(#". $spec . ") recharge card of ".$qty." quantity with ref ".$ref;
-        $input['extra']="qty-".$qty.", net-".$net.", spec-".$spec.", ref-".$ref;
-        $input['ip_address']=$_SERVER['REMOTE_ADDR'];
-        $input['date']=Carbon::now();
-        $input['name']='Recharge Card';
-        $input['status']='submitted';
-        $input['code']='rcc';
+    } //ending function
 
-        Transaction::create($input);
 
-        $user->wallet=$input['f_wallet'];
-        $user->save();
+    function dataProcess2($dataplan, $network_code, $network, $phone, $transid, $price, $input){
+//01 for MTN, 02 for Glo, 03 for Etisalat, 04 for Airtel
+
+        $url=env("SERVER2_DATA")."&MobileNetwork=".$network_code."&DataPlan=".$dataplan."&MobileNumber=".$phone."&RequestID=".$transid."&CallBackURL=https://superadmin.mcd.5starcompany.com.ng/api/hook";
+        // Perform transaction/initialize on our server to buy
+        $resul = file_get_contents($url);
+
+        // Convert JSON string to Array
+        $someArray = json_decode($resul, true);
+        // Dump all data of the Array
+        $result=$someArray["status"]; // Access Array data
+
+        if ($result == "ORDER_RECEIVED" || $result == "ORDER_COMPLETED") {
+            $this->addtrans("server2",$resul,$price,1,$someArray["orderid"],$input);
+        }else {
+            $this->addtrans("server2",$resul,$price,0,$someArray["orderid"],$input);
+        }
+    } //ending function dataprocess2
+
+    function dataProcess3($price, $network, $phone, $transid, $input){
+
+        $url=env("SERVER3_DATA") ."&network=".$network."&number=".$phone."&amount=".$price."&ref=".$transid."&return_url=http://minitechs.com.ng/buydata.php";
+        $result = file_get_contents($url);
+
+        if ($result == "00") {
+            $this->addtrans("server3",$result,$price,1,$transid,$input);
+        }else {
+            $this->addtrans("server3",$result,$price,0,$transid,$input);
+        }
+    } //ending function
+
+    public function addtrans($server,$server_response, $price, $status, $orderid, $input ){
+        $user = User::where('user_name', $input["user_name"])->first();
+        if(!$user) {
+            echo json_encode(['success' => 0, 'message' => 'User not found']);
+        }
+            if(isset($input['device_details'])){
+                $tr['device_details'] = $input['device_details'];
+            }else{
+                $tr['device_details']="";
+            }
+
+        if($input['service']=="airtime") {
+            $a = $price * 0.02;
+            $price = $price - $a;
+        }
+
+            $tr['name']=strtoupper($input['network']).$input['service'];
+            $tr['amount']=$price;
+            $tr['date']=Carbon::now();
+            $tr['ip_address']=$_SERVER['REMOTE_ADDR'];
+            $tr['i_wallet']=$user->wallet;
+            $tr['user_name']=$input['user_name'];
+            $tr['ref']=$orderid;
+            $tr['code']=$input['service']."_".$input['coded'];
+            $tr['server']=$server;
+            $tr['server_response']=$server_response;
+
+            if($status==1){
+                if($input['service']=="airtime"){
+                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime delivered on ".$input['phone'] ." with reference number -> ".$input['transid'];
+                }else{
+                    $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." delivered on ".$input['phone'] ." with reference number -> ".$input['transid'];
+                }
+                $tr['f_wallet']=$user->wallet - $price;
+                $tr['status']='delivered';
+            }
+
+            if($status==0){
+                if($input['service']=="airtime"){
+                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime failed to delivered on ".$input['phone'] ." with reference number -> ".$input['transid'];
+                }else{
+                    $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." failed to delivered on ".$input['phone'] ." with reference number -> ".$input['transid'];
+                }
+
+                $tr['f_wallet']=$user->wallet;
+                $tr['status']='cancelled';
+            }
+
+            Transaction::create($tr);
+
+            $user->wallet=$tr['f_wallet'];
+            $user->save();
+
+            if($status==1){
+                if($user->referral!=""){
+                    $ruser=User::where('user_name',$user->referral)->first();
+
+                    if($ruser->referral_plan=="free" ){
+                        $data=5;
+                        $airtime=0.002;
+                        $paytv=0.003;
+                    }elseif($ruser->referral_plan=="larvae"){
+                        $data=10;
+                        $airtime=0.005;
+                        $paytv=0.004;
+                    }elseif($ruser->referral_plan=="butterfly"){
+                        $data=15;
+                        $airtime=0.01;
+                        $paytv=0.005;
+                    }
+
+                    if($input['service']=="airtime") {
+                        $am=$price * $airtime;
+                        $amount=round($am);
+                    }else if($input['service']=="data"){
+                        $amount=$data;
+                    }else if($input['service']=="paytv"){
+                        $am=$price * $paytv;
+                        $amount=roud($am);
+                    }
+
+                    if($amount>0){
+                        $tr['description']=$ruser->referral_plan . " referral bonus on ".$tr['description'];
+                        $tr['code']="rc_".$input['service']."_".$input['coded'];;
+                        $tr['amount']=$amount;
+                        $tr['status']="successful";
+                        $tr['user_name']=$ruser->user_name;
+                        $tr['i_wallet']=$ruser->wallet;
+                        $tr['f_wallet']=$ruser->wallet + $amount;
+                        Transaction::create($tr);
+
+                        $ruser->wallet=$tr['f_wallet'];
+                        $ruser->save();
+                    }
+                }
+            }
+
+        echo json_encode(['status'=> $status, 'message'=>'Transaction executed successfully']);
     }
 
 }

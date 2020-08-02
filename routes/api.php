@@ -37,6 +37,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::post('paytv', 'ServeRequestController@paytv')->name('paytv')->middleware("server_log");
     Route::post('buyairtime', 'ServeRequestController@buyairtime')->name('buyairtime')->middleware("server_log");
+    Route::post('buydata', 'ServeRequestController@buydata')->name('buydata')->middleware("server_log");
     Route::post('airtime2cash', 'UltilityController@mcd_a2ca2b')->name('mcd_a2ca2b');
     Route::post('log_mcdvoice', 'UltilityController@mcd_logvoice')->name('logvoice');
 

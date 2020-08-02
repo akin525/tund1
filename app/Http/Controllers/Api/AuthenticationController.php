@@ -266,7 +266,7 @@ class AuthenticationController extends Controller
                 $photo = $input["user_name"] . ".JPG";
 
                 $decodedImage = base64_decode("$image");
-                file_put_contents(storage_path("avatar/") . $photo, $decodedImage);
+                file_put_contents(storage_path("app/public/avatar/". $photo) , $decodedImage);
 
                 $user->full_name = $input['full_name'];
                 $user->company_name = $input['company_name'];
@@ -275,6 +275,7 @@ class AuthenticationController extends Controller
                 $user->address = $input['address'];
                 $user->target = $input["request"] . " in progress...";
                 $user->photo = $input["user_name"] . ".JPG";
+                $user->note = $input["note"];
                 $user->save();
 
                 return response()->json(['success' => 1, 'message' => 'Data submitted successfully, kindly check your mail for progress']);

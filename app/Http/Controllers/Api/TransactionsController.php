@@ -272,8 +272,8 @@ class TransactionsController extends Controller
             }
 
             // get referrals out
-            $referrals=User::where('referral', $input["user_name"])->select('user_name', 'status', 'reg_date')->get();
-            $referrals_count=User::where('referral', $input["user_name"])->select('user_name', 'status', 'reg_date', 'referral_plan')->count();
+            $referrals=User::where('referral', $input["user_name"])->select('user_name', 'status', 'reg_date', 'referral_plan')->get();
+            $referrals_count=User::where('referral', $input["user_name"])->count();
 
             if($referrals_count == 0){
                 return response()->json(['success'=> 0, 'message'=>'No referral found']);
