@@ -42,11 +42,6 @@ class ServeRequestController extends Controller
             $api = $input['api'];
             $coded = $input['coded'];
             $phone = $input['phone'];
-            $service = $input['service'];
-            $user_name = $input['user_name'];
-            $wallet = $input['wallet'];
-            $deviceid = $input['deviceid'];
-            $version = $input['version'];
             $transid = $input['transid'];
 
             if ($api != "mcd_app_9876234875356148750") {
@@ -898,7 +893,7 @@ class ServeRequestController extends Controller
 
                     if($amount>0){
                         $tr['description']=$ruser->referral_plan . " referral bonus on ".$tr['description'];
-                        $tr['code']="rc_".$input['service']."_".$input['coded'];;
+                        $tr['code']="rc_".$input['service']."_".$input['coded'];
                         $tr['amount']=$amount;
                         $tr['status']="successful";
                         $tr['user_name']=$ruser->user_name;
@@ -912,7 +907,7 @@ class ServeRequestController extends Controller
                 }
             }
 
-        echo json_encode(['status'=> $status, 'message'=>'Transaction executed successfully']);
+        echo json_encode(['success'=> $status, 'message'=>'Transaction executed successfully']);
     }
 
 }

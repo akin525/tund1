@@ -79,6 +79,7 @@ class AuthenticationController extends Controller
                 $create["phoneno"] = $input["phoneno"];
                 $create["mcdpassword"] = $input["password"];
                 $create["password"] = "";
+                $create["referral"] = $input["referral"];
                 $create["gnews"] = 'If you are a business person that needs to increase your investment and make more money, you just arrived at the right place';
                 $date = date("Y-m-d H:i:s");
                 $dev = array($date => $deviceid);
@@ -416,7 +417,7 @@ class AuthenticationController extends Controller
             $uid->referral=$input['referral'];
             $uid->save();
 
-            return response()->json(['success' => 1, 'message' => $referral->user_name . " has been added as your referral successfully"]);
+            return response()->json(['success' => 1, 'message' => $referral->user_name . " has been added as your referral successfully", 'referral'=>$input['referral']]);
 
         }else{
             // required field is missing

@@ -15,7 +15,7 @@ class Transaction extends Model
     protected $table='tbl_transactions';
 
     protected $fillable = [
-        'name', 'amount', 'status', 'description', 'date', 'user_name', 'ip_address', 'device_details', 'code', 'i_wallet', 'f_wallet', 'extra', 'server', 'server_response'
+        'name', 'amount', 'status', 'description', 'date', 'user_name', 'ip_address', 'device_details', 'code', 'i_wallet', 'f_wallet', 'extra', 'server', 'server_response', 'ref'
     ];
 
 }
