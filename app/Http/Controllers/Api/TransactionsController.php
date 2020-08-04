@@ -279,7 +279,7 @@ class TransactionsController extends Controller
                 return response()->json(['success'=> 0, 'message'=>'No referral found']);
             }
 
-            return response()->json(['success' => 1, 'message' => 'Transactions Added Successfully', 'total_count'=>$referrals_count, 'data'=>$referrals]);
+            return response()->json(['success' => 1, 'message' => 'Referrals Fetched Successfully', 'total_count'=>$referrals_count, 'data'=>$referrals]);
         }else{
             // required field is missing
             // echoing JSON response

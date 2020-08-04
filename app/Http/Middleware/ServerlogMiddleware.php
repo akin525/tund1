@@ -28,7 +28,7 @@ class ServerlogMiddleware
 
         $user=User::where('user_name',$input['user_name'])->first();
 
-        if($user->wallet<$input['ammount']){
+        if($user->wallet<$input['amount']){
             $input['status']='Balance to low';
             Serverlog::create($input);
             return response()->json(['status' => 0, 'message' => 'Error, wallet balance too low']);

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Model\SystemSettings;
-use App\model\Transaction;
+use App\Model\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
