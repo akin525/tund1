@@ -26,6 +26,11 @@ class ServerlogMiddleware
             return response()->json(['status' => 0, 'message' => 'Error, invalid request']);
         }
 
+        if($input['payment_method'] !="wallet"){
+            $input['status']='pending';
+            return response()->json(['status' => 1, 'message' => 'Transaction executed successfully']);
+        }
+
         $user=User::where('user_name',$input['user_name'])->first();
 
         if($user->wallet<$input['amount']){

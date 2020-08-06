@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Model\Settings;
 use App\Model\SystemSettings;
 use App\Model\Transaction;
 use App\User;
@@ -669,9 +670,9 @@ class ServeRequestController extends Controller
         // Note our use of ===.  Simply == would not work as expected
 
         if ($pos !== false) {
-             $this->addtrans("server1b",$amnt,1,$transid,$input);
+             $this->addtrans("server1b",$result,$amnt,1,$transid,$input);
         }else {
-             $this->addtrans("server1b",$amnt,1,$transid,$input);
+             $this->addtrans("server1b",$result,$amnt,1,$transid,$input);
         }
     }
 
@@ -823,7 +824,7 @@ class ServeRequestController extends Controller
 
         if($input['service']=="airtime") {
             $a = $price * 0.02;
-            $price = $price - $a;
+            $price = round($price - $a);
         }
 
             $tr['name']=strtoupper($input['network']).$input['service'];
@@ -839,7 +840,7 @@ class ServeRequestController extends Controller
 
             if($status==1){
                 if($input['service']=="airtime"){
-                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime delivered on ".$input['phone'] ." with reference number -> ".$input['transid'];
+                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime on ".$input['phone'] ." with reference number -> ".$input['transid'];
                 }else{
                     $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." delivered on ".$input['phone'] ." with reference number -> ".$input['transid'];
                 }
@@ -907,7 +908,36 @@ class ServeRequestController extends Controller
                 }
             }
 
-        echo json_encode(['success'=> $status, 'message'=>'Transaction executed successfully']);
+        $uinfo['full_name']=$user->full_name;
+        $uinfo['company_name']=$user->company_name;
+        $uinfo['dob']=$user->dob;
+        $uinfo['wallet']=$user->wallet;
+        $uinfo['bonus']=$user->bonus;
+        $uinfo['status']=$user->status;
+        $uinfo['level']=$user->level;
+        $uinfo['photo']=$user->photo;
+        $uinfo['reg_date']=$user->reg_date;
+        $uinfo['target']=$user->target;
+        $uinfo['user_name']=$user->user_name;
+        $uinfo['email']=$user->email;
+        $uinfo['phoneno']=$user->phoneno;
+        $uinfo['gnews']=$user->gnews;
+        $uinfo['fraud']=$user->fraud;
+        $uinfo['referral']=$user->referral;
+        $uinfo['account_number']=$user->account_number;
+        $uinfo['last_login']=$user->last_login;
+
+        $uinfo["total_fund"] =Transaction::where([['user_name',$input['user_name']], ['name', 'wallet funding'], ['status', 'successful']])->count();
+        $uinfo["total_trans"] =Transaction::where([['user_name',$input['user_name']], ['status', 'delivered']])->count();
+        // get user transactions report from transactions table
+
+        $settings=Settings::all();
+        foreach ($settings as $setting){
+            $sett[$setting->name]=$setting->value;
+        }
+        $d=array_merge($uinfo, $sett);
+
+        echo json_encode(['success'=> $status, 'message'=>'Transaction executed successfully', 'data'=>$d]);
     }
 
 }
