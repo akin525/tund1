@@ -34,6 +34,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('rechargecard', 'TransactionsController@insertRechargecard')->name('insertRechargecard');
     Route::post('fundwallet', 'TransactionsController@fundWallet')->name('fundWallet');
     Route::post('freemoney', 'TransactionsController@insertFreemoney')->name('insertFreemoney');
+    Route::post('verifytv', 'UltilityController@VerifyTV')->name('verifytv');
 
     Route::post('paytv', 'ServeRequestController@paytv')->name('paytv')->middleware("server_log");
     Route::post('buyairtime', 'ServeRequestController@buyairtime')->name('buyairtime')->middleware("server_log");

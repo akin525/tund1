@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Model\GeneralMarket;
 use App\Model\Settings;
 use App\Model\SystemSettings;
 use App\Model\Transaction;
@@ -23,6 +24,7 @@ class ServeRequestController extends Controller
             'api' => 'required',
             'coded' => 'required',
             'phone' => 'required',
+            'amount' => 'required',
             'transid' => 'required');
 
         $validator = Validator::make($input, $rules);
@@ -296,6 +298,7 @@ class ServeRequestController extends Controller
             'api' => 'required',
             'coded' => 'required',
             'phone' => 'required',
+            'amount' => 'required',
             'transid' => 'required');
 
         $validator = Validator::make($input, $rules);
@@ -647,7 +650,8 @@ class ServeRequestController extends Controller
 
     public function airtimeProcess($amnt, $network, $phone, $transid, $input){
         $url=env("SERVER1")."&network=".$network."&phoneNumber=".$phone."&amount=".$amnt."&trans_id=".$transid;
-        $result = file_get_contents($url);
+//        $result = file_get_contents($url);
+        $result ='{"trans_id":"12823327903","details":{"network":"MTN","data_volume":"1GB","phone_number":"08011223344","price":"450","status":"Pending","balance":"3000"}}';
 
         $findme   = 'trans_id';
         $pos = strpos($result, $findme);
@@ -822,6 +826,8 @@ class ServeRequestController extends Controller
                 $tr['device_details']="";
             }
 
+            $price=$input['amount'];
+
         if($input['service']=="airtime") {
             $a = $price * 0.02;
             $price = round($price - $a);
@@ -840,19 +846,23 @@ class ServeRequestController extends Controller
 
             if($status==1){
                 if($input['service']=="airtime"){
-                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime on ".$input['phone'] ." with reference number -> ".$input['transid'];
+                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
                 }else{
-                    $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." delivered on ".$input['phone'] ." with reference number -> ".$input['transid'];
+                    $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." delivered on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
                 }
-                $tr['f_wallet']=$user->wallet - $price;
-                $tr['status']='delivered';
+                if($input['payment_method'] =="wallet") {
+                    $tr['f_wallet'] = $user->wallet - $price;
+                }else{
+                    $tr['f_wallet'] = $user->wallet;
+                }
+                $tr['status'] = 'delivered';
             }
 
             if($status==0){
                 if($input['service']=="airtime"){
-                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime failed to delivered on ".$input['phone'] ." with reference number -> ".$input['transid'];
+                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime failed to delivered on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
                 }else{
-                    $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." failed to delivered on ".$input['phone'] ." with reference number -> ".$input['transid'];
+                    $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." failed to delivered on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
                 }
 
                 $tr['f_wallet']=$user->wallet;
@@ -861,52 +871,68 @@ class ServeRequestController extends Controller
 
             Transaction::create($tr);
 
+        if($input['payment_method'] =="general_market"){
+            $set=Settings::where('name','general_market')->first();
+            $tr['transid']=$input['transid'];
+            $tr['version']=$input['version'];
+            $tr['o_wallet']=$set->value;
+            $tr['n_wallet']=$tr['o_wallet']-$price;
+            GeneralMarket::create($tr);
+            $set->value-=$price;
+            $set->save();
+        }
+
+        if($input['payment_method'] =="wallet") {
             $user->wallet=$tr['f_wallet'];
             $user->save();
+        }
 
-            if($status==1){
-                if($user->referral!=""){
-                    $ruser=User::where('user_name',$user->referral)->first();
+        if($input['payment_method'] !="general_market") {
 
-                    if($ruser->referral_plan=="free" ){
-                        $data=5;
-                        $airtime=0.002;
-                        $paytv=0.003;
-                    }elseif($ruser->referral_plan=="larvae"){
-                        $data=10;
-                        $airtime=0.005;
-                        $paytv=0.004;
-                    }elseif($ruser->referral_plan=="butterfly"){
-                        $data=15;
-                        $airtime=0.01;
-                        $paytv=0.005;
+            if ($status == 1) {
+                if ($user->referral != "") {
+                    $ruser = User::where('user_name', $user->referral)->first();
+
+                    if ($ruser->referral_plan == "free") {
+                        $data = 5;
+                        $airtime = 0.002;
+                        $paytv = 0.003;
+                    } elseif ($ruser->referral_plan == "larvae") {
+                        $data = 10;
+                        $airtime = 0.005;
+                        $paytv = 0.004;
+                    } elseif ($ruser->referral_plan == "butterfly") {
+                        $data = 15;
+                        $airtime = 0.01;
+                        $paytv = 0.005;
                     }
 
-                    if($input['service']=="airtime") {
-                        $am=$price * $airtime;
-                        $amount=round($am);
-                    }else if($input['service']=="data"){
-                        $amount=$data;
-                    }else if($input['service']=="paytv"){
-                        $am=$price * $paytv;
-                        $amount=roud($am);
+                    if ($input['service'] == "airtime") {
+                        $am = $price * $airtime;
+                        $amount = round($am);
+                    } else if ($input['service'] == "data") {
+                        $amount = $data;
+                    } else if ($input['service'] == "paytv") {
+                        $am = $price * $paytv;
+                        $amount = roud($am);
                     }
 
-                    if($amount>0){
-                        $tr['description']=$ruser->referral_plan . " referral bonus on ".$tr['description'];
-                        $tr['code']="rc_".$input['service']."_".$input['coded'];
-                        $tr['amount']=$amount;
-                        $tr['status']="successful";
-                        $tr['user_name']=$ruser->user_name;
-                        $tr['i_wallet']=$ruser->wallet;
-                        $tr['f_wallet']=$ruser->wallet + $amount;
+                    if ($amount > 0) {
+                        $tr['description'] = $ruser->referral_plan . " referral bonus on " . $tr['description'];
+                        $tr['code'] = "rc_" . $input['service'] . "_" . $input['coded'];
+                        $tr['amount'] = $amount;
+                        $tr['status'] = "successful";
+                        $tr['user_name'] = $ruser->user_name;
+                        $tr['i_wallet'] = $ruser->wallet;
+                        $tr['f_wallet'] = $ruser->wallet + $amount;
                         Transaction::create($tr);
 
-                        $ruser->wallet=$tr['f_wallet'];
+                        $ruser->wallet = $tr['f_wallet'];
                         $ruser->save();
                     }
                 }
             }
+        }
 
         $uinfo['full_name']=$user->full_name;
         $uinfo['company_name']=$user->company_name;

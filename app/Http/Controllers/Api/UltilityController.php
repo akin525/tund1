@@ -90,6 +90,137 @@ class UltilityController extends Controller
 
     }
 
+    public function VerifyTV(Request $request){
+
+        $coded=$request->get('coded');
+        $number=$request->get('phone');
+
+        if (isset($_REQUEST['coded']) && isset($_REQUEST['phone'])) {
+            switch ($coded){
+                case "d":
+                    $tv_type="DSTV";
+                    $tv_type_code="01";
+                    break;
+
+                case "D":
+                    $tv_type="DSTV";
+                    $tv_type_code="01";
+                    break;
+
+                case "g":
+                    $tv_type="GOTV";
+                    $tv_type_code="02";
+                    break;
+
+                case "G":
+                    $tv_type="GOTV";
+                    $tv_type_code="02";
+                    break;
+
+                case "s":
+                    $tv_type="STARTIMES";
+                    $tv_type_code="03";
+                    break;
+
+                case "S":
+                    $tv_type="STARTIMES";
+                    $tv_type_code="03";
+                    break;
+                default:
+                    $tv_type="";
+                    // required field is missing
+                    $response["success"] = 0;
+                    $response["message"] = "Invalid Service Type. Available are d for DSTV, g for GOTV, s for STARTIME.";
+                    // echoing JSON response
+                    echo json_encode($response);
+                    return;
+            }
+
+
+            function verify_server1($tv_type, $number){
+                $url=env('SERVER1_TV')."user_check".env('SERVER1_CRED')."&service=".$tv_type."&number=".$number;
+                // Perform initialize to validate name on server
+                $result = file_get_contents($url);
+                $findme   = 'accountStatus';
+                $pos = strpos($result, $findme);
+                $arr = json_decode($result, true);
+                // Note our use of ===.  Simply == would not work as expected
+                if ($pos === false) {
+                    $findme   = 'billAmount';
+                    $pos = strpos($result, $findme);
+
+                    if ($pos === false) {
+                        $response["success"] = 0;
+                        $response["message"] = "The device number supplied did not return any data.";
+                        // echoing JSON response
+                        echo json_encode($response);
+                    }else{
+                        if($arr["details"]["returnCode"]==0){
+                            // Print a single value
+                            $response["success"] = 1;
+                            $response["message"] = "Name validation successful";
+                            $response["bill_amount"] = $arr["details"]["billAmount"];
+                            $response["account_name"] = $arr["details"]["customerName"];
+                            $response["customer_number"] = $arr["details"]["customerNumber"];
+                            $response["customer_type"] = $arr["details"]["customerType"];
+                            $response["balance"] = $arr["details"]["balance"];
+                            $response["due_date"]="n/a";
+                            $response["account_status"]="n/a";
+                            // echoing JSON response
+                            echo json_encode($response);
+                        }else{
+                            $response["success"] = 0;
+                            $response["message"] = "The device number supplied did not return any data.";
+                            // echoing JSON response
+                            echo json_encode($response);
+                        }
+                    }
+                } else {
+                    // Print a single value
+                    $response["success"] = 1;
+                    $response["message"] = "Name validation successful";
+                    $response["account_name"] = $arr["details"]["firstName"] ." ".$arr["details"]["lastName"];
+                    $response["account_status"] = $arr["details"]["accountStatus"];
+                    $response["customer_number"] = $arr["details"]["customerNumber"];
+                    $response["customer_type"] = $arr["details"]["customerType"];
+                    $response["due_date"] = $arr["details"]["dueDate"];
+                    // echoing JSON response
+                    echo json_encode($response);
+                }
+            }
+
+
+            function verify_server2($tv_type_code, $number){
+                $url="&cabletv=".$tv_type_code."&smartcardno=".$number;
+                // Perform initialize to validate name on server
+                $result = file_get_contents($url);
+                $findme   = 'INVALID_SMARTCARDNO';
+                $pos = strpos($result, $findme);
+                $arr = json_decode($result, true);
+                // Note our use of ===.  Simply == would not work as expected
+                if ($pos === false) {
+                    $response["success"] = 0;
+                    $response["message"] = $arr["customer_name"];
+                    // echoing JSON response
+                    echo json_encode($response);
+                }else{
+                    $response["success"] = 1;
+                    $response["message"] = "Name validation successful";
+                    $response["account_name"] = $arr["customer_name"];
+                    $response["account_status"] = "n/a";
+                    $response["customer_number"] = "n/a";
+                    $response["customer_type"] = "n/a";
+                    $response["due_date"] = "n/a";
+                    // echoing JSON response
+                    echo json_encode($response);
+                }
+
+            }
+            verify_server1($tv_type, $number);
+            //verify_server2($tv_type_code, $number);
+        }
+    }
+
     public function monnifyRA($id){
 
         $last=$id+1000;
