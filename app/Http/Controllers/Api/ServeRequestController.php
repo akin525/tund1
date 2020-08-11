@@ -664,8 +664,7 @@ class ServeRequestController extends Controller
 
     public function airtimeProcess($amnt, $network, $phone, $transid, $input){
         $url=env("SERVER1")."&network=".$network."&phoneNumber=".$phone."&amount=".$amnt."&trans_id=".$transid;
-//        $result = file_get_contents($url);
-        $result = '{"trans_id":"12823327903","details":{"network":"MTN","phone_number":"08011223344","amount":"200","price":"196","status":"Pending","balance":"3000"}}';
+        $result = file_get_contents($url);
 
         $findme   = 'trans_id';
         $pos = strpos($result, $findme);
