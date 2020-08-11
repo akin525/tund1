@@ -860,6 +860,8 @@ class ServeRequestController extends Controller
             $tr['transid']=$input['transid'];
 
             if($status==1){
+                $tr['status'] = 'delivered';
+
                 if($input['service']=="airtime"){
                     $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
                 }else{
@@ -870,6 +872,7 @@ class ServeRequestController extends Controller
                 }else{
                     $tr['f_wallet'] = $user->wallet;
                 }
+
                 if($input['service']=="data"){
                     $set=Settings::where('name','general_market')->first();
                     $tr['version']=$input['version'];
@@ -879,7 +882,6 @@ class ServeRequestController extends Controller
                     $set->value=$tr['n_wallet'];
                     $set->save();
                 }
-                $tr['status'] = 'delivered';
             }
 
             if($status==0){
