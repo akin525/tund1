@@ -38,15 +38,22 @@ class ServerlogMiddleware
 
         if($input['payment_method'] =="general_market"){
             $set=Settings::where('name','general_market')->first();
-            if ($set->value >= $input['amount']){
-                Serverlog::create($input);
-                return $next($request);
-            }else{
-                $input['status']='general market is low';
+            if ($set->value < 300) {
+                $input['status']='general market is lower than threshold';
                 $input['transid']=$input['transid'];
                 Serverlog::create($input);
-                return response()->json(['success' => 0, 'message' => 'General market balance is low']);
+                return response()->json(['success' => 0, 'message' => 'General market balance is lower than threshold']);
             }
+
+            if ($set->value >= $input['amount']) {
+                Serverlog::create($input);
+                return $next($request);
+            }
+
+            $input['status']='general market is low';
+            $input['transid']=$input['transid'];
+            Serverlog::create($input);
+            return response()->json(['success' => 0, 'message' => 'General market balance is low']);
         }
 
         if($input['payment_method'] !="wallet"){
