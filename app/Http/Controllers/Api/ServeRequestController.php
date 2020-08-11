@@ -865,7 +865,7 @@ class ServeRequestController extends Controller
                 if($input['service']=="airtime"){
                     $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
                 }else{
-                    $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." delivered on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
+                    $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
                 }
                 if($input['payment_method'] =="wallet") {
                     $tr['f_wallet'] = $user->wallet - $price;
@@ -878,6 +878,7 @@ class ServeRequestController extends Controller
                     $tr['version']=$input['version'];
                     $tr['o_wallet']=$set->value;
                     $tr['n_wallet']=$tr['o_wallet']+5;
+                    $tr['type']='credit';
                     GeneralMarket::create($tr);
                     $set->value=$tr['n_wallet'];
                     $set->save();
@@ -886,9 +887,9 @@ class ServeRequestController extends Controller
 
             if($status==0){
                 if($input['service']=="airtime"){
-                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime failed to delivered on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
+                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime and failed to delivered on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
                 }else{
-                    $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." failed to delivered on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
+                    $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." and failed to delivered on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
                 }
 
                 $tr['f_wallet']=$user->wallet;
@@ -903,6 +904,7 @@ class ServeRequestController extends Controller
             $tr['version']=$input['version'];
             $tr['o_wallet']=$set->value;
             $tr['n_wallet']=$tr['o_wallet']-$price;
+            $tr['type']='debit';
             GeneralMarket::create($tr);
             $set->value-=$price;
             $set->save();
