@@ -2,17 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/MonnifyWebhookController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/PaystackWebhookController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/model/GeneralMarket.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/mail/transaction.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor (2).zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Mail/TransactionNotificationMail.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/ServeRequestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ServeRequestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/UltilityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/UltilityController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/ServerlogMiddleware.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/ServerlogMiddleware.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/mail.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/mail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/secure-headers.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/secure-headers.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layout.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/mail/transaction.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/mail/transaction.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -587,7 +584,7 @@
       <workItem from="1596740766402" duration="8831000" />
       <workItem from="1596908303978" duration="641000" />
       <workItem from="1596921597859" duration="712000" />
-      <workItem from="1596974792365" duration="20891000" />
+      <workItem from="1596974792365" duration="28086000" />
     </task>
     <servers />
   </component>

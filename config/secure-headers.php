@@ -110,13 +110,13 @@ return [
      */
 
     'hsts' => [
-        'enable' => false,
+        'enable' => true,
 
         'max-age' => 31536000,
 
-        'include-sub-domains' => false,
+        'include-sub-domains' => true,
 
-        'preload' => false,
+        'preload' => true,
     ],
 
     /*
@@ -126,11 +126,11 @@ return [
      */
 
     'expect-ct' => [
-        'enable' => false,
+        'enable' => true,
 
         'max-age' => 2147483648,
 
-        'enforce' => false,
+        'enforce' => true,
 
         // report uri must be absolute-URI
         'report-uri' => null,
@@ -336,7 +336,7 @@ return [
         'block-all-mixed-content' => false,
 
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/upgrade-insecure-requests
-        'upgrade-insecure-requests' => false,
+        'upgrade-insecure-requests' => true,
 
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/base-uri
         'base-uri' => [

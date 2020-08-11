@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TransactionNotificationMail;
 use App\Model\GeneralMarket;
 use App\Model\Settings;
 use App\Model\SystemSettings;
@@ -11,6 +12,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class ServeRequestController extends Controller
@@ -53,7 +55,19 @@ class ServeRequestController extends Controller
                 $sys=DB::table("tbl_serverconfig_tv")->where('name','=','tv')->first();
 
             switch ($coded) {
-                case "d_access":
+                case "d_padi":
+                    $tv_type = "DSTV";
+                    $tv_package = "NLTESE36";
+                    $bundle_code = "NLTESE36";
+                    $link = "dstv";
+                    $amount = "1850";
+                    $tv_type_code = "14";
+                    $tv_package_code = "01";
+                    $service_id = "14";
+                    $server=$sys->dstv;
+                    break;
+
+                    case "d_access":
                     $tv_type = "DSTV";
                     $tv_package = "ACSSE36";
                     $bundle_code = "ACSSW4";
@@ -650,8 +664,7 @@ class ServeRequestController extends Controller
 
     public function airtimeProcess($amnt, $network, $phone, $transid, $input){
         $url=env("SERVER1")."&network=".$network."&phoneNumber=".$phone."&amount=".$amnt."&trans_id=".$transid;
-//        $result = file_get_contents($url);
-        $result ='{"trans_id":"12823327903","details":{"network":"MTN","data_volume":"1GB","phone_number":"08011223344","price":"450","status":"Pending","balance":"3000"}}';
+        $result = file_get_contents($url);
 
         $findme   = 'trans_id';
         $pos = strpos($result, $findme);
@@ -843,6 +856,7 @@ class ServeRequestController extends Controller
             $tr['code']=$input['service']."_".$input['coded'];
             $tr['server']=$server;
             $tr['server_response']=$server_response;
+            $tr['payment_method']=$input['payment_method'];
 
             if($status==1){
                 if($input['service']=="airtime"){
@@ -854,6 +868,16 @@ class ServeRequestController extends Controller
                     $tr['f_wallet'] = $user->wallet - $price;
                 }else{
                     $tr['f_wallet'] = $user->wallet;
+                }
+                if($input['service']=="data"){
+                    $set=Settings::where('name','general_market')->first();
+                    $tr['transid']=$input['transid'];
+                    $tr['version']=$input['version'];
+                    $tr['o_wallet']=$set->value;
+                    $tr['n_wallet']=$tr['o_wallet']+5;
+                    GeneralMarket::create($tr);
+                    $set->value=$tr['n_wallet'];
+                    $set->save();
                 }
                 $tr['status'] = 'delivered';
             }
@@ -886,6 +910,8 @@ class ServeRequestController extends Controller
             $user->wallet=$tr['f_wallet'];
             $user->save();
         }
+
+        Mail::to($user->email)->send(new TransactionNotificationMail($tr));
 
         if($input['payment_method'] !="general_market") {
 
