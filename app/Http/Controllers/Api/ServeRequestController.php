@@ -664,7 +664,8 @@ class ServeRequestController extends Controller
 
     public function airtimeProcess($amnt, $network, $phone, $transid, $input){
         $url=env("SERVER1")."&network=".$network."&phoneNumber=".$phone."&amount=".$amnt."&trans_id=".$transid;
-        $result = file_get_contents($url);
+//        $result = file_get_contents($url);
+        $result = '{"trans_id":"12823327903","details":{"network":"MTN","phone_number":"08011223344","amount":"200","price":"196","status":"Pending","balance":"3000"}}';
 
         $findme   = 'trans_id';
         $pos = strpos($result, $findme);
@@ -857,6 +858,7 @@ class ServeRequestController extends Controller
             $tr['server']=$server;
             $tr['server_response']=$server_response;
             $tr['payment_method']=$input['payment_method'];
+            $tr['transid']=$input['transid'];
 
             if($status==1){
                 if($input['service']=="airtime"){
@@ -871,7 +873,6 @@ class ServeRequestController extends Controller
                 }
                 if($input['service']=="data"){
                     $set=Settings::where('name','general_market')->first();
-                    $tr['transid']=$input['transid'];
                     $tr['version']=$input['version'];
                     $tr['o_wallet']=$set->value;
                     $tr['n_wallet']=$tr['o_wallet']+5;

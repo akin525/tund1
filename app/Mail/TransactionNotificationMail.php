@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Model\Settings;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -31,9 +32,10 @@ class TransactionNotificationMail extends Mailable
     public function build()
     {
         $user=User::where('user_name', $this->data['user_name'])->first();
+        $set=Settings::where('name', 'email_note')->first();
         return $this->view('mail.transaction')
             ->cc('odejinmisamuel@gmail.com')
             ->subject("Transactional Mail |".$this->data['transid'])
-            ->with(['data'=>$this->data, 'email_note'=>"Do not release your password to anyone.", 'email'=>$user->email]);
+            ->with(['data'=>$this->data, 'email_note'=>$set->email_note, 'email'=>$user->email]);
     }
 }
