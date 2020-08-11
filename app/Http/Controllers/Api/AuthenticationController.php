@@ -216,6 +216,7 @@ class AuthenticationController extends Controller
             $uinfo['fraud']=$user->fraud;
             $uinfo['referral']=$user->referral;
             $uinfo['account_number']=$user->account_number;
+            $uinfo['account_number2']=$user->account_number2;
             $uinfo['last_login']=$user->last_login;
 
             $uinfo["total_fund"] =Transaction::where([['user_name',$input['user_name']], ['name', 'wallet funding'], ['status', 'successful']])->count();

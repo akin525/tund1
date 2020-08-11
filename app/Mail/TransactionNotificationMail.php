@@ -35,7 +35,7 @@ class TransactionNotificationMail extends Mailable
         $set=Settings::where('name', 'email_note')->first();
         return $this->view('mail.transaction')
             ->cc('odejinmisamuel@gmail.com')
-            ->subject("Transactional Mail |".$this->data['transid'])
+            ->subject($this->data['user_name'] . "| Transactional Email |".$this->data['transid'])
             ->with(['data'=>$this->data, 'email_note'=>$set->value, 'email'=>$user->email]);
     }
 }
