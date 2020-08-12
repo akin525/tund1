@@ -2,14 +2,12 @@
 
 namespace App\Mail;
 
-use App\Model\Settings;
-use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class TransactionNotificationMail extends Mailable
+class PasswordResetMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -31,11 +29,9 @@ class TransactionNotificationMail extends Mailable
      */
     public function build()
     {
-        $user=User::where('user_name', $this->data['user_name'])->first();
-        $set=Settings::where('name', 'email_note')->first();
-        return $this->view('mail.transaction')
+        return $this->view('mail.passwordreset')
             ->bcc('odejinmisamuel@gmail.com')
-            ->subject($this->data['user_name'] . "| Transactional Email |".$this->data['transid'])
-            ->with(['data'=>$this->data, 'email_note'=>$set->value, 'email'=>$user->email]);
+            ->subject($this->data['user_name'] . "| Password Reset")
+            ->with(['data'=>$this->data]);
     }
 }

@@ -80,7 +80,7 @@ class UltilityController extends Controller
 
                $number=Airtime2CashSettings::where('network', '=', $input['network'])->first();
 
-                return response()->json(['status'=> 1, 'message'=>'Transfer #' .$input['amount']. ' to ' . $number->number.' and get your value instantly. Reference: '.$input['ref'] . 'By doing so, you acknowledge that you are the legitimate owner of this airtime and you have permission to send it to us and to take possession of the airtime.']);
+                return response()->json(['status'=> 1, 'message'=>'Transfer #' .$input['amount']. ' to ' . $number->number.' and get your value instantly. \nReference: '.$input['ref'] . '. \nBy doing so, you acknowledge that you are the legitimate owner of this airtime and you have permission to send it to us and to take possession of the airtime.']);
             }catch(\Exception $e){
                 return response()->json(['status'=> 0, 'message'=>'An error occured','error' => $e]);
             }

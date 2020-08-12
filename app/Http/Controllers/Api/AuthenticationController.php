@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\PasswordResetMail;
 use App\Model\Settings;
 use App\Model\SocialLogin;
 use App\Model\Transaction;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class AuthenticationController extends Controller
@@ -315,10 +318,18 @@ class AuthenticationController extends Controller
                 return response()->json(['success' => 0, 'message' => 'Invalid request detected']);
             }
 
-            $user->mcdpassword="";
+            $pass= str_shuffle(substr(date('sydmM').rand().$input['user_name'], 0, 8));
+
+            $user->mcdpassword=Hash::make($pass);
             $user->save();
 
-            return response()->json(['success' => 1, 'message' => 'Your mail has been sent successfully']);
+            $tr['password']=$pass;
+            $tr['email']=$input['email'];
+            $tr['user_name']=$input['user_name'];
+
+            Mail::to($user->email)->send(new PasswordResetMail($tr));
+
+            return response()->json(['success' => 1, 'message' => 'A new password has been sent to your mail successfully']);
         }else{
             // required field is missing
             // echoing JSON response
