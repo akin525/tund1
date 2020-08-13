@@ -320,7 +320,7 @@ class AuthenticationController extends Controller
 
             $pass= str_shuffle(substr(date('sydmM').rand().$input['user_name'], 0, 8));
 
-            $user->mcdpassword=Hash::make($pass);
+            $user->mcdpassword=$pass;
             $user->save();
 
             $tr['password']=$pass;

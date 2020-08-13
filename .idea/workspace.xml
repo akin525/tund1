@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ATMmanagerController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/MonnifyHookController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/MonnifyHookController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PaystackHookController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PaystackHookController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -585,7 +581,7 @@
       <workItem from="1596974792365" duration="36404000" />
       <workItem from="1597137778948" duration="977000" />
       <workItem from="1597154343123" duration="9522000" />
-      <workItem from="1597243293380" duration="24893000" />
+      <workItem from="1597243293380" duration="26337000" />
     </task>
     <servers />
   </component>
