@@ -2,17 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/MonnifyHookController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PaystackHookController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Mail/PasswordResetMail.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/mail/passwordreset.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ATMmanagerController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/AuthenticationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/AuthenticationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/ServeRequestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ServeRequestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/UltilityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/UltilityController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Mail/TransactionNotificationMail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Mail/TransactionNotificationMail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/mail/transaction.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/mail/transaction.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/MonnifyHookController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/MonnifyHookController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PaystackHookController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PaystackHookController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -591,7 +585,7 @@
       <workItem from="1596974792365" duration="36404000" />
       <workItem from="1597137778948" duration="977000" />
       <workItem from="1597154343123" duration="9522000" />
-      <workItem from="1597243293380" duration="11121000" />
+      <workItem from="1597243293380" duration="24893000" />
     </task>
     <servers />
   </component>
@@ -606,10 +600,10 @@
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="394" y="120" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/62.0.1304.768@62.0.1304.768" timestamp="1594626414379" />
-    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1597247775942">
+    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1597331474844">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1597247775942" />
+    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1597331474844" />
     <state x="154" y="92" width="1120" height="584" key="DiffContextDialog" timestamp="1593587435795">
       <screen x="62" y="0" width="1304" height="768" />
     </state>

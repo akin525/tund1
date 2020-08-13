@@ -45,22 +45,22 @@ class MonnifyHookController extends Controller
         }
 
         if($product_type === "MOBILE_SDK"){
-                $this->SDKfundwallet($paymentamount,$product_reference);
+                $this->SDK($paymentamount,$product_reference);
         }
 
         if($product_type === "RESERVED_ACCOUNT"){
             $acctd_name= $input['accountDetails']['accountName'];
             if ($product_reference === "Mcdat"){
-                $this->MCDatfundwallet($acctd_name,$paymentamount);
+                $this->MCDatfundwallet($acctd_name,$paymentamount,$transactionreference);
             }else{
-                $this->RAfundwallet($acctd_name,$paymentamount,$product_reference);
+                $this->RAfundwallet($acctd_name,$paymentamount,$product_reference, $transactionreference);
             }
         }
 
         echo "success";
     }
 
-    private function MCDatfundwallet($name, $amount){
+    private function MCDatfundwallet($name, $amount, $transactionreference){
         $charge_treshold=2000;
         $charges=50;
         $u=User::where('full_name', 'LIKE', '%'.$name.'%')->first();
@@ -76,6 +76,7 @@ class MonnifyHookController extends Controller
             $wallet=$u->wallet + $amount;
             $input['f_wallet']=$wallet;
             $input["ip_address"]="127.0.0.1:A";
+            $input["ref"]=$transactionreference;
             $input["date"]=date("y-m-d H:i:s");
 
             Transaction::create($input);
@@ -105,7 +106,7 @@ class MonnifyHookController extends Controller
 
     }
 
-    private function RAfundwallet($name, $amount, $reference){
+    private function RAfundwallet($name, $amount, $reference, $transactionreference){
         $charge_treshold=2000;
         $charges=50;
         $u=User::where('user_name', '=', $reference)->first();
@@ -121,6 +122,7 @@ class MonnifyHookController extends Controller
             $wallet=$u->wallet + $amount;
             $input['f_wallet']=$wallet;
             $input["ip_address"]="127.0.0.1:A";
+            $input["ref"]=$transactionreference;
             $input["date"]=date("y-m-d H:i:s");
 
             Transaction::create($input);
@@ -165,83 +167,30 @@ class MonnifyHookController extends Controller
 
     }
 
-    private function SDKfundwallet($amount, $reference){
+    private function SDK($amount, $reference){
 
         $tra=Serverlog::where('transid',$reference)->first();
         if($tra){
-            $this->atm_transaction_serve($tra->id);
+            if ($tra->status!="completed") {
+                $tra->status = 'completed';
+                $tra->save();
+
+                $atm=new ATMmanagerController();
+                $atm->atmtransactionserve($tra->id);
+            }
         }
 
         $fun=Wallet::where('ref',$reference)->first();
-        if(!$fun){
+        if($fun){
             if ($fun->status!="completed") {
-                $this->atmfundwallet($fun, $amount, $reference, "Monnify");
+                $fun->status='completed';
+                $fun->save();
+
+                $at=new ATMmanagerController();
+                $at->atmfundwallet($fun, $amount, $reference, "Monnify");
             }
         }
-    }
-
-    public function atmfundwallet($fun, $amount, $reference, $payment_method){
-        $charge_treshold=2000;
-        $charges=50;
-
-        $u=User::where('user_name', '=', $fun->user_name)->first();
-
-        $input['name']="wallet funding";
-        $input['amount']=$amount;
-        $input['status']='successful';
-        $input['description']= $u->user_name .' wallet funded using '.$payment_method.' with the sum of #'.$amount .' with ref->'.$reference;
-        $input['user_name']=$u->user_name;
-        $input['code']='afund_'.$payment_method;
-        $input['i_wallet']=$u->wallet;
-        $wallet=$u->wallet + $amount;
-        $input['f_wallet']=$wallet;
-        $input['ref']=$reference;
-        $input["ip_address"]="127.0.0.1:A";
-        $input["date"]=date("y-m-d H:i:s");
-
-        Transaction::create($input);
-
-        if($amount<$charge_treshold){
-            $input["type"]="income";
-            $input["amount"]=$charges;
-            $input["narration"]="Being amount charged for funding less than #".$charge_treshold." from ".$u->user_name;
-
-            PndL::create($input);
-
-            $input["description"]="Being amount charged for funding less than #".$charge_treshold;
-            $input["name"]="Auto Charge";
-            $input["code"]="ac50";
-            $input['status']='successful';
-            $input["i_wallet"]=$wallet;
-            $input["f_wallet"]=$input["i_wallet"] - $charges;
-
-            Transaction::create($input);
-
-            $wallet-=$charges;
-        }
-
-        $u->wallet=$wallet;
-        $u->save();
-
-        $fun->status='completed';
-        $fun->save();
-    }
-
-    public function atm_transaction_serve($id){
-        $s=Serverlog::find($id);
-
-        $input['user_name'] =$s->user_name;
-        $input['api'] = $s->api;
-        $input['coded'] = $s->coded;
-        $input['phone'] = $s->phone;
-        $input['amount'] = $s->amount;
-        $input['transid'] = $s->transid;
-
-        if($s->service=="airtime"){
-            $t=new ServeRequestController();
-            $t->buyairtime($input);
-        }
-
+        echo "no way forward";
     }
 
 

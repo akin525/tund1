@@ -44,6 +44,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::post('hook/mcdassistant', 'UltilityController@assistantHook')->name('assistantHook');
     Route::post('hook', 'UltilityController@hook')->name('hook');
-    Route::post('hook/monnify', 'UltilityController@monnifyhook')->name('monnifyhook');
+    Route::post('hook/monnify', 'MonnifyHookController@index')->name('monnifyhook');
+    Route::post('hook/paystack', 'PaystackHookController@index')->name('Paystackhook');
     Route::get('ra/{id}', 'UltilityController@monnifyRA')->name('monnifyRA');
 });

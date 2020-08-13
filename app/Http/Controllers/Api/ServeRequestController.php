@@ -775,9 +775,9 @@ class ServeRequestController extends Controller
         $status = $response['status'];
 
         if($status == "success"){
-            $this->addtrans("server4",$respons,$amnt,1,$response->transaction->response_payload->data->data->ref_code,$input);
+            $this->addtrans("server4",$respons,$amnt,1,$response['transaction']['response_payload']['data']['data']['ref_code'],$input);
         }else {
-            $this->addtrans("server4",$respons,$amnt,0,$response->transaction->response_payload->data->data->ref_code,$input);
+            $this->addtrans("server4",$respons,$amnt,0,$response['transaction']['response_payload']['data']['data']['ref_code'],$input);
         }
     }
 
