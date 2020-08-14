@@ -339,7 +339,7 @@ class ServeRequestController extends Controller
             }
 
             if($dbc->server==1){
-                $this->dataProcess($dbc->price, $dbc->product_code, $dbc->network, $coded, $phone,$transid, $input);
+                $this->dataProcess($dbc->price, $dbc->product_code, $dbc->network, $phone,$transid, $input);
             }
 
             if($dbc->server==2){
