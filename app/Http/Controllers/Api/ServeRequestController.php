@@ -782,7 +782,7 @@ class ServeRequestController extends Controller
     }
 
     function dataProcess($price, $productcode, $network, $phone, $transid, $input){
-        $url= "&network=".$network."&phoneNumber=".$phone."&price=".$price."&product_code=".$productcode."&trans_id=".$transid."&return_url=https://superadmin.mcd.5starcompany.com.ng/api/hook";
+        $url= env('SERVER1_DATA')."&network=".$network."&phoneNumber=".$phone."&price=".$price."&product_code=".$productcode."&trans_id=".$transid."&return_url=https://superadmin.mcd.5starcompany.com.ng/api/hook";
         $result = file_get_contents($url);
 
         $findme='trans_id';
