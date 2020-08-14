@@ -54,7 +54,7 @@ class ATMmanagerController extends Controller
         $u->wallet=$wallet;
         $u->save();
 
-        $this->PushNoti($u->user_name,"Your wallet has been credited with the sum of ".$amount, "Payment Notification via ".$payment_method);
+        $this->PushNoti($u->user_name,"Hi ".$u->username.", your wallet has been credited with the sum of ".$amount." via ".$payment_method, "Payment Notification");
     }
 
 
