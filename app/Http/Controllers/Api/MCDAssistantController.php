@@ -25,17 +25,7 @@ class MCDAssistantController extends Controller
             $this->fundwalletverify($data2);
         }else{
             $rep="Not configure to handle this request yet";
-            echo '{
-                "fulfillmentMessages": [
-                    {
-                        "text": {
-                            "text": [
-                                '.$rep.'
-                            ]
-                        }
-                    }
-                ]
-        }';
+            echo '{"fulfillmentMessages": [{"text": {"text": ['.$rep.']}}]}';
         }
     }
 
@@ -47,20 +37,10 @@ class MCDAssistantController extends Controller
         if (!$tran){
             $rep="Transaction reference does not exit in our system";
         }else{
-            $rep=$tran->description;
+            $rep=$tran->description. " and it's status is ".$tran->status;
         }
 
-        echo '{
-                "fulfillmentMessages": [
-                    {
-                        "text": {
-                            "text": [
-                                '.$rep.'
-                            ]
-                        }
-                    }
-                ]
-        }';
+        echo '{"fulfillmentMessages": [{"text": {"text": ['.$rep.']}}]}';
     }
     private function fundwalletverify($data2){
         $ref=$data2->queryResult->outputContexts[0]->parameters->paymentreference;
@@ -77,16 +57,6 @@ class MCDAssistantController extends Controller
         }else{
             $rep=$tran->user_name . ", your payment is successful and your wallet has been credited with the sum of ". $tran->amount .". Is there any other thing you want me to do for you?";
         }
-        echo '{
-                "fulfillmentMessages": [
-                    {
-                        "text": {
-                            "text": [
-                                '.$rep.'
-                            ]
-                        }
-                    }
-                ]
-        }';
+        echo '{"fulfillmentMessages": [{"text": {"text": ['.$rep.']}}]}';
     }
 }

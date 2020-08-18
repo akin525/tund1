@@ -49,6 +49,43 @@ class TransactionsController extends Controller
         }
     }
 
+    public function getPortalTrans(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'user_name'      => 'required',
+            'version'      => 'required',
+            'deviceid'      => 'required');
+
+        $validator = Validator::make($input, $rules);
+
+        $input=$request->all();
+
+        if ($validator->passes()) {
+
+            $user = User::where('user_name', $input["user_name"])->first();
+
+            if (!$user) {
+                return response()->json(['success' => 0, 'message' => 'User not found']);
+            }
+
+            if($user->status=="admin" || $user->status=="staff"){
+                $trans=Transaction::where('status', LIKE, '%API%')->OrderBy('id', 'desc')->limit(100)->get();
+            }else{
+                $trans=Transaction::where([['user_name',$input["user_name"]], ['status', LIKE, '%API%']])->OrderBy('id', 'desc')->limit(100)->get();
+
+                if ($trans->isEmpty()){
+                    return response()->json(['success' => 1, 'message' => 'No transactions found', 'wallet'=>$user->wallet]);
+                }
+            }
+            return response()->json(['success' => 1, 'message' => 'Transactions Fetched', 'data'=>$trans, 'wallet'=>$user->wallet]);
+        }else{
+            // required field is missing
+            // echoing JSON response
+            return response()->json(['success'=> 0, 'message'=>'Required field(s) is missing']);
+        }
+    }
+
     public function fundWallet(Request $request)
     {
         $input = $request->all();

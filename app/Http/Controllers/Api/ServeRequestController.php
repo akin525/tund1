@@ -346,6 +346,11 @@ class ServeRequestController extends Controller
                 $this->dataProcess2($dbc->dataplan, $dbc->network_code, $dbc->network, $phone,$transid,$dbc->price, $input);
             }
 
+            if($dbc->server==3){
+                $this->dataProcess3($dbc->price, $dbc->product_code, $dbc->network, $phone,$transid, $input);
+            }
+
+
             }catch(\Exception $e){
                 dd($e);
                 return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
@@ -714,16 +719,22 @@ class ServeRequestController extends Controller
 
     public function airtimeProcess3($amnt, $network, $phone, $transid, $input)
     {
-        $url = env("SERVER3")."&network=" . $network . "&number=" . $phone . "&amount=" . $amnt."&ref=".$transid;
+        $url=env("SERVER3") ."&network=" . $network . "&number=" . $phone . "&amount=" . $amnt;
+//        $url = env("SERVER3")."&network=" . $network . "&number=" . $phone . "&amount=" . $amnt."&ref=".$transid;
         $result = file_get_contents($url);
 
-        if ($result == "00") {
-            $this->addtrans("server3",$result,$amnt,1,$transid,$input);
+        // Convert JSON string to Array
+        $someArray = json_decode($result, true);
+        // Dump all data of the Array
+        $status=$someArray["status"]; // Access Array data
+        $ref=$someArray["ref"]; // Access Array data
+
+        if ($status == "success") {
+            $this->addtrans("server3",$result,$amnt,1,$ref,$input);
         } else {
-            $this->addtrans("server3",$result,$amnt,0,$transid,$input);
+            $this->addtrans("server3",$result,$amnt,0,$ref,$input);
         }
     }
-
 
 
     public function airtimeProcess4($amnt, $service_id, $phone, $input)
@@ -816,15 +827,22 @@ class ServeRequestController extends Controller
         }
     } //ending function dataprocess2
 
-    function dataProcess3($price, $network, $phone, $transid, $input){
+    function dataProcess3($price, $productcode, $phone, $transid, $input){
 
-        $url=env("SERVER3_DATA") ."&network=".$network."&number=".$phone."&amount=".$price."&ref=".$transid."&return_url=http://minitechs.com.ng/buydata.php";
+        $url=env("SERVER3_DATA") ."&number=".$phone."&plan=".$productcode;
+//        $url=env("SERVER3_DATA") ."&network=".$network."&number=".$phone."&amount=".$price."&ref=".$transid."&return_url=http://minitechs.com.ng/buydata.php";
         $result = file_get_contents($url);
 
-        if ($result == "00") {
-            $this->addtrans("server3",$result,$price,1,$transid,$input);
+        // Convert JSON string to Array
+        $someArray = json_decode($result, true);
+        // Dump all data of the Array
+        $status=$someArray["status"]; // Access Array data
+        $ref=$someArray["ref"]; // Access Array data
+
+        if ($status  == "success") {
+            $this->addtrans("server3",$result,$price,1,$ref,$input);
         }else {
-            $this->addtrans("server3",$result,$price,0,$transid,$input);
+            $this->addtrans("server3",$result,$price,0,$ref,$input);
         }
     } //ending function
 

@@ -29,6 +29,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('addreferral', 'AuthenticationController@update_referral')->name('update_referral');
 
     Route::post('transactions', 'TransactionsController@getTrans')->name('getTrans');
+    Route::post('portalstransactions', 'TransactionsController@getPortalTrans')->name('getPortalTrans');
     Route::post('getreferrals', 'TransactionsController@getReferrals')->name('getReferrals');
     Route::post('resultchecker', 'TransactionsController@insertResultchecker')->name('insertResultchecker');
     Route::post('rechargecard', 'TransactionsController@insertRechargecard')->name('insertRechargecard');
