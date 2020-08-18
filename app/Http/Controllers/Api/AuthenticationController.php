@@ -186,7 +186,7 @@ class AuthenticationController extends Controller
                 }else{
 
                     if ($GLOBALS['found_username']!=$input['user_name']){
-                        return response()->json(['success'=> 0, 'message'=>$input['deviceid'] .' belongs to another user ']);
+                        return response()->json(['success'=> 0, 'message'=>$input['deviceid'] .' belongs to another user. '. $GLOBALS['found_username'] . " != ". $input['user_name']]);
                     }
                 }
             }else{
