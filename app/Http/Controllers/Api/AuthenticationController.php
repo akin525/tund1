@@ -185,8 +185,8 @@ class AuthenticationController extends Controller
                     $user->save();
                 }else{
 
-                    if ($GLOBALS['found_username']!=$input['user_name']){
-                        return response()->json(['success'=> 0, 'message'=>$input['deviceid'] .' belongs to another user. '. $GLOBALS['found_username'] . " != ". $input['user_name']]);
+                    if (trim($GLOBALS['found_username'])!=$input['user_name']){
+                        return response()->json(['success'=> 0, 'message'=>'Device belongs to another user. Kindly contact support at info@5starcompany.com.ng']);
                     }
                 }
             }else{
