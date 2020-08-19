@@ -71,11 +71,13 @@ class TransactionsController extends Controller
 
             if($user->status=="admin" || $user->status=="staff"){
                 $trans=Transaction::where('status', LIKE, '%API%')->OrderBy('id', 'desc')->limit(100)->get();
+                $count=Transaction::where('status', LIKE, '%API%')->OrderBy('id', 'desc')->count();
             }else{
                 $trans=Transaction::where([['user_name',$input["user_name"]], ['status', LIKE, '%API%']])->OrderBy('id', 'desc')->limit(100)->get();
+                $count=Transaction::where([['user_name',$input["user_name"]], ['status', LIKE, '%API%']])->OrderBy('id', 'desc')->count();
 
                 if ($trans->isEmpty()){
-                    return response()->json(['success' => 1, 'message' => 'No transactions found', 'wallet'=>$user->wallet]);
+                    return response()->json(['success' => 1, 'message' => 'No transactions found', 'count'=>$count]);
                 }
             }
             return response()->json(['success' => 1, 'message' => 'Transactions Fetched', 'data'=>$trans, 'wallet'=>$user->wallet]);
