@@ -80,7 +80,7 @@ class TransactionsController extends Controller
                     return response()->json(['success' => 1, 'message' => 'No transactions found', 'count'=>$count]);
                 }
             }
-            return response()->json(['success' => 1, 'message' => 'Transactions Fetched', 'data'=>$trans, 'wallet'=>$user->wallet]);
+            return response()->json(['success' => 1, 'message' => 'Transactions Fetched', 'data'=>$trans, 'count'=>$count]);
         }else{
             // required field is missing
             // echoing JSON response
