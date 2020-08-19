@@ -347,7 +347,7 @@ class ServeRequestController extends Controller
             }
 
             if($dbc->server==3){
-                $this->dataProcess3($dbc->price, $dbc->product_code, $dbc->network, $phone,$transid, $input);
+                $this->dataProcess3($dbc->price, $dbc->product_code,$phone,$transid, $input);
             }
 
 
@@ -837,12 +837,12 @@ class ServeRequestController extends Controller
         $someArray = json_decode($result, true);
         // Dump all data of the Array
         $status=$someArray["status"]; // Access Array data
-        $ref=$someArray["ref"]; // Access Array data
 
         if ($status  == "success") {
+            $ref=$someArray["ref"]; // Access Array data
             $this->addtrans("server3",$result,$price,1,$ref,$input);
         }else {
-            $this->addtrans("server3",$result,$price,0,$ref,$input);
+            $this->addtrans("server3",$result,$price,0,$transid,$input);
         }
     } //ending function
 
