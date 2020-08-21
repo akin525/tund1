@@ -67,21 +67,9 @@ class ServeRequestController extends Controller
                     $server=$sys->dstv;
                     break;
 
-                    case "d_access":
-                    $tv_type = "DSTV";
-                    $tv_package = "ACSSE36";
-                    $bundle_code = "ACSSW4";
-                    $link = "dstv";
-                    $amount = "2000";
-                    $tv_type_code = "14";
-                    $tv_package_code = "01";
-                    $service_id = "14";
-                    $server=$sys->dstv;
-                    break;
-
                 case "d_yanga":
                     $tv_type = "DSTV";
-                    $tv_package = "ACSSE36";
+                    $tv_package = "NNJ1E36";
                     $bundle_code = "NNJ1E36";
                     $link = "dstv";
                     $amount = "2565";
@@ -93,7 +81,7 @@ class ServeRequestController extends Controller
 
                     case "d_confam":
                     $tv_type = "DSTV";
-                    $tv_package = "ACSSE36";
+                    $tv_package = "NNJ2E36";
                     $bundle_code = "NNJ2E36";
                     $link = "dstv";
                     $amount = "4615";
@@ -175,33 +163,9 @@ class ServeRequestController extends Controller
                     $server=$sys->gotv;
                     break;
 
-                case "g_value":
-                    $tv_type = "GOTV";
-                    $tv_package = "GOTV";
-                    $bundle_code = "GOTV";
-                    $amount = "1250";
-                    $link = "gotv";
-                    $tv_type_code = "02";
-                    $tv_package_code = "02";
-                    $service_id = "15";
-                    $server=$sys->gotv;
-                    break;
-
-                case "g_plus":
-                    $tv_type = "GOTV";
-                    $tv_package = "GOTVPLS";
-//                    $bundle_code = "GOTVPLS";
-                    $link = "gotv";
-                    $amount = "1900";
-                    $tv_type_code = "02";
-                    $tv_package_code = "03";
-                    $service_id = "15";
-                    $server=$sys->gotv;
-                    break;
-
                 case "g_max":
                     $tv_type = "GOTV";
-                    $tv_package = "GOTVMAX";
+                    $tv_package = "GOtvMax";
                     $bundle_code = "GOTVMAX";
                     $link = "gotv";
                     $amount = "3280";
@@ -214,7 +178,7 @@ class ServeRequestController extends Controller
 
                 case "s_nova":
                     $tv_type = "STARTIMES";
-                    $tv_package = "STARN";
+                    $tv_package = "STARNO";
                     $bundle_code = "900";
                     $link = "startimes";
                     $amount = "900";
@@ -224,12 +188,24 @@ class ServeRequestController extends Controller
                     $server=$sys->startimes;
                     break;
 
+                case "s_sportplus":
+                    $tv_type = "STARTIMES";
+                    $tv_package = "STARSP";
+                    $bundle_code = "1200";
+                    $link = "startimes";
+                    $amount = "1200";
+                    $tv_type_code = "03";
+                    $tv_package_code = "01";
+                    $service_id = "16";
+                    $server=$sys->startimes;
+                    break;
+
                 case "s_basic":
                     $tv_type = "STARTIMES";
-                    $tv_package = "STARB";
-                    $bundle_code = "1300";
+                    $tv_package = "STARBA";
+                    $bundle_code = "1700";
                     $link = "startimes";
-                    $amount = "1300";
+                    $amount = "1700";
                     $tv_type_code = "03";
                     $tv_package_code = "02";
                     $service_id = "16";
@@ -238,10 +214,10 @@ class ServeRequestController extends Controller
 
                 case "s_smart":
                     $tv_type = "STARTIMES";
-                    $tv_package = "STARS";
-                    $bundle_code = "1900";
+                    $tv_package = "STARSM";
+                    $bundle_code = "2200";
                     $link = "startimes";
-                    $amount = "1900";
+                    $amount = "2200";
                     $tv_type_code = "03";
                     $tv_package_code = "03";
                     $service_id = "16";
@@ -250,21 +226,34 @@ class ServeRequestController extends Controller
 
                 case "s_classic":
                     $tv_type = "STARTIMES";
-                    $tv_package = "STARC";
-                    $bundle_code = "2600";
+                    $tv_package = "STARCL";
+                    $bundle_code = "2500";
                     $link = "startimes";
-                    $amount = "2600";
+                    $amount = "2500";
                     $tv_type_code = "03";
                     $tv_package_code = "04";
                     $service_id = "16";
                     $server=$sys->startimes;
                     break;
 
-                case "s_unique":
+                case "s_super":
                     $tv_type = "STARTIMES";
-                    $tv_package = "STARU";
+                    $tv_package = "STARSU";
+                    $bundle_code = "4200";
                     $link = "startimes";
-                    $amount = "3800";
+                    $amount = "4200";
+                    $tv_type_code = "03";
+                    $tv_package_code = "04";
+                    $service_id = "16";
+                    $server=$sys->startimes;
+                    break;
+
+                case "s_chinese":
+                    $tv_type = "STARTIMES";
+                    $tv_package = "STARCH";
+                    $bundle_code = "6600";
+                    $link = "startimes";
+                    $amount = "6600";
                     $tv_type_code = "03";
                     $tv_package_code = "05";
                     $service_id = "16";
@@ -606,7 +595,7 @@ class ServeRequestController extends Controller
 
 //begining of buying
         if($GLOBALS['success'] ==1){
-            $url=env('SERVER1_TV').$link.env('SERVER1_CRED')."&smartno=".$phone."&product_code=".$tv_package."&customer_name=".$GLOBALS['customer_name']."&customer_number=".$GLOBALS['customer_number']."&trans_id=".$transid."&price=".$amnt;
+            $url=env('SERVER1_TV').$link.env('SERVER1_CRED')."&smartno=".$phone."&product_code=".$tv_package."&customer_name=".trim($GLOBALS['customer_name'])."&customer_number=".$GLOBALS['customer_number']."&trans_id=".$transid."&price=".$amnt;
             $result = file_get_contents($url);
 
             $findme   = 'service';

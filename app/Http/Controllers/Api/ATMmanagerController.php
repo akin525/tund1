@@ -78,7 +78,7 @@ class ATMmanagerController extends Controller
         }
     }
 
-    private function PushNoti($user_name,$message, $title){
+    public function PushNoti($user_name,$message, $title){
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",

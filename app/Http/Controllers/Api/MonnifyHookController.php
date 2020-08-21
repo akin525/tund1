@@ -107,7 +107,6 @@ class MonnifyHookController extends Controller
     }
 
     private function RAfundwallet($name, $amount, $reference, $transactionreference){
-        $charge_treshold=2000;
         $charges=50;
         $u=User::where('user_name', '=', $reference)->first();
 
@@ -116,8 +115,9 @@ class MonnifyHookController extends Controller
             $input['amount']=$amount;
             $input['status']='successful';
             $input['description']= $u->user_name .' wallet funded using Account Transfer('.$u->account_number .') with the sum of #'.$amount. ' from '. $name;
+            $notimssg= $u->user_name .' wallet funded using Account Transfer('.$u->account_number .') with the sum of #'.$amount. ' from '. $name;
             $input['user_name']=$u->user_name;
-            $input['code']='afund_Bank Transfer';
+            $input['code']='afund_Personal Account';
             $input['i_wallet']=$u->wallet;
             $wallet=$u->wallet + $amount;
             $input['f_wallet']=$wallet;
@@ -143,26 +143,11 @@ class MonnifyHookController extends Controller
 
             Transaction::create($input);
 
-            if($amount<$charge_treshold){
-                $input["type"]="income";
-                $input["amount"]=$charges;
-                $input["narration"]="Being amount charged for funding less than #".$charge_treshold." from ".$input["user_name"];
-
-                PndL::create($input);
-
-                $input["description"]="Being amount charged for funding less than #".$charge_treshold;
-                $input["name"]="Auto Charge";
-                $input["code"]="ac50";
-                $input["i_wallet"]=$wallet;
-                $input["f_wallet"]=$input["i_wallet"] - $charges;
-
-                Transaction::create($input);
-
-                $wallet-=$charges;
-            }
-
             $u->wallet=$wallet;
             $u->save();
+
+            $noti=new ATMmanagerController();
+            $noti->PushNoti($input['user_name'],$notimssg, "Account Transfer Successful");
         }
 
     }
