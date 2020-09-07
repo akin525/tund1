@@ -76,6 +76,11 @@ class ATMmanagerController extends Controller
             $t=new ServeRequestController();
             $t->buyairtime($r);
         }
+
+        if($s->service=="data"){
+            $t=new ServeRequestController();
+            $t->buydata($r);
+        }
     }
 
     public function PushNoti($user_name,$message, $title){

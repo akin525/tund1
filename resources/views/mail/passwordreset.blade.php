@@ -18,9 +18,9 @@
                                 <tr>
                                     <td>
                                         <p>&nbsp;</p>
+                                        <p>Someone recently requested to reset your account password for &ldquo;{{$data['user_name']}}&rdquo;.</p>
                                         <p>Your new password is:</p>
                                         <p><strong>{{$data['password']}}</strong></p>
-                                        <p>Someone recently requested to reset your account password for &ldquo;{{$data['user_name']}}&rdquo;.</p>
                                         <br/>
                                     </td>
                                 </tr>
