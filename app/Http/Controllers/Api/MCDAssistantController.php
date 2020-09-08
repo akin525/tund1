@@ -31,6 +31,8 @@ class MCDAssistantController extends Controller
             $this->buydata($data2);
         }else if($data2->queryResult->action == "service_buyairtime.service_buyairtime-custom.service_buyairtime-details-yes"){
             $this->buyairtime($data2);
+        }else if($data2->queryResult->action == "helppersonal-account.helppersonal-account-custom"){
+            $this->account_details($data2);
         }else{
             $rep="Not configure to handle this request yet";
             echo '{"fulfillmentMessages": [{"text": {"text": ["'.$rep.'"]}}]}';
@@ -174,6 +176,23 @@ class MCDAssistantController extends Controller
                 }
             }else{
                 $rep = $user_name .", pin is incorrect, have you set your pin on the App. Kindly check and revert back or contact support @ 07011223737";
+            }
+        }else{
+            $rep=$user_name . ", doesn't exist in our system, kindly get our app on playstore and registered with us";
+        }
+        echo '{"fulfillmentMessages": [{"text": {"text": ["'.$rep.'"]}}]}';
+    }
+
+    private function account_details($data2){
+        $user_name=$data2->queryResult->outputContexts[0]->parameters->username;
+
+        $u=User::where('user_name', $user_name)->first();
+
+        if ($u){//checking if user exist
+            if($u->account_number!=0){
+                $rep=$user_name . ", your personal MCD Account number is ". $u->account_number." (Providus Bank). Is there any other thing you will like me to for you.";
+            }else{
+                $rep=$user_name . ", personal account has not been created for you. Kindly contact support @ 07011223737";
             }
         }else{
             $rep=$user_name . ", doesn't exist in our system, kindly get our app on playstore and registered with us";
