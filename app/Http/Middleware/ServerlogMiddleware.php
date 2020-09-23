@@ -6,6 +6,7 @@ use App\Model\Serverlog;
 use App\Model\Settings;
 use App\User;
 use Closure;
+use Illuminate\Support\Facades\DB;
 
 class ServerlogMiddleware
 {
@@ -27,6 +28,13 @@ class ServerlogMiddleware
             return response()->json(['success' => 0, 'message' => 'Error, invalid request']);
         }
 
+        $users=User::where("user_name","=",$input['user_name'])->first();
+        if (!$users) {
+            $input['status']='Username does not exist';
+            Serverlog::create($input);
+            return response()->json(['success' => 0, 'message' => 'Error, invalid user name']);
+        }
+
         $re=Serverlog::where('transid',$input['transid'])->first();
 
         if($re){
@@ -43,6 +51,17 @@ class ServerlogMiddleware
                 $input['transid']=$input['transid'];
                 Serverlog::create($input);
                 return response()->json(['success' => 0, 'message' => 'General market balance is lower than threshold']);
+            }
+
+            $bugm=DB::table("tbl_generalmarket_blocked user")->get();
+            foreach ($bugm as $bu){
+                //check for blocked users
+                if ($input['user_name']== $bu->user_name) {
+                    $input['status']='User suspended';
+                    $input['transid']=$input['transid'];
+                    Serverlog::create($input);
+                    return response()->json(['success' => 0, 'message' => 'error']);
+                }
             }
 
             if ($set->value >= $input['amount']) {

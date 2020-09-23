@@ -24,7 +24,7 @@ class KorapayHookController extends Controller
 
         $status=$input['data']['status'];
         $reference=$input['data']['payment_reference'];
-        $amount=$input['data']['amount'];
+        $amount=int($input['data']['amount']-$input['data']['fee']);
 
         if($status!="success"){
             return "Success status expected";

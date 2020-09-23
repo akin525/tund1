@@ -1,180 +1,118 @@
 @extends('layouts.layouts')
+@section('title', 'Users List')
+@section('parentPageTitle', 'User')
 
 @section('content')
 
-
-<div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-lg-10">
-                    <h2>User List</h2>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="/">Home</a>
-                        </li>
-                        <li>
-                            <a>User</a>
-                        </li>
-                        <li class="active">
-                            <strong>User List</strong>
-                        </li>
-                    </ol>
-                </div>
-                <div class="col-lg-2">
-
-                </div>
-            </div>
-        <div class="wrapper wrapper-content animated fadeInRight">
-            <div class="wrapper wrapper-content">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <span class="label label-success pull-right">All Time</span>
-                                <h5>Total Users</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">{{number_format($t_users)}}</h1>
-                                <div class="stat-percent font-bold text-success">{{round(($ac_users/$t_users) * 100)}}% <i class="fa fa-bolt"></i></div>
-                                <small>Active Users : {{number_format($ac_users)}} | Inactive Users : {{number_format($iac_users)}} | Fraud Users : {{number_format($f_users)}}</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <span class="label label-success pull-right">All Time</span>
-                                <h5>Total Referred</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">{{number_format($r_users)}}</h1>
-{{--                                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>--}}
-{{--                                <small>Total Referred</small>--}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <span class="label label-success pull-right">Monthly</span>
-                                <h5>Total Agent</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">{{number_format($a_users)}}</h1>
-{{--                                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>--}}
-{{--                                <small>Active Wallet: {{number_format($au_wallet)}}</small>--}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <span class="label label-success pull-right">All Time</span>
-                                <h5>Total Wallet</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">#{{number_format($u_wallet)}}</h1>
-                                <div class="stat-percent font-bold text-success">{{round((($au_wallet/$u_wallet) * 100))}} <i class="fa fa-bolt"></i></div>
-                                <small>Active Wallet: {{number_format($au_wallet)}} | Inactive Wallet: {{number_format($iau_wallet)}} | Fraud Wallet: {{number_format($fu_wallet)}}</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <h5>Users</h5>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-users text-gradient-success"></i></div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ number_format($t_users) ?? 'Total users' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Total Users</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="ibox-content">
-                            <p>
-
-                                <div class="text-center">
-                           </div>
-
-                            @if (session('error'))
-                                <div class="alert alert-danger" role="alert">
-                                    <strong>{{ session('error') }}</strong>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body justify-content-center">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-arrow-circle-right text-gradient-danger"></i></div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ number_format($r_users) ?? 'Total Referred' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Total Referred</p>
+                                    </div>
                                 </div>
-                                <script type="text/javascript">
-                                    toastr.options = {
-                                        closeButton: true,
-                                        progressBar: true,
-                                        showMethod: 'slideDown',
-                                        timeOut: 4000
-                                    };
-                                    toastr.error('{{ session('error') }}', 'Login Error' );
-                                </script>
-                            @endif
-
-                            @if (session('success'))
-                                <div class="alert alert-success" role="alert">
-                                    <strong>{{ session('success') }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-tasks text-gradient-warning"></i></div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $a_users ?? 'Total Agent' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Total Agent</p>
+                                    </div>
                                 </div>
-                                <script type="text/javascript">
-                                    toastr.options = {
-                                        closeButton: true,
-                                        progressBar: true,
-                                        showMethod: 'slideDown',
-                                        timeOut: 4000
-                                    };
-                                    toastr.success('{{ session('success') }}', 'Success' );
-                                </script>
-                            @endif
-
-                            <table class="table table-striped table-bordered table-hover dataTables-example" >
-                                <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th>Username</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>wallet</th>
-                                    <th>phoneno</th>
-                                    <th>status</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                            @foreach($users as $user)
-                                    <tr class="gradeX">
-                                        <td>{{$user->id}}</td>
-                                        <td>{{$user->user_name }}
-                                        <td>{{$user->full_name }}
-                                        <td>{{$user->email }}</td>
-                                        <td>{{$user->wallet}}</td>
-                                        <td>{{$user->phoneno}}</td>
-                                        <td class="center">{{$user->status}}</td>
-                                        <td class="center"><a data-toggle="modal" class="btn btn-primary" href="profile/{{ $user->user_name }}">View</a></td>
-                                    </tr>
-                                @endforeach
-
-                                </tbody>
-                                <tfoot>
-                                <tr>
-
-                                    <th>id</th>
-                                    <th>Username</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>wallet</th>
-                                    <th>phoneno</th>
-                                    <th>status</th>
-                                    <th></th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                            {{ $users->links() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-database text-gradient-primary"></i></div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ number_format($u_wallet) ?? 'Today Deposits' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Total Wallet</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="mt-0 header-title">Users Table</h4>
+                    <p class="text-muted mb-4 font-13">Use <code>pencil icon</code> to view user profile.</p>
+                    <div class="table-responsive">
+                        <table class="table table-striped mb-0">
+                            <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Email</th>
+                                <th>Contact No</th>
+                                <th>Wallet Balance</th>
+                                <th>Account Number</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($users as $user)
+                                <tr>
+                                    <td>
+                                        @if($user->photo)
+                                            <img src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->photo}}" alt="" class="rounded-circle thumb-sm mr-1"> {{$user->user_name}}
+                                        @else
+                                            <img src="img/mcd_logo.png" alt="" class="rounded-circle thumb-sm mr-1"> {{$user->user_name}}
+                                        @endif
+                                    </td>
+                                    <td>{{$user->email }}</td>
+                                    <td>{{$user->phoneno}}</td>
+                                    <td>{{$user->wallet}}</td>
+                                    <td>{{$user->account_number}}</td>
+                                    <td><a href="profile/{{ $user->user_name }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a></td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        @endsection
+        <!-- end col -->
+    </div>
+    <!-- end row -->
+@endsection

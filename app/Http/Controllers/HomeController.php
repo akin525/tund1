@@ -30,6 +30,7 @@ class HomeController extends Controller
     public function index()
     {
         $data['total_user'] = DB::table('tbl_agents')->get()->count();
+        $data['today_user'] = DB::table('tbl_agents')->where('reg_date', 'LIKE', '%'.Carbon::now()->format('Y-m-d').'%')->count();
         $data['active_user'] = DB::table('tbl_agents')->where('wallet', '>=', '1')->get()->count();
         $data['inactive_user'] = DB::table('tbl_agents')->where('wallet', '<', '1')->get()->count();
         $data['client'] = DB::table('tbl_agents')->where('status', '=', 'client')->get()->count();
@@ -40,6 +41,13 @@ class HomeController extends Controller
         $data['total_deposits'] = DB::table('tbl_agents')->get()->sum('wallet');
         $data['today_deposits'] = DB::table('tbl_transactions')->where([['name', '=', 'wallet funding'], ['date', 'LIKE', '%'.Carbon::now()->format('Y-m-d').'%']])->sum('amount');
         $data['total_transaction'] = DB::table('tbl_transactions')->get()->count();
+        $data['today_transaction'] = DB::table('tbl_transactions')->where('date', 'LIKE', '%'.Carbon::now()->format('Y-m-d').'%')->count();
+        $data['yesterday_transaction'] = DB::table('tbl_transactions')->where('date', 'LIKE', '%'.Carbon::now()->subDay()->format('Y-m-d').'%')->count();
+        $data['d2_transaction'] = DB::table('tbl_transactions')->where('date', 'LIKE', '%'.Carbon::now()->subDay(2)->format('Y-m-d').'%')->count();
+        $data['d3_transaction'] = DB::table('tbl_transactions')->where('date', 'LIKE', '%'.Carbon::now()->subDay(3)->format('Y-m-d').'%')->count();
+        $data['d4_transaction'] = DB::table('tbl_transactions')->where('date', 'LIKE', '%'.Carbon::now()->subDay(4)->format('Y-m-d').'%')->count();
+        $data['d5_transaction'] = DB::table('tbl_transactions')->where('date', 'LIKE', '%'.Carbon::now()->subDay(5)->format('Y-m-d').'%')->count();
+        $data['d6_transaction'] = DB::table('tbl_transactions')->where('date', 'LIKE', '%'.Carbon::now()->subDay(6)->format('Y-m-d').'%')->count();
         $data['fail_transaction'] = DB::table('tbl_transactions')->where('status', '=', 'Not Delivered')->orWhere('status', '=', 'not_delivered')->orWhere('status', '=', 'ORDER_CANCELLED')->orWhere('status', '=', 'Invalid Number')->orWhere('status', '=', 'Unsuccessful')->get()->count();
         $data['successful_transaction'] = DB::table('tbl_transactions')->where('status', '=', 'Delivered')->orWhere('status', '=', 'delivered')->orWhere('status', '=', 'ORDER_RECEIVED')->get()->count();
         $data['banktransfer'] = DB::table('tbl_transactions')->where('code', '=', 'fund_Banktransfer')->get()->count();
@@ -62,6 +70,10 @@ class HomeController extends Controller
         $data['autocharge'] = DB::table('tbl_transactions')->where([['name', '=', 'Auto Charge'],['status', '=', 'successful'],])->count();
         $data['simswap'] = DB::table('tbl_transactions')->where([['code', '=', 'swap'],['status', '=', 'successful'],])->count();
         $data['walletlogs'] = DB::table('tbl_wallet')->orderBy('id', 'DESC')->limit(9)->get();
+        $data['audit_trails'] = DB::table('audit_trail')->orderBy('audit_trail.id', 'DESC')->limit(9)->get();
+        $data['p_nd_l'] = DB::table('tbl_p_nd_l')->where([['type','=','income'],['date', 'LIKE', '%'.Carbon::now()->format('Y-m-d').'%']])->get()->count();
+        $data['allsettings'] = DB::table('tbl_allsettings')->limit(14)->get();
+        $data['general_market'] = DB::table('tbl_allsettings')->where("name", "=", "general_market")->first();
 
 
 

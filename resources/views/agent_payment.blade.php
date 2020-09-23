@@ -1,243 +1,227 @@
 @extends('layouts.layouts')
+@section('title', 'Agent Payment')
+@section('parentPageTitle', 'Agent')
 
 @section('content')
 
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-10">
-            <h2>Agent Payment</h2>
-            <ol class="breadcrumb">
-                <li>
-                    <a href="/home">Home</a>
-                </li>
-                <li>
-                    <a>Agent</a>
-                </li>
-                <li class="active">
-                    <strong>Payment</strong>
-                </li>
-            </ol>
-        </div>
+{{--    <div class="row">--}}
+{{--        <div class="col-lg-12">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-lg-3">--}}
+{{--                    <div class="card">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <div class="icon-contain">--}}
+{{--                                <div class="row">--}}
+{{--                                    <div class="col-2 align-self-center"><i class="fas fa-users text-gradient-success"></i></div>--}}
+{{--                                    <div class="col-10 text-right">--}}
+{{--                                        <h5 class="mt-0 mb-1">{{ number_format($tt) ?? 'Total Transactions' }}</h5>--}}
+{{--                                        <p class="mb-0 font-12 text-muted">Total Transactions</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col-lg-3">--}}
+{{--                    <div class="card">--}}
+{{--                        <div class="card-body justify-content-center">--}}
+{{--                            <div class="icon-contain">--}}
+{{--                                <div class="row">--}}
+{{--                                    <div class="col-2 align-self-center"><i class="fas fa-arrow-circle-right text-gradient-danger"></i></div>--}}
+{{--                                    <div class="col-10 text-right">--}}
+{{--                                        <h5 class="mt-0 mb-1">{{ number_format($st) ?? 'Total Successful' }}</h5>--}}
+{{--                                        <p class="mb-0 font-12 text-muted">Total Successful</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col-lg-3">--}}
+{{--                    <div class="card">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <div class="icon-contain">--}}
+{{--                                <div class="row">--}}
+{{--                                    <div class="col-2 align-self-center"><i class="fas fa-tasks text-gradient-warning"></i></div>--}}
+{{--                                    <div class="col-10 text-right">--}}
+{{--                                        <h5 class="mt-0 mb-1">{{ $ft ?? 'Total Agent' }}</h5>--}}
+{{--                                        <p class="mb-0 font-12 text-muted">Total Failed</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col-lg-3">--}}
+{{--                    <div class="card">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <div class="icon-contain">--}}
+{{--                                <div class="row">--}}
+{{--                                    <div class="col-2 align-self-center"><i class="fas fa-database text-gradient-primary"></i></div>--}}
+{{--                                    <div class="col-10 text-right">--}}
+{{--                                        <h5 class="mt-0 mb-1">{{ number_format($rt) ?? 'Today Deposits' }}</h5>--}}
+{{--                                        <p class="mb-0 font-12 text-muted">Total Reversed</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
-        <div class="wrapper wrapper-content animated fadeInRight">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5></h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">Config option 1</a>
-                                    </li>
-                                    <li><a href="#">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="general-label">
+
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                {{ session('success') }}
                             </div>
-                        </div>
-                        <div class="ibox-content">
+                        @endif
 
-                            <table class="table table-striped table-bordered table-hover dataTables-example" >
-                                <div class="col-lg-12">
+                        @if (session('error'))
+                            <div class="alert alert-danger alert-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                {{ session('error') }}
+                            </div>
+                        @endif
 
-                                    @if (session('success'))
-                                        <div class="alert alert-success alert-dismissable">
-                                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
-
-                                        @if (session('error'))
-                                        <div class="alert alert-danger alert-dismissable">
-                                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                            {{ session('error') }}
-                                        </div>
-                                    @endif
-
-                                    <form method="POST" action="{{ route('agent.payment.confirmation') }}">
-                                        @csrf
-                                    <div class="form-group">
-
-                                        <div align="center" class="col-sm-10 col-lg-12">
-
-                                            <div class="form-group @error('user_name') has-error @enderror">
-                                                <label class="col-sm-2 control-label">Agent Username</label>
-                                                <div class="col-sm-10">
-                                                <div class="input-group m-b"><span class="input-group-addon">@</span> <input type="text" name="user_name" placeholder="Enter Agent Username" class="form-control @error('username') is-invalid @enderror"></div>
-                                                    @error('user_name')
-                                                    <div class="alert alert-danger alert-dismissable">
-                                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                                        {{ $message }}
-                                                    </div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-
-                                            <button class="btn btn-primary" type="submit">Lookup</button>
-
-                                        </div>
+                        <form class="form-horizontal" method="POST" action="{{ route('agent.payment.confirmation') }}">
+                            @csrf
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span class="input-group-text"><i class="far fa-user"></i></span></div>
+                                        <input type="text" name="user_name" placeholder="Enter Agent Username" class="form-control @error('username') is-invalid @enderror">
+                                        <button class="btn btn-primary" type="submit">Continue</button>
                                     </div>
-                                    </form>
+                                    @error('user_name')
+                                    <div class="alert alert-danger alert-dismissable">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
                                 </div>
-                            </table>
-
-                            @if($alist ?? '')
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Note</th>
-                                        <th>Wallet</th>
-                                        <th>Date</th>
-                                        <th>Username</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($users as $data)
-                                        <tr>
-                                            <td>{{$data->id}}</td>
-                                            <td>{{$data->note}}</td>
-                                            <td>{{$data->wallet}}</td>
-                                            <td>{{$data->reg_date}}</td>
-                                            <td>{{$data->user_name}}</td>
-                                            <td>
-                                                <form method="POST" action="{{ route('agent.payment.confirmation') }}">
-                                                    <input type="hidden" name="user_name" value="{{$data->user_name}}">
-                                                    <button class="btn btn-success" type="submit">Continue</button>
-                                                @csrf
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            @endif
-
-                        </div>
+                            </div>
+                            <!--end row-->
+                        </form>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                @if($val ?? '')
-                <div class="col-lg-6">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>Transactions</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">Config option 1</a>
-                                    </li>
-                                    <li><a href="#">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="ibox-content">
-
-                            <table class="table">
-                                <thead>
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        @if($alist ?? '')
+                        <table class="table table-striped mb-0">
+                            <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Wallet</th>
+                                <th>Registration Date</th>
+                                <th>Note</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($users as $data)
                                 <tr>
-                                    <th>#</th>
-                                    <th>Description</th>
-                                    <th>Amount</th>
-                                    <th>Date</th>
-                                    <th>Username</th>
+                                    <td>{{$data->user_name}}</td>
+                                    <td>{{$data->wallet}}</td>
+                                    <td>{{$data->reg_date}}</td>
+                                    <td>{{$data->note}}</td>
+                                    <td class="center">
+                                        <form method="POST" action="{{ route('agent.payment.confirmation') }}">
+                                            <input type="hidden" name="user_name" value="{{$data->user_name}}">
+                                            <button class="btn btn-success" type="submit">Continue</button>
+                                            @csrf
+                                        </form>
+                                    </td>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($trans as $data)
+                            @endforeach
+                            </tbody>
+                        </table>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end col -->
+        @if($val ?? '')
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <h4 class="mt-0 header-title">Transactions</h4>
+                        <table class="table table-striped mb-0">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($trans as $data)
                                 <tr>
                                     <td>{{$data->id}}</td>
                                     <td>{{$data->description}}</td>
                                     <td>{{$data->status}}</td>
                                     <td>{{$data->amount}}</td>
                                     <td>{{$data->date}}</td>
-                                    <td>{{$data->user_name}}</td>
                                 </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-
-                        </div>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-                <div class="col-lg-6">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>Agent Payment</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">Config option 1</a>
-                                    </li>
-                                    <li><a href="#">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="ibox-content">
-
-                            <form method="POST" action="{{ route('agent.payment') }}">
-                                @csrf
-                                <div class="form-group">
-
-                                    <div align="center" class="col-sm-10 col-lg-12">
-
-                                        <input type="hidden" name="user_name" value="{{$user->user_name}}" placeholder="Enter Agent Username" class="form-control @error('username') is-invalid @enderror">
-
-                                        <div class="form-group @error('count') has-error @enderror">
-                                                <label class="col-sm-2 control-label">Count</label>
-                                                <div class="col-sm-10">
-                                                    <div class="input-group m-b"><span class="input-group-addon">#</span> <input type="number" name="count" value="{{$count}}" placeholder="Enter record count you want payment for" class="form-control @error('count') is-invalid @enderror" required></div>
-                                                    @error('count')
-                                                    <div class="alert alert-danger alert-dismissable">
-                                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                                        {{ $message }}
-                                                    </div>
-                                                    @enderror
-                                                </div>
-                                        </div>
-
-                                        <button class="btn btn-primary" type="submit">Process Payment</button>
-
-                                    </div>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-
-                @endif
-
             </div>
         </div>
+        <!-- end col -->
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="mt-0 header-title">Process Payment</h4>
+                    <p class="text-muted mb-4 font-13">Confirm the right payment to be made and click on the button.</p>
+                    <div class="general-label">
+                        <form class="form-horizontal" method="POST" action="{{ route('agent.payment') }}">
+                            @csrf
+                            <input type="hidden" name="user_name" value="{{$user->user_name}}" placeholder="Enter Agent Username" class="form-control @error('username') is-invalid @enderror">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span class="input-group-text">#</span></div>
+                                        <input type="number" name="count" value="{{$count}}" placeholder="Enter record count you want payment for" class="form-control @error('count') is-invalid @enderror" required>
+                                        <button class="btn btn-primary" type="submit">Process Payment</button>
+                                        @error('count')
+                                        <div class="alert alert-danger alert-dismissable">
+                                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end row-->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
 
     </div>
+    <!-- end row -->
+@endsection
 
-            @endsection

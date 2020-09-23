@@ -1,607 +1,275 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';">
-
-    <title>MCD | Dashboard</title>
-
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
-
-    <!-- Morris -->
-    <link href="/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
-
-    <!-- Gritter -->
-    <link href="/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
-
-    <link href="/css/animate.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
-
-        <!-- Data Tables -->
-    <link href="/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
-    <link href="/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
-    <link href="/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
-
-        <link href="/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-    <link href="/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-
-
-      <!-- Mainly scripts -->
-    <script src="/js/jquery-2.1.1.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-    <!-- Flot -->
-    <script src="/js/plugins/flot/jquery.flot.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.spline.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.resize.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.pie.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.symbol.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.time.js"></script>
-
-    <!-- Peity -->
-    <script src="/js/plugins/peity/jquery.peity.min.js"></script>
-    <script src="/js/demo/peity-demo.js"></script>
-
-    <!-- Custom and plugin javascript -->
-    <script src="/js/inspinia.js"></script>
-    <script src="/js/plugins/pace/pace.min.js"></script>
-
-    <!-- jQuery UI -->
-    <script src="/js/plugins/jquery-ui/jquery-ui.min.js"></script>
-
-    <!-- Jvectormap -->
-    <script src="/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-
-    <!-- EayPIE -->
-    <script src="/js/plugins/easypiechart/jquery.easypiechart.js"></script>
-
-    <!-- Sparkline -->
-    <script src="/js/plugins/sparkline/jquery.sparkline.min.js"></script>
-
-    <!-- Sparkline demo data  -->
-    <script src="/js/demo/sparkline-demo.js"></script>
-
-        <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="/js/plugins/jeditable/jquery.jeditable.js"></script>
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui">
+    <title>Mega Cheap Data | Dashboard</title>
+    <meta content="Admin Dashboard" name="description">
+    <meta content="5Star Company" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="img/mcd_logo.png">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/style.css" rel="stylesheet" type="text/css">
 </head>
-
-<body>
-    <div id="wrapper">
-    <nav class="navbar-default navbar-static-side" role="navigation">
-        <div class="sidebar-collapse">
-            <ul class="nav" id="side-menu">
-                <li class="nav-header">
-                    <div class="dropdown profile-element"> <span>
-                            @if(\Illuminate\Support\Facades\Auth::user()->photo)
-                            <img alt="image" class="img-circle" width="50px" height="50px" src="https://mcd.5starcompany.com.ng/app/avatar/{{\Illuminate\Support\Facades\Auth::user()->photo}}" />
-                            @else
-                                <img alt="image" class="img-circle" src="img/profile_small.jpg" />
-                            @endif
-                             </span>
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{\Illuminate\Support\Facades\Auth::user()->full_name}}</strong>
-                             </span> <span class="text-muted text-xs block">{{\Illuminate\Support\Facades\Auth::user()->status}} <b class="caret"></b></span> </span> </a>
-                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="/profile/{{\Illuminate\Support\Facades\Auth::user()->user_name}}">Profile</a></li>
-{{--                            <li><a href="contacts.html">Contacts</a></li>--}}
-{{--                            <li><a href="mailbox.html">Mailbox</a></li>--}}
-                            <li class="divider"></li>
-                            <li><a href="/logout">Logout</a></li>
-                        </ul>
-                    </div>
-                    <div class="logo-element">
-                        IN+
-                    </div>
-                </li>
-                <li class="active">
-                    <a href="/"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li class="active"><a href="/home">Default</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="/gnews"><i class="fa fa-diamond"></i> <span class="nav-label">General News</span> <span class="label label-primary pull-right">NEW</span></a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-user"></i> <span class="nav-label">User Management</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li><a href="/users">Users</a></li>
-                        <li><a href="/finduser">Find User</a></li>
-                        <li><a href="/agents">Agents</a></li>
-                        <li><a href="/pending_request">Pending Request</a></li>
-                        <li><a href="/resellers">Resellers</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="mailbox.html"><i class="fa fa-shopping-cart"></i> <span class="nav-label">Trans.. Management </span></a>
-                    <ul class="nav nav-second-level">
-                        <li><a href="/transaction">Transactions History</a></li>
-                        <li><a href="/addtransaction">Add Airtime Transaction</a></li>
-                        <li><a href="/adddatatransaction">Add Data Transaction</a></li>
-                        <li><a href="/agentpayment">Agent Payment</a></li>
-                        <li><a href="/airtime2cash">Airtime 2 Cash</a></li>
-                        <li><a href="/reversal">Reversal</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="javascript.void(0)"><i class="fa fa-dollar"></i> <span class="nav-label">Wallet Management </span></a>
-                    <ul class="nav nav-second-level">
-
-                        <li><a href="/addfund">Fund Wallet</a></li>
-                        <li><a href="/wallet">Wallet</a></li>
-                    </ul>
-                </li>
-
-                <li class="landing_link">
-                    <a target="_blank" href="/logout"><i class="fa fa-star"></i> <span class="nav-label">Log Out</span> </a>
-                </li>
-            </ul>
-
-        </div>
-    </nav>
-
-        <div id="page-wrapper" class="gray-bg">
-        <div class="row border-bottom">
-        <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-            <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
-                <div class="form-group">
-                    <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
-                </div>
-            </form>
-        </div>
-            <ul class="nav navbar-top-links navbar-right">
-                <li>
-                    <span class="m-r-sm text-muted welcome-message">Welcome to MCD Admin Portal</span>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-messages">
-                        <li>
-                            <div class="dropdown-messages-box">
-                                <a href="profile.html" class="pull-left">
-                                    <img alt="image" class="img-circle" src="img/a7.jpg">
-                                </a>
-                                <div>
-                                    <small class="pull-right">46h ago</small>
-                                    <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
-                                    <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <div class="dropdown-messages-box">
-                                <a href="profile.html" class="pull-left">
-                                    <img alt="image" class="img-circle" src="img/a4.jpg">
-                                </a>
-                                <div>
-                                    <small class="pull-right text-navy">5h ago</small>
-                                    <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
-                                    <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <div class="dropdown-messages-box">
-                                <a href="profile.html" class="pull-left">
-                                    <img alt="image" class="img-circle" src="img/profile.jpg">
-                                </a>
-                                <div>
-                                    <small class="pull-right">23h ago</small>
-                                    <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
-                                    <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <div class="text-center link-block">
-                                <a href="mailbox.html">
-                                    <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-alerts">
-                        <li>
-                            <a href="mailbox.html">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> You have 16 messages
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="profile.html">
-                                <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small">12 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="grid_options.html">
-                                <div>
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <div class="text-center link-block">
-                                <a href="notifications.html">
-                                    <strong>See All Alerts</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-
-
-                <li>
-                    <a href="/logout">
-                        <i class="fa fa-sign-out"></i> Log out
-                    </a>
-                </li>
-            </ul>
-
-        </nav>
-        </div>
-
- @yield('content')
-
-                <div class="footer">
-            <div class="pull-right">
-                Mega <strong>Cheap</strong> Data.
-            </div>
-            <div>
-                <strong>Copyright</strong> 5Star Inn Company &copy; 2016-2019
-            </div>
-        </div>
-        </div>
+<body class="fixed-left">
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner"></div>
     </div>
+</div>
+<!-- Begin page -->
+<div id="wrapper">
+    <!-- ========== Left Sidebar Start ========== -->
+    <div class="left side-menu">
+        <button type="button" class="button-menu-mobile button-menu-mobile-topbar open-left waves-effect"><i class="ion-close"></i></button><!-- LOGO -->
+        <div class="topbar-left">
+            <div class="text-center bg-logo">
+                <a href="#" class="logo"><i class="mdi mdi-bowling text-success"></i> MCD Dashboard</a><!-- <a href="index.html" class="logo"><img src="assets/images/logo.png" height="24" alt="logo"></a> -->
+            </div>
+        </div>
+        <div class="sidebar-user">
+            @if(\Illuminate\Support\Facades\Auth::user()->photo)
+                <img src="https://mcd.5starcompany.com.ng/app/avatar/{{\Illuminate\Support\Facades\Auth::user()->photo}}" alt="user" class="rounded-circle img-thumbnail mb-1">
+            @else
+                <img src="img/mcd_logo.png" alt="user" class="rounded-circle img-thumbnail mb-1">
+            @endif
 
-
-
-
-
-    <script>
-        $(document).ready(function() {
-            $('.chart').easyPieChart({
-                barColor: '#f8ac59',
-//                scaleColor: false,
-                scaleLength: 5,
-                lineWidth: 4,
-                size: 80
-            });
-
-            $('.chart2').easyPieChart({
-                barColor: '#1c84c6',
-//                scaleColor: false,
-                scaleLength: 5,
-                lineWidth: 4,
-                size: 80
-            });
-
-            var data2 = [
-                [gd(2012, 1, 1), 7], [gd(2012, 1, 2), 6], [gd(2012, 1, 3), 4], [gd(2012, 1, 4), 8],
-                [gd(2012, 1, 5), 9], [gd(2012, 1, 6), 7], [gd(2012, 1, 7), 5], [gd(2012, 1, 8), 4],
-                [gd(2012, 1, 9), 7], [gd(2012, 1, 10), 8], [gd(2012, 1, 11), 9], [gd(2012, 1, 12), 6],
-                [gd(2012, 1, 13), 4], [gd(2012, 1, 14), 5], [gd(2012, 1, 15), 11], [gd(2012, 1, 16), 8],
-                [gd(2012, 1, 17), 8], [gd(2012, 1, 18), 11], [gd(2012, 1, 19), 11], [gd(2012, 1, 20), 6],
-                [gd(2012, 1, 21), 6], [gd(2012, 1, 22), 8], [gd(2012, 1, 23), 11], [gd(2012, 1, 24), 13],
-                [gd(2012, 1, 25), 7], [gd(2012, 1, 26), 9], [gd(2012, 1, 27), 9], [gd(2012, 1, 28), 8],
-                [gd(2012, 1, 29), 5], [gd(2012, 1, 30), 8], [gd(2012, 1, 31), 25]
-            ];
-
-            var data3 = [
-                [gd(2012, 1, 1), 800], [gd(2012, 1, 2), 500], [gd(2012, 1, 3), 600], [gd(2012, 1, 4), 700],
-                [gd(2012, 1, 5), 500], [gd(2012, 1, 6), 456], [gd(2012, 1, 7), 800], [gd(2012, 1, 8), 589],
-                [gd(2012, 1, 9), 467], [gd(2012, 1, 10), 876], [gd(2012, 1, 11), 689], [gd(2012, 1, 12), 700],
-                [gd(2012, 1, 13), 500], [gd(2012, 1, 14), 600], [gd(2012, 1, 15), 700], [gd(2012, 1, 16), 786],
-                [gd(2012, 1, 17), 345], [gd(2012, 1, 18), 888], [gd(2012, 1, 19), 888], [gd(2012, 1, 20), 888],
-                [gd(2012, 1, 21), 987], [gd(2012, 1, 22), 444], [gd(2012, 1, 23), 999], [gd(2012, 1, 24), 567],
-                [gd(2012, 1, 25), 786], [gd(2012, 1, 26), 666], [gd(2012, 1, 27), 888], [gd(2012, 1, 28), 900],
-                [gd(2012, 1, 29), 178], [gd(2012, 1, 30), 555], [gd(2012, 1, 31), 993]
-            ];
-
-
-            var dataset = [
-                {
-                    label: "Number of orders",
-                    data: data3,
-                    color: "#1ab394",
-                    bars: {
-                        show: true,
-                        align: "center",
-                        barWidth: 24 * 60 * 60 * 600,
-                        lineWidth:0
-                    }
-
-                }, {
-                    label: "Payments",
-                    data: data2,
-                    yaxis: 2,
-                    color: "#464f88",
-                    lines: {
-                        lineWidth:1,
-                            show: true,
-                            fill: true,
-                        fillColor: {
-                            colors: [{
-                                opacity: 0.2
-                            }, {
-                                opacity: 0.2
-                            }]
-                        }
-                    },
-                    splines: {
-                        show: false,
-                        tension: 0.6,
-                        lineWidth: 1,
-                        fill: 0.1
-                    },
-                }
-            ];
-
-
-            var options = {
-                xaxis: {
-                    mode: "time",
-                    tickSize: [3, "day"],
-                    tickLength: 0,
-                    axisLabel: "Date",
-                    axisLabelUseCanvas: true,
-                    axisLabelFontSizePixels: 12,
-                    axisLabelFontFamily: 'Arial',
-                    axisLabelPadding: 10,
-                    color: "#d5d5d5"
-                },
-                yaxes: [{
-                    position: "left",
-                    max: 1070,
-                    color: "#d5d5d5",
-                    axisLabelUseCanvas: true,
-                    axisLabelFontSizePixels: 12,
-                    axisLabelFontFamily: 'Arial',
-                    axisLabelPadding: 3
-                }, {
-                    position: "right",
-                    clolor: "#d5d5d5",
-                    axisLabelUseCanvas: true,
-                    axisLabelFontSizePixels: 12,
-                    axisLabelFontFamily: ' Arial',
-                    axisLabelPadding: 67
-                }
-                ],
-                legend: {
-                    noColumns: 1,
-                    labelBoxBorderColor: "#000000",
-                    position: "nw"
-                },
-                grid: {
-                    hoverable: false,
-                    borderWidth: 0
-                }
-            };
-
-            function gd(year, month, day) {
-                return new Date(year, month - 1, day).getTime();
-            }
-
-            var previousPoint = null, previousLabel = null;
-
-            $.plot($("#flot-dashboard-chart"), dataset, options);
-
-            var mapData = {
-                "US": 298,
-                "SA": 200,
-                "DE": 220,
-                "FR": 540,
-                "CN": 120,
-                "AU": 760,
-                "BR": 550,
-                "IN": 200,
-                "GB": 120,
-            };
-
-            $('#world-map').vectorMap({
-                map: 'world_mill_en',
-                backgroundColor: "transparent",
-                regionStyle: {
-                    initial: {
-                        fill: '#e4e4e4',
-                        "fill-opacity": 0.9,
-                        stroke: 'none',
-                        "stroke-width": 0,
-                        "stroke-opacity": 0
-                    }
-                },
-
-                series: {
-                    regions: [{
-                        values: mapData,
-                        scale: ["#1ab394", "#22d6b1"],
-                        normalizeFunction: 'polynomial'
-                    }]
-                },
-            });
-        });
-    </script>
-
-    <!-- Mainly scripts -->
-    <script src="/js/jquery-2.1.1.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="/js/plugins/jeditable/jquery.jeditable.js"></script>
-
-    <!-- Data Tables -->
-    <script src="/js/plugins/dataTables/jquery.dataTables.js"></script>
-    <script src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
-    <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
-    <script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
-
-    <!-- Custom and plugin javascript -->
-    <script src="/js/inspinia.js"></script>
-    <script src="/js/plugins/pace/pace.min.js"></script>
-    <!-- Page-Level Scripts -->
-
-    <!-- Mainly scripts -->
-    <script src="/js/jquery-2.1.1.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-    <!-- Flot -->
-    <script src="/js/plugins/flot/jquery.flot.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.spline.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.resize.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.pie.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.symbol.js"></script>
-    <script src="/js/plugins/flot/curvedLines.js"></script>
-
-    <!-- Peity -->
-    <script src="/js/plugins/peity/jquery.peity.min.js"></script>
-    <script src="/js/demo/peity-demo.js"></script>
-
-    <!-- Custom and plugin javascript -->
-    <script src="/js/inspinia.js"></script>
-    <script src="/js/plugins/pace/pace.min.js"></script>
-
-    <!-- jQuery UI -->
-    <script src="/js/plugins/jquery-ui/jquery-ui.min.js"></script>
-
-    <!-- Jvectormap -->
-    <script src="/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-
-    <!-- Sparkline -->
-    <script src="/js/plugins/sparkline/jquery.sparkline.min.js"></script>
-
-    <!-- Sparkline demo data  -->
-    <script src="/js/demo/sparkline-demo.js"></script>
-
-    <!-- ChartJS-->
-    <script src="/js/plugins/chartJs/Chart.min.js"></script>
-
-    <!-- Mainly scripts -->
-    <script src="/js/jquery-2.1.1.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="/js/plugins/jeditable/jquery.jeditable.js"></script>
-
-    <!-- Data Tables -->
-    <script src="/js/plugins/dataTables/jquery.dataTables.js"></script>
-    <script src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
-    <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
-    <script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
-
-    <!-- Custom and plugin javascript -->
-    <script src="/js/inspinia.js"></script>
-    <script src="/js/plugins/pace/pace.min.js"></script>
-
-    <!-- Page-Level Scripts -->
-    <script>
-        $(document).ready(function() {
-            $('.dataTables-example').dataTable({
-                responsive: true,
-                "dom": 'T<"clear">lfrtip',
-                "tableTools": {
-                    "sSwfPath": "js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
-                }
-            });
-
-            /* Init DataTables */
-            var oTable = $('#editable').dataTable();
-
-            /* Apply the jEditable handlers to the table */
-            oTable.$('td').editable( '../example_ajax.php', {
-                "callback": function( sValue, y ) {
-                    var aPos = oTable.fnGetPosition( this );
-                    oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                },
-                "submitdata": function ( value, settings ) {
-                    return {
-                        "row_id": this.parentNode.getAttribute('id'),
-                        "column": oTable.fnGetPosition( this )[2]
-                    };
-                },
-
-                "width": "90%",
-                "height": "100%"
-            } );
-
-
-        });
-
-        function fnClickAddRow() {
-            $('#editable').dataTable().fnAddData( [
-                "Custom row",
-                "New row",
-                "New row",
-                "New row",
-                "New row" ] );
-
-        }
-    </script>
-
-    <style>
-        body.DTTT_Print {
-            background: #fff;
-
-        }
-        .DTTT_Print #page-wrapper {
-            margin: 0;
-            background:#fff;
-        }
-
-        button.DTTT_button, div.DTTT_button, a.DTTT_button {
-            border: 1px solid #e7eaec;
-            background: #fff;
-            color: #676a6c;
-            box-shadow: none;
-            padding: 6px 8px;
-        }
-        button.DTTT_button:hover, div.DTTT_button:hover, a.DTTT_button:hover {
-            border: 1px solid #d2d2d2;
-            background: #fff;
-            color: #676a6c;
-            box-shadow: none;
-            padding: 6px 8px;
-        }
-
-        .dataTables_filter label {
-            margin-right: 5px;
-
-        }
-    </style>
+            <h6 class="">{{\Illuminate\Support\Facades\Auth::user()->full_name}}</h6>
+            <p class="online-icon text-dark"><i class="mdi mdi-record text-success"></i>online</p>
+            <ul class="list-unstyled list-inline mb-0 mt-2">
+                <li class="list-inline-item"><a href="/profile/{{\Illuminate\Support\Facades\Auth::user()->user_name}}" class="" data-toggle="tooltip" data-placement="top" title="Profile"><i class="dripicons-user text-purple"></i></a></li>
+                <li class="list-inline-item"><a href="#" class="" data-toggle="tooltip" data-placement="top" title="Settings"><i class="dripicons-gear text-dark"></i></a></li>
+                <li class="list-inline-item"><a href="/logout" class="" data-toggle="tooltip" data-placement="top" title="Log out"><i class="dripicons-power text-danger"></i></a></li>
+            </ul>
+        </div>
+        <div class="sidebar-inner slimscrollleft">
+            <div id="sidebar-menu">
+                <ul>
+                    <li class="menu-title">Main</li>
+                    <li><a href="/home" class="waves-effect"><i class="dripicons-device-desktop"></i> <span>Dashboard <span class="badge badge-pill badge-primary float-right">7</span></span></a></li>
+                    <li><a href="calendar.html" class="waves-effect"><i class="dripicons-to-do"></i><span> Calendar</span></a></li>
+                    <li class="menu-title">Components</li>
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-jewel"></i> <span>UI Elements </span><span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="ui-alerts.html">Alerts</a></li>
+                            <li><a href="ui-alertify.html">Alertify</a></li>
+                            <li><a href="ui-badge.html">Badge</a></li>
+                            <li><a href="ui-buttons.html">Buttons</a></li>
+                            <li><a href="ui-carousel.html">Carousel</a></li>
+                            <li><a href="ui-cards.html">Cards</a></li>
+                            <li><a href="ui-dropdowns.html">Dropdowns</a></li>
+                            <li><a href="ui-grid.html">Grid</a></li>
+                            <li><a href="ui-images.html">Images</a></li>
+                            <li><a href="ui-lightbox.html">Lightbox</a></li>
+                            <li><a href="ui-modals.html">Modals</a></li>
+                            <li><a href="ui-navs.html">Navs</a></li>
+                            <li><a href="ui-progressbars.html">Progress Bars</a></li>
+                            <li><a href="ui-pagination.html">Pagination</a></li>
+                            <li><a href="ui-popover-tooltips.html">Popover & Tooltips</a></li>
+                            <li><a href="ui-rating.html">Rating</a></li>
+                            <li><a href="ui-rangeslider.html">Range Slider</a></li>
+                            <li><a href="ui-sweet-alert.html">Sweet-Alert</a></li>
+                            <li><a href="ui-typography.html">Typography</a></li>
+                            <li><a href="ui-tabs-accordions.html">Tabs &amp; Accordions</a></li>
+                            <li><a href="ui-video.html">Video</a></li>
+                        </ul>
+                    </li>
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-blog"></i><span> Transactions </span><span class="badge badge-pill badge-info float-right">8</span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="/transaction">Transaction History</a></li>
+                            <li><a href="/addtransaction">Add Airtime Transaction</a></li>
+                            <li><a href="/adddatatransaction">Add Data Transaction</a></li>
+                            <li><a href="form-uploads.html">Form File Upload</a></li>
+                            <li><a href="form-mask.html">Form Mask</a></li>
+                            <li><a href="form-summernote.html">Summernote</a></li>
+                            <li><a href="form-validation.html">Form Validation</a></li>
+                            <li><a href="form-xeditable.html">Form Xeditable</a></li>
+                        </ul>
+                    </li>
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-graph-pie"></i><span> Charts </span><span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="charts-chartist.html">Chartist Chart</a></li>
+                            <li><a href="charts-chartjs.html">Chartjs Chart</a></li>
+                            <li><a href="charts-c3.html">C3 Chart</a></li>
+                            <li><a href="charts-flot.html">Flot Chart</a></li>
+                            <li><a href="charts-other.html">Jquery Knob Chart</a></li>
+                            <li><a href="charts-morris.html">Morris Chart</a></li>
+                        </ul>
+                    </li>
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-trophy"></i> <span>Icons </span><span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="icons-dripicons.html">Dripicons</a></li>
+                            <li><a href="icons-fontawesome.html">Font Awesome</a></li>
+                            <li><a href="icons-ion.html">Ion Icons</a></li>
+                            <li><a href="icons-material.html">Material Design</a></li>
+                            <li><a href="icons-themify.html">Themify Icons</a></li>
+                            <li><a href="icons-typicons.html">Typicons Icons</a></li>
+                        </ul>
+                    </li>
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Tables </span><span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="tables-basic.html">Basic Tables</a></li>
+                            <li><a href="tables-datatable.html">Data Table</a></li>
+                            <li><a href="tables-editable.html">Editable Table</a></li>
+                            <li><a href="tables-responsive.html">Responsive Table</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-title">Extra</li>
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-map"></i><span> Maps </span><span class="badge badge-pill badge-danger float-right">2</span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="maps-google.html">Google Map</a></li>
+                            <li><a href="maps-vector.html">Vector Map</a></li>
+                        </ul>
+                    </li>
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-copy"></i><span> Pages </span><span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="pages-login.html">Login</a></li>
+                            <li><a href="pages-register.html">Register</a></li>
+                            <li><a href="pages-recoverpw.html">Recover Password</a></li>
+                            <li><a href="pages-lock-screen.html">Lock Screen</a></li>
+                            <li><a href="pages-blank.html">Blank Page</a></li>
+                            <li><a href="pages-404.html">Error 404</a></li>
+                            <li><a href="pages-500.html">Error 500</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!-- end sidebarinner -->
+    </div>
+    <!-- Left Sidebar End --><!-- Start right Content here -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <!-- Top Bar Start -->
+            <div class="topbar">
+                <nav class="navbar-custom">
+                    <ul class="list-inline float-right mb-0">
+                        <!-- language-->
+                        <li class="list-inline-item dropdown notification-list hide-phone">
+                            <a class="nav-link dropdown-toggle arrow-none waves-effect text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">English <img src="assets/images/flags/us_flag.jpg" class="ml-2" height="16" alt=""></a>
+                            <div class="dropdown-menu dropdown-menu-right language-switch"><a class="dropdown-item" href="#"><img src="assets/images/flags/italy_flag.jpg" alt="" height="16"><span>Italian </span></a><a class="dropdown-item" href="#"><img src="assets/images/flags/french_flag.jpg" alt="" height="16"><span>French </span></a><a class="dropdown-item" href="#"><img src="assets/images/flags/spain_flag.jpg" alt="" height="16"><span>Spanish </span></a><a class="dropdown-item" href="#"><img src="assets/images/flags/russia_flag.jpg" alt="" height="16"><span>Russian</span></a></div>
+                        </li>
+                        <li class="list-inline-item dropdown notification-list">
+                            <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"><i class="dripicons-mail noti-icon"></i> <span class="badge badge-danger noti-icon-badge">5</span></a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-menu-lg">
+                                <!-- item-->
+                                <div class="dropdown-item noti-title">
+                                    <h5><span class="badge badge-danger float-right">745</span>Messages</h5>
+                                </div>
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon"><img src="assets/images/users/avatar-2.jpg" alt="user-img" class="img-fluid rounded-circle"></div>
+                                    <p class="notify-details"><b>Charles M. Jones</b><small class="text-muted">Dummy text of the printing and typesetting industry.</small></p>
+                                </a>
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon"><img src="assets/images/users/avatar-3.jpg" alt="user-img" class="img-fluid rounded-circle"></div>
+                                    <p class="notify-details"><b>Thomas J. Mimms</b><small class="text-muted">You have 87 unread messages</small></p>
+                                </a>
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon"><img src="assets/images/users/avatar-4.jpg" alt="user-img" class="img-fluid rounded-circle"></div>
+                                    <p class="notify-details"><b>Luis M. Konrad</b><small class="text-muted">It is a long established fact that a reader will</small></p>
+                                </a>
+                                <!-- All--> <a href="javascript:void(0);" class="dropdown-item notify-item border-top">View All</a>
+                            </div>
+                        </li>
+                        <li class="list-inline-item dropdown notification-list">
+                            <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"><i class="dripicons-bell noti-icon"></i> <span class="badge badge-success noti-icon-badge">2</span></a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-menu-lg">
+                                <!-- item-->
+                                <div class="dropdown-item noti-title">
+                                    <h5><span class="badge badge-danger float-right">87</span>Notification</h5>
+                                </div>
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-primary"><i class="mdi mdi-cart-outline"></i></div>
+                                    <p class="notify-details"><b>Your order is placed</b><small class="text-muted">Dummy text of the printing and typesetting industry.</small></p>
+                                </a>
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-success"><i class="mdi mdi-message"></i></div>
+                                    <p class="notify-details"><b>New Message received</b><small class="text-muted">You have 87 unread messages</small></p>
+                                </a>
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-warning"><i class="mdi mdi-glass-cocktail"></i></div>
+                                    <p class="notify-details"><b>Your item is shipped</b><small class="text-muted">It is a long established fact that a reader will</small></p>
+                                </a>
+                                <!-- All--> <a href="javascript:void(0);" class="dropdown-item notify-item border-top">View All</a>
+                            </div>
+                        </li>
+                        <li class="list-inline-item dropdown notification-list">
+                            <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"><img src="assets/images/users/avatar-6.jpg" alt="user" class="rounded-circle"></a>
+                            <div class="dropdown-menu dropdown-menu-right profile-dropdown">
+                                <!-- item-->
+                                <div class="dropdown-item noti-title">
+                                    <h5>Welcome</h5>
+                                </div>
+                                <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a> <a class="dropdown-item" href="#"><i class="mdi mdi-wallet m-r-5 text-muted"></i> My Wallet</a> <a class="dropdown-item" href="#"><span class="badge badge-success float-right">5</span><i class="mdi mdi-settings m-r-5 text-muted"></i> Settings</a> <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline m-r-5 text-muted"></i> Lock screen</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#"><i class="mdi mdi-logout m-r-5 text-muted"></i> Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="list-inline menu-left mb-0">
+                        <li class="float-left"><button class="button-menu-mobile open-left waves-light waves-effect"><i class="mdi mdi-menu"></i></button></li>
+                        <li class="hide-phone app-search">
+                            <form role="search" class=""><input type="text" placeholder="Search..." class="form-control"> <a href="#"><i class="fas fa-search"></i></a></form>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </nav>
+            </div>
+            <!-- Top Bar End -->
+            <div class="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-title-box">
+                                <div class="btn-group float-right">
+                                    <ol class="breadcrumb hide-phone p-0 m-0">
+                                        @if (trim($__env->yieldContent('parentPageTitle')))
+                                            <li class="breadcrumb-item"><a href="#">@yield('parentPageTitle')</a></li>
+                                        @endif
+                                        @if (trim($__env->yieldContent('title')))
+                                            <li class="breadcrumb-item active">@yield('title')</li>
+                                        @endif
+                                    </ol>
+                                </div>
+                                @if (trim($__env->yieldContent('title')))
+                                    <h4 class="page-title">@yield('title')</h4>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title end breadcrumb -->
+                    @yield('content')
+                </div>
+                <!-- Page content Wrapper -->
+            </div>
+            <!-- container -->
+            </div>
+            <!-- content -->
+            <footer class="footer">
+                © 2019 Mega Cheap Data <strong>by</strong> 5Star Inn Company.
+            </footer>
+        </div>
+        <!-- End Right content here -->
+    </div>
+    <!-- END wrapper --><!-- jQuery  --><script src="assets/js/jquery.min.js"></script><script src="assets/js/popper.min.js"></script><script src="assets/js/bootstrap.min.js"></script><script src="assets/js/modernizr.min.js"></script><script src="assets/js/detect.js"></script><script src="assets/js/fastclick.js"></script><script src="assets/js/jquery.slimscroll.js"></script><script src="assets/js/jquery.blockUI.js"></script><script src="assets/js/waves.js"></script><script src="assets/js/jquery.nicescroll.js"></script><script src="assets/js/jquery.scrollTo.min.js"></script><script src="assets/plugins/chart.js/chart.min.js"></script><script src="assets/pages/dashboard.js"></script><!-- App js --><script src="assets/js/app.js"></script>
+@yield('before-scripts')
 </body>
 </html>

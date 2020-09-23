@@ -143,10 +143,10 @@ class TransactionController extends Controller
 
     public function rechargemanual(Request $request)
     {
-        $user_name="gejpeace";
+        $user_name="ebenyam";
         $quantity=5;
-        $network="ETISALAT";
-        $amount=100;
+        $network="GLO";
+        $amount=200;
 
         $user = DB::table('tbl_agents')->where('user_name', $user_name)->first();
 
@@ -217,7 +217,7 @@ class TransactionController extends Controller
                 $input["amount"] -= $amt;
 
                 if($user->wallet<$input["amount"]){
-                    return redirect('/adddatatransaction')->with('success', $input["user_name"]. ' wallet balance is too low!');
+                    return redirect('/addtransaction')->with('success', $input["user_name"]. ' wallet balance is too low!');
                 }
 
                 $input["description"]=$input["user_name"] . " buy airtime_".$input["network"]. "_".$amount. " on ".$input["phoneno"]. " using wallet";
