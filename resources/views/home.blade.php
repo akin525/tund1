@@ -141,11 +141,10 @@
         <div class="col-xl-4 col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <a href="#" class="btn btn-outline-success float-right">&#8358; {{$general_market->value}}</a>
+{{--                    <a href="#" class="btn btn-outline-success float-right">&#8358; {{$general_market->value}}</a>--}}
                     <h5 class="header-title mb-4 mt-0">General Market Revenue</h5>
-                    <h4 class="mb-4">$15,421.50</h4>
-                    <p class="font-14 text-muted mb-4"><i class="mdi mdi-message-reply text-danger mr-2 font-18"></i> $ 1500 when an unknown printer took a galley.</p>
-                    <canvas id="bar-data" height="132"></canvas>
+                    <h4 class="mb-4">&#8358; {{$general_market->value}}</h4>
+{{--                    <p class="font-14 text-muted mb-4"><i class="mdi mdi-message-reply text-danger mr-2 font-18"></i> $ 1500 when an unknown printer took a galley.</p>--}}
                 </div>
             </div>
             <div class="card">
