@@ -1,98 +1,125 @@
 @extends('layouts.layouts')
+@section('title', 'Search User')
+@section('parentPageTitle', 'Users')
 
 @section('content')
 
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-10">
-            <h2>Find User</h2>
-            <ol class="breadcrumb">
-                <li>
-                    <a href="/home">Home</a>
-                </li>
-                <li>
-                    <a>User</a>
-                </li>
-                <li class="active">
-                    <strong>Find User</strong>
-                </li>
-            </ol>
-        </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="general-label">
 
-        <div class="wrapper wrapper-content animated fadeInRight">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5></h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">Config option 1</a>
-                                    </li>
-                                    <li><a href="#">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    <form class="form-horizontal" method="POST" action="{{ route('finduser') }}">
+                        @csrf
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="input-group mt-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                    </div>
+                                    <input style="margin-right: 20px" type="text" name="user_name" placeholder="Search for username" class="form-control @error('user_name') is-invalid @enderror">
+
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-mobile"></i> </span>
+                                    </div>
+                                    <input style="margin-right: 20px" type="tel" name="phoneno" placeholder="Search for phone number" class="form-control @error('phoneno') is-invalid @enderror">
+
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-users"></i> </span>
+                                    </div>
+                                    <input type="text" name="status" placeholder="Search User group e.g agent, client, reseller" class="form-control @error('status') is-invalid @enderror">
+                                </div>
+
+                                <div class="input-group mt-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-wallet"></i></span>
+                                    </div>
+                                    <input style="margin-right: 20px" type="number" name="wallet" placeholder="Search for wallet value" class="form-control @error('wallet') is-invalid @enderror">
+
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-envelope"></i> </span>
+                                    </div>
+                                    <input style="margin-right: 20px" type="email" name="email" placeholder="Search for email address" class="form-control @error('email') is-invalid @enderror">
+
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-calendar-check"></i> </span>
+                                    </div>
+                                    <input type="date" name="regdate" placeholder="Search for registration date e.g 2020-09-01" class="form-control @error('regdate') is-invalid @enderror">
+                                </div>
+
+                                <div class="input-group mt-2" style="align-content: center">
+                                    <button class="btn btn-gradient-primary btn-large" type="submit" style="align-self: center; align-content: center"><i class="fa fa-search"></i> Search</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="ibox-content">
+                        <!--end row-->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                            <table class="table table-striped table-bordered table-hover dataTables-example" >
-                                <div class="col-lg-12">
-
-                                    @if (session('success'))
-                                        <div class="alert alert-success alert-dismissable">
-                                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
-
-                                        @if (session('error'))
-                                        <div class="alert alert-danger alert-dismissable">
-                                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                            {{ session('error') }}
-                                        </div>
-                                    @endif
-
-                                    <form method="POST" action="{{ route('finduser') }}">
-                                        @csrf
-                                    <div class="form-group">
-
-                                        <div align="center" class="col-sm-10 col-lg-12">
-
-                                            <div class="form-group @error('ref') has-error @enderror">
-                                                <label class="col-sm-2 control-label">User Name</label>
-                                                <div class="col-sm-10">
-                                                <div class="input-group m-b"><span class="input-group-addon">@</span> <input type="text" name="user_name" placeholder="Enter User name" class="form-control" required></div>
-                                                    @error('user_name')
-                                                    <div class="alert alert-danger alert-dismissable">
-                                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                                        {{ $message }}
-                                                    </div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                            <button class="btn btn-primary" type="submit">View User</button>
-                                        </div>
-                                    </div>
-                                    </form>
-                                </div>
+    @if($result ?? '')
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="mt-0 header-title">Search Result(s)</h4>
+                        <p class="text-muted mb-4 font-13">Total Result <code>{{$count}}</code></p>
+                        <div class="table-responsive">
+                            <table class="table table-striped mb-0">
+                                <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Phone Number</th>
+                                    <th>Wallet Value</th>
+                                    <th>User Group</th>
+                                    <th>Reg Date</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($users as $user)
+                                    <tr>
+                                        <td>
+                                            @if($user->photo)
+                                                <img src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->photo}}" alt="" class="rounded-circle thumb-sm mr-1"> {{$user->user_name}}
+                                            @else
+                                                <img src="img/mcd_logo.png" alt="" class="rounded-circle thumb-sm mr-1"> {{$user->user_name}}
+                                            @endif
+                                        </td>
+                                        <td>{{$user->email }}</td>
+                                        <td>{{$user->phoneno}}</td>
+                                        <td>{{$user->wallet}}</td>
+                                        <td>{{$user->status}}</td>
+                                        <td>{{$user->reg_date}}</td>
+                                        <td><a href="profile/{{ $user->user_name }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a></td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
                             </table>
-
+                            {{ $users->links() }}
                         </div>
                     </div>
                 </div>
-
             </div>
+            <!-- end col -->
         </div>
-
-    </div>
-
-            @endsection
+    @endif
+    <!-- end row -->
+@endsection

@@ -19,7 +19,7 @@ class TransactionController extends Controller
 {
     public function index(Request $request){
 
-        $data = DB::table('tbl_transactions')->orderBy('id', 'desc')->limit(1000)->get();
+        $data = DB::table('tbl_transactions')->orderBy('id', 'desc')->paginate(25);
         $tt = DB::table('tbl_transactions')->get()->count();
         $ft = DB::table('tbl_transactions')->where([['status', '=', 'cancelled'], ['date', 'like', date('Y-m-d').'%']])->orWhere([['status', '=', 'Unsuccessful'], ['date', 'like', date('Y-m-d').'%']])->orWhere([['status', '=', 'Error'], ['date', 'like', date('Y-m-d').'%']])->get()->count();
         $st = DB::table('tbl_transactions')->where([['status', '=', 'delivered'], ['date', 'like', date('Y-m-d').'%']])->orWhere([['status', '=', 'submitted'], ['date', 'like', date('Y-m-d').'%']])->orWhere([['status', '=', 'API_successful'], ['date', 'like', date('Y-m-d').'%']])->count();
@@ -374,13 +374,21 @@ class TransactionController extends Controller
     {
         $input = $request->all();
 
-        $tran = Transaction::where('id', '=', $input["id"])->first();
+        $tran = Transaction::where('id', '=', $input["id"])->orderby('id', 'desc')->first();
 
         if (!$tran) {
-            return redirect('/reversal')->with('success', 'Transaction doesnt exist!');
-
+            $tran = Transaction::where('description', 'LIKE', '%'.$input['id'].'%')->orderby('id', 'desc')->first();
+            if (!$tran) {
+                return redirect('/reversal')->with('error', 'Transaction doesnt exist!');
+            }
         }
-                return view('reversal', ['data' => $tran, 'val'=>true]);
+
+        if ($tran->ref){
+            $rtran = Transaction::where('ref', '=', $tran->ref)->get();
+        }else{
+            $rtran = Transaction::where('id', '=', $tran->id)->get();
+        }
+                return view('reversal', ['data' => $tran, 'rtran'=>$rtran, 'val'=>true]);
     }
 
     public function reverse(Request $request, $id)
@@ -412,7 +420,7 @@ class TransactionController extends Controller
 
     public function airtime2cash()
     {
-        $datas=Airtime2Cash::where('receiver', '=', 'wallet')->orderBy('id', 'desc')->limit(20)->get();
+        $datas=Airtime2Cash::where('receiver', '=', 'wallet')->orderBy('id', 'desc')->paginate(25);
 
         return view('airtime_cash', ['datas' => $datas, 'alist'=>true]);
     }

@@ -12,12 +12,19 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
     <link href="assets/css/style.css" rel="stylesheet" type="text/css">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <!-- DataTables -->
+    <link href="assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <!-- Responsive datatable examples -->
+    <link href="assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css">
 </head>
 <body class="fixed-left">
 <!-- Loader -->
 <div id="preloader">
     <div id="status">
-        <div class="spinner"></div>
+        <lottie-player src="assets/cheapprogress.json" background="transparent"  speed="0.5"  style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+{{--        <div class="spinner"></div>--}}
     </div>
 </div>
 <!-- Begin page -->
@@ -89,6 +96,8 @@
                             <li><a href="/transaction">Transaction History</a></li>
                             <li><a href="/addtransaction">Add Airtime Transaction</a></li>
                             <li><a href="/adddatatransaction">Add Data Transaction</a></li>
+                            <li><a href="/airtime2cash">Airtime Converter</a></li>
+                            <li><a href="/reversal">Reverse Transaction</a></li>
 {{--                            <li><a href="form-uploads.html">Form File Upload</a></li>--}}
 {{--                            <li><a href="form-mask.html">Form Mask</a></li>--}}
 {{--                            <li><a href="form-summernote.html">Summernote</a></li>--}}
@@ -102,7 +111,8 @@
 {{--                            <span class="float-right"><i class="mdi mdi-chevron-right"></i></span>--}}
                         </a>
                         <ul class="list-unstyled">
-                            <li><a href="/addfund">Add Fund</a></li>
+                            <li><a href="/addfund">Credit User</a></li>
+                            <li><a href="/wallet">Wallet</a></li>
 {{--                            <li><a href="charts-chartjs.html">Chartjs Chart</a></li>--}}
 {{--                            <li><a href="charts-c3.html">C3 Chart</a></li>--}}
 {{--                            <li><a href="charts-flot.html">Flot Chart</a></li>--}}
@@ -115,6 +125,10 @@
                             <span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                         <ul class="list-unstyled">
                             <li><a href="/users">Users</a></li>
+                            <li><a href="/finduser">Search User(s)</a></li>
+                            <li><a href="/agentpayment">Agent Payment</a></li>
+                            <li><a href="/agents">Agents</a></li>
+                            <li><a href="/resellers">Resellers</a></li>
 {{--                            <li><a href="icons-fontawesome.html">Font Awesome</a></li>--}}
 {{--                            <li><a href="icons-ion.html">Ion Icons</a></li>--}}
 {{--                            <li><a href="icons-material.html">Material Design</a></li>--}}
@@ -220,18 +234,26 @@
 {{--                                <!-- All--> <a href="javascript:void(0);" class="dropdown-item notify-item border-top">View All</a>--}}
 {{--                            </div>--}}
 {{--                        </li>--}}
-{{--                        <li class="list-inline-item dropdown notification-list">--}}
-{{--                            <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"><img src="assets/images/users/avatar-6.jpg" alt="user" class="rounded-circle"></a>--}}
-{{--                            <div class="dropdown-menu dropdown-menu-right profile-dropdown">--}}
-{{--                                <!-- item-->--}}
-{{--                                <div class="dropdown-item noti-title">--}}
-{{--                                    <h5>Welcome</h5>--}}
-{{--                                </div>--}}
-{{--                                <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a> <a class="dropdown-item" href="#"><i class="mdi mdi-wallet m-r-5 text-muted"></i> My Wallet</a> <a class="dropdown-item" href="#"><span class="badge badge-success float-right">5</span><i class="mdi mdi-settings m-r-5 text-muted"></i> Settings</a> <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline m-r-5 text-muted"></i> Lock screen</a>--}}
-{{--                                <div class="dropdown-divider"></div>--}}
-{{--                                <a class="dropdown-item" href="#"><i class="mdi mdi-logout m-r-5 text-muted"></i> Logout</a>--}}
-{{--                            </div>--}}
-{{--                        </li>--}}
+                        <li class="list-inline-item dropdown notification-list">
+                            <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                @if(\Illuminate\Support\Facades\Auth::user()->photo)
+                                    <img src="https://mcd.5starcompany.com.ng/app/avatar/{{\Illuminate\Support\Facades\Auth::user()->photo}}" alt="user" class="rounded-circle">
+                                @else
+                                    <img src="img/mcd_logo.png" alt="user" class="rounded-circle">
+                                @endif
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right profile-dropdown">
+                                <!-- item-->
+                                <div class="dropdown-item noti-title">
+                                    <h5>Welcome</h5>
+                                </div>
+                                <a class="dropdown-item" href="/profile/{{\Illuminate\Support\Facades\Auth::user()->user_name}}"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a>
+                                <a class="dropdown-item" href="#"><span class="badge badge-success float-right">5</span><i class="mdi mdi-settings m-r-5 text-muted"></i> Settings</a>
+                                <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline m-r-5 text-muted"></i> Lock screen</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/logout"><i class="mdi mdi-logout m-r-5 text-muted"></i> Logout</a>
+                            </div>
+                        </li>
                     </ul>
                     <ul class="list-inline menu-left mb-0">
                         <li class="float-left"><button class="button-menu-mobile open-left waves-light waves-effect"><i class="mdi mdi-menu"></i></button></li>
@@ -279,6 +301,7 @@
         <!-- End Right content here -->
     </div>
     <!-- END wrapper --><!-- jQuery  --><script src="assets/js/jquery.min.js"></script><script src="assets/js/popper.min.js"></script><script src="assets/js/bootstrap.min.js"></script><script src="assets/js/modernizr.min.js"></script><script src="assets/js/detect.js"></script><script src="assets/js/fastclick.js"></script><script src="assets/js/jquery.slimscroll.js"></script><script src="assets/js/jquery.blockUI.js"></script><script src="assets/js/waves.js"></script><script src="assets/js/jquery.nicescroll.js"></script><script src="assets/js/jquery.scrollTo.min.js"></script><script src="assets/plugins/chart.js/chart.min.js"></script><script src="assets/pages/dashboard.js"></script><!-- App js --><script src="assets/js/app.js"></script>
+<script src="assets/js/jquery.scrollTo.min.js"></script><!-- Required datatable js --><script src="assets/plugins/datatables/jquery.dataTables.min.js"></script><script src="assets/plugins/datatables/dataTables.bootstrap4.min.js"></script><!-- Buttons examples --><script src="assets/plugins/datatables/dataTables.buttons.min.js"></script><script src="assets/plugins/datatables/buttons.bootstrap4.min.js"></script><script src="assets/plugins/datatables/jszip.min.js"></script><script src="assets/plugins/datatables/pdfmake.min.js"></script><script src="assets/plugins/datatables/vfs_fonts.js"></script><script src="assets/plugins/datatables/buttons.html5.min.js"></script><script src="assets/plugins/datatables/buttons.print.min.js"></script><script src="assets/plugins/datatables/buttons.colVis.min.js"></script><!-- Responsive examples --><script src="assets/plugins/datatables/dataTables.responsive.min.js"></script><script src="assets/plugins/datatables/responsive.bootstrap4.min.js"></script><!-- Datatable init js --><script src="assets/pages/datatables.init.js"></script>
 @yield('before-scripts')
 </body>
 </html>

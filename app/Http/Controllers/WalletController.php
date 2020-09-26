@@ -20,7 +20,7 @@ class WalletController extends Controller
 
     public function index(Request $request){
 
-        $wallet = DB::table('tbl_wallet')->orderBy('id', 'desc')->limit(500)->get();
+        $wallet = DB::table('tbl_wallet')->orderBy('id', 'desc')->paginate(25);
 
         return view('wallets', ['data' => $wallet]);
 

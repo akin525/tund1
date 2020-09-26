@@ -99,7 +99,7 @@
                                     <div class="input-group">
                                         <div class="input-group-prepend"><span class="input-group-text"><i class="far fa-user"></i></span></div>
                                         <input type="text" name="user_name" placeholder="Enter Agent Username" class="form-control @error('username') is-invalid @enderror">
-                                        <button class="btn btn-primary" type="submit">Continue</button>
+                                        <button class="btn btn-gradient-primary" type="submit">Continue</button>
                                     </div>
                                     @error('user_name')
                                     <div class="alert alert-danger alert-dismissable">
@@ -141,7 +141,7 @@
                                     <td class="center">
                                         <form method="POST" action="{{ route('agent.payment.confirmation') }}">
                                             <input type="hidden" name="user_name" value="{{$data->user_name}}">
-                                            <button class="btn btn-success" type="submit">Continue</button>
+                                            <button class="btn btn-gradient-success" type="submit">Continue</button>
                                             @csrf
                                         </form>
                                     </td>

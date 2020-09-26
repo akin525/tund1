@@ -1,5 +1,5 @@
 @extends('layouts.layouts')
-@section('title', 'Add Fund')
+@section('title', 'Credit User')
 @section('parentPageTitle', 'Wallet')
 
 @section('content')
@@ -61,7 +61,7 @@
                                 </div>
 
                                 <div class="input-group mt-2" style="align-content: center">
-                                    <button class="btn btn-primary btn-large" type="submit" style="align-self: center; align-content: center">Add Fund</button>
+                                    <button class="btn btn-gradient-primary btn-large" type="submit" style="align-self: center; align-content: center"><i class="fa fa-credit-card"></i> Credit User</button>
                                 </div>
 
                             </div>

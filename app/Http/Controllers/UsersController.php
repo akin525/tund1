@@ -19,7 +19,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
 
-        $users = DB::table('tbl_agents')->orderBy('id', 'desc')->paginate(1000);
+        $users = DB::table('tbl_agents')->orderBy('id', 'desc')->paginate(25);
 
         $t_users = DB::table('tbl_agents')->count();
         $ac_users = DB::table('tbl_agents')->where([["wallet",">=","50"], ["fraud","=",""]])->count();
@@ -73,7 +73,32 @@ class UsersController extends Controller
     }
 
     public function finduser(Request $request){
-        return redirect('/profile/'.$request->get('user_name'));
+        $input = $request->all();
+        $user_name=$input['user_name'];
+        $phoneno=$input['phoneno'];
+        $status=$input['status'];
+        $wallet=$input['wallet'];
+        $email=$input['email'];
+        $regdate=$input['regdate'];
+
+        // Instantiates a Query object
+        $query = User::Where('user_name', 'LIKE', "%$user_name%")
+            ->Where('phoneno', 'LIKE', "%$phoneno%")
+            ->Where('email', 'LIKE', "%$email%")
+            ->Where('status', 'LIKE', "%$status%")
+            ->Where('wallet', 'LIKE', "%$wallet%")
+            ->Where('reg_date', 'LIKE', "%$regdate%")
+            ->paginate(25);
+
+        $cquery = User::Where('user_name', 'LIKE', "%$user_name%")
+            ->Where('phoneno', 'LIKE', "%$phoneno%")
+            ->Where('email', 'LIKE', "%$email%")
+            ->Where('status', 'LIKE', "%$status%")
+            ->Where('wallet', 'LIKE', "%$wallet%")
+            ->Where('reg_date', 'LIKE', "%$regdate%")
+            ->count();
+
+        return view('find_user', ['users' => $query, 'count'=>$cquery, 'result'=>true]);
     }
 
     public function profile($user)

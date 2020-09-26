@@ -70,7 +70,7 @@
                                 </div>
 
                                 <div class="input-group mt-2" style="align-content: center">
-                                    <button class="btn btn-primary btn-large" type="submit" style="align-self: center; align-content: center">Add Transaction</button>
+                                    <button class="btn btn-gradient-primary btn-large" type="submit" style="align-self: center; align-content: center"><i class="fa fa-plus-circle"></i> Add Transaction</button>
                                 </div>
 
                             </div>

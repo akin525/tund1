@@ -1,100 +1,46 @@
 @extends('layouts.layouts')
+@section('title', 'Agents')
+@section('parentPageTitle', 'User')
 
 @section('content')
 
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-9">
-            <h2>Agents</h2>
-            <ol class="breadcrumb">
-                <li>
-                    <a href="index.html">Home</a>
-                </li>
-                <li>
-                    Users
-                </li>
-                <li class="active">
-                    <strong>Agents</strong>
-                </li>
-            </ol>
-        </div>
-    </div>
-    <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="row">
-            @foreach($users as $user)
-                <div class="col-lg-4" style="margin-bottom: 5px">
-                    <div class="contact-box">
-                        <a href="profile/{{ $user->user_name }}">
-                            <div class="col-sm-4">
-                                <div class="text-center">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <p class="text-muted mb-4 font-13">The list of approved agents.</p>
+                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Business Name</th>
+                            <th>DOB</th>
+                            <th>Phone Number</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($users as $user)
+                            <tr>
+                                <td>
                                     @if($user->photo!=null)
-                                        <img alt="image" class="img-circle m-t-xs img-responsive" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
+                                        <img alt="image" class="rounded-circle thumb-sm mr-1" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
                                     @else
-                                        <img alt="image" class="img-circle m-t-xs img-responsive" src="/img/mcd_logo.png">
+                                        <img alt="image" class="rounded-circle thumb-sm mr-1" src="/img/mcd_logo.png">
                                     @endif
-                                        <div class="m-t-xs font-bold">{{$user->user_name }}</div>
-                                </div>
-                            </div>
-                            <div class="col-sm-8">
-                                <h3><strong>{{$user->full_name }}</strong></h3>
-                                <p><i class="fa fa-calendar-o"></i> {{$user->dob }}</p>
-                                <address>
-                                    <strong><i class="fa fa-briefcase"></i> {{$user->company_name }}</strong><br>
-                                    <i class="fa fa-map-marker"></i> {{$user->address }}<br>
-                                    <abbr title="Phone"><i class="fa fa-mobile-phone"></i>:</abbr> {{$user->phoneno}}<br />
-                                    <abbr title="Note"><i class="fa fa-book"></i>:</abbr> {{$user->note}}
-                                </address>
-                            </div>
-                            <?php $d=0; $a=0; $r=0; $w=0; ?>
-                            <div class="col-sm-12">Data:
-                            @foreach($trans as $tran)
-                                @if($tran->user_name == $user->user_name)
-                                    @if(strpos($tran->name, "data") !== false)
-                                            @if($tran->status == "delivered")
-                                                <?php $d++; ?>
-                                            @endif
-                                    @endif
-                                @endif
-                            @endforeach
-                                {{$d}} | Airtime:
-                                @foreach($trans as $tran)
-                                    @if($tran->user_name == $user->user_name)
-                                        @if(strpos($tran->name, "airtime") !== false)
-                                            @if($tran->status == "delivered")
-                                                <?php $a++; ?>
-                                            @endif
-                                        @endif
-                                    @endif
-                                @endforeach
-                                {{$a}} | Recharge Card:
-                                @foreach($trans as $tran)
-                                    @if($tran->user_name == $user->user_name)
-                                        @if(strpos($tran->name, "Recharge Card") !== false)
-                                            @if($tran->status == "submitted")
-                                                <?php $r++; ?>
-                                            @endif
-                                        @endif
-                                    @endif
-                                @endforeach
-                                {{$r}} | Wallet Funding:
-                                @foreach($trans as $tran)
-                                    @if($tran->user_name == $user->user_name)
-                                        @if(strpos($tran->name, "wallet funding") !== false)
-                                            @if($tran->status == "successful")
-                                               <?php $w++; ?>
-                                            @endif
-                                        @endif
-                                    @endif
-                                @endforeach
-                                {{$w}}
-                            </div>
-                            <div class="clearfix"></div>
-                        </a>
-                    </div>
+                                    {{$user->user_name }}</td>
+                                <td>{{$user->company_name }}</td>
+                                <td>{{$user->dob }}</td>
+                                <td>{{$user->phoneno}}</td>
+                                <td><a href="profile/{{ $user->user_name }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a></td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
-
-            @endforeach
-
+            </div>
         </div>
+        <!-- end col -->
     </div>
-
-        @endsection
+    <!-- end row -->
+@endsection
