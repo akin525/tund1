@@ -59,10 +59,27 @@ class UsersController extends Controller
         return view('reseller', ['users' => $users]);
     }
 
+    public function gmblocked(Request $request)
+    {
+
+        $users = DB::table('tbl_generalmarket_blocked user')->orderBy('id', 'desc')->get();
+
+        return view('gm_blocked_users', ['users' => $users]);
+    }
+
+
+    public function dormant(Request $request)
+    {
+
+        $users = DB::table('tbl_agents')->where('last_login', 'NOT LIKE', Carbon::now()->format('y-m-d') )->get();
+
+        return view('dormant_users', ['users' => $users]);
+    }
+
     public function pending(Request $request)
     {
 
-        $users = DB::table('tbl_agents')->where('target', 'like', '%in progress%')->orderBy('id', 'desc')->get();
+        $users = DB::table('tbl_agents')->where('target', 'like', '%in progress%')->orderBy('id', 'desc')->paginate(25);
         $tp = DB::table('tbl_agents')->where('target', 'like', '%in progress%')->orderBy('id', 'desc')->count();
         $rp = DB::table('tbl_agents')->where('target', 'like', '%Reseller in progress%')->orderBy('id', 'desc')->count();
         $ap = DB::table('tbl_agents')->where('target', 'like', '%Agent in progress%')->orderBy('id', 'desc')->count();

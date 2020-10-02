@@ -1,108 +1,104 @@
 @extends('layouts.layouts')
+@section('title', 'Pending Request')
+@section('parentPageTitle', 'User')
 
 @section('content')
 
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-9">
-            <h2>Pending Request</h2>
-            <ol class="breadcrumb">
-                <li>
-                    <a href="index.html">Home</a>
-                </li>
-                <li>
-                    Users
-                </li>
-                <li class="active">
-                    <strong>Pending Request</strong>
-                </li>
-            </ol>
-        </div>
-    </div>
-
-    <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-3">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <span class="label label-success pull-right">All Time</span>
-                            <h5>Total Pending</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <h1 class="no-margins">{{$tp}}</h1>
-                            <div class="stat-percent font-bold text-success">{{round(($rp+$ap)/$tp * 100)}}% <i class="fa fa-bolt"></i></div>
-                            <small>Total Pending</small>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-users text-gradient-success"></i></div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ number_format($tp) ?? 'Total Pending' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Total Pending</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-3">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <span class="label label-success pull-right">All Time</span>
-                            <h5>Pending Agent</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <h1 class="no-margins">{{$ap}}</h1>
-                            <div class="stat-percent font-bold text-success">{{round($ap/$tp * 100)}}% <i class="fa fa-bolt"></i></div>
-                            <small>Pending Agent</small>
+                    <div class="card">
+                        <div class="card-body justify-content-center">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-user text-gradient-danger"></i></div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ number_format($ap) ?? 'Total Referred' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Pending Agent</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-3">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <span class="label label-success pull-right">All Time</span>
-                            <h5>Pending Reseller</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <h1 class="no-margins">{{$rp}}</h1>
-                            <div class="stat-percent font-bold text-success">{{round($rp/$tp * 100)}}% <i class="fa fa-bolt"></i></div>
-                            <small>Pending Reseller</small>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-user text-gradient-warning"></i></div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $rp ?? 'Total Agent' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Pending Reseller</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
-    <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="row">
-            @foreach($users as $user)
-                <div class="col-lg-4" style="margin-bottom: 5px">
-                    <div class="contact-box">
-                        <a href="profile/{{ $user->user_name }}">
-                            <div class="col-sm-4">
-                                <div class="text-center">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Business Name</th>
+                            <th>Full Name</th>
+                            <th>DOB</th>
+                            <th>Phone Number</th>
+                            <th>Address</th>
+                            <th>Note</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($users as $user)
+                            <tr>
+                                <td>
                                     @if($user->photo!=null)
-                                        <img alt="image" class="img-circle m-t-xs img-responsive" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
+                                        <img alt="image" class="rounded-circle thumb-sm mr-1" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
                                     @else
-                                        <img alt="image" class="img-circle m-t-xs img-responsive" src="/img/mcd_logo.png">
+                                        <img alt="image" class="rounded-circle thumb-sm mr-1" src="/img/mcd_logo.png">
                                     @endif
-                                    <div class="m-t-xs font-bold">{{$user->user_name }}</div>
-                                    <p>{{$user->target }}</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-8">
-                                <h3><strong>{{$user->full_name }}</strong></h3>
-                                <p><i class="fa fa-calendar-o"></i> {{$user->dob }}</p>
-                                <address>
-                                    <strong><i class="fa fa-briefcase"></i> {{$user->company_name }}</strong><br>
-                                    <i class="fa fa-map-marker"></i> {{$user->address }}<br>
-                                    <abbr title="Phone"><i class="fa fa-mobile-phone"></i>:</abbr> {{$user->phoneno}}<br />
-                                    <abbr title="Note"><i class="fa fa-book"></i>:</abbr> {{$user->note}}
-                                </address>
-                            </div>
-                            <div class="clearfix"></div>
-                        </a>
-                    </div>
+                                    {{$user->user_name }}</td>
+                                <td>{{$user->company_name }}</td>
+                                <td>{{$user->full_name }}</td>
+                                <td>{{$user->dob }}</td>
+                                <td>{{$user->phoneno}}</td>
+                                <td>{{$user->address}}</td>
+                                <td>{{$user->note}}</td>
+                                <td><a href="profile/{{ $user->user_name }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a></td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                    {{ $users->links() }}
                 </div>
-
-            @endforeach
-
+            </div>
         </div>
+        <!-- end col -->
     </div>
-
-        @endsection
+    <!-- end row -->
+@endsection

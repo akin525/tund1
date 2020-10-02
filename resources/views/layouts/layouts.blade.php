@@ -98,6 +98,8 @@
                             <li><a href="/adddatatransaction">Add Data Transaction</a></li>
                             <li><a href="/airtime2cash">Airtime Converter</a></li>
                             <li><a href="/reversal">Reverse Transaction</a></li>
+                            <li><a href="/generalmarket">General Market</a></li>
+                            <li><a href="/plcharges">P Charges</a></li>
 {{--                            <li><a href="form-uploads.html">Form File Upload</a></li>--}}
 {{--                            <li><a href="form-mask.html">Form Mask</a></li>--}}
 {{--                            <li><a href="form-summernote.html">Summernote</a></li>--}}
@@ -129,6 +131,9 @@
                             <li><a href="/agentpayment">Agent Payment</a></li>
                             <li><a href="/agents">Agents</a></li>
                             <li><a href="/resellers">Resellers</a></li>
+                            <li><a href="/pending_request">Pending Request</a></li>
+                            <li><a href="/gmblocked">GM Blocked</a></li>
+{{--                            <li><a href="/dormantusers">Dormant Users</a></li>--}}
 {{--                            <li><a href="icons-fontawesome.html">Font Awesome</a></li>--}}
 {{--                            <li><a href="icons-ion.html">Ion Icons</a></li>--}}
 {{--                            <li><a href="icons-material.html">Material Design</a></li>--}}
@@ -137,7 +142,7 @@
                         </ul>
                     </li>
 {{--                    <li class="has_sub">--}}
-{{--                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Tables </span><span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>--}}
+{{--                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Verification </span><span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>--}}
 {{--                        <ul class="list-unstyled">--}}
 {{--                            <li><a href="tables-basic.html">Basic Tables</a></li>--}}
 {{--                            <li><a href="tables-datatable.html">Data Table</a></li>--}}

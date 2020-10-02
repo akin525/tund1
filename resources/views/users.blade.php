@@ -59,7 +59,7 @@
                                 <div class="row">
                                     <div class="col-2 align-self-center"><i class="fas fa-database text-gradient-primary"></i></div>
                                     <div class="col-10 text-right">
-                                        <h5 class="mt-0 mb-1">{{ number_format($u_wallet) ?? 'Today Deposits' }}</h5>
+                                        <h5 class="mt-0 mb-1">{{ number_format($au_wallet+$iau_wallet) ?? 'Today Deposits' }}</h5>
                                         <p class="mb-0 font-12 text-muted">Total Wallet</p>
                                     </div>
                                 </div>

@@ -36,20 +36,21 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-mobile"></i> </span>
                                     </div>
-                                    <input style="margin-right: 20px" type="tel" name="phoneno" placeholder="Search for phone number" class="form-control @error('phoneno') is-invalid @enderror">
-
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-users"></i> </span>
-                                    </div>
-                                    <input type="text" name="status" placeholder="Search User group e.g agent, client, reseller" class="form-control @error('status') is-invalid @enderror">
+                                    <input type="tel" name="phoneno" placeholder="Search for phone number" class="form-control @error('phoneno') is-invalid @enderror">
                                 </div>
 
                                 <div class="input-group mt-2">
                                     <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-users"></i> </span>
+                                    </div>
+                                    <input style="margin-right: 20px" type="text" name="status" placeholder="Search User group e.g agent, client, reseller" class="form-control @error('status') is-invalid @enderror">
+                                    <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-wallet"></i></span>
                                     </div>
-                                    <input style="margin-right: 20px" type="number" name="wallet" placeholder="Search for wallet value" class="form-control @error('wallet') is-invalid @enderror">
+                                    <input type="number" name="wallet" placeholder="Search for wallet value" class="form-control @error('wallet') is-invalid @enderror">
+                                </div>
 
+                                <div class="input-group mt-2">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-envelope"></i> </span>
                                     </div>
