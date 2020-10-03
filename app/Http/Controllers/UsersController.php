@@ -71,7 +71,7 @@ class UsersController extends Controller
     public function dormant(Request $request)
     {
 
-        $users = DB::table('tbl_agents')->where('last_login', 'NOT LIKE', Carbon::now()->format('y-m-d') )->get();
+        $users = DB::table('tbl_agents')->whereMonth('last_login', '>', '3' )->paginate(10);
 
         return view('dormant_users', ['users' => $users]);
     }
@@ -79,7 +79,7 @@ class UsersController extends Controller
     public function pending(Request $request)
     {
 
-        $users = DB::table('tbl_agents')->where('target', 'like', '%in progress%')->orderBy('id', 'desc')->paginate(25);
+        $users = DB::table('tbl_agents')->where('target', 'like', '%in progress%')->orderBy('id', 'desc')->get();
         $tp = DB::table('tbl_agents')->where('target', 'like', '%in progress%')->orderBy('id', 'desc')->count();
         $rp = DB::table('tbl_agents')->where('target', 'like', '%Reseller in progress%')->orderBy('id', 'desc')->count();
         $ap = DB::table('tbl_agents')->where('target', 'like', '%Agent in progress%')->orderBy('id', 'desc')->count();

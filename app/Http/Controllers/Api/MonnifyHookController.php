@@ -49,7 +49,11 @@ class MonnifyHookController extends Controller
         }
 
         if($product_type === "RESERVED_ACCOUNT"){
-            $acctd_name= $input['accountDetails']['accountName'];
+            if($input['accountDetails']== null){
+                $acctd_name=$product_reference;
+            }else{
+                $acctd_name= $input['accountDetails']['accountName'];
+            }
             if ($product_reference === "Mcdat"){
                 $this->MCDatfundwallet($acctd_name,$paymentamount,$transactionreference);
             }else{

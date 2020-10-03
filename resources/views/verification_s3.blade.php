@@ -23,21 +23,24 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" method="POST" action="{{ route('reversal.confirm') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('verification_server3') }}">
                         @csrf
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <div class="input-group mt-2">
                                     <div class="input-group-prepend"><span class="input-group-text">REF</span></div>
-                                    <input type="text" name="id" placeholder="Enter transaction id or reference" class="form-control @error('id') is-invalid @enderror" required>
+                                    <input type="text" name="ref" placeholder="Enter server reference" class="form-control @error('ref') is-invalid @enderror" required>
                                     <button class="btn btn-gradient-primary waves-effect waves-light" type="submit" style="align-self: center; align-content: center"><i class="fa fa-search"></i>Verify</button>
                                 </div>
-                                @error('id')
+                                @error('ref')
                                 <div class="alert alert-danger alert-dismissable">
                                     <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
                                     {{ $message }}
                                 </div>
                                 @enderror
+
+                                <td class="border-0">Custom HTML description and buttons</td>
+                                <td class="border-0"><button type="button" class="btn btn-primary waves-effect waves-light" id="custom-html-alert">Click me</button></td>
                             </div>
                         </div>
                         <!--end row-->

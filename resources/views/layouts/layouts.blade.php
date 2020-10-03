@@ -133,7 +133,7 @@
                             <li><a href="/resellers">Resellers</a></li>
                             <li><a href="/pending_request">Pending Request</a></li>
                             <li><a href="/gmblocked">GM Blocked</a></li>
-{{--                            <li><a href="/dormantusers">Dormant Users</a></li>--}}
+                            <li><a href="/dormantusers">Dormant Users</a></li>
 {{--                            <li><a href="icons-fontawesome.html">Font Awesome</a></li>--}}
 {{--                            <li><a href="icons-ion.html">Ion Icons</a></li>--}}
 {{--                            <li><a href="icons-material.html">Material Design</a></li>--}}
@@ -144,7 +144,7 @@
 {{--                    <li class="has_sub">--}}
 {{--                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Verification </span><span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>--}}
 {{--                        <ul class="list-unstyled">--}}
-{{--                            <li><a href="tables-basic.html">Basic Tables</a></li>--}}
+{{--                            <li><a href="verification_server3">Server 3</a></li>--}}
 {{--                            <li><a href="tables-datatable.html">Data Table</a></li>--}}
 {{--                            <li><a href="tables-editable.html">Editable Table</a></li>--}}
 {{--                            <li><a href="tables-responsive.html">Responsive Table</a></li>--}}
