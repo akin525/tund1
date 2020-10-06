@@ -77,7 +77,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/airtime2cash', 'TransactionController@airtime2cash')->name('transaction.airtime2cash');
     Route::post('/airtime2cash', 'TransactionController@airtime2cashpayment')->name('transaction.airtime2cash.payment');
     Route::view('/verification_server3', 'verification_s3');
+    Route::view('/verification_server2', 'verification_s2');
+    Route::view('/verification_server1b', 'verification_s1b');
+    Route::view('/verification_server1', 'verification_s1');
+    Route::view('/verification_server1dt', 'verification_s1dt');
     Route::post('/verification_server3', 'VerificationController@server3')->name('verification_server3');
+    Route::post('/verification_server2', 'VerificationController@server2')->name('verification_server2');
+    Route::post('/verification_server1b', 'VerificationController@server1b')->name('verification_server1b');
+    Route::post('/verification_server1', 'VerificationController@server1')->name('verification_server1');
+    Route::post('/verification_server1dt', 'VerificationController@server1dt')->name('verification_server1dt');
 });
 
 

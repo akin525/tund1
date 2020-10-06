@@ -1,5 +1,5 @@
 @extends('layouts.layouts')
-@section('title', 'Verification > Server3 ')
+@section('title', 'Verification > Server1 ')
 @section('parentPageTitle', 'Transaction')
 
 @section('content')
@@ -23,7 +23,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" method="POST" action="{{ route('verification_server3') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('verification_server1') }}">
                         @csrf
                         <div class="form-group row">
                             <div class="col-md-12">
@@ -59,10 +59,10 @@
         @if($response ?? '')
             swal({
                 title: "{{$status}}",
-                type: @if($status=="success") "success" @else "error" @endif,
+                type: @if($status=="SUCCESSFUL") "success" @else "error" @endif,
                 html: '{{$description}}',
-                showCloseButton: @if($status=="success") !0 @else 0 @endif,
-                showCancelButton: @if($status!="success") !0 @else 0 @endif,
+                showCloseButton: @if($status=="SUCCESSFUL") !0 @else 0 @endif,
+                showCancelButton: @if($status!="SUCCESSFUL") !0 @else 0 @endif,
                 confirmButtonClass: "btn btn-success",
                 cancelButtonClass: "btn btn-danger ml-2",
                 confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',

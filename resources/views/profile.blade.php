@@ -1,484 +1,391 @@
 @extends('layouts.layouts')
+@section('title', 'Profile')
+@section('parentPageTitle', 'User')
 
 @section('content')
-            <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-lg-10">
-                    <h2>Profile</h2>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li>
-                            <a>Users</a>
-                        </li>
-                        <li class="active">
-                            <strong>Profile</strong>
-                        </li>
-                    </ol>
-                </div>
-                <div class="col-lg-2">
 
-                </div>
-            </div>
-        <div class="wrapper wrapper-content">
-            <div class="row animated fadeInRight">
-                <div class="col-md-4">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>Profile Detail</h5>
-                        </div>
-                        <div>
-                            <div class="ibox-content no-padding border-left-right">
-                                @if($user->photo!=null)
-                                    <img alt="image" class="img-responsive" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
-                                @else
-                                    <img alt="image" class="img-responsive" src="/img/mcd_logo.png">
-                                @endif
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body met-pro-bg">
+                    <div class="met-profile" >
+                        <div class="row" style='background-image: url("/assets/images/pattern.png"); padding: 20px; color: white'>
+                            <div class="col-lg-4 align-self-center mb-3 mb-lg-0">
+                                <div class="met-profile-main">
+                                    <div class="met-profile-main-pic">
+                                        @if($user->photo!=null)
+                                            <img src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG" alt="img" class="img img-thumbnail">
+                                        @else
+                                            <img alt="image" class="img img-thumbnail" src="/img/mcd_logo.png">
+                                        @endif
+                                        <span class="fro-profile_main-pic-change"><i class="fas fa-camera"></i></span></div>
+                                    <div class="met-profile_user-detail">
+                                        <h4 class="met-user-name" style="color: white">{{$user->user_name}}</h4>
+                                        <p class="mb-0 met-user-name-post">{{$user->full_name}}</p>
+                                        <p class="mb-0 met-user-name-post text-muted">{{$user->company_name}} ({{$user->status}})</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="ibox-content profile-content">
-                                <h4><strong>{{$user->full_name}}</strong> <span class="label label-primary"><i class="fa fa-check"></i> {{$user->status}}</span></h4>
-                                <p><i class="fa fa-user"></i> {{$user->user_name}}</p>
-                                <p><i class="fa fa-phone"></i> {{$user->phoneno}}</p>
-                                <p><i class="fa fa-tag"></i> {{$user->email}}</p>
-                                <p><i class="fa fa-calendar-o"></i> {{$user->dob}}</p>
-                                <p><i class="fa fa-map-marker"></i> {{$user->address}}</p>
-                                <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/mega-cheap-data.appspot.com/o/doc%2F{{$user->user_name}}.pdf?alt=media&token=b912aad8-f041-4d4e-8d4e-6aaa2e9c0068" class="btn btn-white btn-sm"><i class="fa fa-file"></i> View Document </a>
-                                <dl class="dl-horizontal">
-                                    <dt>Registered on:</dt> <dd> {{$user->reg_date}}</dd>
-                                    <dt>Last Login:</dt> <dd>  {{$user->last_login}}</dd>
-                                    <dt>Business Name:</dt> <dd><a href="#" class="text-navy"> {{$user->company_name}}</a> </dd>
-                                    <dt>Referral Plan:</dt> <dd>  {{$user->referral_plan}}</dd>
-                                    <dt>Version:</dt> <dd> 	v{{$version[0]->version ?? "-"}} </dd>
-                                </dl>
+                            <!--end col-->
+                            <div class="col-lg-4 ml-auto">
+                                <ul class="list-unstyled personal-detail">
+                                    <li class=""><i class="dripicons-phone mr-2 text-info font-18"></i> <b>Phone </b> : {{$user->phoneno}}</li>
+                                    <li class="mt-2"><i class="dripicons-mail text-info font-18 mt-2 mr-2"></i> <b>Email </b> : {{$user->email}}</li>
+                                    <li class="mt-2"><i class="dripicons-location text-info font-18 mt-2 mr-2"></i> <b>Location</b> : {{$user->address}}</li>
+                                    <li class="mt-2"><i class="dripicons-calendar text-info font-18 mt-2 mr-2"></i> <b>DOB</b> : {{$user->dob}}</li>
+                                    <li class="mt-2"><i class="dripicons-calendar text-info font-18 mt-2 mr-2"></i> <b>Reg. Date</b> : {{$user->reg_date}}</li>
+                                    <li class="mt-2"><i class="dripicons-calendar text-info font-18 mt-2 mr-2"></i> <b>Last Login</b> : {{$user->last_login}}</li>
+                                    <li class="mt-2"><i class="dripicons-device-mobile text-info font-18 mt-2 mr-2"></i> <b>Installed Version</b> : v{{$version[0]->version ?? "-"}}</li>
+                                    <li class="mt-2"><i class="dripicons-brush text-info font-18 mt-2 mr-2"></i> <b>Referral Plan</b> : {{$user->referral_plan}}</li>
+                                </ul>
+                                <div class="button-list btn-social-icon">
+                                    <i class="dripicons-reply-all text-info font-18 mt-2 mr-2"></i> <b>Referrals</b> :
 
-
-                                <dl class="dl-horizontal" >
-                                    <dt>Referral:</dt>
-                                </dl>
-                                <div class="project-people">
                                     @foreach($referrals as $referral)
                                         @if($referral->photo!=null)
-                                            <a href="{{$referral->user_name}}"><img alt="image" class="img-circle" src="https://mcd.5starcompany.com.ng/app/avatar/{{$referral->user_name }}.JPG"></a>
+                                            <a href="{{$referral->user_name}}" class="btn btn-pink btn-circle ml-2"><img alt="image" class="img-circle" src="https://mcd.5starcompany.com.ng/app/avatar/{{$referral->user_name }}.JPG"></a>
                                         @else
-                                            <a href="{{$referral->user_name}}">{{$referral->user_name}}</a>
+                                            <a href="{{$referral->user_name}}" class="btn btn-pink btn-circle ml-2">{{$referral->user_name}}</a>
                                         @endif
 
                                     @endforeach
                                 </div>
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+                    </div>
+                    <!--end f_profile-->
+                </div>
+                <!--end card-body-->
+                <div class="card-body">
+                    <ul class="nav nav-pills mb-0" id="pills-tab" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" id="general_detail_tab" data-toggle="pill" href="#general_detail">General</a></li>
+                        <li class="nav-item"><a class="nav-link" id="activity_detail_tab" data-toggle="pill" href="#activity_detail">Transactions</a></li>
+                        <li class="nav-item"><a class="nav-link" id="portfolio_detail_tab" data-toggle="pill" href="#portfolio_detail">Wallet</a></li>
+                        <li class="nav-item"><a class="nav-link" id="settings_detail_tab" data-toggle="pill" href="#settings_detail">Charges</a></li>
+                    </ul>
+                </div>
+                <!--end card-body-->
+            </div>
+            <!--end card-->
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->
 
-                                <div class="row m-t-lg" align="center">
-                                    <div class="col-md-12">
-                                        <h5>
-                                            General News
-                                        </h5>
-                                        <p>
-                                            {{$user->gnews}}
-                                        </p>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="well">
-                                            {{$user->target}}
-                                            <div class="pull-right">
-                                                <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Target </a>
-                                            </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="tab-content detail-list" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="general_detail">
+                    <div class="row">
+                        <div class="col-xl-4">
+                            <div class="card">
+                                <div class="card-body">
+{{--                                    <div class="d-flex justify-content-between">--}}
+{{--                                        <img src="../assets/images/widgets/monthly-re.png" alt="" height="75">--}}
+{{--                                        <div class="align-self-center">--}}
+{{--                                            <h2 class="mt-0 mb-2 font-weight-semibold">$955<span class="badge badge-soft-success font-11 ml-2"><i class="fas fa-arrow-up"></i> 8.6%</span></h2>--}}
+{{--                                            <h4 class="title-text mb-0">Monthly Revenue</h4>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+                                    <div class="d-flex justify-content-between bg-purple p-3 mt-3 rounded">
+                                        <div>
+                                            <h4 class="mb-1 font-weight-semibold text-white">&#8358;{{number_format($user->wallet)}}</h4>
+                                            <p class="text-white mb-0">Wallet Balance</p>
                                         </div>
-                                    </div>
-
-
-
-                                    <div class="col-md-6">
-                                        <button type="button" class="btn btn-warning m-r-sm">{{$user->wallet}}</button>
-                                        Wallet
-                                        {{--<span><strong>{{$user->wallet}}</strong></span>
-                                        <h5>Wallet Balance</h5>--}}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button type="button" class="btn btn-warning m-r-sm">{{$user->bonus}}</button>
-                                        Bonus
-                                        {{--<span><strong>{{$user->bonus}}</strong></span>
-                                        <h5>Bonus</h5>--}}
-                                    </div>
-                                </div>
-
-
-                                <div class="user-button">
-                                    <div class="row">
-                                        @if(strpos($user->target, "Agent in progress") !== false)
-                                            <div class="col-md-6">
-
-                                                <form method="POST" action="/request_approve">
-                                                    @csrf
-                                                    <input type="hidden" name="type" value="agent" />
-                                                    <input type="hidden" name="user_name" value="{{$user->user_name}}" />
-                                                <button type="submit" class="btn btn-primary btn-sm btn-block"><i class="fa fa-coffee"></i> Approve Agent</button>
-                                                </form>
-                                            </div>
-                                        @elseif(strpos($user->target, "Reseller in progress") !== false)
-                                            <div class="col-md-6">
-                                                <form method="POST" action="/request_approve">
-                                                    @csrf
-                                                    <input type="hidden" name="type" value="reseller" />
-                                                    <input type="hidden" name="user_name" value="{{$user->user_name}}" />
-                                                <button type="button" class="btn btn-primary btn-sm btn-block"><i class="fa fa-coffee"></i> Approve Reseller</button>
-                                                </form>
-                                            </div>
-                                        @endif
-
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-danger btn-sm btn-block"><i class="fa fa-flag-checkered"></i> Flag Fraud</button>
+                                        <div>
+                                            <h4 class="mb-1 font-weight-semibold text-white">&#8358;{{$user->bonus}}</h4>
+                                            <p class="text-white mb-0">Bonus Balance</p>
                                         </div>
                                     </div>
                                 </div>
+                                <!--end card-body-->
+                            </div>
 
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="wrapper wrapper-content animated fadeInUp">
-                                            <ul class="notes">
-                                                <li>
-                                                    <div>
-                                                        <small>Recent</small>
-                                                        <h4>Note</h4>
-                                                        <p>{{$user->note}} </p>
-                                                        <a href="#"><i class="fa fa-trash-o "></i></a>
+                            <!--end card-->
+                            <div class="card">
+                                <div class="card-body dash-info-carousel">
+{{--                                    <h4 class="mt-0 header-title mb-4">New Leads</h4>--}}
+                                    <div id="carousel_1" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <div class="media">
+                                                    <div class="media-body align-self-center">
+                                                        <h4 class="mt-0 mb-1 title-text text-dark">{{$user->gnews}}</h4>
+                                                        <p class="text-muted mb-0">General News</p>
                                                     </div>
-                                                </li>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-item">
+                                                <div class="media">
+                                                    <div class="media-body align-self-center">
+                                                        <h4 class="mt-0 mb-1 title-text">{{$user->target}}</h4>
+                                                        <p class="text-muted mb-0">Target</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carousel_1" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a><a class="carousel-control-next" href="#carousel_1" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end card-->
 
+                            <div class="card">
+                                <div class="card-body dash-info-carousel">
+                                    <div class="progress bg-warning mb-3" style="height:5px;">
+                                        <div class="progress-bar bg-secondary" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <button type="button" class="btn btn-gradient-primary btn-sm">Approve Agent</button>
+                                        <button type="button" class="btn btn-gradient-danger btn-sm">Suspect Fraud</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end card-->
+
+                            @if($user->referral!=null)
+                            <div class="card profile-card">
+                                <div class="card-body p-0">
+                                    <div class="media p-3 align-items-center">
+                                        <img src="../assets/images/users/user-4.jpg" alt="user" class="rounded-circle thumb-xl">
+                                        <div class="media-body ml-3 align-self-center">
+                                            <h5 class="pro-title mt-0">{{$user->referral}} <span class="badge badge-warning font-10">New Agent</span></h5>
+                                            <p class="mb-2 text-muted">@SaraHopkins.com</p>
+                                            <ul class="list-inline list-unstyled profile-socials mb-0">
+                                                <li class="list-inline-item"><a href="#" class=""><i class="fab fa-facebook-f bg-soft-primary"></i></a></li>
+                                                <li class="list-inline-item"><a href="#" class=""><i class="fab fa-twitter bg-soft-secondary"></i></a></li>
+                                                <li class="list-inline-item"><a href="#" class=""><i class="fab fa-dribbble bg-soft-pink"></i></a></li>
                                             </ul>
                                         </div>
+                                        <div class="action-btn"><a href="#" class=""><i class="fas fa-pen text-info mr-2"></i></a> <a href="#" class=""><i class="fas fa-trash-alt text-danger"></i></a></div>
                                     </div>
                                 </div>
+                                <!--end card-body-->
                             </div>
-                    </div>
-                </div>
+                            <!--end card-->
+                            @endif
 
-                    <div class="row m-t-lg">
-                        <div class="col-lg-12">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-content">
-                                    <h5>SMS Log</h5>
-                                    <div>
-                                        <div class="chat-activity-list">
-                                            @foreach($sms as $sms)
-                                            <div class="chat-element">
-                                                <a href="#" class="pull-left">
-                                                    @if($user->photo!=null)
-                                                        <img alt="image" class="img-circle" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
-                                                    @else
-                                                        <img alt="image" class="img-circle" src="/img/mcd_logo.png">
-                                                    @endif
-                                                </a>
-                                                <div class="media-body ">
-                                                    <small class="pull-right text-navy">{{$sms->response}}</small>
-                                                    <strong>{{$sms->phoneno}}</strong>
-                                                    <p class="m-b-xs">
-                                                        {{$sms->message}}
-                                                    </p>
-                                                    <small class="text-muted">{{$sms->created_at}}</small>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                    <div class="chat-form">
-                                        <form name="form" method="POST" action="{{ route('user.sms') }}" role="form">
-                                            @csrf
-                                            <div class="form-group">
-                                                <input type="hidden" name="phoneno" value="{{$user->phoneno}}" />
-                                                <input type="hidden" name="user_name" value="{{$user->user_name}}" />
-                                                <textarea name="message" class="form-control" placeholder="Message" maxlength="160"></textarea>
-                                            </div>
-                                            <div class="text-right">
-                                                <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong>Send message</strong></button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                    </div>
-
-
-                    <div class="row m-t-lg">
-                        <div class="col-lg-12">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-content">
-                                    <h5>Email Log</h5>
-                                    <div>
-                                        <div class="chat-activity-list">
-                                            @foreach($email as $email)
-                                                <div class="chat-element">
-                                                    <a href="#" class="pull-left">
-                                                        @if($user->photo!=null)
-                                                            <img alt="image" class="img-circle" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
-                                                        @else
-                                                            <img alt="image" class="img-circle" src="/img/mcd_logo.png">
-                                                        @endif
-                                                    </a>
-                                                    <div class="media-body ">
-                                                        <small class="pull-right text-navy">{{$email->response}}</small>
-                                                        <strong>{{$email->email}}</strong>
-                                                        <p class="m-b-xs">
-                                                            {{$email->message}}
-                                                        </p>
-                                                        <small class="text-muted">{{$email->created_at}}</small>
+                        <!--end col-->
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="p-4 bg-light text-center align-item-center">
+                                                <h1 class="font-weight-semibold">{{($tt/100)}}</h1>
+                                                <h4 class="header-title">Overall Performance</h4>
+                                            </div>
+                                            <ul class="list-unstyled mt-3">
+                                                <li class="mb-2">
+                                                    <span class="text-dark">Data</span> <small class="float-right text-muted ml-3 font-14">{{$tdt}}</small>
+                                                    <div class="progress mt-2" style="height:5px;">
+                                                        <div class="progress-bar bg-secondary" role="progressbar" style="width: {{($tdt/100)}}%; border-radius:5px;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                    <div class="chat-form">
-                                        <form role="form" method="POST" action="{{ route('user.email') }}">
-                                            @csrf
-                                            <div class="form-group">
-                                                <input type="hidden" name="user_name" value="{{$user->user_name}}" />
-                                                <textarea name="message" class="form-control" placeholder="Message"></textarea>
-                                            </div>
-                                            <div class="text-right">
-                                                <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong>Send message</strong></button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row m-t-lg">
-                        <div class="col-lg-12">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-content">
-                                    <h5>Push Notification Log</h5>
-                                    <div>
-                                        <div class="chat-activity-list">
-                                            @foreach($push as $pus)
-                                                <div class="chat-element">
-                                                    <a href="#" class="pull-left">
-                                                        @if($user->photo!=null)
-                                                            <img alt="image" class="img-circle" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
-                                                        @else
-                                                            <img alt="image" class="img-circle" src="/img/mcd_logo.png">
-                                                        @endif
-                                                    </a>
-                                                    <div class="media-body ">
-                                                        <small class="pull-right text-navy">sent</small>
-                                                        <strong>{{$pus->response}}</strong>
-                                                        <p class="m-b-xs">
-                                                            {{$pus->message}}
-                                                        </p>
-                                                        <small class="text-muted">{{$pus->created_at}}</small>
+                                                </li>
+                                                <li class="mb-2">
+                                                    <span class="text-dark">Airtime</span> <small class="float-right text-muted ml-3 font-14">{{$tat}}</small>
+                                                    <div class="progress mt-2" style="height:5px;">
+                                                        <div class="progress-bar bg-secondary" role="progressbar" style="width: {{($tat/100)}}%; border-radius:5px;" aria-valuenow="18" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
-                                                </div>
+                                                </li>
+                                                <li class="mb-2">
+                                                    <span class="text-dark">TV</span> <small class="float-right text-muted ml-3 font-14">{{$tpt}}</small>
+                                                    <div class="progress mt-2" style="height:5px;">
+                                                        <div class="progress-bar bg-secondary" role="progressbar" style="width: {{($tpt/100)}}%; border-radius:5px;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </li>
+                                                <li class="mb-2">
+                                                    <span class="text-dark">Recharge Card</span> <small class="float-right text-muted ml-3 font-14">{{$tct}}</small>
+                                                    <div class="progress mt-2" style="height:5px;">
+                                                        <div class="progress-bar bg-secondary" role="progressbar" style="width: {{($tct/100)}}%; border-radius:5px;" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <span class="text-dark">Result Checker</span> <small class="float-right text-muted ml-3 font-14">{{$trt}}</small>
+                                                    <div class="progress mt-2" style="height:5px;">
+                                                        <div class="progress-bar bg-secondary" role="progressbar" style="width: {{($trt/100)}}%; border-radius:5px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!--end card-body-->
+                                    </div>
+                                    <!--end card-->
+                                </div>
+                                <!--end col-->
+                            </div>
+                            <!--end card-->
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </div>
+                <!--end general detail-->
+                <div class="tab-pane fade" id="activity_detail">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="mt-0 header-title">Transactions</h4>
+                                    {{--                    <p class="text-muted mb-4 font-13">Use <code>pencil icon</code> to view user profile.</p>--}}
+                                    <div class="table-responsive">
+                                        <table class="table table-striped mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th>id</th>
+                                                <th>Username</th>
+                                                <th>Amount</th>
+                                                <th>Description</th>
+                                                <th>Status</th>
+                                                <th>I. Wallet</th>
+                                                <th>F. Wallet</th>
+                                                <th>I.P</th>
+                                                <th>Server</th>
+                                                <th>Ref</th>
+                                                <th>Date</th>
+                                                <th>Note</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($td as $dat)
+                                                <tr>
+                                                    <td>{{$dat->id}}</td>
+                                                    <td>{{$dat->user_name}}
+                                                    </td>
+                                                    <td>{{$dat->amount}}</td>
+                                                    <td>{{$dat->description}}</td>
+                                                    <td class="center">
+
+                                                        @if($dat->status=="delivered" || $dat->status=="Delivered" || $dat->status=="ORDER_RECEIVED" || $dat->status=="ORDER_COMPLETED")
+                                                            <span class="badge badge-success">{{$dat->status}}</span>
+                                                        @elseif($dat->status=="not_delivered" || $dat->status=="Not Delivered" || $dat->status=="Error" || $dat->status=="ORDER_CANCELLED" || $dat->status=="Invalid Number" || $dat->status=="Unsuccessful")
+                                                            <span class="badge badge-warning">{{$dat->status}}</span>
+                                                        @else
+                                                            <span class="badge badge-info">{{$dat->status}}</span>
+                                                        @endif
+
+                                                    </td>
+                                                    <td>{{$dat->i_wallet}}</td>
+                                                    <td>{{$dat->f_wallet}}</td>
+                                                    <td>{{$dat->ip_address}}</td>
+                                                    <td>{{$dat->server}}</td>
+                                                    <td>{{$dat->ref}}</td>
+                                                    <td>{{$dat->date}}</td>
+                                                    <td>{{$dat->extra}}</td>
+                                                </tr>
                                             @endforeach
-                                        </div>
-                                    </div>
-                                    <div class="chat-form">
-                                        <form role="form" method="POST" action="{{ route('user.pushnotif') }}">
-                                            @csrf
-                                            <div class="form-group">
-                                                <input type="hidden" name="user_name" value="{{$user->user_name}}" />
-                                                <textarea name="message" class="form-control" placeholder="Message"></textarea>
-                                            </div>
-                                            <div class="text-right">
-                                                <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong>Send message</strong></button>
-                                            </div>
-                                        </form>
+                                            </tbody>
+                                        </table>
+                                        {{ $td->links() }}
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- end col -->
                     </div>
-
+                    <!--end row-->
                 </div>
-
-                <div class="col-md-8">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>Activites</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">Config option 1</a>
-                                    </li>
-                                    <li><a href="#">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="ibox-content">
-
-                            <div class="row m-t-sm">
-                                <div class="col-lg-12">
-                                    <div class="panel blank-panel">
-                                        <div class="panel-heading">
-                                            <div class="panel-options">
-                                                <ul class="nav nav-tabs">
-                                                    <li class="active"><a href="#tab-1" data-toggle="tab">Transactions({{$tt}})</a></li>
-                                                    <li class=""><a href="#tab-2" data-toggle="tab">Wallet({{$tw}})</a></li>
-                                                    <li class=""><a href="#tab-3" data-toggle="tab">Charges({{$tpld}})</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <div class="panel-body">
-
-                                            <div class="tab-content">
-                                                <div class="tab-pane active" id="tab-1">
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Status</th>
-                                                            <th>Date</th>
-                                                            <th>Amount</th>
-                                                            <th>Prev Balance</th>
-                                                            <th>Post Balance</th>
-                                                            <th>Desc</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        @foreach($td as $dat)
-                                                            <tr>
-                                                                <td>
-                                                                    <span class="label label-primary"><i class="fa fa-check"></i> {{$dat->status}}</span>
-                                                                </td>
-                                                                <td>
-                                                                    {{$dat->date}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$dat->amount}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$dat->i_wallet}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$dat->f_wallet}}
-                                                                </td>
-                                                                <td>
-                                                                    <p class="small">
-                                                                        {{$dat->description}}
-                                                                    </p>
-                                                                </td>
-
-                                                            </tr>
-                                                        @endforeach
-
-
-                                                        </tbody>
-                                                    </table>
-
-                                                </div>
-                                                <div class="tab-pane" id="tab-2">
-
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Status</th>
-                                                            <th>Medium</th>
-                                                            <th>Date</th>
-                                                            <th>Amount</th>
-                                                            <th>Prev Balance</th>
-                                                            <th>Post Balance</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        @foreach($wd as $dat)
-                                                            <tr>
-                                                                <td>
-                                                                    <span class="label label-primary"><i class="fa fa-check"></i> {{$dat->status}}</span>
-                                                                </td>
-                                                                <td>
-                                                                    {{$dat->medium}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$dat->date}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$dat->amount}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$dat->o_wallet}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$dat->n_wallet}}
-                                                                </td>
-
-                                                            </tr>
-
-                                                        @endforeach
-
-                                                        </tbody>
-                                                    </table>
-
-                                                </div>
-
-                                                <div class="tab-pane" id="tab-3">
-
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Status</th>
-                                                            <th>Type</th>
-                                                            <th>Date</th>
-                                                            <th>Amount</th>
-                                                            <th>Narration</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        @foreach($pld as $dat)
-                                                            <tr>
-                                                                <td>
-                                                                    <span class="label label-primary"><i class="fa fa-check"></i> successful</span>
-                                                                </td>
-                                                                <td>
-                                                                    {{$dat->type}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$dat->date}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$dat->amount}}
-                                                                </td>
-                                                                <td>
-                                                                    <p class="small">
-                                                                        {{$dat->narration}}
-                                                                    </p>
-                                                                </td>
-
-                                                            </tr>
-
-                                                        @endforeach
-
-                                                        </tbody>
-                                                    </table>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-
+                <!--end education detail-->
+                <div class="tab-pane fade" id="portfolio_detail">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="mt-0 header-title">Wallet Table</h4>
+                                    {{--                    <p class="text-muted mb-4 font-13">Use <code>pencil icon</code> to view user profile.</p>--}}
+                                    <div class="table-responsive">
+                                        <table class="table table-striped mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th>id</th>
+                                                <th>Username</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th>Medium</th>
+                                                <th>Reference</th>
+                                                <th>O. Wallet</th>
+                                                <th>N. Wallet</th>
+                                                <th>Version</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($wd as $dat)
+                                                <tr>
+                                                    <td>{{$dat->id}}</td>
+                                                    <td>{{$dat->user_name}}</td>
+                                                    <td>&#8358;{{$dat->amount}}</td>
+                                                    <td>{{$dat->status}}</td>
+                                                    <td>{{$dat->medium}}</td>
+                                                    <td>{{$dat->ref}}</td>
+                                                    <td>&#8358;{{$dat->o_wallet}}</td>
+                                                    <td>&#8358;{{$dat->n_wallet}}</td>
+                                                    <td>{{$dat->version}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                        {{ $wd->links() }}
                                     </div>
                                 </div>
                             </div>
-
-                            <div>
-
-                            </div>
-
                         </div>
+                        <!-- end col -->
                     </div>
-
+                    <!--end row-->
                 </div>
-
+                <!--end portfolio detail-->
+                <div class="tab-pane fade" id="settings_detail">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    {{--                    <h4 class="mt-0 header-title">General Market History</h4>--}}
+                                    {{--                    <p class="text-muted mb-4 font-13">Use <code>pencil icon</code> to view user profile.</p>--}}
+                                    <div class="table-responsive">
+                                        <table class="table table-striped mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th>id</th>
+                                                <th>Type</th>
+                                                <th>Amount</th>
+                                                <th>Narration</th>
+                                                <th>Date</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($pld as $dat)
+                                                <tr>
+                                                    <td>{{$dat->id}}</td>
+                                                    <td>
+                                                        @if($dat->type=="income")
+                                                            <span class="badge badge-success">{{$dat->type}}</span>
+                                                        @else
+                                                            <span class="badge badge-warning">{{$dat->type}}</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>&#8358;{{$dat->amount}}</td>
+                                                    <td> {{$dat->narration}} </td>
+                                                    <td>{{$dat->date}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+                </div>
+                <!--end settings detail-->
             </div>
+            <!--end tab-content-->
         </div>
-
-
-@endsection
+        <!--end col-->
+    </div>
+    <!--end row-->
+@stop

@@ -9,21 +9,22 @@
     <meta content="5Star Company" name="author">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="img/mcd_logo.png">
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <!-- DataTables -->
-    <link href="assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
-    <link href="assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
     <!-- Responsive datatable examples -->
-    <link href="assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    @yield('after-style')
 </head>
 <body class="fixed-left">
 <!-- Loader -->
 <div id="preloader">
     <div id="status">
-        <lottie-player src="assets/cheapprogress.json" background="transparent"  speed="0.5"  style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+        <lottie-player src="/assets/cheapprogress.json" background="transparent"  speed="0.5"  style="width: 150px; height: 150px;" loop autoplay></lottie-player>
 {{--        <div class="spinner"></div>--}}
     </div>
 </div>
@@ -41,7 +42,7 @@
             @if(\Illuminate\Support\Facades\Auth::user()->photo)
                 <img src="https://mcd.5starcompany.com.ng/app/avatar/{{\Illuminate\Support\Facades\Auth::user()->photo}}" alt="user" class="rounded-circle img-thumbnail mb-1">
             @else
-                <img src="img/mcd_logo.png" alt="user" class="rounded-circle img-thumbnail mb-1">
+                <img src="/img/mcd_logo.png" alt="user" class="rounded-circle img-thumbnail mb-1">
             @endif
 
             <h6 class="">{{\Illuminate\Support\Facades\Auth::user()->full_name}}</h6>
@@ -141,14 +142,15 @@
 {{--                            <li><a href="icons-typicons.html">Typicons Icons</a></li>--}}
                         </ul>
                     </li>
-{{--                    <li class="has_sub">--}}
-{{--                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Verification </span><span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>--}}
-{{--                        <ul class="list-unstyled">--}}
-{{--                            <li><a href="verification_server3">Server 3</a></li>--}}
-{{--                            <li><a href="tables-datatable.html">Data Table</a></li>--}}
-{{--                            <li><a href="tables-editable.html">Editable Table</a></li>--}}
-{{--                            <li><a href="tables-responsive.html">Responsive Table</a></li>--}}
-{{--                        </ul>--}}
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Verification </span><span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="/verification_server1">Server 1 Airtime</a></li>
+                            <li><a href="/verification_server1b">Server 1b Airtime</a></li>
+                            <li><a href="/verification_server1dt">Server 1 Data</a></li>
+                            <li><a href="/verification_server2">Server 2</a></li>
+                            <li><a href="/verification_server3">Server 3</a></li>
+                        </ul>
 {{--                    </li>--}}
 {{--                    <li class="menu-title">Extra</li>--}}
 {{--                    <li class="has_sub">--}}
@@ -305,8 +307,8 @@
         </div>
         <!-- End Right content here -->
     </div>
-    <!-- END wrapper --><!-- jQuery  --><script src="assets/js/jquery.min.js"></script><script src="assets/js/popper.min.js"></script><script src="assets/js/bootstrap.min.js"></script><script src="assets/js/modernizr.min.js"></script><script src="assets/js/detect.js"></script><script src="assets/js/fastclick.js"></script><script src="assets/js/jquery.slimscroll.js"></script><script src="assets/js/jquery.blockUI.js"></script><script src="assets/js/waves.js"></script><script src="assets/js/jquery.nicescroll.js"></script><script src="assets/js/jquery.scrollTo.min.js"></script><script src="assets/plugins/chart.js/chart.min.js"></script><script src="assets/pages/dashboard.js"></script><!-- App js --><script src="assets/js/app.js"></script>
-<script src="assets/js/jquery.scrollTo.min.js"></script><!-- Required datatable js --><script src="assets/plugins/datatables/jquery.dataTables.min.js"></script><script src="assets/plugins/datatables/dataTables.bootstrap4.min.js"></script><!-- Buttons examples --><script src="assets/plugins/datatables/dataTables.buttons.min.js"></script><script src="assets/plugins/datatables/buttons.bootstrap4.min.js"></script><script src="assets/plugins/datatables/jszip.min.js"></script><script src="assets/plugins/datatables/pdfmake.min.js"></script><script src="assets/plugins/datatables/vfs_fonts.js"></script><script src="assets/plugins/datatables/buttons.html5.min.js"></script><script src="assets/plugins/datatables/buttons.print.min.js"></script><script src="assets/plugins/datatables/buttons.colVis.min.js"></script><!-- Responsive examples --><script src="assets/plugins/datatables/dataTables.responsive.min.js"></script><script src="assets/plugins/datatables/responsive.bootstrap4.min.js"></script><!-- Datatable init js --><script src="assets/pages/datatables.init.js"></script>
+    <!-- END wrapper --><!-- jQuery  --><script src="/assets/js/jquery.min.js"></script><script src="/assets/js/popper.min.js"></script><script src="/assets/js/bootstrap.min.js"></script><script src="/assets/js/modernizr.min.js"></script><script src="/assets/js/detect.js"></script><script src="/assets/js/fastclick.js"></script><script src="/assets/js/jquery.slimscroll.js"></script><script src="/assets/js/jquery.blockUI.js"></script><script src="/assets/js/waves.js"></script><script src="/assets/js/jquery.nicescroll.js"></script><script src="/assets/js/jquery.scrollTo.min.js"></script><script src="/assets/plugins/chart.js/chart.min.js"></script><script src="/assets/pages/dashboard.js"></script><!-- App js --><script src="/assets/js/app.js"></script>
+<script src="/assets/js/jquery.scrollTo.min.js"></script><!-- Required datatable js --><script src="/assets/plugins/datatables/jquery.dataTables.min.js"></script><script src="/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script><!-- Buttons examples --><script src="/assets/plugins/datatables/dataTables.buttons.min.js"></script><script src="/assets/plugins/datatables/buttons.bootstrap4.min.js"></script><script src="/assets/plugins/datatables/jszip.min.js"></script><script src="/assets/plugins/datatables/pdfmake.min.js"></script><script src="/assets/plugins/datatables/vfs_fonts.js"></script><script src="/assets/plugins/datatables/buttons.html5.min.js"></script><script src="/assets/plugins/datatables/buttons.print.min.js"></script><script src="/assets/plugins/datatables/buttons.colVis.min.js"></script><!-- Responsive examples --><script src="/assets/plugins/datatables/dataTables.responsive.min.js"></script><script src="/assets/plugins/datatables/responsive.bootstrap4.min.js"></script><!-- Datatable init js --><script src="/assets/pages/datatables.init.js"></script>
 @yield('before-scripts')
 </body>
 </html>

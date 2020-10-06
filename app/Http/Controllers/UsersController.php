@@ -128,10 +128,10 @@ class UsersController extends Controller
 
 //        $users = DB::table('tbl_agents')->where('target', 'like', '%in progress%')->orderBy('id', 'desc')->get();
         $tt = Transaction::where('user_name', $user)->count();
-        $td = Transaction::where('user_name', $user)->orderBy('id', 'desc')->get();
+        $td = Transaction::where('user_name', $user)->orderBy('id', 'desc')->paginate(25);
         $v = DB::table('tbl_severlog')->where('user_name', $user)->orderBy('id', 'desc')->get();
         $tw = DB::table('tbl_wallet')->where('user_name', $user)->count();
-        $wd = DB::table('tbl_wallet')->where('user_name', $user)->orderBy('id', 'desc')->get();
+        $wd = DB::table('tbl_wallet')->where('user_name', $user)->orderBy('id', 'desc')->paginate(25);
         $tpld = DB::table('tbl_p_nd_l')->where('narration', 'like', '%' . $user . '%')->count();
         $pld = DB::table('tbl_p_nd_l')->where('narration', 'like', '%' . $user . '%')->orderBy('id', 'desc')->get();
         $referrals = User::where('referral', $user)->get();
@@ -139,7 +139,13 @@ class UsersController extends Controller
         $email = DB::table('tbl_emaillog')->where('user_name', $user)->orderBy('id', 'desc')->get();
         $push = DB::table('tbl_pushnotiflog')->where('user_name', $user)->orderBy('id', 'desc')->get();
 
-        return view('profile', ['user' => $ap, 'tt' => $tt, 'td' => $td, 'tw' => $tw, 'wd' => $wd, 'tpld' => $tpld, 'pld' => $pld, 'referrals' => $referrals, 'version' => $v, 'sms' => $sms, 'email' => $email, 'push'=>$push]);
+        $tat = Transaction::where([['user_name', $user], ['name', 'LIKE', '%airtime']])->count();
+        $tdt = Transaction::where([['user_name', $user], ['name', 'LIKE', '%data']])->count();
+        $tct = Transaction::where([['user_name', $user], ['name', 'LIKE', '%Card']])->count();
+        $tpt = Transaction::where([['user_name', $user], ['name', 'LIKE', '%paytv']])->count();
+        $trt = Transaction::where([['user_name', $user], ['name', '=', 'Result Checker']])->count();
+
+        return view('profile', ['user' => $ap, 'tt' => $tt, 'td' => $td, 'tw' => $tw, 'wd' => $wd, 'tpld' => $tpld, 'pld' => $pld, 'referrals' => $referrals, 'version' => $v, 'sms' => $sms, 'email' => $email, 'push'=>$push, 'tat' =>$tat, 'tdt'=>$tdt, 'tpt'=>$tpt, 'tct'=>$tct, 'trt'=>$trt]);
     }
 
     public function approve(Request $request)
