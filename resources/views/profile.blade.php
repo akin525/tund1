@@ -5,6 +5,21 @@
 @section('content')
 
     <div class="row">
+
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="col-12">
             <div class="card">
                 <div class="card-body met-pro-bg">
@@ -64,6 +79,9 @@
                         <li class="nav-item"><a class="nav-link" id="activity_detail_tab" data-toggle="pill" href="#activity_detail">Transactions</a></li>
                         <li class="nav-item"><a class="nav-link" id="portfolio_detail_tab" data-toggle="pill" href="#portfolio_detail">Wallet</a></li>
                         <li class="nav-item"><a class="nav-link" id="settings_detail_tab" data-toggle="pill" href="#settings_detail">Charges</a></li>
+                        <li class="nav-item"><a class="nav-link" id="email_tab" data-toggle="pill" href="#email_detail">Email</a></li>
+                        <li class="nav-item"><a class="nav-link" id="sms_tab" data-toggle="pill" href="#sms_detail">SMS</a></li>
+                        <li class="nav-item"><a class="nav-link" id="pushnoti_tab" data-toggle="pill" href="#pushnoti_detail">Push Notification</a></li>
                     </ul>
                 </div>
                 <!--end card-body-->
@@ -134,9 +152,12 @@
 
                             <div class="card">
                                 <div class="card-body dash-info-carousel">
+                                        <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/mega-cheap-data.appspot.com/o/doc%2F{{$user->user_name}}.pdf?alt=media&token=b912aad8-f041-4d4e-8d4e-6aaa2e9c0068" class="btn btn-gradient-info btn-sm btn-block">View Document</a>
+
                                     <div class="progress bg-warning mb-3" style="height:5px;">
                                         <div class="progress-bar bg-secondary" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
+
                                     <div class="d-flex justify-content-between">
                                         <button type="button" class="btn btn-gradient-primary btn-sm">Approve Agent</button>
                                         <button type="button" class="btn btn-gradient-danger btn-sm">Suspect Fraud</button>
@@ -382,6 +403,211 @@
                     <!-- end row -->
                 </div>
                 <!--end settings detail-->
+
+                <div class="tab-pane fade" id="email_detail">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="general-label">
+                                        <form class="form-horizontal" method="POST" action="{{ route('user.email') }}">
+                                            @csrf
+                                            <div class="form-group row">
+                                                <div class="col-md-12">
+                                                    <div class="input-group mt-2">
+                                                        <input type="hidden" name="user_name" value="{{$user->user_name}}" />
+                                                        <textarea name="message" class="form-control" aria-label="With textarea" placeholder="Message"></textarea>
+                                                    </div>
+                                                    <div class="input-group mt-2">
+                                                        <button class="btn btn-gradient-primary waves-effect waves-light" type="submit" style="align-self: center; align-content: center"><i class="fa fa-paper-plane"></i> Send Message</button>
+                                                    </div>
+                                                    @error('ref')
+                                                    <div class="alert alert-danger alert-dismissable">
+                                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <!--end row-->
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    {{--                    <h4 class="mt-0 header-title">General Market History</h4>--}}
+                                    {{--                    <p class="text-muted mb-4 font-13">Use <code>pencil icon</code> to view user profile.</p>--}}
+                                    <div class="table-responsive">
+                                        <table class="table table-striped mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th>Email</th>
+                                                <th>Message</th>
+                                                <th>Response</th>
+                                                <th>Date</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($email as $email)
+                                                <tr>
+                                                    <td>{{$email->email}}</td>
+                                                    <td> {{$email->message}} </td>
+                                                    <td>{{$email->response}}</td>
+                                                    <td>{{$email->created_at}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+                </div>
+                <!--end email detail-->
+
+                <div class="tab-pane fade" id="sms_detail">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="general-label">
+                                        <form class="form-horizontal" method="POST" action="{{ route('user.sms') }}">
+                                            @csrf
+                                            <div class="form-group row">
+                                                <div class="col-md-12">
+                                                    <div class="input-group mt-2">
+                                                        <input type="hidden" name="phoneno" value="{{$user->phoneno}}" />
+                                                        <input type="hidden" name="user_name" value="{{$user->user_name}}" />
+                                                        <textarea name="message" class="form-control" aria-label="With textarea" placeholder="Message" maxlength="160"></textarea>
+                                                    </div>
+                                                    <div class="input-group mt-2">
+                                                        <button class="btn btn-gradient-primary waves-effect waves-light" type="submit" style="align-self: center; align-content: center"><i class="fa fa-paper-plane"></i> Send Message</button>
+                                                    </div>
+                                                    @error('ref')
+                                                    <div class="alert alert-danger alert-dismissable">
+                                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <!--end row-->
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    {{--                    <h4 class="mt-0 header-title">General Market History</h4>--}}
+                                    {{--                    <p class="text-muted mb-4 font-13">Use <code>pencil icon</code> to view user profile.</p>--}}
+                                    <div class="table-responsive">
+                                        <table class="table table-striped mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th>Phone No</th>
+                                                <th>Message</th>
+                                                <th>Response</th>
+                                                <th>Date</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($sms as $sms)
+                                                <tr>
+                                                    <td>{{$sms->phoneno}}</td>
+                                                    <td> {{$sms->message}} </td>
+                                                    <td>{{$sms->response}}</td>
+                                                    <td>{{$sms->created_at}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+                </div>
+                <!--end sms detail-->
+
+                <div class="tab-pane fade" id="pushnoti_detail">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="general-label">
+                                        <form class="form-horizontal" method="POST" action="{{ route('user.pushnotif') }}">
+                                            @csrf
+                                            <div class="form-group row">
+                                                <div class="col-md-12">
+                                                    <div class="input-group mt-2">
+                                                        <input type="hidden" name="user_name" value="{{$user->user_name}}" />
+                                                        <textarea name="message" class="form-control" aria-label="With textarea" placeholder="Message" maxlength="160"></textarea>
+                                                    </div>
+                                                    <div class="input-group mt-2">
+                                                        <button class="btn btn-gradient-primary waves-effect waves-light" type="submit" style="align-self: center; align-content: center"><i class="fa fa-paper-plane"></i> Send Message</button>
+                                                    </div>
+                                                    @error('ref')
+                                                    <div class="alert alert-danger alert-dismissable">
+                                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <!--end row-->
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    {{--                    <h4 class="mt-0 header-title">General Market History</h4>--}}
+                                    {{--                    <p class="text-muted mb-4 font-13">Use <code>pencil icon</code> to view user profile.</p>--}}
+                                    <div class="table-responsive">
+                                        <table class="table table-striped mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th>Message</th>
+                                                <th>Response</th>
+                                                <th>Date</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($push as $pus)
+                                                <tr>
+                                                    <td> {{$pus->message}} </td>
+                                                    <td>{{$pus->response}}</td>
+                                                    <td>{{$pus->created_at}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+                </div>
+                <!--end email detail-->
+
+
             </div>
             <!--end tab-content-->
         </div>
