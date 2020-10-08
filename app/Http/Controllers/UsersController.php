@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\PndL;
 use App\Model\Transaction;
 use App\User;
 use Carbon\Carbon;
@@ -153,7 +154,7 @@ class UsersController extends Controller
         $input = $request->all();
 
         if ($input["type"] == "agent") {
-            DB::table('tbl_agents')->where('user_name', $input['user_name'])->update(["status" => "agent", "target" => "Target: Buy 60 data and 30 airtime this month to complete your level."]);
+            DB::table('tbl_agents')->where('user_name', $input['user_name'])->update(["status" => "agent", "target" => "Target: Buy 20 data and 20 airtime this month to complete your level."]);
 
             $ap = User::where('user_name', $input['user_name'])->first();
 
@@ -172,6 +173,59 @@ class UsersController extends Controller
 
         return redirect('profile/' . $input['user_name']);
 
+    }
+
+    public function referral_upgrade(Request $request)
+    {
+        $input = $request->all();
+
+        if ($input["plan"] == "larvae") {
+            $amount=1000;
+        }else{
+            $amount=5000;
+        }
+        $u = User::where('user_name', $input['user_name'])->first();
+
+        if(!$u){
+            return redirect('/referral_upgrade')->with('error', $input["user_name"]. ' does not exist!');
+        }
+        elseif($u->wallet >= $amount){
+            $input['name'] = "Referral Upgrade";
+            $input['amount'] = $amount;
+            $input['status'] = 'successful';
+            $input['description'] = "Being amount charged for referral upgrade to ".$input["plan"]." on ".$u->user_name;
+            $input['user_name'] = $u->user_name;
+            $input['code'] = 'aru';
+            $input['i_wallet'] = $u->wallet;
+            $wallet = $u->wallet + $amount;
+            $input['f_wallet'] = $wallet;
+            $input["ip_address"] = "127.0.0.1:A";
+            $input["date"] = date("y-m-d H:i:s");
+            $input["extra"]='Initiated by ' . Auth::user()->full_name;
+
+            Transaction::create($input);
+
+            $input["type"] = "income";
+            $input["narration"] = $input['description'];
+
+            PndL::create($input);
+
+            $u->wallet-=$amount;
+            $u->referral=$input["plan"];
+            $u->save();
+
+            $GLOBALS['email'] = $u->email;
+
+            $data = array('name' => $u->full_name, 'date' => date("D, d M Y"));
+            Mail::send('email_referral_upgrade', $data, function ($message) {
+                $message->to($GLOBALS['email'], 'MCD Customer')->subject('MCD Referral Upgrade');
+                $message->from('info@5starcompany.com.ng', '5Star Inn Company');
+            });
+
+            return redirect('/referral_upgrade')->with('success', $input["user_name"]. ' has been upgraded to '. $input["plan"].' successfully!');
+        }else{
+            return redirect('/referral_upgrade')->with('error', $input["user_name"]. ' wallet balance is currently low.');
+        }
     }
 
     public function sendsms(Request $request)
@@ -350,7 +404,31 @@ class UsersController extends Controller
             $fa=3;
         }
         if($f==2){
-            $fa=6;
+            $fa=5;
+        }
+        if($f==3){
+            $fa=8;
+        }
+        if($f==4){
+            $fa=9;
+        }
+        if($f==5){
+            $fa=10;
+        }
+        if($f==6){
+            $fa=13;
+        }
+        if($f==7){
+            $fa=15;
+        }
+        if($f==8){
+            $fa=20;
+        }
+        if($f==9){
+            $fa=25;
+        }
+        if($f==10){
+            $fa=30;
         }
 
         $amount=$fa * $input['count'];

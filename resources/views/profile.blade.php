@@ -50,6 +50,7 @@
                                     <li class="mt-2"><i class="dripicons-calendar text-info font-18 mt-2 mr-2"></i> <b>DOB</b> : {{$user->dob}}</li>
                                     <li class="mt-2"><i class="dripicons-calendar text-info font-18 mt-2 mr-2"></i> <b>Reg. Date</b> : {{$user->reg_date}}</li>
                                     <li class="mt-2"><i class="dripicons-calendar text-info font-18 mt-2 mr-2"></i> <b>Last Login</b> : {{$user->last_login}}</li>
+                                    <li class="mt-2"><i class="dripicons-wallet text-info font-18 mt-2 mr-2"></i> <b>Providus Account</b> : {{$user->account_number}}</li>
                                     <li class="mt-2"><i class="dripicons-device-mobile text-info font-18 mt-2 mr-2"></i> <b>Installed Version</b> : v{{$version[0]->version ?? "-"}}</li>
                                     <li class="mt-2"><i class="dripicons-brush text-info font-18 mt-2 mr-2"></i> <b>Referral Plan</b> : {{$user->referral_plan}}</li>
                                 </ul>

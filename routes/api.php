@@ -48,5 +48,6 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('hook/monnify', 'MonnifyHookController@index')->name('monnifyhook');
     Route::post('hook/paystack', 'PaystackHookController@index')->name('Paystackhook');
     Route::post('hook/korapay', 'KorapayHookController@index')->name('Korapayhook');
+    Route::post('hook/rave', 'RaveHookController@index')->name('Ravehook');
     Route::get('ra/{id}', 'UltilityController@monnifyRA')->name('monnifyRA');
 });

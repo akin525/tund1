@@ -3,13 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Model\Serverlog;
+use App\Model\Wallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RaveHookController extends Controller
 {
-    public function index(){
-        // Retrieve the request's body
-        $body = @file_get_contents("php://input");
+    public function index(Request $request){
+
+        $input = $request->all();
+
+        $data2= json_encode($input);
+
 
 // retrieve the signature sent in the reques header's.
         $signature = (isset($_SERVER['HTTP_VERIF_HASH']) ? $_SERVER['HTTP_VERIF_HASH'] : '');
@@ -19,33 +25,61 @@ class RaveHookController extends Controller
 
         if (!$signature) {
             // only a post with Flutterwave signature header gets our attention
+            echo "does not have signature";
             exit();
         }
 
 // Store the same signature on your server as an env variable and check against what was sent in the headers
-        $local_signature = getenv('SECRET_HASH');
+        $local_signature = env('RAVE_SECRET_HASH');
 
 // confirm the event's signature
         if( $signature !== $local_signature ){
             // silently forget this ever happened
+            echo "signature does not match";
             exit();
         }
 
-        http_response_code(200); // PHP 5.4 or greater
-// parse event (which is json string) as object
-// Give value to your customer but don't give any output
-// Remember that this is a call from rave's servers and
-// Your customer is not seeing the response here at all
-        $response = json_decode($body);
-        if ($response->status == 'successful') {
-            # code...
-            // TIP: you may still verify the transaction
-            // before giving value.
-        }
-        exit();
-    }
+        DB::table('tbl_webhook_rave')->insert(['payment_reference'=> $input['data']['tx_ref'], 'rave_reference'=>$input['data']['flw_ref'], 'status'=>$input['data']['status'], 'amount'=>$input['data']['amount'], 'fees'=> $input['data']['app_fee'], 'charged_amount'=> $input['data']['charged_amount'], 'customer_id'=>$input['data']['customer']['id'], 'email'=>$input['data']['customer']['email'], 'rave_signature'=> $request->header('Verif-Hash'), 'paid_at'=>$input['data']['created_at'], 'type'=>$input['data']['payment_type'], 'remote_address'=>$_SERVER['REMOTE_ADDR'], 'extra'=>$data2]);
 
+
+        if($input['event']!="charge.completed"){
+            return "charge->success expected";
+        }
+        $status=$input['data']['status'];
+        $reference=$input['data']['tx_ref'];
+        $amount=$input['data']['amount'];
+
+        if($status!="successful"){
+            return "Success status expected";
+        }
+
+        $tra=Serverlog::where('transid',$reference)->first();
+        if($tra){
+            if ($tra->status!="completed") {
+                $tra->status = 'completed';
+                $tra->save();
+
+                $atm=new ATMmanagerController();
+                $atm->atmtransactionserve($tra->id);
+            }
+        }
+
+        $fun=Wallet::where('ref',$reference)->first();
+        if($fun){
+            if ($fun->status!="completed") {
+                $fun->status='completed';
+                $fun->save();
+
+                $at=new ATMmanagerController();
+                $at->atmfundwallet($fun, $amount, $reference, "Rave");
+            }
+        }
+
+        return "success";
+    }
 }
+
+
 
 /*
 {

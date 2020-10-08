@@ -113,47 +113,62 @@ class MonnifyHookController extends Controller
     private function RAfundwallet($name, $amount, $reference, $transactionreference){
         $charges=50;
         $u=User::where('user_name', '=', $reference)->first();
+        $w=Wallet::where('ref',$transactionreference)->first();
 
-        if($u){
-            $input['name']="wallet funding";
-            $input['amount']=$amount;
-            $input['status']='successful';
-            $input['description']= $u->user_name .' wallet funded using Account Transfer('.$u->account_number .') with the sum of #'.$amount. ' from '. $name;
-            $notimssg= $u->user_name .' wallet funded using Account Transfer('.$u->account_number .') with the sum of #'.$amount. ' from '. $name;
-            $input['user_name']=$u->user_name;
-            $input['code']='afund_Personal Account';
-            $input['i_wallet']=$u->wallet;
-            $wallet=$u->wallet + $amount;
-            $input['f_wallet']=$wallet;
-            $input["ip_address"]="127.0.0.1:A";
-            $input["ref"]=$transactionreference;
-            $input["date"]=date("y-m-d H:i:s");
+        if(!$w) {
+            if ($u) {
+                $input['name'] = "wallet funding";
+                $input['amount'] = $amount;
+                $input['status'] = 'successful';
+                $input['description'] = $u->user_name . ' wallet funded using Account Transfer(' . $u->account_number . ') with the sum of #' . $amount . ' from ' . $name;
+                $notimssg = $u->user_name . ' wallet funded using Account Transfer(' . $u->account_number . ') with the sum of #' . $amount . ' from ' . $name;
+                $input['user_name'] = $u->user_name;
+                $input['code'] = 'afund_Personal Account';
+                $input['i_wallet'] = $u->wallet;
+                $wallet = $u->wallet + $amount;
+                $input['f_wallet'] = $wallet;
+                $input["ip_address"] = "127.0.0.1:A";
+                $input["ref"] = $transactionreference;
+                $input["date"] = date("y-m-d H:i:s");
 
-            Transaction::create($input);
+                Transaction::create($input);
 
-            $input["type"]="income";
-            $input["amount"]=$charges;
-            $input['status']='successful';
-            $input["narration"]="Being amount charged for using automated funding from ".$input["user_name"];
+                $input["type"] = "income";
+                $input["amount"] = $charges;
+                $input['status'] = 'successful';
+                $input["narration"] = "Being amount charged for using automated funding from " . $input["user_name"];
 
-            PndL::create($input);
+                PndL::create($input);
 
-            $input["description"]="Being amount charged for using automated funding";
-            $input["name"]="Auto Charge";
-            $input["code"]="af50";
-            $input["i_wallet"]=$wallet;
-            $input["f_wallet"]=$input["i_wallet"] - $charges;
-            $wallet=$input["f_wallet"];
+                $input["description"] = "Being amount charged for using automated funding";
+                $input["name"] = "Auto Charge";
+                $input["code"] = "af50";
+                $input["i_wallet"] = $wallet;
+                $input["f_wallet"] = $input["i_wallet"] - $charges;
+                $wallet = $input["f_wallet"];
 
-            Transaction::create($input);
+                Transaction::create($input);
 
-            $u->wallet=$wallet;
-            $u->save();
+                $u->wallet = $wallet;
+                $u->save();
 
-            $noti=new ATMmanagerController();
-            $noti->PushNoti($input['user_name'],$notimssg, "Account Transfer Successful");
+                $input['user_name'] = $u->user_name;
+                $input['amount'] = $amount;
+                $input['medium'] = "Personal Account";
+                $input['o_wallet'] = $input["f_wallet"] - $amount - 50;
+                $input['n_wallet'] = $input["f_wallet"];
+                $input['ref'] = $transactionreference;
+                $input['version'] = "2";
+                $input['status'] = "completed";
+                $input['deviceid'] = $input['code'];
+                Wallet::create($input);
+
+                $noti = new ATMmanagerController();
+                $noti->PushNoti($input['user_name'], $notimssg, "Account Transfer Successful");
+            }
+        }else{
+            echo "Already created ";
         }
-
     }
 
     private function SDK($amount, $reference){

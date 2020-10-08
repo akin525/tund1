@@ -81,6 +81,10 @@ class ATMmanagerController extends Controller
             $t=new ServeRequestController();
             $t->buydata($r);
         }
+
+        if($s->service=="paytv"){
+            $this->PushNoti($input['user_name'], "Your TV subscription request of ". $input['coded'] ." on ". $input['phone'] ." will be served soon.", "Paytv Transaction" );
+        }
     }
 
     public function PushNoti($user_name,$message, $title){

@@ -287,7 +287,7 @@
                             <table  cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td>
-                                        <img class="img-responsive" src="https://admin-mcd.5starcompany.com.ng/img/mcd_logo.png" width="100px" height="100px"/>
+                                        <img class="img-responsive" src="https://superadmin.5starcompany.com.ng/img/mcd_logo.png" width="100px" height="100px"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -303,7 +303,7 @@
                                 </tr>
                                 <tr>
                                     <td class="content-block">
-                                        Your incentives start counting today.
+                                        Your incentives start counting today. Kindly get your monthly target on the App, so as to earn more every month.
                                     </td>
                                 </tr>
                                 <tr>

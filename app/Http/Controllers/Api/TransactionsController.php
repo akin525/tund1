@@ -8,6 +8,7 @@ use App\Model\Wallet;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class TransactionsController extends Controller
@@ -159,25 +160,37 @@ class TransactionsController extends Controller
             $price2=$input["price2"];
             $p=$price*$price2*$qty;
             $ref=$input["ref"];
-            $input["i_wallet"]=$user->wallet;
-            $email=$input["email"];
-            $input['f_wallet']=$input["i_wallet"]-$p;
-            $input['amount']=$p;
 
-            $input['description']=$uid." order ".$net."(#". $spec . ") recharge card of ".$qty." quantity with ref ".$ref;
-            $input['extra']="qty-".$qty.", net-".$net.", spec-".$spec.", ref-".$ref;
-            $input['ip_address']=$_SERVER['REMOTE_ADDR'];
-            $input['date']=Carbon::now();
-            $input['name']='Recharge Card';
-            $input['status']='submitted';
-            $input['code']='rcc';
+            if($p>=$user->wallet){
+                $input["i_wallet"]=$user->wallet;
+                $email=$input["email"];
+                $input['f_wallet']=$input["i_wallet"]-$p;
+                $input['amount']=$p;
 
-            Transaction::create($input);
+                $input['description']=$uid." order ".$net."(#". $spec . ") recharge card of ".$qty." quantity with ref ".$ref;
+                $input['extra']="qty-".$qty.", net-".$net.", spec-".$spec.", ref-".$ref;
+                $input['ip_address']=$_SERVER['REMOTE_ADDR'];
+                $input['date']=Carbon::now();
+                $input['name']='Recharge Card';
+                $input['status']='submitted';
+                $input['code']='rcc';
 
-            $user->wallet=$input['f_wallet'];
-            $user->save();
+                Transaction::create($input);
 
-            return response()->json(['success' => 1, 'message' => 'Transactions Added Successfully']);
+                $user->wallet=$input['f_wallet'];
+                $user->save();
+
+                $data = array('name' => $user->user_name, 'date' => date("D, d M Y"));
+                Mail::send('email_rechargecard_notice', $data, function ($message) {
+                    $message->to($GLOBALS['email'], 'MCD Customer')->subject('MCD Rechargecard');
+                    $message->from('info@5starcompany.com.ng', '5Star Inn Company');
+                });
+
+                return response()->json(['success' => 1, 'message' => 'Transactions Added Successfully']);
+            }else{
+                return response()->json(['success'=> 0, 'message'=>'Insufficient Balance']);
+            }
+
         }else{
             // required field is missing
             // echoing JSON response
@@ -235,6 +248,9 @@ class TransactionsController extends Controller
 
             $user->wallet=$input['f_wallet'];
             $user->save();
+
+            $noti = new ATMmanagerController();
+            $noti->PushNoti($input['user_name'], "Hi ".$input['user_name'].", you will receive your ". $net." request in your mail soon. Thanks", "Result Checker");
 
             return response()->json(['success' => 1, 'message' => 'Transactions Added Successfully']);
         }else{

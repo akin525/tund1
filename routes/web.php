@@ -54,8 +54,9 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/profile', 'email_agent');
     Route::view('/cc', 'mail.passwordreset');
     Route::view('/finduser', 'find_user');
-//    Route::POST('/finduser', 'UsersController@finduser')->name('finduser');
     Route::POST('/finduser', 'UsersController@finduser')->name('finduser');
+    Route::POST('/referral_upgrade', 'UsersController@referral_upgrade')->name('referral.upgrade');
+    Route::view('/referral_upgrade', 'referral_upgrade');
     Route::view('/addfund', 'addfund');
     Route::view('/rechargecard', 'rechargecard');
     Route::post('/addfund', 'WalletController@addfund')->name('addfund');

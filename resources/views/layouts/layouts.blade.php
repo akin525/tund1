@@ -135,6 +135,7 @@
                             <li><a href="/pending_request">Pending Request</a></li>
                             <li><a href="/gmblocked">GM Blocked</a></li>
                             <li><a href="/dormantusers">Dormant Users</a></li>
+                            <li><a href="/referral_upgrade">Referral Upgrade</a></li>
 {{--                            <li><a href="icons-fontawesome.html">Font Awesome</a></li>--}}
 {{--                            <li><a href="icons-ion.html">Ion Icons</a></li>--}}
 {{--                            <li><a href="icons-material.html">Material Design</a></li>--}}
@@ -302,7 +303,7 @@
             </div>
             <!-- content -->
             <footer class="footer">
-                © 2019 Mega Cheap Data <strong>by</strong> 5Star Inn Company.
+                © 2020 Mega Cheap Data <strong>by</strong> 5Star Inn Company.
             </footer>
         </div>
         <!-- End Right content here -->

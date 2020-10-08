@@ -2,8 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/views/email_rechargecard_notice.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/email_referral_upgrade.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/referral_upgrade.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vendor.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/MCD-Admin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MCD-Admin.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/ATMmanagerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ATMmanagerController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/AuthenticationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/AuthenticationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/MonnifyHookController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/MonnifyHookController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/RaveHookController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/RaveHookController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/TransactionsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/TransactionsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/email_agent.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/email_agent.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendo.zip" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,6 +148,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php70" />
       <path value="$PROJECT_DIR$/vendor/bepsvpt/secure-headers" />
       <path value="$PROJECT_DIR$/vendor/league/mime-type-detection" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-client-contracts" />
     </include_path>
   </component>
   <component name="ProjectId" id="1SVybxDmn2bQAkatpRCRjswbXmM" />
@@ -613,7 +632,7 @@
       <workItem from="1601307834743" duration="17000" />
       <workItem from="1601350822419" duration="6547000" />
       <workItem from="1601639236783" duration="10512000" />
-      <workItem from="1601668421687" duration="53663000" />
+      <workItem from="1601668421687" duration="86706000" />
     </task>
     <servers />
   </component>
@@ -636,10 +655,10 @@
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="549" y="132" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/62.0.1304.768@62.0.1304.768" timestamp="1600450801143" />
-    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1599493680848">
+    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1602161614648">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1599493680848" />
+    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1602161614648" />
     <state x="154" y="92" width="1120" height="584" key="DiffContextDialog" timestamp="1601873987614">
       <screen x="62" y="0" width="1304" height="768" />
     </state>

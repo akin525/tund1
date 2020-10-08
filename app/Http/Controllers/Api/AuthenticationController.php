@@ -166,7 +166,7 @@ class AuthenticationController extends Controller
                 }
                 if ($user->mcdpassword!=$input['password']){
                     if ($user->email!=$input['password']){
-                        return response()->json(['success'=> 0, 'message'=>'Invalid Attempt']);
+                        return response()->json(['success'=> 0, 'message'=>'Incorrect password attempt']);
                     }
                 }
 
@@ -416,9 +416,9 @@ class AuthenticationController extends Controller
 
             if ($r_referralplan == "free") {
                 $max = 20;
-            } elseif ($r_referralplan == "paid") {
+            } elseif ($r_referralplan == "larvae") {
                 $max = 50;
-            } elseif ($r_referralplan == "extra") {
+            } elseif ($r_referralplan == "butterfly") {
                 $max = 100;
             }
 
@@ -428,6 +428,9 @@ class AuthenticationController extends Controller
 
             $uid->referral=$input['referral'];
             $uid->save();
+
+            $noti = new ATMmanagerController();
+            $noti->PushNoti($input['referral'], "Hi ".$input['referral'].", ".$input['user_name']." has added you as a referral. You will start receiving atleast #5 on every data transaction, to earn more kindly upgrade. Thanks", "Referral");
 
             return response()->json(['success' => 1, 'message' => $referral->user_name . " has been added as your referral successfully", 'referral'=>$input['referral']]);
 
