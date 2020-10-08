@@ -160,7 +160,26 @@
                                     </div>
 
                                     <div class="d-flex justify-content-between">
-                                        <button type="button" class="btn btn-gradient-primary btn-sm">Approve Agent</button>
+                                        @if(strpos($user->target, "Agent in progress") !== false)
+                                            <div class="col-md-6">
+
+                                                <form method="POST" action="/request_approve">
+                                                    @csrf
+                                                    <input type="hidden" name="type" value="agent" />
+                                                    <input type="hidden" name="user_name" value="{{$user->user_name}}" />
+                                                    <button type="submit" class="btn btn-gradient-primary btn-sm">Approve Agent</button>
+                                                </form>
+                                            </div>
+                                        @elseif(strpos($user->target, "Reseller in progress") !== false)
+                                            <div class="col-md-6">
+                                                <form method="POST" action="/request_approve">
+                                                    @csrf
+                                                    <input type="hidden" name="type" value="reseller" />
+                                                    <input type="hidden" name="user_name" value="{{$user->user_name}}" />
+                                                    <button type="button" class="btn btn-gradient-primary btn-sm">Approve Reseller</button>
+                                                </form>
+                                            </div>
+                                        @endif
                                         <button type="button" class="btn btn-gradient-danger btn-sm">Suspect Fraud</button>
                                     </div>
                                 </div>
