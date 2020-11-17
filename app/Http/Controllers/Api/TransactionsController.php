@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PushNotificationController;
+use App\Model\GeneralMarket;
+use App\Model\Settings;
 use App\Model\Transaction;
 use App\Model\Wallet;
 use App\User;
@@ -43,6 +46,40 @@ class TransactionsController extends Controller
                 }
             }
             return response()->json(['success' => 1, 'message' => 'Transactions Fetched', 'data'=>$trans, 'wallet'=>$user->wallet]);
+        }else{
+            // required field is missing
+            // echoing JSON response
+            return response()->json(['success'=> 0, 'message'=>'Required field(s) is missing']);
+        }
+    }
+
+    public function getGmTrans(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'user_name'      => 'required',
+            'version'      => 'required',
+            'deviceid'      => 'required');
+
+        $validator = Validator::make($input, $rules);
+
+        $input=$request->all();
+
+        if ($validator->passes()) {
+
+            $user = User::where('user_name', $input["user_name"])->first();
+
+            $set=Settings::where('name','general_market')->first();
+
+            if (!$user) {
+                return response()->json(['success' => 0, 'message' => 'User not found']);
+            }
+
+                $trans=GeneralMarket::OrderBy('id', 'desc')->limit(100)->get();
+                if ($trans->isEmpty()){
+                    return response()->json(['success' => 1, 'message' => 'No transactions found', 'wallet'=>$set->value]);
+                }
+            return response()->json(['success' => 1, 'message' => 'General Market Transactions Fetched', 'data'=>$trans, 'wallet'=>$set->value]);
         }else{
             // required field is missing
             // echoing JSON response
@@ -161,7 +198,10 @@ class TransactionsController extends Controller
             $p=$price*$price2*$qty;
             $ref=$input["ref"];
 
-            if($p>=$user->wallet){
+            if($p<=$user->wallet){
+                return response()->json(['success'=> 0, 'message'=>'Insufficient Balance']);
+            }
+
                 $input["i_wallet"]=$user->wallet;
                 $email=$input["email"];
                 $input['f_wallet']=$input["i_wallet"]-$p;
@@ -187,9 +227,6 @@ class TransactionsController extends Controller
                 });
 
                 return response()->json(['success' => 1, 'message' => 'Transactions Added Successfully']);
-            }else{
-                return response()->json(['success'=> 0, 'message'=>'Insufficient Balance']);
-            }
 
         }else{
             // required field is missing
@@ -222,6 +259,9 @@ class TransactionsController extends Controller
             if (!$user) {
                 return response()->json(['success' => 0, 'message' => 'User not found']);
             }
+            if($input["price"]<=$user->wallet){
+                return response()->json(['success'=> 0, 'message'=>'Insufficient Balance']);
+            }
 
             $uid = $input['user_name'];
             $net = $input['net'];
@@ -249,8 +289,8 @@ class TransactionsController extends Controller
             $user->wallet=$input['f_wallet'];
             $user->save();
 
-            $noti = new ATMmanagerController();
-            $noti->PushNoti($input['user_name'], "Hi ".$input['user_name'].", you will receive your ". $net." request in your mail soon. Thanks", "Result Checker");
+            $at=new PushNotificationController();
+            $at->PushNoti($input['user_name'], "Hi ".$input['user_name'].", you will receive your ". $net." request in your mail soon. Thanks", "Result Checker");
 
             return response()->json(['success' => 1, 'message' => 'Transactions Added Successfully']);
         }else{

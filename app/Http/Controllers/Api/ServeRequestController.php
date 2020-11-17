@@ -922,7 +922,9 @@ class ServeRequestController extends Controller
             $user->save();
         }
 
-        Mail::to($user->email)->send(new TransactionNotificationMail($tr));
+        if($status==1) {
+            Mail::to($user->email)->send(new TransactionNotificationMail($tr));
+        }
 
         if($input['payment_method'] !="general_market") {
 
@@ -960,8 +962,8 @@ class ServeRequestController extends Controller
                         $tr['amount'] = $amount;
                         $tr['status'] = "successful";
                         $tr['user_name'] = $ruser->user_name;
-                        $tr['i_wallet'] = $ruser->wallet;
-                        $tr['f_wallet'] = $ruser->wallet + $amount;
+                        $tr['i_wallet'] = $ruser->bonus;
+                        $tr['f_wallet'] = $ruser->bonus + $amount;
                         Transaction::create($tr);
 
                         $ruser->wallet = $tr['f_wallet'];
@@ -990,6 +992,8 @@ class ServeRequestController extends Controller
         $uinfo['account_number']=$user->account_number;
         $uinfo['account_number2']=$user->account_number2;
         $uinfo['last_login']=$user->last_login;
+        $uinfo['agent_commision']=$user->agent_commision;
+        $uinfo['points']=$user->points;
 
         $uinfo["total_fund"] =Transaction::where([['user_name',$input['user_name']], ['name', 'wallet funding'], ['status', 'successful']])->count();
         $uinfo["total_trans"] =Transaction::where([['user_name',$input['user_name']], ['status', 'delivered']])->count();

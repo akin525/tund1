@@ -118,33 +118,9 @@ class WalletController extends Controller
 //                    ['user_name' => $input["user_name"], 'message' => $sms_description, 'phoneno' => $user->phoneno, 'response' => $response]
 //                );
 
-                $topic=$user->user_name;
 
-                $topi=str_replace(" ","", $topic);
-
-                $curl = curl_init();
-
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => "",
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => "POST",
-                    CURLOPT_POSTFIELDS =>"{\n\"to\": \"/topics/".$topi."\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"MCD Notification\",\n\t\"text\":\"". $sms_description."\"\n\t}\n}\n",
-                    CURLOPT_HTTPHEADER => array(
-                        "Authorization: key=AAAAOW0II6E:APA91bHyum5pMhub2JVHcHnQghuWOdktOuhW9e4ZvmMDudjMZk9y1u71Nr7yl_FZLpsjuC6Hz1Fd49OrWfPYNKpAvahAZ5Rjv0y7IW24nqjYrPnMer8IvTkzZFB5W3hrOHAwbq2EOMOE",
-                        "Content-Type: application/json",
-                        "Content-Type: text/plain"
-                    ),
-                ));
-
-                $response = curl_exec($curl);
-
-                curl_close($curl);
-//                echo $response;
+                $at=new PushNotificationController();
+                $at->PushNoti($input['user_name'], $input["description"], "Wallet Funded By Admin" );
 
                 return redirect('/addfund')->with('success', $input["user_name"]. ' wallet funded successfully!');
             }else{

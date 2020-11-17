@@ -221,6 +221,8 @@ class AuthenticationController extends Controller
             $uinfo['account_number']=$user->account_number;
             $uinfo['account_number2']=$user->account_number2;
             $uinfo['last_login']=$user->last_login;
+            $uinfo['agent_commision']=$user->agent_commision;
+            $uinfo['points']=$user->points;
 
             $uinfo["total_fund"] =Transaction::where([['user_name',$input['user_name']], ['name', 'wallet funding'], ['status', 'successful']])->count();
             $uinfo["total_trans"] =Transaction::where([['user_name',$input['user_name']], ['status', 'delivered']])->count();

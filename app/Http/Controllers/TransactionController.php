@@ -414,6 +414,9 @@ class TransactionController extends Controller
         $user->update(["wallet"=> $user->wallet + $tran->amount]);
         Transaction::create($input);
 
+        $at=new PushNotificationController();
+        $at->PushNoti($input['user_name'], $input["description"], "Reversal" );
+
         return redirect('/reversal')->with('success', 'Transaction reversed successfully!');
 
     }
@@ -456,6 +459,9 @@ class TransactionController extends Controller
         $ref->save();
         $user->update(["wallet"=> $user->wallet + $r_amount]);
         Transaction::create($input);
+
+        $at=new PushNotificationController();
+        $at->PushNoti($input['user_name'], $input["description"], "Airtime Converter" );
 
         return redirect('/airtime2cash')->with('success', 'Transaction successful!');
     }

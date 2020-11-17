@@ -16,6 +16,8 @@ class RaveHookController extends Controller
 
         $data2= json_encode($input);
 
+        DB::table('tbl_webhook_rave')->insert(['payment_reference'=> $input['data']['tx_ref'], 'rave_reference'=>$input['data']['flw_ref'], 'status'=>$input['data']['status'], 'amount'=>$input['data']['amount'], 'fees'=> $input['data']['app_fee'], 'charged_amount'=> $input['data']['charged_amount'], 'customer_id'=>$input['data']['customer']['id'], 'email'=>$input['data']['customer']['email'], 'rave_signature'=> $request->header('Verif-Hash'), 'paid_at'=>$input['data']['created_at'], 'type'=>$input['data']['payment_type'], 'remote_address'=>$_SERVER['REMOTE_ADDR'], 'extra'=>$data2]);
+
 
 // retrieve the signature sent in the reques header's.
         $signature = (isset($_SERVER['HTTP_VERIF_HASH']) ? $_SERVER['HTTP_VERIF_HASH'] : '');
@@ -38,8 +40,6 @@ class RaveHookController extends Controller
             echo "signature does not match";
             exit();
         }
-
-        DB::table('tbl_webhook_rave')->insert(['payment_reference'=> $input['data']['tx_ref'], 'rave_reference'=>$input['data']['flw_ref'], 'status'=>$input['data']['status'], 'amount'=>$input['data']['amount'], 'fees'=> $input['data']['app_fee'], 'charged_amount'=> $input['data']['charged_amount'], 'customer_id'=>$input['data']['customer']['id'], 'email'=>$input['data']['customer']['email'], 'rave_signature'=> $request->header('Verif-Hash'), 'paid_at'=>$input['data']['created_at'], 'type'=>$input['data']['payment_type'], 'remote_address'=>$_SERVER['REMOTE_ADDR'], 'extra'=>$data2]);
 
 
         if($input['event']!="charge.completed"){

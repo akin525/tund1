@@ -441,11 +441,11 @@ class UsersController extends Controller
         $input["ip_address"]="127.0.0.1";
         $input["amount"]=$amount;
         $input["user_name"]=$input['user_name'];
-        $input["i_wallet"]=$user->wallet;
-        $input["f_wallet"]=$user->wallet + $amount;
+        $input["i_wallet"]=$user->agent_commision;
+        $input["f_wallet"]=$user->agent_commision + $amount;
         $input["extra"]='Initiated by ' . Auth::user()->full_name;
 
-        $user->update(["wallet"=> $user->wallet + $amount]);
+        $user->update(["agent_commision"=> $user->agent_commision + $amount]);
         Transaction::create($input);
 
         return redirect('/agentpayment')->with('success', 'Agent Payment paid successfully to '.$user->user_name.' with the sum of '.$amount);
