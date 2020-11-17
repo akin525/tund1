@@ -127,12 +127,12 @@ class ServeRequestController extends Controller
                     $server=$sys->dstv;
                     break;
 
-                case "g_lite":
+                case "g_smallie":
                     $tv_type = "GOTV";
-                    $tv_package = "GOLITE";
-                    $bundle_code = "GOLITE";
+                    $tv_package = "GOHAN";
+                    $bundle_code = "GOHAN";
                     $link = "gotv";
-                    $amount = "410";
+                    $amount = "800";
                     $tv_type_code = "02";
                     $tv_package_code = "01";
                     $service_id = "15";
@@ -966,7 +966,7 @@ class ServeRequestController extends Controller
                         $tr['f_wallet'] = $ruser->bonus + $amount;
                         Transaction::create($tr);
 
-                        $ruser->wallet = $tr['f_wallet'];
+                        $ruser->bonus = $tr['f_wallet'];
                         $ruser->save();
                     }
                 }

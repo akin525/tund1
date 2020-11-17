@@ -228,6 +228,13 @@ class AuthenticationController extends Controller
             $uinfo["total_trans"] =Transaction::where([['user_name',$input['user_name']], ['status', 'delivered']])->count();
             // get user transactions report from transactions table
 
+            //get airtime discounts
+            $airsets=DB::table("tbl_serverconfig_airtime")->where('name','=','discount')->first();
+            $uinfo['airtime_discount_mtn']=$airsets->mtn;
+            $uinfo['airtime_discount_glo']=$airsets->glo;
+            $uinfo['airtime_discount_etisalat']=$airsets->etisalat;
+            $uinfo['airtime_discount_airtel']=$airsets->airtel;
+
             $settings=Settings::all();
             foreach ($settings as $setting){
                 $sett[$setting->name]=$setting->value;
