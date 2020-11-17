@@ -453,7 +453,7 @@ class ServeRequestController extends Controller
                 // echoing JSON response
                 return response()->json(['status'=> 0, 'message'=>'Invalid amount, retry with valid amount.']);
             }elseif($amnt < 100) {
-                $this->airtimeProcess2($amnt, $network_code, $phone, $transid, $input);
+                $this->airtimeProcess4($amnt, $service_id, $phone, $input);
             }else{
 
                 if($server=='1'){
@@ -775,9 +775,9 @@ class ServeRequestController extends Controller
         $status = $response['status'];
 
         if($status == "success"){
-            $this->addtrans("server4",$respons,$amnt,1,$response['transaction']['response_payload']['data']['data']['ref_code'],$input);
+            $this->addtrans("server4",$respons,$amnt,1,$response['transaction']['_id'],$input);
         }else {
-            $this->addtrans("server4",$respons,$amnt,0,$response['transaction']['response_payload']['data']['data']['ref_code'],$input);
+            $this->addtrans("server4",$respons,$amnt,0,$response['transaction']['_id'],$input);
         }
     }
 
