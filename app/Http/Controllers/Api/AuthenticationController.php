@@ -218,6 +218,7 @@ class AuthenticationController extends Controller
             $uinfo['gnews']=$user->gnews;
             $uinfo['fraud']=$user->fraud;
             $uinfo['referral']=$user->referral;
+            $uinfo['referral_plan']=$user->referral_plan;
             $uinfo['account_number']=$user->account_number;
             $uinfo['account_number2']=$user->account_number2;
             $uinfo['last_login']=$user->last_login;
