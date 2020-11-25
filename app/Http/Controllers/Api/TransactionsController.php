@@ -75,7 +75,7 @@ class TransactionsController extends Controller
                 return response()->json(['success' => 0, 'message' => 'User not found']);
             }
 
-                $trans=GeneralMarket::OrderBy('id', 'desc')->limit(100)->get();
+                $trans=GeneralMarket::OrderBy('id', 'desc')->limit(300)->get();
                 if ($trans->isEmpty()){
                     return response()->json(['success' => 1, 'message' => 'No transactions found', 'wallet'=>$set->value]);
                 }

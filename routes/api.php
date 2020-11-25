@@ -27,6 +27,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('updateagent', 'AuthenticationController@updateAgent')->name('updateAgent');
     Route::post('resetpassword', 'AuthenticationController@resetpassword')->name('resetpassword');
     Route::post('addreferral', 'AuthenticationController@update_referral')->name('update_referral');
+    Route::post('changepassword', 'AuthenticationController@change_password')->name('change_password');
+    Route::post('changepin', 'AuthenticationController@change_pin')->name('change_pin');
 
     Route::post('transactions', 'TransactionsController@getTrans')->name('getTrans');
     Route::post('gmtransactions', 'TransactionsController@getGmTrans')->name('getGmTrans');

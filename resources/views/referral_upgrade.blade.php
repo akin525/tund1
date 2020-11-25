@@ -42,9 +42,9 @@
                                     <select class="custom-select form-control" name="plan">
                                         <option value="larvae" selected="selected">Larvae - #3,000</option>
                                         <option value="butterfly">Butterfly - #7,000</option>
-                                        <option value="butterfly">Bronze- #15,000</option>
-                                        <option value="butterfly">Silver- #25,000</option>
-                                        <option value="butterfly">Gold- #35,000</option>
+                                        <option value="butterfly">Bronze - #15,000</option>
+                                        <option value="butterfly">Silver - #25,000</option>
+                                        <option value="butterfly">Gold - #35,000</option>
                                     </select>
                                 </div>
 

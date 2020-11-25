@@ -52,6 +52,7 @@ class MCDAssistantController extends Controller
 
         echo '{"fulfillmentMessages": [{"text": {"text": ["'.$rep.'"]}}]}';
     }
+
     private function fundwalletverify($data2){
         $ref=$data2->queryResult->outputContexts[0]->parameters->paymentreference;
 
@@ -92,7 +93,7 @@ class MCDAssistantController extends Controller
                                 $input['network'] = $network;
                                 $input['date'] = Carbon::now();
                                 $input['user_name'] =$user_name;
-                                $input['transid'] = "mcdassistant_".$user_name.time();
+                                $input['transid'] = "mcd_ai_".time();
                                 $input['ip_address']=$_SERVER['REMOTE_ADDR'];
                                 $input['device_details']="MCD AI_".$data2->responseId;
                                 $input['coded'] = $dataplan;
@@ -126,7 +127,7 @@ class MCDAssistantController extends Controller
                 $rep = $user_name . ", pin is incorrect, have you set your pin on the App. Kindly check and revert back or contact support @ 07011223737";
             }
         }else{
-            $rep=$user_name . ", doesn't exist in our system, kindly get our app on playstore and registered with us";
+            $rep=$user_name . ", doesn't exist in our system, kindly get our app on playstore and registered with us at https://play.google.com/store/apps/details?id=a5starcompany.com.megacheapdata";
         }
         echo '{"fulfillmentMessages": [{"text": {"text": ["'.$rep.'"]}}]}';
     }
@@ -150,7 +151,7 @@ class MCDAssistantController extends Controller
                         $input['network'] = $network;
                         $input['date'] = Carbon::now();
                         $input['user_name'] =$user_name;
-                        $input['transid'] = "mcdassistant_".$user_name.time();
+                        $input['transid'] = "mcd_ai_".$user_name.time();
                         $input['ip_address']=$_SERVER['REMOTE_ADDR'];
                         $input['device_details']="MCD AI_".$data2->responseId;
                         $input['coded'] = strtoupper(substr($network,0,1));
@@ -178,7 +179,7 @@ class MCDAssistantController extends Controller
                 $rep = $user_name .", pin is incorrect, have you set your pin on the App. Kindly check and revert back or contact support @ 07011223737";
             }
         }else{
-            $rep=$user_name . ", doesn't exist in our system, kindly get our app on playstore and registered with us";
+            $rep=$user_name . ", doesn't exist in our system, kindly get our app on playstore and registered with us at https://play.google.com/store/apps/details?id=a5starcompany.com.megacheapdata";
         }
         echo '{"fulfillmentMessages": [{"text": {"text": ["'.$rep.'"]}}]}';
     }
@@ -195,7 +196,7 @@ class MCDAssistantController extends Controller
                 $rep=$user_name . ", personal account has not been created for you. Kindly contact support @ 07011223737";
             }
         }else{
-            $rep=$user_name . ", doesn't exist in our system, kindly get our app on playstore and registered with us";
+            $rep=$user_name . ", doesn't exist in our system, kindly get our app on playstore and registered with us at https://play.google.com/store/apps/details?id=a5starcompany.com.megacheapdata";
         }
         echo '{"fulfillmentMessages": [{"text": {"text": ["'.$rep.'"]}}]}';
     }

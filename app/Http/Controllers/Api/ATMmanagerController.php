@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
+use App\Jobs\ATMtransactionserveJob;
 use App\Model\PndL;
 use App\Model\Serverlog;
 use App\Model\Transaction;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ATMmanagerController extends Controller
@@ -61,33 +63,9 @@ class ATMmanagerController extends Controller
 
 
     public function atmtransactionserve($id){
-        $s=Serverlog::find($id);
-
-        $input['user_name'] =$s->user_name;
-        $input['api'] = $s->api;
-        $input['coded'] = $s->coded;
-        $input['phone'] = $s->phone;
-        $input['amount'] = $s->amount;
-        $input['transid'] = $s->transid;
-        $input['service'] = $s->service;
-        $input['network'] = $s->network;
-        $input['payment_method'] = $s->payment_method;
-
-        $r= new Request($input);
-        if($s->service=="airtime"){
-            $t=new ServeRequestController();
-            $t->buyairtime($r);
-        }
-
-        if($s->service=="data"){
-            $t=new ServeRequestController();
-            $t->buydata($r);
-        }
-
-        if($s->service=="paytv"){
-            $at=new PushNotificationController();
-            $at->PushNoti($input['user_name'], "Your TV subscription request of ". $input['coded'] ." on ". $input['phone'] ." will be served soon.", "Paytv Transaction" );
-        }
+        $job = (new ATMtransactionserveJob($id))
+            ->delay(Carbon::now()->addSeconds(1));
+        dispatch($job);
     }
 
 }

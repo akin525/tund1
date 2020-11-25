@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\CreateProvidusAccountJob;
+use App\Jobs\LoginAttemptApiFinderJob;
 use App\Mail\PasswordResetMail;
+use App\Model\LoginAttempt;
 use App\Model\Settings;
 use App\Model\SocialLogin;
 use App\Model\Transaction;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -90,6 +94,10 @@ class AuthenticationController extends Controller
 
                 if (User::create($create)) {
                     // successfully inserted into database
+                    $job = (new CreateProvidusAccountJob($create["user_name"]))
+                        ->delay(Carbon::now()->addSeconds(1));
+                    dispatch($job);
+
                     $response["success"] = 1;
                     $response["message"] = "Client Successfully Added";
 
@@ -133,6 +141,15 @@ class AuthenticationController extends Controller
         $input=$request->all();
 
         if ($validator->passes()) {
+            if(isset($input['login'])){
+                $input['ip_address']=$_SERVER['REMOTE_ADDR'];
+                $input['device']=$_SERVER['HTTP_USER_AGENT'];
+                $la=LoginAttempt::create($input);
+                $job = (new LoginAttemptApiFinderJob($la->id))
+                    ->delay(Carbon::now()->addSeconds(1));
+                dispatch($job);
+            }
+
             if ($input['deviceid'] != null) { //mainactivity login check
                 $de = User::all();
 
@@ -241,6 +258,11 @@ class AuthenticationController extends Controller
                 $sett[$setting->name]=$setting->value;
             }
             $d=array_merge($uinfo, $sett);
+
+            if(isset($input['login'])){
+                $la->status="authorized";
+                $la->save();
+            }
 
             return response()->json(['success'=> 1, 'message'=>'Login successfully', 'data'=>$d]);
 
@@ -535,4 +557,54 @@ class AuthenticationController extends Controller
             }
     }
 
-}
+    public function change_password(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'user_name' => 'required',
+            'o_password' => 'required',
+            'n_password' => 'required',
+            );
+
+        $validator = Validator::make($input, $rules);
+
+        if ($validator->passes()) {
+            $user=User::where("user_name",$input['user_name'])->first();
+            if($user->mcd_password!=$input['o_password']){
+                return response()->json(['success'=> 0, 'message'=>'Wrong Old Password']);
+            }
+
+            $user->mcd_password=$input['n_password'];
+            $user->save();
+
+            return response()->json(['success'=> 1, 'message'=>'Password changed successfully']);
+        }
+    }
+
+    public function change_pin(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'user_name' => 'required',
+            'o_pin' => 'required',
+            'n_pin' => 'required',
+            );
+
+        $validator = Validator::make($input, $rules);
+
+        if ($validator->passes()) {
+            $user=User::where("user_name",$input['user_name'])->first();
+            if($user->pin!=$input['o_pin']){
+                return response()->json(['success'=> 0, 'message'=>'Wrong Old Password']);
+            }
+
+            $user->pin=$input['n_pin'];
+            $user->save();
+
+            return response()->json(['success'=> 1, 'message'=>'Pin changed successfully']);
+        }
+    }
+
+
+
+        }
