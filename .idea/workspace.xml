@@ -2,18 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Jobs/ATMtransactionserveJob.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Jobs/CreateProvidusAccountJob.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Jobs/LoginAttemptApiFinderJob.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/model/LoginAttempt.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/ATMmanagerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ATMmanagerController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/AuthenticationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/AuthenticationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/MCDAssistantController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/MCDAssistantController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/TransactionsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/TransactionsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PushNotificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PushNotificationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/referral_upgrade.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/referral_upgrade.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/CreateProvidusAccountJob.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/CreateProvidusAccountJob.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/LoginAttemptApiFinderJob.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/LoginAttemptApiFinderJob.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -630,7 +622,7 @@
       <workItem from="1602170801991" duration="315000" />
       <workItem from="1605533961935" duration="12791000" />
       <workItem from="1605581771245" duration="7764000" />
-      <workItem from="1606116476258" duration="19564000" />
+      <workItem from="1606116476258" duration="22673000" />
     </task>
     <servers />
   </component>
@@ -657,6 +649,10 @@
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="494" y="139" key="FileChooserDialogImpl/62.0.1304.768@62.0.1304.768" timestamp="1601471448830" />
+    <state x="422" y="101" width="583" height="566" key="find.popup" timestamp="1606381526687">
+      <screen x="62" y="0" width="1304" height="768" />
+    </state>
+    <state x="422" y="101" width="583" height="566" key="find.popup/62.0.1304.768@62.0.1304.768" timestamp="1606381526687" />
     <state x="370" y="172" key="run.anything.popup" timestamp="1597817958097">
       <screen x="62" y="0" width="1304" height="768" />
     </state>

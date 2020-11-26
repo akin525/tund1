@@ -33,7 +33,7 @@ class CreateProvidusAccountJob implements ShouldQueue
      */
     public function handle()
     {
-        $u = User::where('user_name', $this->user_name);
+        $u = User::where('user_name', $this->user_name)->first();
 
         if (!$u) {
             echo "invalid account";

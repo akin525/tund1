@@ -95,7 +95,7 @@ class AuthenticationController extends Controller
                 if (User::create($create)) {
                     // successfully inserted into database
                     $job = (new CreateProvidusAccountJob($create["user_name"]))
-                        ->delay(Carbon::now()->addSeconds(1));
+                        ->delay(Carbon::now()->addSeconds(10));
                     dispatch($job);
 
                     $response["success"] = 1;
@@ -570,11 +570,11 @@ class AuthenticationController extends Controller
 
         if ($validator->passes()) {
             $user=User::where("user_name",$input['user_name'])->first();
-            if($user->mcd_password!=$input['o_password']){
+            if($user->mcdpassword!=$input['o_password']){
                 return response()->json(['success'=> 0, 'message'=>'Wrong Old Password']);
             }
 
-            $user->mcd_password=$input['n_password'];
+            $user->mcdpassword=$input['n_password'];
             $user->save();
 
             return response()->json(['success'=> 1, 'message'=>'Password changed successfully']);
@@ -595,7 +595,7 @@ class AuthenticationController extends Controller
         if ($validator->passes()) {
             $user=User::where("user_name",$input['user_name'])->first();
             if($user->pin!=$input['o_pin']){
-                return response()->json(['success'=> 0, 'message'=>'Wrong Old Password']);
+                return response()->json(['success'=> 0, 'message'=>'Wrong Old Pin']);
             }
 
             $user->pin=$input['n_pin'];
