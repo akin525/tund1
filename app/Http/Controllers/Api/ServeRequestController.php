@@ -849,7 +849,32 @@ class ServeRequestController extends Controller
             $price=$input['amount'];
 
         if($input['service']=="airtime") {
-            $a = $price * 0.02;
+            //get airtime discounts
+            $airsets=DB::table("tbl_serverconfig_airtime")->where('name','=','discount')->first();
+
+
+            switch ($input['network']) {
+                case "MTN":
+                    $d=$airsets->mtn;
+                    break;
+
+                    case "GLO":
+                    $d=$airsets->GLO;
+                    break;
+
+                    case "AIRTEL":
+                    $d=$airsets->airtel;
+                    break;
+
+                    case "9MOBILE":
+                    $d=$airsets->etisalat;
+                    break;
+
+                default:
+                    $d=2;
+            }
+
+            $a = $price * $d * 0.01;
             $price = round($price - $a);
         }
 
