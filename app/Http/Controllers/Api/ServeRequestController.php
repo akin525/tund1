@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PushNotificationController;
+use App\Jobs\ATMtransactionserveJob;
+use App\Jobs\ServeRequestJob;
 use App\Mail\TransactionNotificationMail;
 use App\Model\GeneralMarket;
 use App\Model\Settings;
@@ -615,45 +618,10 @@ class ServeRequestController extends Controller
     public function Process0($coded,$amnt, $network, $phone, $transid, $input){
         $message=$coded . " | " . $phone . " | ". $amnt. " | " .$network;
 
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS =>"{\n\"to\": \"/topics/samji\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"MCD Data Purchase Notification\",\n\t\"text\":\"". $message."\"\n\t}\n}\n",
-            CURLOPT_HTTPHEADER => array(
-                "Authorization: key=AAAAOW0II6E:APA91bHyum5pMhub2JVHcHnQghuWOdktOuhW9e4ZvmMDudjMZk9y1u71Nr7yl_FZLpsjuC6Hz1Fd49OrWfPYNKpAvahAZ5Rjv0y7IW24nqjYrPnMer8IvTkzZFB5W3hrOHAwbq2EOMOE",
-                "Content-Type: application/json",
-                "Content-Type: text/plain"
-            ),
-        ));
-        curl_exec($curl);
+        $noti = new PushNotificationController();
+        $noti->PushNotiAdmin($message, "MCD Purchase Notification");
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS =>"{\n\"to\": \"/topics/videx\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"MCD Data Purchase Notification\",\n\t\"text\":\"". $message."\"\n\t}\n}\n",
-            CURLOPT_HTTPHEADER => array(
-                "Authorization: key=AAAAOW0II6E:APA91bHyum5pMhub2JVHcHnQghuWOdktOuhW9e4ZvmMDudjMZk9y1u71Nr7yl_FZLpsjuC6Hz1Fd49OrWfPYNKpAvahAZ5Rjv0y7IW24nqjYrPnMer8IvTkzZFB5W3hrOHAwbq2EOMOE",
-                "Content-Type: application/json",
-                "Content-Type: text/plain"
-            ),
-        ));
-        $response = curl_exec($curl);
-        curl_close($curl);
-
-        $this->addtrans("server0",$response,$amnt,1, $transid,$input);
+        $this->addtrans("server0","Notification Sent",$amnt,1, $transid,$input);
     }
 
     public function airtimeProcess($amnt, $network, $phone, $transid, $input){
@@ -852,14 +820,13 @@ class ServeRequestController extends Controller
             //get airtime discounts
             $airsets=DB::table("tbl_serverconfig_airtime")->where('name','=','discount')->first();
 
-
             switch ($input['network']) {
                 case "MTN":
                     $d=$airsets->mtn;
                     break;
 
                     case "GLO":
-                    $d=$airsets->GLO;
+                    $d=$airsets->glo;
                     break;
 
                     case "AIRTEL":
@@ -881,7 +848,11 @@ class ServeRequestController extends Controller
             $tr['name']=strtoupper($input['network']).$input['service'];
             $tr['amount']=$price;
             $tr['date']=Carbon::now();
-            $tr['ip_address']=$_SERVER['REMOTE_ADDR'];
+            if(isset($_SERVER['REMOTE_ADDR'])){
+                $tr['ip_address']=$_SERVER['REMOTE_ADDR'];
+            }else{
+            $tr['ip_address']='127.0.0.1';
+            }
             $tr['i_wallet']=$user->wallet;
             $tr['user_name']=$input['user_name'];
             $tr['ref']=$orderid;
@@ -947,56 +918,9 @@ class ServeRequestController extends Controller
             $user->save();
         }
 
-        if($status==1) {
-            Mail::to($user->email)->send(new TransactionNotificationMail($tr));
-        }
-
-        if($input['payment_method'] !="general_market") {
-
-            if ($status == 1) {
-                if ($user->referral != "") {
-                    $ruser = User::where('user_name', $user->referral)->first();
-
-                    if ($ruser->referral_plan == "free") {
-                        $data = 5;
-                        $airtime = 0.002;
-                        $paytv = 0.003;
-                    } elseif ($ruser->referral_plan == "larvae") {
-                        $data = 10;
-                        $airtime = 0.005;
-                        $paytv = 0.004;
-                    } elseif ($ruser->referral_plan == "butterfly") {
-                        $data = 15;
-                        $airtime = 0.01;
-                        $paytv = 0.005;
-                    }
-
-                    if ($input['service'] == "airtime") {
-                        $am = $price * $airtime;
-                        $amount = round($am);
-                    } else if ($input['service'] == "data") {
-                        $amount = $data;
-                    } else if ($input['service'] == "paytv") {
-                        $am = $price * $paytv;
-                        $amount = roud($am);
-                    }
-
-                    if ($amount > 0) {
-                        $tr['description'] = $ruser->referral_plan . " referral bonus on " . $tr['description'];
-                        $tr['code'] = "rc_" . $input['service'] . "_" . $input['coded'];
-                        $tr['amount'] = $amount;
-                        $tr['status'] = "successful";
-                        $tr['user_name'] = $ruser->user_name;
-                        $tr['i_wallet'] = $ruser->bonus;
-                        $tr['f_wallet'] = $ruser->bonus + $amount;
-                        Transaction::create($tr);
-
-                        $ruser->bonus = $tr['f_wallet'];
-                        $ruser->save();
-                    }
-                }
-            }
-        }
+        $job = (new ServeRequestJob($input, $status, $tr, $user->id))
+            ->delay(Carbon::now()->addSeconds(1));
+        dispatch($job);
 
         $uinfo['full_name']=$user->full_name;
         $uinfo['company_name']=$user->company_name;

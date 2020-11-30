@@ -81,50 +81,54 @@ class MCDAssistantController extends Controller
         $u=User::where('user_name', $user_name)->first();
 
         if ($u){//checking if user exist
-            if($u->pin==$pin) {//checking if pin is correct
-                if(strtolower(substr($network,0,1)) == strtolower(substr($dataplan,0,1))){//checking if dataplan belongs to network
-                    $p=DB::table("tbl_serverconfig_data")->where("coded",$dataplan)->first();
-                    if($p){//checking if plan exist
-                        if(strlen($phoneno) == 11 && is_numeric($phoneno)){//checking if phone number is valid
-                            if($u->wallet>=$p->pricing){
-                                $input['service'] = "data";
-                                $input['amount'] = $p->pricing;
-                                $input['phone'] = $phoneno;
-                                $input['network'] = $network;
-                                $input['date'] = Carbon::now();
-                                $input['user_name'] =$user_name;
-                                $input['transid'] = "mcd_ai_".time();
-                                $input['ip_address']=$_SERVER['REMOTE_ADDR'];
-                                $input['device_details']="MCD AI_".$data2->responseId;
-                                $input['coded'] = $dataplan;
-                                $input['api'] = "mcd_app_9876234875356148750";
-                                $input['payment_method'] = "wallet";
-                                $input['wallet'] = $u->wallet;
-                                $input['version'] = "1.0";
+            if($u->pin=="1234") {//checking if pin is correct
+                if ($u->pin == $pin) {//checking if pin is correct
+                    if (strtolower(substr($network, 0, 1)) == strtolower(substr($dataplan, 0, 1))) {//checking if dataplan belongs to network
+                        $p = DB::table("tbl_serverconfig_data")->where("coded", $dataplan)->first();
+                        if ($p) {//checking if plan exist
+                            if (strlen($phoneno) == 11 && is_numeric($phoneno)) {//checking if phone number is valid
+                                if ($u->wallet >= $p->pricing) {
+                                    $input['service'] = "data";
+                                    $input['amount'] = $p->pricing;
+                                    $input['phone'] = $phoneno;
+                                    $input['network'] = $network;
+                                    $input['date'] = Carbon::now();
+                                    $input['user_name'] = $user_name;
+                                    $input['transid'] = "mcd_ai_" . time();
+                                    $input['ip_address'] = $_SERVER['REMOTE_ADDR'];
+                                    $input['device_details'] = "MCD AI_" . $data2->responseId;
+                                    $input['coded'] = $dataplan;
+                                    $input['api'] = "mcd_app_9876234875356148750";
+                                    $input['payment_method'] = "wallet";
+                                    $input['wallet'] = $u->wallet;
+                                    $input['version'] = "1.0";
 
-                                $s=Serverlog::create($input);
-                                $job = (new MCDAIServeTransJob($s->id))
-                                    ->delay(Carbon::now()->addSeconds(1));
-                                dispatch($job);
-                                $rep = $user_name . ", your transaction is successful. Thanks for using Mega Cheap Data";
-                            }else{
-                                if($u->account_number!=0){
-                                    $rep = $user_name . ", insufficient amount. You can fund your wallet by transferring to " . $u->account_number." Providus Bank. Kindly check and revert back or contact support @ 07011223737";
-                                }else{
-                                    $rep = $user_name . ", insufficient amount. Visit the App to fund your wallet. Kindly check and revert back or contact support @ 07011223737";
+                                    $s = Serverlog::create($input);
+                                    $job = (new MCDAIServeTransJob($s->id))
+                                        ->delay(Carbon::now()->addSeconds(1));
+                                    dispatch($job);
+                                    $rep = $user_name . ", your transaction is successful. Thanks for using Mega Cheap Data";
+                                } else {
+                                    if ($u->account_number != 0) {
+                                        $rep = $user_name . ", insufficient amount. You can fund your wallet by transferring to " . $u->account_number . " Providus Bank. Kindly check and revert back or contact support @ 07011223737";
+                                    } else {
+                                        $rep = $user_name . ", insufficient amount. Visit the App to fund your wallet. Kindly check and revert back or contact support @ 07011223737";
+                                    }
                                 }
+                            } else {
+                                $rep = $user_name . ", invalid phone number supplied, expecting e.g 081433800X. Kindly check and revert back or contact support @ 07011223737";
                             }
-                        }else{
-                            $rep = $user_name . ", invalid phone number supplied, expecting e.g 081433800X. Kindly check and revert back or contact support @ 07011223737";
+                        } else {
+                            $rep = $user_name . ", the plan is invalid, expecting m1, m2, m5, a1_5, n250, n1. Kindly choose the available plan and revert back or contact support @ 07011223737";
                         }
-                    }else{
-                        $rep = $user_name . ", the plan is invalid, expecting m1, m2, m5, a1_5, n250, n1. Kindly choose the available plan and revert back or contact support @ 07011223737";
+                    } else {
+                        $rep = $user_name . ", the plan and network provided are not compatible. Kindly check and revert back or contact support @ 07011223737";
                     }
-                }else{
-                    $rep = $user_name . ", the plan and network provided are not compatible. Kindly check and revert back or contact support @ 07011223737";
+                } else {
+                    $rep = $user_name . ", pin is incorrect, have you set your pin on the App. Kindly check and revert back or contact support @ 07011223737";
                 }
             }else{
-                $rep = $user_name . ", pin is incorrect, have you set your pin on the App. Kindly check and revert back or contact support @ 07011223737";
+                $rep = $user_name . ", kindly change your pin on the app to continue your request.";
             }
         }else{
             $rep=$user_name . ", doesn't exist in our system, kindly get our app on playstore and registered with us at https://play.google.com/store/apps/details?id=a5starcompany.com.megacheapdata";
@@ -142,41 +146,45 @@ class MCDAssistantController extends Controller
         $u=User::where('user_name', $user_name)->first();
 
         if ($u){//checking if user exist
-            if($u->pin==$pin) {//checking if pin is correct
-                if(strlen($phoneno) == 11 && is_numeric($phoneno)){//checking if phone number is valid
-                    if($u->wallet>=$amount){
-                        $input['service'] = "airtime";
-                        $input['amount'] = $amount;
-                        $input['phone'] = $phoneno;
-                        $input['network'] = $network;
-                        $input['date'] = Carbon::now();
-                        $input['user_name'] =$user_name;
-                        $input['transid'] = "mcd_ai_".$user_name.time();
-                        $input['ip_address']=$_SERVER['REMOTE_ADDR'];
-                        $input['device_details']="MCD AI_".$data2->responseId;
-                        $input['coded'] = strtoupper(substr($network,0,1));
-                        $input['api'] = "mcd_app_9876234875356148750";
-                        $input['payment_method'] = "wallet";
-                        $input['wallet'] = $u->wallet;
-                        $input['version'] = "1.0";
+            if($u->pin=="1234") {//checking if pin is correct
+                if ($u->pin == $pin) {//checking if pin is correct
+                    if (strlen($phoneno) == 11 && is_numeric($phoneno)) {//checking if phone number is valid
+                        if ($u->wallet >= $amount) {
+                            $input['service'] = "airtime";
+                            $input['amount'] = $amount;
+                            $input['phone'] = $phoneno;
+                            $input['network'] = $network;
+                            $input['date'] = Carbon::now();
+                            $input['user_name'] = $user_name;
+                            $input['transid'] = "mcd_ai_" . $user_name . time();
+                            $input['ip_address'] = $_SERVER['REMOTE_ADDR'];
+                            $input['device_details'] = "MCD AI_" . $data2->responseId;
+                            $input['coded'] = strtoupper(substr($network, 0, 1));
+                            $input['api'] = "mcd_app_9876234875356148750";
+                            $input['payment_method'] = "wallet";
+                            $input['wallet'] = $u->wallet;
+                            $input['version'] = "1.0";
 
-                        $s=Serverlog::create($input);
-                        $job = (new MCDAIServeTransJob($s->id))
-                            ->delay(Carbon::now()->addSeconds(1));
-                        dispatch($job);
-                        $rep = $user_name . ", your transaction is successful. Thanks for using Mega Cheap Data";
-                    }else{
-                        if($u->account_number!=0){
-                            $rep = $user_name . ", insufficient amount. You can fund your wallet by transferring to " . $u->account_number." Providus Bank. Kindly check and revert back or contact support @ 07011223737";
-                        }else{
-                            $rep = $user_name . ", insufficient amount. Visit the App to fund your wallet. Kindly check and revert back or contact support @ 07011223737";
+                            $s = Serverlog::create($input);
+                            $job = (new MCDAIServeTransJob($s->id))
+                                ->delay(Carbon::now()->addSeconds(1));
+                            dispatch($job);
+                            $rep = $user_name . ", your transaction is successful. Thanks for using Mega Cheap Data";
+                        } else {
+                            if ($u->account_number != 0) {
+                                $rep = $user_name . ", insufficient amount. You can fund your wallet by transferring to " . $u->account_number . " Providus Bank. Kindly check and revert back or contact support @ 07011223737";
+                            } else {
+                                $rep = $user_name . ", insufficient amount. Visit the App to fund your wallet. Kindly check and revert back or contact support @ 07011223737";
+                            }
                         }
+                    } else {
+                        $rep = $user_name . ", invalid phone number supplied, expecting e.g 081433800X. Kindly check and revert back or contact support @ 07011223737";
                     }
-                }else{
-                    $rep = $user_name . ", invalid phone number supplied, expecting e.g 081433800X. Kindly check and revert back or contact support @ 07011223737";
+                } else {
+                    $rep = $user_name . ", pin is incorrect, have you set your pin on the App. Kindly check and revert back or contact support @ 07011223737";
                 }
             }else{
-                $rep = $user_name .", pin is incorrect, have you set your pin on the App. Kindly check and revert back or contact support @ 07011223737";
+                $rep = $user_name . ", kindly change your pin on the app to continue your request.";
             }
         }else{
             $rep=$user_name . ", doesn't exist in our system, kindly get our app on playstore and registered with us at https://play.google.com/store/apps/details?id=a5starcompany.com.megacheapdata";

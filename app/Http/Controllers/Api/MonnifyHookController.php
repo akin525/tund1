@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PushNotificationController;
 use App\Model\PndL;
 use App\Model\Serverlog;
 use App\Model\Transaction;
@@ -163,7 +164,7 @@ class MonnifyHookController extends Controller
                 $input['deviceid'] = $input['code'];
                 Wallet::create($input);
 
-                $noti = new ATMmanagerController();
+                $noti = new PushNotificationController();
                 $noti->PushNoti($input['user_name'], $notimssg, "Account Transfer Successful");
             }
         }else{
