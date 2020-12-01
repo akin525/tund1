@@ -36,39 +36,44 @@ class PayReferralJob implements ShouldQueue
      */
     public function handle()
     {
-        $input=$this->input;
+        $input = $this->input;
         $tr = $this->tr;
-        $ruser = User::where('user_name', $this->userid)->first();
+        $ruser = User::find($this->userid);
 
-        $rp=ReferralPlans::where('name', referral_plan)->first();
+        $rp = ReferralPlans::where('name', $ruser->referral_plan)->first();
 
         $data = $rp->data_bonus;
         $airtime = $rp->airtime_bonus;
         $paytv = $rp->tv_bonus;
 
+        $price = $input['amount'];
 
-                    if ($input['service'] == "airtime") {
-                        $am = $price * $airtime;
-                        $amount = round($am);
-                    } else if ($input['service'] == "data") {
-                        $amount = $data;
-                    } else if ($input['service'] == "paytv") {
-                        $am = $price * $paytv;
-                        $amount = roud($am);
-                    }
 
-                    if ($amount > 0) {
-                        $tr['description'] = "Being referral bonus on " . $tr['description'];
-                        $tr['code'] = "rc_" . $input['service'] . "_" . $input['coded'];
-                        $tr['amount'] = $amount;
-                        $tr['status'] = "successful";
-                        $tr['user_name'] = $ruser->user_name;
-                        $tr['i_wallet'] = $ruser->bonus;
-                        $tr['f_wallet'] = $ruser->bonus + $amount;
-                        Transaction::create($tr);
+        if ($input['service'] == "airtime") {
+            $am = $price * $airtime;
+            $amount = round($am/100);
+        } else if ($input['service'] == "data") {
+            $amount = $data;
+        } else if ($input['service'] == "paytv") {
+            $am = $price * $paytv;
+            $amount = round($am/100);
+        }
 
-                        $ruser->bonus = $tr['f_wallet'];
-                        $ruser->save();
-                    }
+        echo $amount;
+
+        if ($amount > 0) {
+            $tr['name'] = "Referral Bonus";
+            $tr['description'] = "Being referral bonus on " . $tr['description'];
+            $tr['code'] = "rc_" . $input['service'] . "_" . $input['coded'];
+            $tr['amount'] = $amount;
+            $tr['status'] = "successful";
+            $tr['user_name'] = $ruser->user_name;
+            $tr['i_wallet'] = $ruser->bonus;
+            $tr['f_wallet'] = $ruser->bonus + $amount;
+            Transaction::create($tr);
+
+            $ruser->bonus = $tr['f_wallet'];
+            $ruser->save();
+        }
     }
 }

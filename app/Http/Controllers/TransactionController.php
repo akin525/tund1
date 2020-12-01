@@ -441,7 +441,7 @@ class TransactionController extends Controller
         }
 
         $r=0.2 * $ref->amount;
-        $r_amount=$ref->amount - $r;
+        $r_amount=round($ref->amount - $r);
 
         $user=User::where("user_name", "=", $ref->user_name)->first();
 

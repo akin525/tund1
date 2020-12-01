@@ -339,7 +339,7 @@ class ServeRequestController extends Controller
             }
 
             if($dbc->server==3){
-                $this->dataProcess3($dbc->price, $dbc->product_code,$phone,$transid, $input);
+                $this->dataProcess3($dbc->price, $dbc->product_code,$phone,$transid, $input, $dbc->network);
             }
 
 
@@ -784,7 +784,7 @@ class ServeRequestController extends Controller
         }
     } //ending function dataprocess2
 
-    function dataProcess3($price, $productcode, $phone, $transid, $input){
+    function dataProcess3($price, $productcode, $phone, $transid, $input, $network){
 
         $url=env("SERVER3_DATA") ."&number=".$phone."&plan=".$productcode;
 //        $url=env("SERVER3_DATA") ."&network=".$network."&number=".$phone."&amount=".$price."&ref=".$transid."&return_url=http://minitechs.com.ng/buydata.php";
@@ -799,14 +799,15 @@ class ServeRequestController extends Controller
             $ref=$someArray["ref"]; // Access Array data
             $this->addtrans("server3",$result,$price,1,$ref,$input);
         }else {
-            $this->addtrans("server3",$result,$price,0,$transid,$input);
+//            $this->addtrans("server3",$result,$price,0,$transid,$input);
+            $this->dataProcess($price, $productcode, $network, $phone,$transid, $input);
         }
     } //ending function
 
     public function addtrans($server,$server_response, $price, $status, $orderid, $input ){
         $user = User::where('user_name', $input["user_name"])->first();
         if(!$user) {
-            echo json_encode(['success' => 0, 'message' => 'User not found']);
+            return json_encode(['success' => 0, 'message' => 'User not found']);
         }
             if(isset($input['device_details'])){
                 $tr['device_details'] = $input['device_details'];

@@ -53,17 +53,19 @@ class ServeRequestJob implements ShouldQueue
         }
 
         if ($status != 1) {
+            echo "status not success";
             return;
         }
-        if ($user->referral != "") {
+        if ($user->referral == "") {
+            echo "no referral";
             return;
         }
 
         $ruser = User::where('user_name', $user->referral)->first();
 
-//        $job = (new PayReferralJob($input, $tr, $ruser->id))
-//            ->delay(Carbon::now()->addSeconds(1));
-//        dispatch($job);
+        $job = (new PayReferralJob($input, $tr, $ruser->id))
+            ->delay(Carbon::now()->addSeconds(1));
+        dispatch($job);
 
     }
 }
