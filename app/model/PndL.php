@@ -9,6 +9,6 @@ class PndL extends Model
     protected $table='tbl_p_nd_l';
 
     protected $fillable = [
-    'type', 'amount', 'narration', 'date'
+    'type', 'amount', 'narration', 'date', 'gl'
     ];
 }

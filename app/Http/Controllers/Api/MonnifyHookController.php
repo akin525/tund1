@@ -45,8 +45,10 @@ class MonnifyHookController extends Controller
             return "Invalid transaction signature";
         }
 
+        $cfee=$input['totalPayable']-$input['settlementAmount'];
+
         if($product_type === "MOBILE_SDK"){
-                $this->SDK($paymentamount,$product_reference);
+                $this->SDK($paymentamount,$product_reference, $cfee);
         }
 
         if($product_type === "RESERVED_ACCOUNT"){
@@ -56,16 +58,16 @@ class MonnifyHookController extends Controller
                 $acctd_name= $input['accountDetails']['accountName'];
             }
             if ($product_reference === "Mcdat"){
-                $this->MCDatfundwallet($acctd_name,$paymentamount,$transactionreference);
+                $this->MCDatfundwallet($acctd_name,$paymentamount,$transactionreference, $cfee);
             }else{
-                $this->RAfundwallet($acctd_name,$paymentamount,$product_reference, $transactionreference);
+                $this->RAfundwallet($acctd_name,$paymentamount,$product_reference, $transactionreference, $cfee);
             }
         }
 
         echo "success";
     }
 
-    private function MCDatfundwallet($name, $amount, $transactionreference){
+    private function MCDatfundwallet($name, $amount, $transactionreference, $cfee){
         $charge_treshold=2000;
         $charges=50;
         $u=User::where('full_name', 'LIKE', '%'.$name.'%')->first();
@@ -105,13 +107,23 @@ class MonnifyHookController extends Controller
                 $wallet-=$charges;
             }
 
+
+            if($cfee!=0){
+                $input["type"]="expense";
+                $input["gl"]="Monnify";
+                $input["amount"]=$cfee;
+                $input["narration"]="Payment gateway charges on MCD account with ref ".$transactionreference;
+
+                PndL::create($input);
+            }
+
             $u->wallet=$wallet;
             $u->save();
         }
 
     }
 
-    private function RAfundwallet($name, $amount, $reference, $transactionreference){
+    private function RAfundwallet($name, $amount, $reference, $transactionreference, $cfee){
         $charges=50;
         $u=User::where('user_name', '=', $reference)->first();
         $w=Wallet::where('ref',$transactionreference)->first();
@@ -164,6 +176,15 @@ class MonnifyHookController extends Controller
                 $input['deviceid'] = $input['code'];
                 Wallet::create($input);
 
+                if($cfee!=0){
+                    $input["type"]="expense";
+                    $input["gl"]="Monnify";
+                    $input["amount"]=$cfee;
+                    $input["narration"]="Payment gateway charges on personal account with ref ".$transactionreference;
+
+                    PndL::create($input);
+                }
+
                 $noti = new PushNotificationController();
                 $noti->PushNoti($input['user_name'], $notimssg, "Account Transfer Successful");
             }
@@ -172,7 +193,7 @@ class MonnifyHookController extends Controller
         }
     }
 
-    private function SDK($amount, $reference){
+    private function SDK($amount, $reference, $cfee){
 
         $tra=Serverlog::where('transid',$reference)->first();
         if($tra){
@@ -192,7 +213,7 @@ class MonnifyHookController extends Controller
                 $fun->save();
 
                 $at=new ATMmanagerController();
-                $at->atmfundwallet($fun, $amount, $reference, "Monnify");
+                $at->atmfundwallet($fun, $amount, $reference, "Monnify", $cfee);
             }
         }
         echo "no way forward";

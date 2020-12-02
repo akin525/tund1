@@ -48,7 +48,7 @@ class KorapayHookController extends Controller
                 $fun->save();
 
                 $at=new ATMmanagerController();
-                $at->atmfundwallet($fun, $amount, $reference, "Korapay");
+                $at->atmfundwallet($fun, $amount, $reference, "Korapay", $input['data']['fee']);
             }
         }
 

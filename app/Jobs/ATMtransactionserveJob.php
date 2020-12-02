@@ -46,6 +46,7 @@ class ATMtransactionserveJob implements ShouldQueue
         $input['service'] = $s->service;
         $input['network'] = $s->network;
         $input['payment_method'] = $s->payment_method;
+        $input['version'] = $s->version;
 
         $r= new Request($input);
         if($s->service=="airtime"){

@@ -59,7 +59,7 @@ class PaystackHookController extends Controller
                 $fun->save();
 
                 $at=new ATMmanagerController();
-                $at->atmfundwallet($fun, $amount, $reference, "Paystack");
+                $at->atmfundwallet($fun, $amount, $reference, "Paystack", $input['data']['fees']/100);
             }
         }
 

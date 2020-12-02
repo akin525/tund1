@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 class ATMmanagerController extends Controller
 {
-    public function atmfundwallet($fun, $amount, $reference, $payment_method){
+    public function atmfundwallet($fun, $amount, $reference, $payment_method, $cfee){
         $charge_treshold=2000;
         $charges=50;
 
@@ -37,6 +37,7 @@ class ATMmanagerController extends Controller
 
         if($amount<$charge_treshold){
             $input["type"]="income";
+            $input["gl"]=$payment_method;
             $input["amount"]=$charges;
             $input["narration"]="Being amount charged for funding less than #".$charge_treshold." from ".$u->user_name;
 
@@ -52,6 +53,15 @@ class ATMmanagerController extends Controller
             Transaction::create($input);
 
             $wallet-=$charges;
+        }
+
+        if($cfee!=0){
+            $input["type"]="expense";
+            $input["gl"]=$payment_method;
+            $input["amount"]=$cfee;
+            $input["narration"]="Payment gateway charges on ".$reference;
+
+            PndL::create($input);
         }
 
         $u->wallet=$wallet;
