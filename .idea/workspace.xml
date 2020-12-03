@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/ATMmanagerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ATMmanagerController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/MonnifyHookController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/MonnifyHookController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/FundWalletPnLJob.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -626,7 +624,7 @@
       <workItem from="1606459441104" duration="127000" />
       <workItem from="1606487462414" duration="6724000" />
       <workItem from="1606672070669" duration="1796000" />
-      <workItem from="1606674763231" duration="28758000" />
+      <workItem from="1606674763231" duration="30568000" />
     </task>
     <servers />
   </component>

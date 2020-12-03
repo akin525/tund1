@@ -90,6 +90,8 @@ class MonnifyHookController extends Controller
 
             if($amount<$charge_treshold){
                 $input["type"]="income";
+
+                $input["gl"]="MCD Account";
                 $input["amount"]=$charges;
                 $input["narration"]="Being amount charged for funding less than #".$charge_treshold." from ".$u->user_name;
 
@@ -110,7 +112,6 @@ class MonnifyHookController extends Controller
 
             if($cfee!=0){
                 $input["type"]="expenses";
-                $input["gl"]="Monnify";
                 $input["amount"]=$cfee;
                 $input["narration"]="Payment gateway charges on MCD account with ref ".$transactionreference;
 
@@ -147,6 +148,7 @@ class MonnifyHookController extends Controller
                 Transaction::create($input);
 
                 $input["type"] = "income";
+                $input["gl"]="Personal Account";
                 $input["amount"] = $charges;
                 $input['status'] = 'successful';
                 $input["narration"] = "Being amount charged for using automated funding from " . $input["user_name"];
@@ -178,7 +180,6 @@ class MonnifyHookController extends Controller
 
                 if($cfee!=0){
                     $input["type"]="expenses";
-                    $input["gl"]="Monnify";
                     $input["amount"]=$cfee;
                     $input["narration"]="Payment gateway charges on personal account with ref ".$transactionreference;
 
