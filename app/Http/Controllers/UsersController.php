@@ -448,6 +448,14 @@ class UsersController extends Controller
         $user->update(["agent_commision"=> $user->agent_commision + $amount]);
         Transaction::create($input);
 
+        $input["type"]="expenses";
+        $input["gl"]="Agent Commission";
+        $input["amount"]=$amount;
+        $input["narration"]="Being agent commission on ".$input['user_name']. " for ".Carbon::now()->subMonth()->format('m.y');
+        $input["date"]=Carbon::now();
+
+        PndL::create($input);
+
         return redirect('/agentpayment')->with('success', 'Agent Payment paid successfully to '.$user->user_name.' with the sum of '.$amount);
     }
 }
