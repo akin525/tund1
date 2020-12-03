@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\TransactionNotificationMail;
+use App\model\PndL;
 use App\model\Transaction;
 use App\User;
 use Carbon\Carbon;
@@ -56,6 +57,16 @@ class ServeRequestJob implements ShouldQueue
             echo "status not success";
             return;
         }
+
+        if ($input['service'] == "data") {
+            $input["type"]="income";
+            $input["gl"]="data";
+            $input["amount"]=20;
+            $input["narration"]="Being data charges on ".$input['transid'];
+
+            PndL::create($input);
+        }
+
         if ($user->referral == "") {
             echo "no referral";
             return;
