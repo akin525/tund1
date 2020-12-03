@@ -45,9 +45,9 @@ class ServeRequestJob implements ShouldQueue
         $tr = $this->tr;
         $user = User::find($this->userid);
 
-//        if($status==1) {
-//            Mail::to($user->email)->send(new TransactionNotificationMail($tr));
-//        }
+        if($status==1) {
+            Mail::to($user->email)->send(new TransactionNotificationMail($tr));
+        }
 
         if ($input['payment_method'] == "general_market") {
             return;
@@ -59,13 +59,23 @@ class ServeRequestJob implements ShouldQueue
         }
 
         if ($input['service'] == "data") {
-            $input["type"]="income";
-            $input["gl"]="Data";
-            $input["amount"]=20;
-            $input["narration"]="Being data charges on ".$input['transid'];
-            $input["date"]=Carbon::now();
+            if($input['payment_method']=="wallet" ) {
+                $input["type"] = "income";
+                $input["gl"] = "Data";
+                $input["amount"] = 20;
+                $input["narration"] = "Being wallet data charges on " . $input['transid'];
+                $input["date"] = Carbon::now();
 
-            PndL::create($input);
+                PndL::create($input);
+            }else{
+                $input["type"] = "income";
+                $input["gl"] = "Data";
+                $input["amount"] = 50;
+                $input["narration"] = "Being atm data charges on " . $input['transid'];
+                $input["date"] = Carbon::now();
+
+                PndL::create($input);
+            }
         }
 
         if ($user->referral == "") {

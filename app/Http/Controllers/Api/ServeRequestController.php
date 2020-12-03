@@ -872,7 +872,11 @@ class ServeRequestController extends Controller
                     $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
                 }
                 if($input['payment_method'] =="wallet") {
-                    $tr['f_wallet'] = $user->wallet - $price;
+                    if($input['service']=="data") {
+                        $tr['f_wallet'] = $user->wallet - $price - 20;
+                    }else{
+                        $tr['f_wallet'] = $user->wallet - $price;
+                    }
                 }else{
                     $tr['f_wallet'] = $user->wallet;
                 }
