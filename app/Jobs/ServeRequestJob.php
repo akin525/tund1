@@ -44,9 +44,9 @@ class ServeRequestJob implements ShouldQueue
         $tr = $this->tr;
         $user = User::find($this->userid);
 
-//        if($status==1) {
-//            Mail::to($user->email)->send(new TransactionNotificationMail($tr));
-//        }
+        if($status==1) {
+            Mail::to($user->email)->send(new TransactionNotificationMail($tr));
+        }
 
         if ($input['payment_method'] == "general_market") {
             return;

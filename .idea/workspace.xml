@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Jobs/FundWalletPnLJob.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Jobs/TransactionPnLJob.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Jobs/TransactionVerificationJob.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/ATMmanagerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ATMmanagerController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/MonnifyHookController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/MonnifyHookController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PaystackHookController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PaystackHookController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/RaveHookController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/RaveHookController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/ATMtransactionserveJob.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/ATMtransactionserveJob.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/ServeRequestJob.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/ServeRequestJob.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/FundWalletPnLJob.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -632,7 +626,7 @@
       <workItem from="1606459441104" duration="127000" />
       <workItem from="1606487462414" duration="6724000" />
       <workItem from="1606672070669" duration="1796000" />
-      <workItem from="1606674763231" duration="26319000" />
+      <workItem from="1606674763231" duration="28758000" />
     </task>
     <servers />
   </component>
@@ -663,10 +657,10 @@
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="494" y="139" key="FileChooserDialogImpl/62.0.1304.768@62.0.1304.768" timestamp="1601471448830" />
-    <state x="422" y="101" width="583" height="566" key="find.popup" timestamp="1606381526687">
+    <state x="422" y="101" width="583" height="624" key="find.popup" timestamp="1606953817342">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="422" y="101" width="583" height="566" key="find.popup/62.0.1304.768@62.0.1304.768" timestamp="1606381526687" />
+    <state x="422" y="101" width="583" height="624" key="find.popup/62.0.1304.768@62.0.1304.768" timestamp="1606953817342" />
     <state x="377" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1600083327898">
       <screen x="62" y="0" width="1304" height="768" />
     </state>

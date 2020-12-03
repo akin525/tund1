@@ -56,7 +56,7 @@ class ATMmanagerController extends Controller
         }
 
         if($cfee!=0){
-            $input["type"]="expense";
+            $input["type"]="expenses";
             $input["gl"]=$payment_method;
             $input["amount"]=$cfee;
             $input["narration"]="Payment gateway charges on ".$reference;

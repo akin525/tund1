@@ -109,7 +109,7 @@ class MonnifyHookController extends Controller
 
 
             if($cfee!=0){
-                $input["type"]="expense";
+                $input["type"]="expenses";
                 $input["gl"]="Monnify";
                 $input["amount"]=$cfee;
                 $input["narration"]="Payment gateway charges on MCD account with ref ".$transactionreference;
@@ -177,7 +177,7 @@ class MonnifyHookController extends Controller
                 Wallet::create($input);
 
                 if($cfee!=0){
-                    $input["type"]="expense";
+                    $input["type"]="expenses";
                     $input["gl"]="Monnify";
                     $input["amount"]=$cfee;
                     $input["narration"]="Payment gateway charges on personal account with ref ".$transactionreference;
