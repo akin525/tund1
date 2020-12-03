@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\TransactionNotificationMail;
-use App\model\PndL;
+use App\Model\PndL;
 use App\model\Transaction;
 use App\User;
 use Carbon\Carbon;
@@ -45,9 +45,9 @@ class ServeRequestJob implements ShouldQueue
         $tr = $this->tr;
         $user = User::find($this->userid);
 
-        if($status==1) {
-            Mail::to($user->email)->send(new TransactionNotificationMail($tr));
-        }
+//        if($status==1) {
+//            Mail::to($user->email)->send(new TransactionNotificationMail($tr));
+//        }
 
         if ($input['payment_method'] == "general_market") {
             return;
@@ -60,9 +60,10 @@ class ServeRequestJob implements ShouldQueue
 
         if ($input['service'] == "data") {
             $input["type"]="income";
-            $input["gl"]="data";
+            $input["gl"]="Data";
             $input["amount"]=20;
             $input["narration"]="Being data charges on ".$input['transid'];
+            $input["date"]=Carbon::now();
 
             PndL::create($input);
         }

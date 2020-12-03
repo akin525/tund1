@@ -9,6 +9,7 @@ use App\Model\Serverlog;
 use App\Model\Transaction;
 use App\Model\Wallet;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -143,7 +144,7 @@ class MonnifyHookController extends Controller
                 $input['f_wallet'] = $wallet;
                 $input["ip_address"] = "127.0.0.1:A";
                 $input["ref"] = $transactionreference;
-                $input["date"] = date("y-m-d H:i:s");
+                $input["date"] = Carbon::now();
 
                 Transaction::create($input);
 

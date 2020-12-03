@@ -2,8 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Model\PndL;
 use App\Model\ReferralPlans;
-use App\model\Transaction;
+use App\Model\Transaction;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -74,6 +75,13 @@ class PayReferralJob implements ShouldQueue
 
             $ruser->bonus = $tr['f_wallet'];
             $ruser->save();
+
+            $input["type"]="expenses";
+            $input["gl"]="Referral Bonus";
+            $input["amount"]=$amount;
+            $input["narration"]="Being referral bonus paid to ".$ruser->user_name. " on ".$input['transid'];
+
+            PndL::create($input);
         }
     }
 }
