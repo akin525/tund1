@@ -87,6 +87,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/verification_server1b', 'VerificationController@server1b')->name('verification_server1b');
     Route::post('/verification_server1', 'VerificationController@server1')->name('verification_server1');
     Route::post('/verification_server1dt', 'VerificationController@server1dt')->name('verification_server1dt');
+
+    Route::get('/report_pnl', 'ReportsController@pnl')->name('report_pnl');
 });
 
 

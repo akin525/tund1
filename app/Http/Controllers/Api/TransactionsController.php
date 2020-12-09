@@ -198,7 +198,7 @@ class TransactionsController extends Controller
             $p=$price*$price2*$qty;
             $ref=$input["ref"];
 
-            if($p<=$user->wallet){
+            if($p > $user->wallet){
                 return response()->json(['success'=> 0, 'message'=>'Insufficient Balance']);
             }
 
@@ -259,7 +259,7 @@ class TransactionsController extends Controller
             if (!$user) {
                 return response()->json(['success' => 0, 'message' => 'User not found']);
             }
-            if($input["price"]<=$user->wallet){
+            if($input["price"] > $user->wallet){
                 return response()->json(['success'=> 0, 'message'=>'Insufficient Balance']);
             }
 
