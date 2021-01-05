@@ -28,39 +28,13 @@
                         @csrf
                         <div class="form-group row">
                             <div class="col-md-12">
-                                <div class="input-group mt-2">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
-                                    </div>
-                                    <input style="margin-right: 20px" type="text" name="user_name" placeholder="Search for username" class="form-control @error('user_name') is-invalid @enderror">
-
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-mobile"></i> </span>
-                                    </div>
-                                    <input type="tel" name="phoneno" placeholder="Search for phone number" class="form-control @error('phoneno') is-invalid @enderror">
-                                </div>
+                                <h4 class="mt-0 header-title">Search</h4>
 
                                 <div class="input-group mt-2">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-users"></i> </span>
-                                    </div>
-                                    <input style="margin-right: 20px" type="text" name="status" placeholder="Search User group e.g agent, client, reseller" class="form-control @error('status') is-invalid @enderror">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-wallet"></i></span>
-                                    </div>
-                                    <input type="number" name="wallet" placeholder="Search for wallet value" class="form-control @error('wallet') is-invalid @enderror">
-                                </div>
-
-                                <div class="input-group mt-2">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-envelope"></i> </span>
-                                    </div>
-                                    <input style="margin-right: 20px" type="email" name="email" placeholder="Search for email address" class="form-control @error('email') is-invalid @enderror">
-
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-calendar-check"></i> </span>
                                     </div>
-                                    <input type="date" name="regdate" placeholder="Search for registration date e.g 2020-09-01" class="form-control @error('regdate') is-invalid @enderror">
+                                    <input style="margin-right: 20px" name="date" type="month" value="2011-08"  placeholder="Search for month" class="form-control @error('date') is-invalid @enderror">
                                 </div>
 
                                 <div class="input-group mt-2" style="align-content: center">
@@ -82,6 +56,7 @@
                         <h4 class="mt-0 header-title">Profit & Loss Report</h4>
                         <p class="text-muted mb-4 font-13"></p>
                         <div class="table-responsive">
+
                             <table class="table table-striped mb-0">
                                 <thead>
                                 <tr>
@@ -90,16 +65,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($income as $come)
+                                @foreach($incomed as $incomedi)
                                     <tr>
-                                        <td>{{$come->gl}}</td>
-                                        <td>{{$come->amount}}</td>
+                                        <td>{{$incomedi->gl}}</td>
+                                            @foreach($income as $come)
+                                                @if($incomedi->gl==$come->gl)
+                                                    <?php
+                                                    $ti += $come->amount;
+                                                    ?>
+                                                @endif
+                                            @endforeach
+                                        <td>{{$ti}}</td>
+                                        <?php $ti=0; ?>
                                     </tr>
-                                    <?php
-                                    $ti += $come->amount;
-                                    ?>
                                 @endforeach
-                                Total Income: {{$ti+$come->amount}}
+                                Total Income: {{$income_sum}}
                                 </tbody>
                             </table>
 
@@ -111,20 +91,26 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($expenses as $exp)
+                                @foreach($expensed as $exp)
                                     <tr>
                                         <td>{{$exp->gl}}</td>
-                                        <td>{{$exp->amount}}</td>
+                                        @foreach($expenses as $expen)
+                                            @if($exp->gl==$expen->gl)
+                                                <?php
+                                                $te += $expen->amount;
+                                                ?>
+                                            @endif
+                                        @endforeach
+                                        <td>{{$te}}</td>
+                                        <?php $te=0; ?>
                                     </tr>
-                                    <?php
-                                    $te += $exp->amount;
-                                        ?>
                                 @endforeach
-                                Total Expenses: {{$te}}
+
+                                Total Expenses: {{$expense_sum}}
                                 </tbody>
                             </table>
 
-                            Net Income: {{$ti - $te}}
+                            Net Income: {{$income_sum - $expense_sum}}
                         </div>
                     </div>
                 </div>

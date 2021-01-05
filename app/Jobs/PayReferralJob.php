@@ -6,6 +6,7 @@ use App\Model\PndL;
 use App\Model\ReferralPlans;
 use App\Model\Transaction;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -79,6 +80,7 @@ class PayReferralJob implements ShouldQueue
             $input["type"]="expenses";
             $input["gl"]="Referral Bonus";
             $input["amount"]=$amount;
+            $input['date'] = Carbon::now();
             $input["narration"]="Being referral bonus paid to ".$ruser->user_name. " on ".$input['transid'];
 
             PndL::create($input);

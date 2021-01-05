@@ -445,7 +445,8 @@ class UsersController extends Controller
         $input["f_wallet"]=$user->agent_commision + $amount;
         $input["extra"]='Initiated by ' . Auth::user()->full_name;
 
-        $user->update(["agent_commision"=> $user->agent_commision + $amount]);
+        $user->agent_commision += $amount;
+        $user->save();
         Transaction::create($input);
 
         $input["type"]="expenses";

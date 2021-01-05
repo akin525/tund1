@@ -203,7 +203,7 @@ class TransactionsController extends Controller
             }
 
                 $input["i_wallet"]=$user->wallet;
-                $email=$input["email"];
+                $GLOBALS['email']=$user->email;
                 $input['f_wallet']=$input["i_wallet"]-$p;
                 $input['amount']=$p;
 
