@@ -444,10 +444,10 @@ class UsersController extends Controller
         $input["i_wallet"]=$user->agent_commision;
         $input["f_wallet"]=$user->agent_commision + $amount;
         $input["extra"]='Initiated by ' . Auth::user()->full_name;
-
-        $user->agent_commision += $amount;
-        $user->save();
         Transaction::create($input);
+
+        $user->agent_commision =$input["f_wallet"];
+        $user->save();
 
         $input["type"]="expenses";
         $input["gl"]="Agent Commission";
