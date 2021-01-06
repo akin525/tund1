@@ -68,6 +68,7 @@ class PayReferralJob implements ShouldQueue
             $tr['description'] = "Being referral bonus on " . $tr['description'];
             $tr['code'] = "rc_" . $input['service'] . "_" . $input['coded'];
             $tr['amount'] = $amount;
+            $tr['date'] = Carbon::now();
             $tr['status'] = "successful";
             $tr['user_name'] = $ruser->user_name;
             $tr['i_wallet'] = $ruser->bonus;
