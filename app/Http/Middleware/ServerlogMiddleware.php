@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Model\Luno;
 use App\Model\Serverlog;
 use App\Model\Settings;
 use App\User;
@@ -38,6 +39,10 @@ class ServerlogMiddleware
         $re=Serverlog::where('transid',$input['transid'])->first();
 
         if($re){
+            if($input['payment_method'] =="btc"){
+                $luno=Luno::where('transid', $input['transid'])->first();
+                return response()->json(['success' => 1, 'message' => 'Address retrieved', 'data' => $luno->address]);
+            }
             $input['status']='Duplicate reference';
             $input['transid']=$input['transid'].'_dup';
             Serverlog::create($input);
@@ -73,6 +78,12 @@ class ServerlogMiddleware
             $input['transid']=$input['transid'];
             Serverlog::create($input);
             return response()->json(['success' => 0, 'message' => 'General market balance is low']);
+        }
+
+        if($input['payment_method'] =="btc"){
+            $input['status']='pending';
+            Serverlog::create($input);
+            return $next($request);
         }
 
         if($input['payment_method'] !="wallet"){

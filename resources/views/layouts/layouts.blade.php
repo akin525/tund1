@@ -95,6 +95,7 @@
                         </a>
                         <ul class="list-unstyled">
                             <li><a href="/transaction">Transaction History</a></li>
+                            <li><a href="/cryptorequest">Crypto Request</a></li>
                             <li><a href="/addtransaction">Add Airtime Transaction</a></li>
                             <li><a href="/adddatatransaction">Add Data Transaction</a></li>
                             <li><a href="/airtime2cash">Airtime Converter</a></li>
@@ -130,6 +131,7 @@
                             <li><a href="/users">Users</a></li>
                             <li><a href="/finduser">Search User(s)</a></li>
                             <li><a href="/agentpayment">Agent Payment</a></li>
+                            <li><a href="/loginattempts">Login Attempts</a></li>
                             <li><a href="/agents">Agents</a></li>
                             <li><a href="/resellers">Resellers</a></li>
                             <li><a href="/pending_request">Pending Request</a></li>

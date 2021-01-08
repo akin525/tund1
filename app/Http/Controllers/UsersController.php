@@ -139,6 +139,8 @@ class UsersController extends Controller
         $sms = DB::table('tbl_smslog')->where('user_name', $user)->orderBy('id', 'desc')->get();
         $email = DB::table('tbl_emaillog')->where('user_name', $user)->orderBy('id', 'desc')->get();
         $push = DB::table('tbl_pushnotiflog')->where('user_name', $user)->orderBy('id', 'desc')->get();
+        $login = DB::table('tbl_login_attempt')->where('user_name', $user)->orderBy('id', 'desc')->get();
+        $cypto = DB::table('tbl_luno')->where('user_name', $user)->orderBy('id', 'desc')->get();
 
         $tat = Transaction::where([['user_name', $user], ['name', 'LIKE', '%airtime']])->count();
         $tdt = Transaction::where([['user_name', $user], ['name', 'LIKE', '%data']])->count();
@@ -146,7 +148,7 @@ class UsersController extends Controller
         $tpt = Transaction::where([['user_name', $user], ['name', 'LIKE', '%paytv']])->count();
         $trt = Transaction::where([['user_name', $user], ['name', '=', 'Result Checker']])->count();
 
-        return view('profile', ['user' => $ap, 'tt' => $tt, 'td' => $td, 'tw' => $tw, 'wd' => $wd, 'tpld' => $tpld, 'pld' => $pld, 'referrals' => $referrals, 'version' => $v, 'sms' => $sms, 'email' => $email, 'push'=>$push, 'tat' =>$tat, 'tdt'=>$tdt, 'tpt'=>$tpt, 'tct'=>$tct, 'trt'=>$trt]);
+        return view('profile', ['user' => $ap, 'tt' => $tt, 'td' => $td, 'tw' => $tw, 'wd' => $wd, 'tpld' => $tpld, 'pld' => $pld, 'referrals' => $referrals, 'version' => $v, 'sms' => $sms, 'email' => $email, 'push'=>$push, 'tat' =>$tat, 'tdt'=>$tdt, 'tpt'=>$tpt, 'tct'=>$tct, 'trt'=>$trt, 'login'=>$login, 'crypto'=>$cypto]);
     }
 
     public function approve(Request $request)
@@ -459,4 +461,13 @@ class UsersController extends Controller
 
         return redirect('/agentpayment')->with('success', 'Agent Payment paid successfully to '.$user->user_name.' with the sum of '.$amount);
     }
+
+    public function loginattempt()
+    {
+
+        $login = DB::table('tbl_login_attempt')->orderBy('id', 'desc')->paginate(10);
+
+        return view('login_attempts', ['login' => $login]);
+    }
+
 }

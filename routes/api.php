@@ -40,6 +40,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('freemoney', 'TransactionsController@insertFreemoney')->name('insertFreemoney');
     Route::post('verifytv', 'UltilityController@VerifyTV')->name('verifytv');
 
+    Route::post('receivebtc', 'TransactionsController@btc4rmluno')->name('btc4rmluno');
+
+
     Route::post('paytv', 'ServeRequestController@paytv')->name('paytv')->middleware("server_log");
     Route::post('buyairtime', 'ServeRequestController@buyairtime')->name('buyairtime')->middleware("server_log");
     Route::post('buydata', 'ServeRequestController@buydata')->name('buydata')->middleware("server_log");

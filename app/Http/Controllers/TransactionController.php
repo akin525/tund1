@@ -466,18 +466,25 @@ class TransactionController extends Controller
         return redirect('/airtime2cash')->with('success', 'Transaction successful!');
     }
 
-    public function gmhistory(Request $request){
+    public function gmhistory(){
 
         $wallet = DB::table('tbl_generalmarket')->orderBy('id', 'desc')->paginate(25);
 
         return view('gmhistory', ['data' => $wallet]);
     }
 
-    public function plcharges(Request $request){
+    public function plcharges(){
 
         $wallet = DB::table('tbl_p_nd_l')->orderBy('id', 'desc')->paginate(25);
 
         return view('plcharges', ['data' => $wallet]);
+    }
+
+    public function cryptos(){
+
+        $crypto = DB::table('tbl_luno')->orderBy('id', 'desc')->paginate(25);
+
+        return view('crypto_request', ['crypto' => $crypto]);
     }
 
 }

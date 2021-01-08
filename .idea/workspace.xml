@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/model/Luno.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/crypto_request.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/login_attempts.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/PayReferralJob.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/PayReferralJob.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/TransactionsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/TransactionsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/ServerlogMiddleware.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/ServerlogMiddleware.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -631,6 +641,8 @@
       <workItem from="1607940153731" duration="2116000" />
       <workItem from="1609868938284" duration="7873000" />
       <workItem from="1609924264902" duration="343000" />
+      <workItem from="1609925683206" duration="772000" />
+      <workItem from="1610069708813" duration="10583000" />
     </task>
     <servers />
   </component>
@@ -645,10 +657,6 @@
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="477" y="174" key="#com.intellij.fileTypes.FileTypeChooser/62.0.1304.768@62.0.1304.768" timestamp="1606801582887" />
-    <state x="549" y="132" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1600450801143">
-      <screen x="62" y="0" width="1304" height="768" />
-    </state>
-    <state x="549" y="132" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/62.0.1304.768@62.0.1304.768" timestamp="1600450801143" />
     <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1607003927237">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
@@ -661,14 +669,14 @@
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="494" y="139" key="FileChooserDialogImpl/62.0.1304.768@62.0.1304.768" timestamp="1601471448830" />
+    <state x="324" y="73" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1610069933950">
+      <screen x="62" y="0" width="1304" height="768" />
+    </state>
+    <state x="324" y="73" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/62.0.1304.768@62.0.1304.768" timestamp="1610069933950" />
     <state x="422" y="101" width="583" height="624" key="find.popup" timestamp="1607005443366">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="422" y="101" width="583" height="624" key="find.popup/62.0.1304.768@62.0.1304.768" timestamp="1607005443366" />
-    <state x="377" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1600083327898">
-      <screen x="62" y="0" width="1304" height="768" />
-    </state>
-    <state x="377" y="89" width="672" height="678" key="search.everywhere.popup/62.0.1304.768@62.0.1304.768" timestamp="1600083327898" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

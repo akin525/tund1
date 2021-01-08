@@ -40,11 +40,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/resellers', 'UsersController@resellers')->name('agents');
     Route::get('/gmblocked', 'UsersController@gmblocked')->name('gmblocked');
     Route::get('/dormantusers', 'UsersController@dormant')->name('dormant');
+    Route::get('/loginattempts', 'UsersController@loginattempt')->name('loginattempt');
     Route::get('/pending_request', 'UsersController@pending')->name('pendingrequest');
     Route::post('/request_approve', 'UsersController@approve')->name('user approval');
     Route::get('/profile/{id}', 'UsersController@profile')->name('profile');
     Route::get('/wallet', 'WalletController@index')->name('wallet');
     Route::get('/transaction', 'TransactionController@index')->name('transaction');
+    Route::get('/cryptorequest', 'TransactionController@cryptos')->name('cryptos');
     Route::get('/generalmarket', 'TransactionController@gmhistory')->name('generalmarket');
     Route::get('/plcharges', 'TransactionController@plcharges')->name('plcharges');
     Route::post('/rechargecard', 'TransactionController@rechargecard')->name('rechargecard');

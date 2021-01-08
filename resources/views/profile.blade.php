@@ -53,19 +53,8 @@
                                     <li class="mt-2"><i class="dripicons-wallet text-info font-18 mt-2 mr-2"></i> <b>Providus Account</b> : {{$user->account_number}}</li>
                                     <li class="mt-2"><i class="dripicons-device-mobile text-info font-18 mt-2 mr-2"></i> <b>Installed Version</b> : v{{$version[0]->version ?? "-"}}</li>
                                     <li class="mt-2"><i class="dripicons-brush text-info font-18 mt-2 mr-2"></i> <b>Referral Plan</b> : {{$user->referral_plan}}</li>
+                                    <li class="mt-2"><i class="dripicons-brush text-info font-18 mt-2 mr-2"></i> <b>Level</b> : {{$user->level}}</li>
                                 </ul>
-                                <div class="button-list btn-social-icon">
-                                    <i class="dripicons-reply-all text-info font-18 mt-2 mr-2"></i> <b>Referrals</b> :
-
-                                    @foreach($referrals as $referral)
-                                        @if($referral->photo!=null)
-                                            <a href="{{$referral->user_name}}" class="btn btn-pink btn-circle ml-2"><img alt="image" class="img-circle" src="https://mcd.5starcompany.com.ng/app/avatar/{{$referral->user_name }}.JPG"></a>
-                                        @else
-                                            <a href="{{$referral->user_name}}" class="btn btn-pink btn-circle ml-2">{{$referral->user_name}}</a>
-                                        @endif
-
-                                    @endforeach
-                                </div>
                             </div>
                             <!--end col-->
                         </div>
@@ -83,6 +72,8 @@
                         <li class="nav-item"><a class="nav-link" id="email_tab" data-toggle="pill" href="#email_detail">Email</a></li>
                         <li class="nav-item"><a class="nav-link" id="sms_tab" data-toggle="pill" href="#sms_detail">SMS</a></li>
                         <li class="nav-item"><a class="nav-link" id="pushnoti_tab" data-toggle="pill" href="#pushnoti_detail">Push Notification</a></li>
+                        <li class="nav-item"><a class="nav-link" id="login_tab" data-toggle="pill" href="#login_detail">Login Attempts</a></li>
+                        <li class="nav-item"><a class="nav-link" id="crypto_tab" data-toggle="pill" href="#crypto_detail">Crypto Request</a></li>
                     </ul>
                 </div>
                 <!--end card-body-->
@@ -116,6 +107,17 @@
                                         <div>
                                             <h4 class="mb-1 font-weight-semibold text-white">&#8358;{{$user->bonus}}</h4>
                                             <p class="text-white mb-0">Bonus Balance</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between bg-purple p-3 mt-3 rounded">
+                                        <div>
+                                            <h4 class="mb-1 font-weight-semibold text-white">&#8358;{{number_format($user->agent_commision)}}</h4>
+                                            <p class="text-white mb-0">Agent Comm</p>
+                                        </div>
+                                        <div>
+                                            <h4 class="mb-1 font-weight-semibold text-white">{{$user->points}}</h4>
+                                            <p class="text-white mb-0">Mega Points</p>
                                         </div>
                                     </div>
                                 </div>
@@ -257,6 +259,22 @@
                                     <!--end card-->
                                 </div>
                                 <!--end col-->
+                            </div>
+
+                            <div class="button-list btn-social-icon">
+                               <b>Referrals</b> :
+
+                                @foreach($referrals as $referral)
+                                    @if($referral->photo!=null)
+                                        <a href="{{$referral->user_name}}" class="btn btn-pink btn-circle ml-2">
+                                            <img alt="image" class="card-img img" src="https://mcd.5starcompany.com.ng/app/avatar/samji.JPG">
+                                            {{$referral->user_name}}
+                                        </a>
+                                    @else
+                                        <a href="{{$referral->user_name}}" class="btn btn-pink btn-circle ml-2">{{$referral->user_name}}</a>
+                                    @endif
+
+                                @endforeach
                             </div>
                             <!--end card-->
                         </div>
@@ -625,7 +643,95 @@
                     </div>
                     <!-- end row -->
                 </div>
-                <!--end email detail-->
+                <!--end push detail-->
+
+
+                <div class="tab-pane fade" id="login_detail">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    {{--                    <h4 class="mt-0 header-title">General Market History</h4>--}}
+                                    {{--                    <p class="text-muted mb-4 font-13">Use <code>pencil icon</code> to view user profile.</p>--}}
+                                    <div class="table-responsive">
+                                        <table class="table table-striped mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th>IP Address</th>
+                                                <th>Device</th>
+                                                <th>Status</th>
+                                                <th>Provider</th>
+                                                <th>Date</th>
+                                                <th>City</th>
+                                                <th>Region</th>
+                                                <th>Country</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($login as $logins)
+                                                <tr>
+                                                    <td> {{$logins->ip_address}} </td>
+                                                    <td>{{$logins->device}}</td>
+                                                    <td>{{$logins->status}}</td>
+                                                    <td>{{$logins->provider}}</td>
+                                                    <td>{{$logins->created_at}}</td>
+                                                    <td>{{$logins->city}}</td>
+                                                    <td>{{$logins->region}}</td>
+                                                    <td>{{$logins->country}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+                </div>
+                <!--end login detail-->
+
+
+                <div class="tab-pane fade" id="crypto_detail">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    {{--                    <h4 class="mt-0 header-title">General Market History</h4>--}}
+                                    {{--                    <p class="text-muted mb-4 font-13">Use <code>pencil icon</code> to view user profile.</p>--}}
+                                    <div class="table-responsive">
+                                        <table class="table table-striped mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th>Transaction ID</th>
+                                                <th>Crypto</th>
+                                                <th>Address</th>
+                                                <th>Fee</th>
+                                                <th>Date</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($crypto as $cryptos)
+                                                <tr>
+                                                    <td>{{$cryptos->transid}} </td>
+                                                    <td>BTC</td>
+                                                    <td>{{$cryptos->address}}</td>
+                                                    <td>{{$cryptos->receive_fee}}</td>
+                                                    <td>{{$cryptos->created_at}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+                </div>
+                <!--end login detail-->
 
 
             </div>
