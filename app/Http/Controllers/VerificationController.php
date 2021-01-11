@@ -167,12 +167,12 @@ class VerificationController extends Controller
         // Convert JSON string to Array
         $res = json_decode($response, true);
 
-        if($res["status"]=="error"){
+        if($res["status"] === "error"){
             $status="Error";
             $d="Invalid reference number";
         }else{
             $status=$res["data"]["status"];
-            if(array_key_exists($res['data']['request_payload']['smartcard'])){
+            if(isset($res['data']['request_payload']['smartcard'])){
                 $d=$res['data']['_service_category']['name'] ." " .$res['data']['request_payload']['bundleCode']." " .$res['data']['request_payload']['smartcard']."-" .$res['data']['request_payload']['name'];
             }else{
                 $d=$res['data']['_service_category']['name'] ." " .$res['data']['request_payload']['amount']." " .$res['data']['request_payload']['phonenumber'];
@@ -180,6 +180,6 @@ class VerificationController extends Controller
 
         }
 
-        return view('verification_s1dt', ['status' => $status, 'description' => $d, 'response'=>true]);
+        return view('verification_s4', ['status' => $status, 'description' => $d, 'response'=>true]);
     }
 }

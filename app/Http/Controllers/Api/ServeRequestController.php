@@ -8,6 +8,7 @@ use App\Jobs\ATMtransactionserveJob;
 use App\Jobs\ServeRequestJob;
 use App\Mail\TransactionNotificationMail;
 use App\Model\GeneralMarket;
+use App\model\PndL;
 use App\Model\Settings;
 use App\Model\SystemSettings;
 use App\Model\Transaction;
@@ -916,6 +917,14 @@ class ServeRequestController extends Controller
             GeneralMarket::create($tr);
             $set->value-=$price;
             $set->save();
+
+            $input["type"]="expenses";
+            $input["gl"]="General Market";
+            $input["amount"]=$price;
+            $input['date'] = Carbon::now();
+            $input["narration"]="Being general market used by ".$input['user_name']. " on ".$input['transid'];
+
+            PndL::create($input);
         }
 
         if($input['payment_method'] =="wallet") {
