@@ -79,6 +79,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/agentpayment', 'UsersController@agent_payment')->name('agent.payment');
     Route::get('/airtime2cash', 'TransactionController@airtime2cash')->name('transaction.airtime2cash');
     Route::post('/airtime2cash', 'TransactionController@airtime2cashpayment')->name('transaction.airtime2cash.payment');
+    Route::view('/verification_server4', 'verification_s4');
     Route::view('/verification_server3', 'verification_s3');
     Route::view('/verification_server2', 'verification_s2');
     Route::view('/verification_server1b', 'verification_s1b');
