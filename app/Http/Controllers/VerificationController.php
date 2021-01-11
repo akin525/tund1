@@ -114,4 +114,72 @@ class VerificationController extends Controller
 
         return view('verification_s1dt', ['status' => $status, 'description' => $d, 'response'=>true]);
     }
+
+    public function server4(Request $request){
+        $input = $request->all();
+        $ref=$input['ref'];
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env("SERVER4")."/users/account/authenticate",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => env("SERVER4_AUTH"),
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Content-Type: text/plain"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $response = json_decode($response, true);
+        $token = $response['token'];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.myflex.ng/transactions/'.$ref,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: ' . $token,
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        // Convert JSON string to Array
+        $res = json_decode($response, true);
+
+        if($res["status"]=="error"){
+            $status="Error";
+            $d="Invalid reference number";
+        }else{
+            $status=$res["data"]["status"];
+            if(array_key_exists($res['data']['request_payload']['smartcard'])){
+                $d=$res['data']['_service_category']['name'] ." " .$res['data']['request_payload']['bundleCode']." " .$res['data']['request_payload']['smartcard']."-" .$res['data']['request_payload']['name'];
+            }else{
+                $d=$res['data']['_service_category']['name'] ." " .$res['data']['request_payload']['amount']." " .$res['data']['request_payload']['phonenumber'];
+            }
+
+        }
+
+        return view('verification_s1dt', ['status' => $status, 'description' => $d, 'response'=>true]);
+    }
 }

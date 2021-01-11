@@ -153,6 +153,7 @@
                             <li><a href="/verification_server1dt">Server 1 Data</a></li>
                             <li><a href="/verification_server2">Server 2</a></li>
                             <li><a href="/verification_server3">Server 3</a></li>
+                            <li><a href="/verification_server4">Server 4</a></li>
                         </ul>
 {{--                    </li>--}}
 {{--                    <li class="menu-title">Extra</li>--}}

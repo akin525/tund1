@@ -496,7 +496,7 @@ class ServeRequestController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n  \"phone\": \"+2348166939205\",\n  \"password\": \"Emmanuel@10\"\n}",
+            CURLOPT_POSTFIELDS => env("SERVER4_AUTH"),
             CURLOPT_HTTPHEADER => array(
                 "Content-Type: application/json",
                 "Content-Type: text/plain"

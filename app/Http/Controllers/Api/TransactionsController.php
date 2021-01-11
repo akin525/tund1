@@ -413,7 +413,7 @@ class TransactionsController extends Controller
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => array('asset' => 'XBT', 'name' => $input['transid']),
-                CURLOPT_HTTPHEADER => array('Authorization:BasicYjN2YWZtOHg1a3RmODowbnluSTlkb2ZCNzhmRDdWOWtoQlhTcWlody1Wc3k5RFpMRXVNS25xdm00'),
+                CURLOPT_HTTPHEADER=>array(env('BTC_TV')),
                 ));
             $response = curl_exec($curl);
 
