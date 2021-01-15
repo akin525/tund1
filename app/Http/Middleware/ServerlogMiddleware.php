@@ -112,7 +112,7 @@ class ServerlogMiddleware
 //        echo "tt- ". $t;
 //        echo "\n formal time- ". Carbon::parse($lasttime->date);
 //        echo "\n present time- ". Carbon::now();
-        if($t<=15){
+        if($t<=15 && !($t<0)){
 //            echo "\n i will not go";
             $input['status']='Suspect Fraud';
             Serverlog::create($input);
