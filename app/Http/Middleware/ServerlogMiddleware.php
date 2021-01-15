@@ -107,7 +107,8 @@ class ServerlogMiddleware
         }
 
         $lasttime=Serverlog::where('user_name', $input['user_name'])->orderBy('id', 'desc')->first();
-        if(Carbon::now()->diffInMinutes(Carbon::parse($lasttime->date),  false)>0){
+
+        if(Carbon::parse($lasttime->date)->diffInSeconds(Carbon::now(),  false)<=30){
             $input['status']='Suspect Fraud';
             Serverlog::create($input);
             $user=User::where('user_name', $input['user_name'])->first();
