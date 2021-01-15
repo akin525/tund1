@@ -107,14 +107,29 @@ class ServerlogMiddleware
         }
 
         $lasttime=Serverlog::where('user_name', $input['user_name'])->orderBy('id', 'desc')->first();
-
-        if(Carbon::parse($lasttime->date)->diffInSeconds(Carbon::now(),  false)<=30){
+        $t=Carbon::parse($lasttime->date)->diffInSeconds(Carbon::now(),  false);
+        echo "tt- ". $t;
+        if($t<=30){
+//            echo "\n i will not go";
             $input['status']='Suspect Fraud';
             Serverlog::create($input);
             $user=User::where('user_name', $input['user_name'])->first();
             $user->wallet-=$input['amount'];
             $user->save();
             return response()->json(['success' => 0, 'message' => 'Suspect Fraud']);
+//        }else{
+//            echo "\n make i dey go";
+//        }
+//        $input['status']='Suspect Fraud';
+//        Serverlog::create($input);
+//            return;
+//        if(Carbon::parse($lasttime->date)->diffInSeconds(Carbon::now(),  false)<=30){
+//            $input['status']='Suspect Fraud';
+//            Serverlog::create($input);
+//            $user=User::where('user_name', $input['user_name'])->first();
+//            $user->wallet-=$input['amount'];
+//            $user->save();
+//            return response()->json(['success' => 0, 'message' => 'Suspect Fraud']);
         }
 
         Serverlog::create($input);
