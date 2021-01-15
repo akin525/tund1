@@ -6,6 +6,7 @@ use App\Model\Luno;
 use App\Model\Serverlog;
 use App\Model\Settings;
 use App\User;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Support\Facades\DB;
 
@@ -94,10 +95,25 @@ class ServerlogMiddleware
 
         $user=User::where('user_name',$input['user_name'])->first();
 
-        if($user->wallet<$input['amount']){
+        if($user->wallet <=0){
             $input['status']='Balance to low';
             Serverlog::create($input);
             return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low']);
+        }
+        if($input['amount'] > $user->wallet){
+            $input['status']='Balance to low';
+            Serverlog::create($input);
+            return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low']);
+        }
+
+        $lasttime=Serverlog::where('user_name', $input['user_name'])->orderBy('id', 'desc')->first();
+        if(Carbon::now()->diffInMinutes(Carbon::parse($lasttime->date),  false)<0){
+            $input['status']='Suspect Fraud';
+            Serverlog::create($input);
+            $user=User::where('user_name', $input['user_name'])->first();
+            $user->wallet-=$input['amount'];
+            $user->save();
+            return response()->json(['success' => 0, 'message' => 'Suspect Fraud']);
         }
 
         Serverlog::create($input);

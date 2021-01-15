@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/VerificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/VerificationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/verification_s4.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/verification_s4.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/ServerlogMiddleware.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/ServerlogMiddleware.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -634,7 +633,8 @@
       <workItem from="1609924264902" duration="343000" />
       <workItem from="1609925683206" duration="772000" />
       <workItem from="1610069708813" duration="11415000" />
-      <workItem from="1610317481710" duration="11554000" />
+      <workItem from="1610317481710" duration="11964000" />
+      <workItem from="1610693220780" duration="263000" />
     </task>
     <servers />
   </component>
@@ -649,18 +649,14 @@
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="477" y="174" key="#com.intellij.fileTypes.FileTypeChooser/62.0.1304.768@62.0.1304.768" timestamp="1606801582887" />
-    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1607003927237">
+    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1610331914103">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
-    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1607003927237" />
+    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1610331914103" />
     <state x="154" y="92" width="1120" height="584" key="DiffContextDialog" timestamp="1601873987614">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
     <state x="154" y="92" width="1120" height="584" key="DiffContextDialog/62.0.1304.768@62.0.1304.768" timestamp="1601873987614" />
-    <state x="494" y="139" key="FileChooserDialogImpl" timestamp="1601471448830">
-      <screen x="62" y="0" width="1304" height="768" />
-    </state>
-    <state x="494" y="139" key="FileChooserDialogImpl/62.0.1304.768@62.0.1304.768" timestamp="1601471448830" />
     <state x="324" y="73" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1610069933950">
       <screen x="62" y="0" width="1304" height="768" />
     </state>
@@ -685,7 +681,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/app/Http/Controllers/Api/ServeRequestController.php</url>
-          <line>21</line>
+          <line>22</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
