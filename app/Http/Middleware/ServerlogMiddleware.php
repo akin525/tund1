@@ -23,6 +23,7 @@ class ServerlogMiddleware
     {
         $input=$request->all();
         $input['ip_address']=$_SERVER['REMOTE_ADDR'];
+        $input['date']=Carbon::now();
 
         if ($input['api'] != "mcd_app_9876234875356148750") {
             $input['status']='Unauthorized Access';
