@@ -558,7 +558,7 @@ class ServeRequestController extends Controller
         $status = $response['status'];
 
         if($status == "success"){
-            $this->addtrans("server4",$respons,$amount,1,$transid,$input);
+            $this->addtrans("server4",$respons,$amount,1,$response['transaction']['_id'],$input);
         }else {
             $this->addtrans("server4",$respons,$amount,0,$transid,$input);
         }
