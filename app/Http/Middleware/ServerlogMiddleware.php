@@ -108,7 +108,7 @@ class ServerlogMiddleware
 
         $lasttime=Serverlog::where('user_name', $input['user_name'])->orderBy('id', 'desc')->first();
         $t=Carbon::parse($lasttime->date)->diffInSeconds(Carbon::now(),  false);
-        echo "tt- ". $t;
+//        echo "tt- ". $t;
         if($t<=5){
 //            echo "\n i will not go";
             $input['status']='Suspect Fraud';
