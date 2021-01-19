@@ -62,7 +62,7 @@ class ServeRequestJob implements ShouldQueue
             if($input['payment_method']=="wallet" ) {
                 $input["type"] = "income";
                 $input["gl"] = "Data";
-                $input["amount"] = 20;
+                $input["amount"] = 10;
                 $input["narration"] = "Being wallet data charges on " . $input['transid'];
                 $input["date"] = Carbon::now();
 
@@ -70,7 +70,7 @@ class ServeRequestJob implements ShouldQueue
             }else{
                 $input["type"] = "income";
                 $input["gl"] = "Data";
-                $input["amount"] = 50;
+                $input["amount"] = 40;
                 $input["narration"] = "Being atm data charges on " . $input['transid'];
                 $input["date"] = Carbon::now();
 

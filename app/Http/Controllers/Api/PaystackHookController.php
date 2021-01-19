@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\model\PndL;
 use App\Model\Serverlog;
 use App\Model\Settings;
 use App\Model\Wallet;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -32,6 +34,7 @@ class PaystackHookController extends Controller
         $status=$input['data']['status'];
         $reference=$input['data']['reference'];
         $amount=$input['data']['amount']/100;
+        $fees=$input['data']['fees']/100;
 
         if($domain!="live"){
             return "demo env";
@@ -59,9 +62,29 @@ class PaystackHookController extends Controller
                 $fun->save();
 
                 $at=new ATMmanagerController();
-                $at->atmfundwallet($fun, $amount, $reference, "Paystack", $input['data']['fees']/100);
+                $at->atmfundwallet($fun, $amount, $reference, "Paystack", $fees);
             }
         }
+
+        $findme   = 'mcd_agent';
+        $pos = strpos($reference, $findme);
+        // Note our use of ===.  Simply == would not work as expected
+        if (!$pos === false) {
+            $p=PndL::where('narration',$reference)->first();
+            if (!$p){
+                $input["type"]="income";
+                $input["gl"]="Agent Registration";
+                $input["amount"]=$amount;
+                $input["date"]=Carbon::now();
+                $input["narration"]=$reference;
+                PndL::create($input);
+
+                $input["type"]="expenses";
+                $input["amount"]=$fees;
+                PndL::create($input);
+            }
+        }
+
 
         return "success";
     }

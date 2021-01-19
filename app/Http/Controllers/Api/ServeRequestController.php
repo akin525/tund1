@@ -172,7 +172,7 @@ class ServeRequestController extends Controller
                     $tv_package = "GOtvMax";
                     $bundle_code = "GOTVMAX";
                     $link = "gotv";
-                    $amount = "3280";
+                    $amount = "3600";
                     $tv_type_code = "02";
                     $tv_package_code = "04";
                     $service_id = "15";
@@ -677,7 +677,7 @@ class ServeRequestController extends Controller
 
     public function airtimeProcess3($amnt, $network, $phone, $transid, $input)
     {
-        $url=env("SERVER3") ."&network=" . $network . "&number=" . $phone . "&amount=" . $amnt;
+        $url=env("SERVER3") ."&network=" . $network . "&number=" . $phone . "&amount=" . $amnt."&transaction_id=".$transid;
 //        $url = env("SERVER3")."&network=" . $network . "&number=" . $phone . "&amount=" . $amnt."&ref=".$transid;
         $result = file_get_contents($url);
 
@@ -787,7 +787,7 @@ class ServeRequestController extends Controller
 
     function dataProcess3($price, $productcode, $phone, $transid, $input, $network){
 
-        $url=env("SERVER3_DATA") ."&number=".$phone."&plan=".$productcode;
+        $url=env("SERVER3_DATA") ."&number=".$phone."&plan=".$productcode."&transaction_id=".$transid;
 //        $url=env("SERVER3_DATA") ."&network=".$network."&number=".$phone."&amount=".$price."&ref=".$transid."&return_url=http://minitechs.com.ng/buydata.php";
         $result = file_get_contents($url);
 
