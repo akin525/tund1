@@ -108,6 +108,8 @@ class ServerlogMiddleware
         }
 
         $lasttime=Serverlog::where('user_name', $input['user_name'])->orderBy('id', 'desc')->first();
+        
+        if($lasttime){
         $t=Carbon::parse($lasttime->date)->diffInSeconds(Carbon::now(),  false);
 //        echo "tt- ". $t;
 //        echo "\n formal time- ". Carbon::parse($lasttime->date);
@@ -133,6 +135,7 @@ class ServerlogMiddleware
 //            $user->wallet-=$input['amount'];
 //            $user->save();
 //            return response()->json(['success' => 0, 'message' => 'Suspect Fraud']);
+        }
         }
 
         Serverlog::create($input);
