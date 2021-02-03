@@ -798,7 +798,7 @@ class ServeRequestController extends Controller
 
         if ($status  == "success") {
             $ref=$someArray["ref"]; // Access Array data
-            $this->addtrans("server3",$result,$price,1,$ref,$input);
+            $this->addtrans("server3",$result,$price,1,$transid,$input);
         }else {
 //            $this->addtrans("server3",$result,$price,0,$transid,$input);
             $this->dataProcess($price, $productcode, $network, $phone,$transid, $input);
