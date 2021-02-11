@@ -79,6 +79,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/agentpayment', 'UsersController@agent_payment')->name('agent.payment');
     Route::get('/airtime2cash', 'TransactionController@airtime2cash')->name('transaction.airtime2cash');
     Route::post('/airtime2cash', 'TransactionController@airtime2cashpayment')->name('transaction.airtime2cash.payment');
+    Route::view('/verification_server5', 'verification_s5');
     Route::view('/verification_server4', 'verification_s4');
     Route::view('/verification_server3', 'verification_s3');
     Route::view('/verification_server2', 'verification_s2');
@@ -91,6 +92,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/verification_server1', 'VerificationController@server1')->name('verification_server1');
     Route::post('/verification_server1dt', 'VerificationController@server1dt')->name('verification_server1dt');
     Route::post('/verification_server4', 'VerificationController@server4')->name('verification_server4');
+    Route::post('/verification_server5', 'VerificationController@server5')->name('verification_server5');
 
     Route::get('/report_pnl', 'ReportsController@pnl')->name('report_pnl');
 });

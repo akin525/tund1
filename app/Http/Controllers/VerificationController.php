@@ -182,4 +182,45 @@ class VerificationController extends Controller
 
         return view('verification_s4', ['status' => $status, 'description' => $d, 'response'=>true]);
     }
+
+    public function server5(Request $request){
+        $input = $request->all();
+        $ref=$input['ref'];
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env("SERVER5").'/'.$ref,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: ' . env('RAVE_SECRET_KEY'),
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        // Convert JSON string to Array
+        $res = json_decode($response, true);
+
+        if($res["status"] !== "success"){
+            $status="Error";
+            $d="Invalid reference number";
+        }else{
+            $status=$res["status"];
+            $d=$res['data']['product_name'] ." " .$res['data']['product']." " .$res['data']['customer_id']."-" .$res['data']['amount'];
+
+        }
+
+        return view('verification_s5', ['status' => $status, 'description' => $d, 'response'=>true]);
+    }
 }

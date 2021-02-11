@@ -452,12 +452,14 @@ class ServeRequestController extends Controller
                 return response()->json(['status'=> 0, 'message'=>'Invalid Network. Available are m for MTN, 9 for 9MOBILE, g for GLO, a for AIRTEL.']);
         }
 
+        $airtimesell=new AirtimeSellController();
+
             if(!is_numeric($amnt)){
                 // required field is missing
                 // echoing JSON response
                 return response()->json(['status'=> 0, 'message'=>'Invalid amount, retry with valid amount.']);
             }elseif($amnt < 100) {
-                $this->airtimeProcess4($amnt, $service_id, $phone, $input);
+                $airtimesell->server5($amnt, $phone,$transid, $input);
             }else{
 
                 if($server=='1'){
@@ -470,6 +472,8 @@ class ServeRequestController extends Controller
                     $this->airtimeProcess3($amnt, $network, $phone,$transid, $input);
                 }elseif ($server=='4'){
                     $this->airtimeProcess4($amnt, $service_id, $phone, $input);
+                }elseif ($server=='5'){
+                    $airtimesell->server5($amnt, $phone,$transid, $input);
                 }else{
                     $this->Process0($coded,$amnt,$network,$phone,$transid,$input);
                 }
@@ -688,9 +692,9 @@ class ServeRequestController extends Controller
         $ref=$someArray["ref"]; // Access Array data
 
         if ($status == "success") {
-            $this->addtrans("server3",$result,$amnt,1,$ref,$input);
+            $this->addtrans("server3",$result,$amnt,1,$transid,$input);
         } else {
-            $this->addtrans("server3",$result,$amnt,0,$ref,$input);
+            $this->addtrans("server3",$result,$amnt,0,$transid,$input);
         }
     }
 
