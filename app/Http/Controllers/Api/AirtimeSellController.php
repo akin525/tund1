@@ -42,7 +42,7 @@ class AirtimeSellController extends Controller
 
         curl_close($curl);
 
-        $rep=json_decode($response);
+        $rep=json_decode($response, true);
 
         $tran=new ServeRequestController();
 
