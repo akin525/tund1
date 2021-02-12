@@ -56,4 +56,5 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('hook/korapay', 'KorapayHookController@index')->name('Korapayhook');
     Route::post('hook/rave', 'RaveHookController@index')->name('Ravehook');
     Route::get('ra/{id}', 'UltilityController@monnifyRA')->name('monnifyRA');
+    Route::get('fra/{id}', 'UltilityController@fetchmonnifyRA')->name('fetchmonnifyRA');
 });

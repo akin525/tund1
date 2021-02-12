@@ -221,6 +221,91 @@ class UltilityController extends Controller
         }
     }
 
+    public function fetchmonnifyRA($id){
+
+        $last=$id+1000;
+
+        for ($i=$id; $i<=$last; $i++){
+            echo "<br />";
+            echo $i . "-";
+
+            $u = User::find($i);
+
+            if (!$u) {
+                echo "invalid account";
+                continue;
+            }
+
+            if ($u->account_number != '0') {
+                echo "Account created already";
+                continue;
+            }
+
+            try {
+
+                $curl = curl_init();
+
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => env("MONNIFY_URL") . "/auth/login",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "POST",
+                    CURLOPT_HTTPHEADER => array(
+                        "Authorization: Basic " . env("MONNIFY_AUTH")
+                    ),
+                ));
+
+                $response = curl_exec($curl);
+                $respons = $response;
+
+                curl_close($curl);
+
+                $response = json_decode($response, true);
+                $token = $response['responseBody']['accessToken'];
+
+                $curl = curl_init();
+
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => env("MONNIFY_URL") . "/bank-transfer/reserved-accounts/".$u->user_name,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "GET",
+                    CURLOPT_HTTPHEADER => array(
+                        "Content-Type: application/json",
+                        "Authorization: Bearer " . $token
+                    ),
+                ));
+
+                $response = curl_exec($curl);
+
+                curl_close($curl);
+
+                $response = json_decode($response, true);
+
+                $account_number = $response['responseBody']['accountNumber'];
+
+                $u->account_number = $account_number;
+                $u->save();
+
+                echo $account_number . "|| ";
+            }catch (\Exception $e){
+                echo "Error encountered ";
+                continue;
+            }
+
+        }
+        return "success";
+
+    }
+
     public function monnifyRA($id){
 
         $last=$id+1000;
