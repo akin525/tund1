@@ -7,11 +7,11 @@ use App\Http\Controllers\PushNotificationController;
 use App\Jobs\ATMtransactionserveJob;
 use App\Jobs\ServeRequestJob;
 use App\Mail\TransactionNotificationMail;
-use App\Model\GeneralMarket;
-use App\model\PndL;
-use App\Model\Settings;
-use App\Model\SystemSettings;
-use App\Model\Transaction;
+use App\Models\GeneralMarket;
+use App\Models\PndL;
+use App\Models\Settings;
+use App\Models\SystemSettings;
+use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -324,7 +324,7 @@ class ServeRequestController extends Controller
             $dbc=DB::table("tbl_serverconfig_data")->where('coded', $coded)->first();
 
             if (!$dbc) {
-                return response()->json(['status' => 0, 'message' => 'Error, invalid request check and try again']);
+                return response()->json(['status' => 0, 'message' => 'Error, invalid coded check and try again']);
             }
 
             if($dbc->server==0){
@@ -332,7 +332,12 @@ class ServeRequestController extends Controller
             }
 
             if($dbc->server==1){
-                $this->dataProcess($dbc->price, $dbc->product_code, $dbc->network, $phone,$transid, $input);
+                if($dbc->network=="SMILE"){
+                    $do=new DataTransactionController();
+                    $do->buysmile($dbc->price, $dbc->product_code, $dbc->network, $phone,$transid, $input);
+                }else{
+                    $this->dataProcess($dbc->price, $dbc->product_code, $dbc->network, $phone,$transid, $input);
+                }
             }
 
             if($dbc->server==2){

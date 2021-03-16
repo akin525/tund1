@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\PndL;
+use App\Models\PndL;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 

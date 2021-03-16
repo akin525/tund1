@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Model\Luno;
-use App\Model\Serverlog;
-use App\Model\Settings;
+use App\Models\Luno;
+use App\Models\Serverlog;
+use App\Models\Settings;
 use App\User;
 use Carbon\Carbon;
 use Closure;
@@ -108,7 +108,7 @@ class ServerlogMiddleware
         }
 
         $lasttime=Serverlog::where('user_name', $input['user_name'])->orderBy('id', 'desc')->first();
-        
+
         if($lasttime){
         $t=Carbon::parse($lasttime->date)->diffInSeconds(Carbon::now(),  false);
 //        echo "tt- ". $t;

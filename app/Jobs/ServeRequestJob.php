@@ -3,8 +3,8 @@
 namespace App\Jobs;
 
 use App\Mail\TransactionNotificationMail;
-use App\Model\PndL;
-use App\model\Transaction;
+use App\Models\PndL;
+use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;

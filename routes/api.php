@@ -39,6 +39,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('fundwallet', 'TransactionsController@fundWallet')->name('fundWallet');
     Route::post('freemoney', 'TransactionsController@insertFreemoney')->name('insertFreemoney');
     Route::post('verifytv', 'UltilityController@VerifyTV')->name('verifytv');
+    Route::post('verifysmile', 'DataTransactionController@verifysmile')->name('verifysmile');
+
+    Route::post('withdraw', 'UltilityController@withdraw')->name('verifysmile');
 
     Route::post('receivebtc', 'TransactionsController@btc4rmluno')->name('btc4rmluno');
 

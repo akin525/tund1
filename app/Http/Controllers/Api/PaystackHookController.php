@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\model\PndL;
-use App\Model\Serverlog;
-use App\Model\Settings;
-use App\Model\Wallet;
+use App\Models\PndL;
+use App\Models\Serverlog;
+use App\Models\Settings;
+use App\Models\Wallet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
