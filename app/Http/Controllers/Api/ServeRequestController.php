@@ -877,9 +877,9 @@ class ServeRequestController extends Controller
                 $tr['status'] = 'delivered';
 
                 if($input['service']=="airtime"){
-                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
+                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime on ".$input['phone'] ." using ".$input['payment_method'];
                 }else{
-                    $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
+                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['service']." ".$input['coded']." on ".$input['phone'] ." using ".$input['payment_method'];
                 }
                 if($input['payment_method'] =="wallet") {
                     if($input['service']=="data") {
@@ -905,9 +905,9 @@ class ServeRequestController extends Controller
 
             if($status==0){
                 if($input['service']=="airtime"){
-                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime and failed to delivered on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
+                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime and failed to delivered on ".$input['phone'] ." using ".$input['payment_method'];
                 }else{
-                    $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." and failed to delivered on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
+                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['service']." ".$input['coded']." and failed to delivered on ".$input['phone'] ." using ".$input['payment_method'];
                 }
 
                 $tr['f_wallet']=$user->wallet;

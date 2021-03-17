@@ -69,7 +69,7 @@ class PaystackHookController extends Controller
         $findme   = 'mcd_agent';
         $pos = strpos($reference, $findme);
         // Note our use of ===.  Simply == would not work as expected
-        if (!$pos === false) {
+        if ($pos !== false) {
             $p=PndL::where('narration',$reference)->first();
             if (!$p){
                 $input["type"]="income";
