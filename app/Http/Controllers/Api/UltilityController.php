@@ -228,7 +228,7 @@ class UltilityController extends Controller
 
         Withdraw::create($input);
 
-        return response()->json(['status'=> 1, 'message'=>'Withdrawal logged successfully']);
+        return response()->json(['success'=> 1, 'message'=>'Withdrawal logged successfully']);
 
     }
 
