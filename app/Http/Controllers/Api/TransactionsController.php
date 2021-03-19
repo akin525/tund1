@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
-use App\Model\GeneralMarket;
-use App\Model\Luno;
-use App\Model\Settings;
-use App\Model\Transaction;
-use App\Model\Wallet;
+use App\Models\GeneralMarket;
+use App\Models\Luno;
+use App\Models\Settings;
+use App\Models\Transaction;
+use App\Models\Wallet;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

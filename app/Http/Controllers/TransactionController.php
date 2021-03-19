@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Airtime2Cash;
-use App\Model\PndL;
-use App\Model\Transaction;
+use App\Models\Airtime2Cash;
+use App\Models\PndL;
+use App\Models\Transaction;
 use App\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;

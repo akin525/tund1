@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Http\Controllers\Api\ServeRequestController;
 use App\Http\Controllers\PushNotificationController;
-use App\Model\Serverlog;
+use App\Models\Serverlog;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\MCDAIServeTransJob;
-use App\Model\Serverlog;
-use App\model\Transaction;
-use App\Model\Wallet;
+use App\Models\Serverlog;
+use App\Models\Transaction;
+use App\Models\Wallet;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

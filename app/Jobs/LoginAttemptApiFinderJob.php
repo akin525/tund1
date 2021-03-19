@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Model\LoginAttempt;
+use App\Models\LoginAttempt;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

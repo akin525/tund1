@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Model\Airtime2Cash;
-use App\Model\Airtime2CashSettings;
-use App\Model\logvoice;
-use App\Model\PndL;
-use App\Model\Transaction;
-use App\Model\VoiceSuggesstion;
+use App\Models\Airtime2Cash;
+use App\Models\Airtime2CashSettings;
+use App\Models\logvoice;
+use App\Models\PndL;
+use App\Models\Transaction;
+use App\Models\VoiceSuggesstion;
+use App\Models\Withdraw;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -221,6 +222,32 @@ class UltilityController extends Controller
         }
     }
 
+    public function withdraw(Request $request){
+        $input=$request->all();
+        $u=User::where("user_name", $input['user_name'])->first();
+
+
+        if($input['wallet']=="Mega Bonus"){
+            if($u->bonus < $input['amount']){
+                return response()->json(['success'=> 0, 'message'=>'Low wallet balance']);
+            }
+        }
+
+        if($input['wallet']=="Agent Commission"){
+            if($u->agent_commision < $input['amount']){
+                return response()->json(['success'=> 0, 'message'=>'Low wallet balance']);
+            }
+        }
+
+        $u->agent_commision -= $input['amount'];
+        $u->save();
+
+        Withdraw::create($input);
+
+        return response()->json(['success'=> 1, 'message'=>'Withdrawal logged successfully']);
+
+    }
+
     public function fetchmonnifyRA($id){
 
         $last=$id+1000;
@@ -291,8 +318,9 @@ class UltilityController extends Controller
                 $response = json_decode($response, true);
 
                 $account_number = $response['responseBody']['accountNumber'];
+                $bank_name = $response['responseBody']['bankName'];
 
-                $u->account_number = $account_number;
+                $u->account_number = $account_number . " | ".$bank_name;
                 $u->save();
 
                 echo $account_number . "|| ";

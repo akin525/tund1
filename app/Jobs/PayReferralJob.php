@@ -2,9 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Model\PndL;
-use App\Model\ReferralPlans;
-use App\Model\Transaction;
+use App\Models\PndL;
+use App\Models\ReferralPlans;
+use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;

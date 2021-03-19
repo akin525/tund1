@@ -7,11 +7,11 @@ use App\Http\Controllers\PushNotificationController;
 use App\Jobs\ATMtransactionserveJob;
 use App\Jobs\ServeRequestJob;
 use App\Mail\TransactionNotificationMail;
-use App\Model\GeneralMarket;
-use App\model\PndL;
-use App\Model\Settings;
-use App\Model\SystemSettings;
-use App\Model\Transaction;
+use App\Models\GeneralMarket;
+use App\Models\PndL;
+use App\Models\Settings;
+use App\Models\SystemSettings;
+use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -54,7 +54,7 @@ class ServeRequestController extends Controller
             $transid = $input['transid'];
 
             if ($api != "mcd_app_9876234875356148750") {
-                return response()->json(['status' => 0, 'message' => 'Error, invalid request']);
+                return response()->json(['success' => 0, 'message' => 'Error, invalid request']);
             }
                 $sys=DB::table("tbl_serverconfig_tv")->where('name','=','tv')->first();
 
@@ -267,11 +267,11 @@ class ServeRequestController extends Controller
                 default:
                     $tv_type = "";
                     // required field is missing
-                    return response()->json(['status' => 0, 'message' => 'Error, Invalid coded Type. Contact info@5starcompany.com.ng for help']);
+                    return response()->json(['success' => 0, 'message' => 'Error, Invalid coded Type. Contact info@5starcompany.com.ng for help']);
             }
 
             if ($tv_type == "") {
-                return response()->json(['status' => 0, 'message' => 'Error, invalid request check and try again']);
+                return response()->json(['success' => 0, 'message' => 'Error, invalid request check and try again']);
             }
 
             if($server==0){
@@ -288,11 +288,11 @@ class ServeRequestController extends Controller
 
             }catch(\Exception $e){
                 dd($e);
-                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
+                return response()->json(['success'=> 0, 'message'=>'Error processing transaction','error' => $e]);
             }
 
         }else{
-            return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
+            return response()->json(['success'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
         }
 
     }
@@ -318,13 +318,13 @@ class ServeRequestController extends Controller
             $transid = $input['transid'];
 
             if ($api != "mcd_app_9876234875356148750") {
-                return response()->json(['status' => 0, 'message' => 'Error, invalid request']);
+                return response()->json(['success' => 0, 'message' => 'Error, invalid request']);
             }
 
             $dbc=DB::table("tbl_serverconfig_data")->where('coded', $coded)->first();
 
             if (!$dbc) {
-                return response()->json(['status' => 0, 'message' => 'Error, invalid request check and try again']);
+                return response()->json(['success' => 0, 'message' => 'Error, invalid coded check and try again']);
             }
 
             if($dbc->server==0){
@@ -332,7 +332,12 @@ class ServeRequestController extends Controller
             }
 
             if($dbc->server==1){
-                $this->dataProcess($dbc->price, $dbc->product_code, $dbc->network, $phone,$transid, $input);
+                if($dbc->network=="SMILE"){
+                    $do=new DataTransactionController();
+                    $do->buysmile($dbc->price, $dbc->product_code, $dbc->network, $phone,$transid, $input);
+                }else{
+                    $this->dataProcess($dbc->price, $dbc->product_code, $dbc->network, $phone,$transid, $input);
+                }
             }
 
             if($dbc->server==2){
@@ -346,11 +351,11 @@ class ServeRequestController extends Controller
 
             }catch(\Exception $e){
                 dd($e);
-                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
+                return response()->json(['success'=> 0, 'message'=>'Error processing transaction','error' => $e]);
             }
 
         }else{
-            return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
+            return response()->json(['success'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
         }
     }
 
@@ -377,7 +382,7 @@ class ServeRequestController extends Controller
                 $transid = $input['transid'];
 
                 if ($api != "mcd_app_9876234875356148750") {
-                    return response()->json(['status'=> 0, 'message'=>'Error, invalid request']);
+                    return response()->json(['success'=> 0, 'message'=>'Error, invalid request']);
                 }
 
                 $sys=DB::table("tbl_serverconfig_airtime")->where('name','=','airtime')->first();
@@ -449,7 +454,7 @@ class ServeRequestController extends Controller
             default:
                 $network="";
                 // required field is missing
-                return response()->json(['status'=> 0, 'message'=>'Invalid Network. Available are m for MTN, 9 for 9MOBILE, g for GLO, a for AIRTEL.']);
+                return response()->json(['success'=> 0, 'message'=>'Invalid Network. Available are m for MTN, 9 for 9MOBILE, g for GLO, a for AIRTEL.']);
         }
 
         $airtimesell=new AirtimeSellController();
@@ -457,7 +462,7 @@ class ServeRequestController extends Controller
             if(!is_numeric($amnt)){
                 // required field is missing
                 // echoing JSON response
-                return response()->json(['status'=> 0, 'message'=>'Invalid amount, retry with valid amount.']);
+                return response()->json(['success'=> 0, 'message'=>'Invalid amount, retry with valid amount.']);
             }elseif($amnt < 100) {
                 $airtimesell->server5($amnt, $phone,$transid, $input);
             }else{
@@ -480,11 +485,11 @@ class ServeRequestController extends Controller
             }
             }catch(\Exception $e){
                 dd($e);
-                return response()->json(['status'=> 0, 'message'=>'Error processing transaction','error' => $e]);
+                return response()->json(['success'=> 0, 'message'=>'Error processing transaction','error' => $e]);
             }
 
         }else{
-            return response()->json(['status'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
+            return response()->json(['success'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
         }
     }
 
@@ -872,9 +877,9 @@ class ServeRequestController extends Controller
                 $tr['status'] = 'delivered';
 
                 if($input['service']=="airtime"){
-                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
+                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime on ".$input['phone'] ." using ".$input['payment_method'];
                 }else{
-                    $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
+                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['service']." ".$input['coded']." on ".$input['phone'] ." using ".$input['payment_method'];
                 }
                 if($input['payment_method'] =="wallet") {
                     if($input['service']=="data") {
@@ -900,9 +905,9 @@ class ServeRequestController extends Controller
 
             if($status==0){
                 if($input['service']=="airtime"){
-                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime and failed to delivered on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
+                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['amount']." airtime and failed to delivered on ".$input['phone'] ." using ".$input['payment_method'];
                 }else{
-                    $tr['description']=$input['user_name']." purchase ".$input['service']." ".$input['coded']." and failed to delivered on ".$input['phone'] ." with reference number -> ".$input['transid']. " using ".$input['payment_method'];
+                    $tr['description']=$input['user_name']." purchase ".$input['network']." ".$input['service']." ".$input['coded']." and failed to delivered on ".$input['phone'] ." using ".$input['payment_method'];
                 }
 
                 $tr['f_wallet']=$user->wallet;

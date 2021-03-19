@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\PndL;
-use App\Model\Transaction;
+use App\Models\PndL;
+use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

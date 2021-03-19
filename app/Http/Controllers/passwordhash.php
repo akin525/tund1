@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Transaction;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;

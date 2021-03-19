@@ -106,7 +106,7 @@ class CreateProvidusAccountJob implements ShouldQueue
             $extra = $respons;
 
             DB::table('tbl_reserveaccount_monnify')->insert(['contract_code' => $contract_code, 'account_reference' => $account_reference, 'currency_code' => $currency_code, 'customer_email' => $customer_email, 'customer_name' => $customer_name, 'account_number' => $account_number, 'bank_name' => $bank_name, 'collection_channel' => $collection_channel, 'status' => $status, 'reservation_reference' => $reservation_reference, 'created_on' => $created_on, 'extra' => $extra]);
-            $u->account_number = $account_number;
+            $u->account_number = $account_number ." | ".$bank_name;
             $u->save();
 
             echo $account_number . "|| ";
