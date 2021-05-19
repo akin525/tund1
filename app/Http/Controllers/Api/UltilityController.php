@@ -223,12 +223,28 @@ class UltilityController extends Controller
     }
 
     public function withdraw(Request $request){
-
         $input=$request->all();
+        $u=User::where("user_name", $input['user_name'])->first();
+
+
+        if($input['wallet']=="Mega Bonus"){
+            if($u->bonus < $input['amount']){
+                return response()->json(['success'=> 0, 'message'=>'Low wallet balance']);
+            }
+        }
+
+        if($input['wallet']=="Agent Commission"){
+            if($u->agent_commision < $input['amount']){
+                return response()->json(['success'=> 0, 'message'=>'Low wallet balance']);
+            }
+        }
+
+        $u->agent_commision -= $input['amount'];
+        $u->save();
 
         Withdraw::create($input);
 
-        return response()->json(['status'=> 1, 'message'=>'Withdrawal logged successfully']);
+        return response()->json(['success'=> 1, 'message'=>'Withdrawal logged successfully']);
 
     }
 
