@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="" />
+=======
+    <list default="true" id="33257ffa-8003-42fe-a77a-76aac1a47d6e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+>>>>>>> 23bbccc76e427c9afcd265a17fe5055ee3f75776
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,6 +33,11 @@
     <select />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
@@ -658,6 +670,7 @@
       <workItem from="1615541268904" duration="691000" />
       <workItem from="1615619011724" duration="799000" />
       <workItem from="1615832927226" duration="13243000" />
+<<<<<<< HEAD
       <workItem from="1615887206698" duration="3280000" />
       <workItem from="1615896586153" duration="1116000" />
       <workItem from="1615907736977" duration="2473000" />
@@ -670,6 +683,9 @@
       <workItem from="1616070097196" duration="71000" />
       <workItem from="1616488694438" duration="1240000" />
       <workItem from="1616498520983" duration="390000" />
+=======
+      <workItem from="1615887206698" duration="2655000" />
+>>>>>>> 23bbccc76e427c9afcd265a17fe5055ee3f75776
     </task>
     <servers />
   </component>
@@ -680,28 +696,6 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="push changes" />
     <option name="LAST_COMMIT_MESSAGE" value="push changes" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="477" y="174" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1606801582887">
-      <screen x="62" y="0" width="1304" height="768" />
-    </state>
-    <state x="477" y="174" key="#com.intellij.fileTypes.FileTypeChooser/62.0.1304.768@62.0.1304.768" timestamp="1606801582887" />
-    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1610331914103">
-      <screen x="62" y="0" width="1304" height="768" />
-    </state>
-    <state x="444" y="138" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/62.0.1304.768@62.0.1304.768" timestamp="1610331914103" />
-    <state x="324" y="73" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1610069933950">
-      <screen x="62" y="0" width="1304" height="768" />
-    </state>
-    <state x="324" y="73" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/62.0.1304.768@62.0.1304.768" timestamp="1610069933950" />
-    <state x="422" y="101" width="583" height="624" key="find.popup" timestamp="1607005443366">
-      <screen x="62" y="0" width="1304" height="768" />
-    </state>
-    <state x="422" y="101" width="583" height="624" key="find.popup/62.0.1304.768@62.0.1304.768" timestamp="1607005443366" />
-    <state x="370" y="172" key="run.anything.popup" timestamp="1610723583079">
-      <screen x="62" y="0" width="1304" height="768" />
-    </state>
-    <state x="370" y="172" key="run.anything.popup/62.0.1304.768@62.0.1304.768" timestamp="1610723583079" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
