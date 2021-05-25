@@ -467,6 +467,12 @@ class ServeRequestController extends Controller
                 $airtimesell->server5($amnt, $phone,$transid, $input);
             }else{
 
+                if(isset($input['country'])){
+                    if($input['country']=="GHS"){
+                        $airtimesell->ghanaAirtime($amnt, $phone,$transid, $input);
+                    }
+                }
+
                 if($server=='1'){
                     $this->airtimeProcess($amnt, $network, $phone, $transid, $input);
                 }elseif ($server=='1b'){
