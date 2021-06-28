@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SMSinboxJob;
 use App\Models\Airtime2Cash;
 use App\Models\Airtime2CashSettings;
 use App\Models\logvoice;
@@ -11,13 +12,41 @@ use App\Models\Transaction;
 use App\Models\VoiceSuggesstion;
 use App\Models\Withdraw;
 use App\User;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class UltilityController extends Controller
 {
-    public function mcd_logvoice(Request $request){
+    public function smsinbox(Request $request)
+    {
+
+        $input = $request->all();
+        $rules = array(
+            'sender' => 'required',
+            'message' => 'required',
+            'time' => 'required');
+
+        $validator = Validator::make($input, $rules);
+
+        if ($validator->passes()) {
+            try {
+                SMSinboxJob::dispatch($input)->delay(Carbon::now()->addSeconds(1));
+
+                return response()->json(['status' => 1, 'message' => 'Submitted successfully']);
+            } catch (Exception $e) {
+                return response()->json(['status' => 0, 'message' => 'Error logging sms', 'error' => $e]);
+            }
+        } else {
+            return response()->json(['status' => 0, 'message' => 'Error logging SMS', 'error' => $validator->errors()]);
+        }
+
+    }
+
+    public function mcd_logvoice(Request $request)
+    {
 
         $input = $request->all();
         $rules = array(
@@ -35,23 +64,24 @@ class UltilityController extends Controller
             try {
                logvoice::create($input);
 
-               try {
-                   $findme = $input['voice'];
+                try {
+                    $findme = $input['voice'];
 
-                       $s = VoiceSuggesstion::get();
+                    $s = VoiceSuggesstion::get();
 
-                       foreach ($s as $su) {
-                           $pos = strpos($findme, $su->find);
-                           // Note our use of ===.  Simply == would not work as expected
-                           if ($pos !== false) {
-                               return response()->json(['status' => 1, 'message' => $su->response]);
-                           }
-                       }
-               }catch (\Exception $e){}
+                    foreach ($s as $su) {
+                        $pos = strpos($findme, $su->find);
+                        // Note our use of ===.  Simply == would not work as expected
+                        if ($pos !== false) {
+                            return response()->json(['status' => 1, 'message' => $su->response]);
+                        }
+                    }
+                } catch (Exception $e) {
+                }
 
-                return response()->json(['status'=> 1, 'message'=>'Is neither part of my command or words I understand, I will respond to you next time. Keep using me and I will learn more']);
-            }catch(\Exception $e){
-                return response()->json(['status'=> 0, 'message'=>'Error logging voice','error' => $e]);
+                return response()->json(['status' => 1, 'message' => 'Is neither part of my command or words I understand, I will respond to you next time. Keep using me and I will learn more']);
+            } catch (Exception $e) {
+                return response()->json(['status' => 0, 'message' => 'Error logging voice', 'error' => $e]);
             }
         }else{
             return response()->json(['status'=> 0, 'message'=>'Error logging voice', 'error' => $validator->errors()]);
@@ -76,14 +106,14 @@ class UltilityController extends Controller
 
         if ($validator->passes()) {
             try {
-                $input['ip']=$_SERVER['REMOTE_ADDR'];
-               Airtime2Cash::create($input);
+                $input['ip'] = $_SERVER['REMOTE_ADDR'];
+                Airtime2Cash::create($input);
 
-               $number=Airtime2CashSettings::where('network', '=', $input['network'])->first();
+                $number = Airtime2CashSettings::where('network', '=', $input['network'])->first();
 
-                return response()->json(['status'=> 1, 'message'=>'Transfer #' .$input['amount']. ' to ' . $number->number.' and get your value instantly. Reference: '.$input['ref'] . '. By doing so, you acknowledge that you are the legitimate owner of this airtime and you have permission to send it to us and to take possession of the airtime.']);
-            }catch(\Exception $e){
-                return response()->json(['status'=> 0, 'message'=>'An error occured','error' => $e]);
+                return response()->json(['status' => 1, 'message' => 'Transfer #' . $input['amount'] . ' to ' . $number->number . ' and get your value instantly. Reference: ' . $input['ref'] . '. By doing so, you acknowledge that you are the legitimate owner of this airtime and you have permission to send it to us and to take possession of the airtime.']);
+            } catch (Exception $e) {
+                return response()->json(['status' => 0, 'message' => 'An error occured', 'error' => $e]);
             }
         }else{
             return response()->json(['status'=> 0, 'message'=>'Some forms are left out', 'error' => $validator->errors()]);
@@ -320,11 +350,11 @@ class UltilityController extends Controller
                 $account_number = $response['responseBody']['accountNumber'];
                 $bank_name = $response['responseBody']['bankName'];
 
-                $u->account_number = $account_number . " | ".$bank_name;
+                $u->account_number = $account_number . " | " . $bank_name;
                 $u->save();
 
                 echo $account_number . "|| ";
-            }catch (\Exception $e){
+            } catch (Exception $e) {
                 echo "Error encountered ";
                 continue;
             }
@@ -426,7 +456,7 @@ class UltilityController extends Controller
                 $u->save();
 
                 echo $account_number . "|| ";
-            }catch (\Exception $e){
+            } catch (Exception $e) {
                 echo "Error encountered ";
                 continue;
             }
