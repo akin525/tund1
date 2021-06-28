@@ -52,7 +52,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('airtime2cash', 'UltilityController@mcd_a2ca2b')->name('mcd_a2ca2b');
     Route::post('log_mcdvoice', 'UltilityController@mcd_logvoice')->name('logvoice');
 
-    Route::post('hook/smsinbox', 'MCDAssistantController@smsinbox')->name('smsinbox');
+    Route::post('hook/smsinbox', 'UltilityController@smsinbox')->name('smsinbox');
 
     Route::post('hook/mcdassistant', 'UltilityController@index')->name('mcdassistantHook');
     Route::post('hook', 'UltilityController@hook')->name('hook');

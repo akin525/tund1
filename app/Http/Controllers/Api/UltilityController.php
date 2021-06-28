@@ -8,6 +8,7 @@ use App\Models\Airtime2Cash;
 use App\Models\Airtime2CashSettings;
 use App\Models\logvoice;
 use App\Models\PndL;
+use App\Models\SMSinbox;
 use App\Models\Transaction;
 use App\Models\VoiceSuggesstion;
 use App\Models\Withdraw;
@@ -33,6 +34,7 @@ class UltilityController extends Controller
 
         if ($validator->passes()) {
             try {
+                SMSinbox::create($input);
                 SMSinboxJob::dispatch($input)->delay(Carbon::now()->addSeconds(1));
 
                 return response()->json(['status' => 1, 'message' => 'Submitted successfully']);
