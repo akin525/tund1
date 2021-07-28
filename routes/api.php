@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Reseller\SwitchController;
 use Illuminate\Http\Request;
 
 /*
@@ -63,3 +64,5 @@ Route::group(['namespace' => 'Api'], function () {
     Route::get('ra/{id}', 'UltilityController@monnifyRA')->name('monnifyRA');
     Route::get('fra/{id}', 'UltilityController@fetchmonnifyRA')->name('fetchmonnifyRA');
 });
+
+require __DIR__.'/reseller.php';
