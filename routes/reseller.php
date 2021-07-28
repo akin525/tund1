@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('reseller')->group(function () {
+Route::prefix('reseller')->middleware("reseller_auth")->group(function () {
     Route::post('pay', [SwitchController::class, 'authenticate'])->name('reseller');
     Route::post('validate', [SwitchController::class, 'validateService']);
     Route::post('list', [SwitchController::class, 'listService']);
