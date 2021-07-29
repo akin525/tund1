@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ResellerDataPlans extends Model
+class ResellerCableTV extends Model
 {
-    protected $table = "tbl_reseller_dataplans";
+    protected $table = "tbl_reseller_cabletv";
     protected $fillable = ["name", "code", "amount", "discount", "status", "type"];
 }

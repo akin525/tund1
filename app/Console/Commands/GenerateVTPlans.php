@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\ResellerElecticity;
+use App\Models\ResellerDataPlans;
 use Illuminate\Console\Command;
 
 class GenerateVTPlans extends Command
@@ -38,92 +38,170 @@ class GenerateVTPlans extends Command
      */
     public function handle()
     {
-        $this->info("Add electricity");
-
-        ResellerElecticity::create([
-            'name' => 'IKEDC',
-            'code' => 'ikeja-electric',
-        ]);
-
-        ResellerElecticity::create([
-            'name' => 'EKEDC',
-            'code' => 'eko-electric',
-        ]);
-
-        ResellerElecticity::create([
-            'name' => 'KEDCO',
-            'code' => 'kano-electric',
-        ]);
-
-        ResellerElecticity::create([
-            'name' => 'PHED',
-            'code' => 'portharcourt-electric',
-        ]);
-
-        ResellerElecticity::create([
-            'name' => 'JED',
-            'code' => 'jos-electric',
-        ]);
-
-        ResellerElecticity::create([
-            'name' => 'IBEDC',
-            'code' => 'ibadan-electric',
-        ]);
-
-        ResellerElecticity::create([
-            'name' => 'KAEDCO',
-            'code' => 'kaduna-electric',
-        ]);
-
-        ResellerElecticity::create([
-            'name' => 'AEDC',
-            'code' => 'abuja-electric',
-        ]);
-
+//        $this->info("Add electricity");
 //
-//        $elec= ResellerElecticity::create([
-//            'name' => 'shipping',
-//            'code' => '123 Example Street',
-//            'city' => 'Victorville',
-//            'state' => 'CA',
-//            'postcode' => '90001',
+//        ResellerElecticity::create([
+//            'name' => 'IKEDC',
+//            'code' => 'ikeja-electric',
+//            'discount' => '0.5%',
 //        ]);
 //
-//        $billing = $elec->replicate()->fill([
-//            'type' => 'billing'
+//        ResellerElecticity::create([
+//            'name' => 'EKEDC',
+//            'code' => 'eko-electric',
+//            'discount' => '0.5%',
 //        ]);
 //
-//        $billing->save();
+//        ResellerElecticity::create([
+//            'name' => 'KEDCO',
+//            'code' => 'kano-electric',
+//            'discount' => '0.5%',
+//        ]);
 //
-//        $this->info("Fetching data plans");
+//        ResellerElecticity::create([
+//            'name' => 'PHED',
+//            'code' => 'portharcourt-electric',
+//            'discount' => '0.5%',
+//        ]);
 //
-//        $vds=['mtn-data','airtel-data', 'glo-data', 'etisalat-data', 'smile-direct'];
-//        $inters=['MTN', 'AIRTEL', 'GLO', '9MOBILE', "SMILE DATA BUNDLES"];
+//        ResellerElecticity::create([
+//            'name' => 'JED',
+//            'code' => 'jos-electric',
+//            'discount' => '0.5%',
+//        ]);
 //
-//        $curl = curl_init();
+//        ResellerElecticity::create([
+//            'name' => 'IBEDC',
+//            'code' => 'ibadan-electric',
+//            'discount' => '0.5%',
+//        ]);
 //
-//        curl_setopt_array($curl, array(
-//            CURLOPT_URL => env('SERVER6')."pay",
-//            CURLOPT_RETURNTRANSFER => true,
-//            CURLOPT_ENCODING => '',
-//            CURLOPT_MAXREDIRS => 10,
-//            CURLOPT_TIMEOUT => 0,
-//            CURLOPT_FOLLOWLOCATION => true,
-//            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-//            CURLOPT_CUSTOMREQUEST => 'GET',
-//            CURLOPT_HTTPHEADER => array(
-//                'Authorization: Bearer ' .env('SERVER6_AUTH'),
-//                'Content-Type: application/json'
-//            ),
-//        ));
+//        ResellerElecticity::create([
+//            'name' => 'KAEDCO',
+//            'code' => 'kaduna-electric',
+//            'discount' => '0.5%',
+//        ]);
 //
-//        $response = curl_exec($curl);
+//        ResellerElecticity::create([
+//            'name' => 'AEDC',
+//            'code' => 'abuja-electric',
+//            'discount' => '0.5%',
+//        ]);
+
 //
-//        curl_close($curl);
+//        $this->info("Fetching tv plans");
 //
-//        $rep=json_decode($response, true);
+//        $inters=['dstv','gotv', 'startimes'];
 //
+//        foreach ($inters as $inte) {
+//
+//            $curl = curl_init();
+//
+//            curl_setopt_array($curl, array(
+//                CURLOPT_URL => env('SERVER6') . "service-variations?serviceID=".$inte,
+//                CURLOPT_RETURNTRANSFER => true,
+//                CURLOPT_ENCODING => '',
+//                CURLOPT_MAXREDIRS => 10,
+//                CURLOPT_TIMEOUT => 0,
+//                CURLOPT_FOLLOWLOCATION => true,
+//                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+//                CURLOPT_CUSTOMREQUEST => 'GET',
+//                CURLOPT_HTTPHEADER => array(
+//                    'Authorization: Basic ' . env('SERVER6_AUTH'),
+//                    'Content-Type: application/json'
+//                ),
+//            ));
+//            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+//
+//            $response = curl_exec($curl);
+//
+//            echo $response;
+//
+//            curl_close($curl);
+//
+//            $rep = json_decode($response, true);
+//
+//            foreach ($rep['content']['varations'] as $plans){
+//                ResellerCableTV::create([
+//                    'name' => $plans['name'],
+//                    'code' => $plans['variation_code'],
+//                    'amount' => $plans['variation_amount'],
+//                    'type' => $inte,
+//                    'discount' => '1%',
+//                    'status' => 1,
+//                ]);
+//            }
+//        }
 
 
+        $this->info("Fetching data plans");
+        $inters = ['mtn-data', 'airtel-data', 'glo-data', 'etisalat-data', 'smile-direct'];
+        $vds = ['mtn', 'airtel', 'glo', '9mobile', "smile"];
+
+
+        $dtp = ResellerDataPlans::create([
+            'name' => "MTN 1gb",
+            'code' => "m1",
+            'amount' => "290",
+            'type' => "mtn-data",
+            'discount' => '2%',
+            'status' => 1,
+        ]);
+
+        $billing = $dtp->replicate()->fill([
+            'name' => "MTN 2gb",
+            'code' => "m2",
+            'amount' => "580",
+        ]);
+
+        $billing->save();
+
+        $billing = $dtp->replicate()->fill([
+            'name' => "MTN 5gb",
+            'code' => "m5",
+            'amount' => "1300",
+        ]);
+
+        $billing->save();
+
+        foreach ($inters as $inte) {
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => env('SERVER6') . "service-variations?serviceID=" . $inte,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Basic ' . env('SERVER6_AUTH'),
+                    'Content-Type: application/json'
+                ),
+            ));
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+            $response = curl_exec($curl);
+
+            echo $response;
+
+            curl_close($curl);
+
+            $rep = json_decode($response, true);
+
+            foreach ($rep['content']['varations'] as $plans) {
+                ResellerDataPlans::create([
+                    'name' => $plans['name'],
+                    'code' => $plans['variation_code'],
+                    'amount' => $plans['variation_amount'],
+                    'type' => $inte,
+                    'discount' => '2%',
+                    'status' => 1,
+                ]);
+            }
+        }
     }
 }

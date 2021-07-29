@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class ValidateController extends Controller
 {
@@ -26,7 +25,6 @@ class ValidateController extends Controller
             ),
         ));
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($curl);
 
@@ -36,9 +34,9 @@ class ValidateController extends Controller
 
 
         if(isset($rep['content']['Customer_Name'])) {
-            return response()->json(['status' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name']]);
+            return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name']]);
         }else{
-            return response()->json(['status' => 0, 'message' => 'Unable to validate number']);
+            return response()->json(['success' => 0, 'message' => 'Unable to validate number']);
         }
 
     }
@@ -71,9 +69,9 @@ class ValidateController extends Controller
 
 
         if(isset($rep['content']['Customer_Name'])) {
-            return response()->json(['status' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name']]);
+            return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name']]);
         }else{
-            return response()->json(['status' => 0, 'message' => 'Unable to validate number']);
+            return response()->json(['success' => 0, 'message' => 'Unable to validate number']);
         }
 
 
