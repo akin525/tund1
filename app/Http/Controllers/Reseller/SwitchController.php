@@ -58,6 +58,35 @@ class SwitchController extends Controller
 
     }
 
+    public function payService(Request $request){
+        $input=$request->all();
+
+        if (!isset($input['service'])){
+            return response()->json(['success' => 0, 'message' => 'Kindly add service to your request']);
+        }
+
+        if (!isset($input['phone'])){
+            return response()->json(['success' => 0, 'message' => 'Kindly add phone to your request']);
+        }
+
+        if (!isset($input['coded'])){
+            return response()->json(['success' => 0, 'message' => 'Kindly add coded to your request']);
+        }
+
+
+        $s=new PayController();
+
+        switch ($input['service']){
+            case "airtime":
+                return $s->buyAirtime($request);
+            case "data":
+                return $s->buyData($request);
+            default:
+                return response()->json(['success' => 0, 'message' => 'Invalid service provided']);
+        }
+
+    }
+
 
     public function listService(Request $request){
         $input=$request->all();
