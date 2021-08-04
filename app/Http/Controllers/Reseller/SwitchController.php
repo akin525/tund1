@@ -2,29 +2,28 @@
 
 namespace App\Http\Controllers\Reseller;
 
-use App\Http\Controllers\Api\SellAirtimeController;
 use App\Http\Controllers\Api\ValidateController;
 use App\Http\Controllers\Controller;
-use App\Models\ResellerAirtimeControl;
-use App\Models\ResellerCableTV;
-use App\Models\ResellerControl;
-use App\Models\ResellerDataPlans;
-use App\Models\ResellerElecticity;
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class SwitchController extends Controller
 {
 
-    public function junction(Request $request, $reseller){
-        $input=$request->all();
+    public function junction(Request $request)
+    {
+        $input = $request->all();
+
+
+        if (!isset($input['service'])) {
+            return response()->json(['success' => 0, 'message' => 'Kindly add service to your request']);
+        }
 
         switch ($input['service']) {
-            case "status":
-                $this->status();
-                break;
-            case "tv":
-                $this->tvstatus();
+            case "balance":
+                return $this->myBalance($request);
+            default:
+                return response()->json(['success' => 0, 'message' => 'Invalid service provided']);
         }
 
     }
@@ -55,8 +54,8 @@ class SwitchController extends Controller
             default:
                 return response()->json(['success' => 0, 'message' => 'Invalid service provided']);
         }
-
     }
+
 
     public function payService(Request $request){
         $input=$request->all();
@@ -76,11 +75,15 @@ class SwitchController extends Controller
 
         $s=new PayController();
 
-        switch ($input['service']){
+        switch ($input['service']) {
             case "airtime":
                 return $s->buyAirtime($request);
             case "data":
                 return $s->buyData($request);
+            case "tv":
+                return $s->buyTV($request);
+            case "electricity":
+                return $s->buyElectricity($request);
             default:
                 return response()->json(['success' => 0, 'message' => 'Invalid service provided']);
         }
@@ -88,167 +91,44 @@ class SwitchController extends Controller
     }
 
 
-    public function listService(Request $request){
-        $input=$request->all();
+    public function listService(Request $request)
+    {
+        $input = $request->all();
 
-        if (!isset($input['service'])){
+        if (!isset($input['service'])) {
             return response()->json(['success' => 0, 'message' => 'Kindly add service to your request']);
         }
 
+        $lc = new ListController();
+
         switch ($input['service']) {
             case "all":
-                return $this->status();
+                return $lc->all();
             case "electricity":
-                return $this->elecstatus();
+                return $lc->electricity();
             case "tv":
-                return $this->tvstatus();
+                return $lc->tv();
             case "airtime":
-                return $this->airtimestatus();
+                return $lc->airtime();
             case "data":
-                return $this->datastatus($request);
+                return $lc->data($request);
             default:
                 return response()->json(['success' => 0, 'message' => 'Invalid service provided']);
         }
 
     }
 
-    public function status()
+    public function myBalance(Request $request)
     {
-        $st = ResellerControl::get();
-        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => $st]);
+
+        $key = $request->header('Authorization');
+
+        $user = User::where("api_key", $key)->first();
+        if (!$user) {
+            return response()->json(['status' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
+        }
+
+        return response()->json(['status' => 1, 'message' => 'Fetched successfully', 'data' => ['wallet' => $user->wallet, 'commission' => $user->bonus]]);
     }
 
-
-    public function airtimestatus()
-    {
-        $st = ResellerAirtimeControl::get();
-        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => $st]);
-    }
-
-    public function datastatus(Request $request)
-    {
-        $input = $request->all();
-
-        if (!isset($input['coded'])) {
-            return response()->json(['success' => 0, 'message' => 'Coded not supplied']);
-        }
-
-        switch (strtolower($input['coded'])) {
-            case "m":
-                $plans = ResellerDataPlans::where("type", "mtn-data")->get();
-                break;
-            case "a":
-                $plans = ResellerDataPlans::where("type", "airtel-data")->get();
-                break;
-            case "9":
-                $plans = ResellerDataPlans::where("type", "etisalat-data")->get();
-                break;
-            case "g":
-                $plans = ResellerDataPlans::where("type", "glo-data")->get();
-                break;
-            default:
-                $plans = "";
-        }
-
-        if ($plans == "") {
-            return response()->json(['success' => 0, 'message' => 'Invalid coded supplied']);
-        }
-
-        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => $plans]);
-    }
-
-    public function elecstatus()
-    {
-        $st = ResellerElecticity::get();
-        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => $st]);
-    }
-
-    public function tvstatus()
-    {
-        $st = ResellerCableTV::get();
-        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => $st]);
-    }
-
-    public function buyairtime(Request $request, $reseller)
-    {
-        $input = $request->all();
-
-        if ($input['amount'] < 100) {
-            return response()->json(['success' => 0, 'message' => 'Minimum amount is 100. Change amount field and try again']);
-        }
-
-        if ($input['amount'] > 5000) {
-            return response()->json(['success' => 0, 'message' => 'Maximum amount is 5,000. Change amount field and try again']);
-        }
-
-        if($input['amount'] > $reseller->wallet){
-            return response()->json(['success' => 0, 'message' => 'Insufficient balance, kindly topup your balance']);
-        }
-
-        $net="";
-        $ref=Str::random(10);
-
-        switch (strtolower($input['coded'])){
-            case "m":
-                $net="MTN";
-                break;
-            case "a":
-                $net="AIRTEL";
-                break;
-        }
-
-        $rac=ResellerAirtimeControl::where("network", $net)->first();
-
-        $sr=new SellAirtimeController();
-
-        return response()->json(['success' => 1, 'message' => 'Your order is successful', 'ref' => $ref]);
-
-//        if($rac->server==6){
-//            $sr->server6();
-//        }
-
-
-    }
-
-    public function buydata(Request $request, $reseller){
-        $input=$request->all();
-
-        $net="";
-        $ref=Str::random(10);
-
-        switch (strtolower($input['coded'])){
-            case "m":
-                $net="MTN";
-                break;
-            case "a":
-                $net="AIRTEL";
-                break;
-        }
-
-        $rac=ResellerAirtimeControl::where("network", $net)->first();
-
-
-        if($input['amount'] < 100){
-            return response()->json(['success' => 0, 'message' => 'Minimum amount is 100. Change amount field and try again']);
-        }
-
-        if($input['amount'] > 5000){
-            return response()->json(['success' => 0, 'message' => 'Maximum amount is 5,000. Change amount field and try again']);
-        }
-
-        if($input['amount'] > $reseller->wallet){
-            return response()->json(['success' => 0, 'message' => 'Insufficient balance, kindly topup your balance']);
-        }
-
-
-        $sr=new SellAirtimeController();
-
-        return response()->json(['success' => 1, 'message' => 'Your order is successful', 'ref' => $ref]);
-
-//        if($rac->server==6){
-//            $sr->server6();
-//        }
-
-
-    }
 }

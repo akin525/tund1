@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Reseller;
 
-use App\Http\Controllers\Api\AirtimeSellController;
 use App\Http\Controllers\Api\SellAirtimeController;
 use App\Http\Controllers\Api\SellDataController;
+use App\Http\Controllers\Api\SellElectricityController;
+use App\Http\Controllers\Api\SellTVController;
 use App\Http\Controllers\Controller;
 use App\Models\ResellerAirtimeControl;
+use App\Models\ResellerCableTV;
 use App\Models\ResellerDataPlans;
+use App\Models\ResellerElecticity;
 use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
@@ -133,23 +136,129 @@ class PayController extends Controller
         }
     }
 
-    public function buyDataOutput(Request $request, $ref, $status, $dada){
+    public function buyDataOutput(Request $request, $ref, $status, $dada)
+    {
 
-        if($status==1){
-            return response()->json(['status' => 1, 'message' => 'Transaction Successful instantly', 'ref'=> $ref, 'debitAmount' =>$dada['amount'], 'discountAmount'=>$dada['discount']]);
+        if ($status == 1) {
+            return response()->json(['status' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
         }
 
-        return response()->json(['status' => 0, 'message' => 'Transaction is pending', 'ref'=> $ref, 'debitAmount' =>$dada['amount'], 'discountAmount'=>$dada['discount']]);
+        return response()->json(['status' => 0, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
     }
 
 
-    public function debitReseller(Request $request, $provider, $amount, $discount, $server, $requester){
-        $input=$request->all();
+    public function buyTV(Request $request)
+    {
+        $input = $request->all();
 
-        $key=$request->header('Authorization');
+        $rac = ResellerCableTV::where("code", strtolower($input['coded']))->first();
 
-        $user=User::where("api_key", $key)->first();
-        if(!$user){
+        if ($rac == "") {
+            return response()->json(['success' => 0, 'message' => 'Invalid coded supplied']);
+        }
+
+        if ($rac->status == 0) {
+            return response()->json(['success' => 0, 'message' => $rac->name . ' currently unavailable']);
+        }
+
+        $dis = explode("%", $rac->discount);
+        $discount = $rac->amount * ($dis[0] / 100);
+        $debitAmount = $rac->amount - $discount;
+
+
+        return $this->debitReseller($request, $rac->type, $debitAmount, $discount, $rac->server, "tv");
+    }
+
+    public function buyTvCTD(Request $request, $ref, $net, $dada, $server)
+    {
+        $input = $request->all();
+
+        $air = new SellTVController();
+
+        switch (strtolower($server)) {
+            case "6":
+                return $air->server6($request, $input['coded'], $input['phone'], $ref, $net, $request, $dada, "reseller");
+            default:
+                return response()->json(['status' => 0, 'message' => 'Kindly contact system admin']);
+        }
+    }
+
+    public function buyTvOutput(Request $request, $ref, $status, $dada)
+    {
+
+        if ($status == 1) {
+            return response()->json(['status' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+        }
+
+        return response()->json(['status' => 0, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+    }
+
+
+    public function buyElectricity(Request $request)
+    {
+        $input = $request->all();
+
+        $rac = ResellerElecticity::where("code", strtolower($input['coded']))->first();
+
+        if ($rac == "") {
+            return response()->json(['success' => 0, 'message' => 'Invalid coded supplied']);
+        }
+
+        if ($rac->status == 0) {
+            return response()->json(['success' => 0, 'message' => $rac->name . ' currently unavailable']);
+        }
+
+
+        if ($input['amount'] < 100) {
+            return response()->json(['success' => 0, 'message' => 'Minimum amount is #100']);
+        }
+
+        if ($input['amount'] > 20000) {
+            return response()->json(['success' => 0, 'message' => 'Maximum amount is #20,000']);
+        }
+
+
+        $dis = explode("%", $rac->discount);
+        $discount = $input['amount'] * ($dis[0] / 100);
+        $debitAmount = $input['amount'] - $discount;
+
+
+        return $this->debitReseller($request, $rac->type, $debitAmount, $discount, $rac->server, "electricity");
+    }
+
+    public function buyElectricityCTD(Request $request, $ref, $net, $dada, $server)
+    {
+        $input = $request->all();
+
+        $air = new SellElectricityController();
+
+        switch (strtolower($server)) {
+            case "6":
+                return $air->server6($request, $input['coded'], $input['phone'], $ref, $net, $request, $dada, "reseller");
+            default:
+                return response()->json(['status' => 0, 'message' => 'Kindly contact system admin']);
+        }
+    }
+
+    public function buyElectricityOutput(Request $request, $ref, $status, $dada)
+    {
+
+        if ($status == 1) {
+            return response()->json(['status' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+        }
+
+        return response()->json(['status' => 0, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+    }
+
+
+    public function debitReseller(Request $request, $provider, $amount, $discount, $server, $requester)
+    {
+        $input = $request->all();
+
+        $key = $request->header('Authorization');
+
+        $user = User::where("api_key", $key)->first();
+        if (!$user) {
             return response()->json(['status' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
         }
 
@@ -184,17 +293,22 @@ class PayController extends Controller
         $t=Transaction::create($tr);
 
         $user->wallet -= $amount;
+        $user->bonus += $discount;
         $user->save();
 
         $dada['tid']=$t->id;
         $dada['amount']=$amount;
         $dada['discount']=$discount;
 
-        switch ($requester){
+        switch ($requester) {
             case "airtime":
                 return $this->buyAirtimeCTD($request, $ref, $provider, $dada, $server);
             case "data":
                 return $this->buyDataCTD($request, $ref, $provider, $dada, $server);
+            case "tv":
+                return $this->buyTvCTD($request, $ref, $provider, $dada, $server);
+            case "electricity":
+                return $this->buyElectricityCTD($request, $ref, $provider, $dada, $server);
         }
     }
 
