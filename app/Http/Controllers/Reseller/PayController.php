@@ -87,10 +87,10 @@ class PayController extends Controller
     public function buyAirtimeOutput(Request $request, $ref, $status, $dada){
 
         if($status==1){
-            return response()->json(['status' => 1, 'message' => 'Transaction Successful instantly', 'ref'=> $ref, 'debitAmount' =>$dada['amount'], 'discountAmount'=>$dada['discount']]);
+            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
         }
 
-        return response()->json(['status' => 0, 'message' => 'Transaction is pending', 'ref'=> $ref, 'debitAmount' =>$dada['amount'], 'discountAmount'=>$dada['discount']]);
+        return response()->json(['success' => 0, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
     }
 
     public function buyData(Request $request){
@@ -140,10 +140,10 @@ class PayController extends Controller
     {
 
         if ($status == 1) {
-            return response()->json(['status' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
         }
 
-        return response()->json(['status' => 0, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+        return response()->json(['success' => 0, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
     }
 
 
@@ -179,7 +179,7 @@ class PayController extends Controller
             case "6":
                 return $air->server6($request, $input['coded'], $input['phone'], $ref, $net, $request, $dada, "reseller");
             default:
-                return response()->json(['status' => 0, 'message' => 'Kindly contact system admin']);
+                return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
         }
     }
 
@@ -187,10 +187,10 @@ class PayController extends Controller
     {
 
         if ($status == 1) {
-            return response()->json(['status' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
         }
 
-        return response()->json(['status' => 0, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+        return response()->json(['success' => 0, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
     }
 
 
@@ -236,7 +236,7 @@ class PayController extends Controller
             case "6":
                 return $air->server6($request, $input['coded'], $input['phone'], $ref, $net, $request, $dada, "reseller");
             default:
-                return response()->json(['status' => 0, 'message' => 'Kindly contact system admin']);
+                return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
         }
     }
 
@@ -244,10 +244,10 @@ class PayController extends Controller
     {
 
         if ($status == 1) {
-            return response()->json(['status' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
         }
 
-        return response()->json(['status' => 0, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+        return response()->json(['success' => 0, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
     }
 
 
@@ -259,11 +259,11 @@ class PayController extends Controller
 
         $user = User::where("api_key", $key)->first();
         if (!$user) {
-            return response()->json(['status' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
+            return response()->json(['success' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
         }
 
         if($amount > $user->wallet){
-            return response()->json(['status' => 0, 'message' => 'Insufficient balance to handle request']);
+            return response()->json(['success' => 0, 'message' => 'Insufficient balance to handle request']);
         }
 
         $ref="R".Carbon::now()->timestamp.rand();
@@ -287,9 +287,9 @@ class PayController extends Controller
         $tr['server']="server".$server;
         $tr['server_response']="";
         $tr['payment_method']="wallet";
-        $tr['transid']=$ref;
-        $tr['status']="pending";
-        $tr['extra']=$discount;
+        $tr['transid'] = $ref;
+        $tr['success'] = "pending";
+        $tr['extra'] = $discount;
         $t=Transaction::create($tr);
 
         $user->wallet -= $amount;
