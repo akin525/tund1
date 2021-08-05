@@ -90,7 +90,7 @@ class PayController extends Controller
             return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
         }
 
-        return response()->json(['success' => 0, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+        return response()->json(['success' => 1, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
     }
 
     public function buyData(Request $request){
@@ -143,7 +143,7 @@ class PayController extends Controller
             return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
         }
 
-        return response()->json(['success' => 0, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+        return response()->json(['success' => 1, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
     }
 
 
@@ -190,7 +190,7 @@ class PayController extends Controller
             return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
         }
 
-        return response()->json(['success' => 0, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+        return response()->json(['success' => 1, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
     }
 
 
@@ -247,7 +247,7 @@ class PayController extends Controller
             return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
         }
 
-        return response()->json(['success' => 0, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+        return response()->json(['success' => 1, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
     }
 
 
