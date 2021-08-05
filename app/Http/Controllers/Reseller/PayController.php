@@ -288,7 +288,7 @@ class PayController extends Controller
         $tr['server_response']="";
         $tr['payment_method']="wallet";
         $tr['transid'] = $ref;
-        $tr['success'] = "pending";
+        $tr['status'] = "pending";
         $tr['extra'] = $discount;
         $t=Transaction::create($tr);
 
