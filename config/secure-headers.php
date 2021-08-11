@@ -50,7 +50,9 @@ return [
      * Available Value: 'all', 'none', 'master-only', 'by-content-type', 'by-ftp-filename'
      */
 
-    'x-permitted-cross-domain-policies' => 'none',
+    'x-permitted-cross-domain-policies' => 'https://mega-cheap-data.web.app',
+
+    'Access-Control-Allow-Origin' => 'https://mega-cheap-data.web.app',
 
     /*
      * X-Powered-By
