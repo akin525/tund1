@@ -55,7 +55,7 @@ class ListController extends Controller
             return response()->json(['success' => 0, 'message' => 'Invalid coded supplied']);
         }
 
-        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => $plans]);
+        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => $plans->makeHidden(['price'])]);
     }
 
     public function electricity()

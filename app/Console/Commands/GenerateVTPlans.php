@@ -140,26 +140,29 @@ class GenerateVTPlans extends Command
 
 
         $dtp = ResellerDataPlans::create([
-            'name' => "MTN 1gb",
-            'code' => "m1",
+            'name' => "MTN 1gb - SME",
+            'code' => "MTN1GB",
             'amount' => "290",
+            'price' => "255",
             'type' => "mtn-data",
             'discount' => '2%',
             'status' => 1,
         ]);
 
         $billing = $dtp->replicate()->fill([
-            'name' => "MTN 2gb",
-            'code' => "m2",
+            'name' => "MTN 2gb - SME",
+            'code' => "MTN2GB",
             'amount' => "580",
+            'price' => "510",
         ]);
 
         $billing->save();
 
         $billing = $dtp->replicate()->fill([
-            'name' => "MTN 5gb",
-            'code' => "m5",
+            'name' => "MTN 5gb - SME",
+            'code' => "MTN5GB",
             'amount' => "1300",
+            'price' => "1275",
         ]);
 
         $billing->save();

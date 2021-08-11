@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reseller;
 
 use App\Http\Controllers\Api\ValidateController;
 use App\Http\Controllers\Controller;
+use App\Models\Withdraw;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,8 @@ class SwitchController extends Controller
         switch ($input['service']) {
             case "balance":
                 return $this->myBalance($request);
+            case "withdraw_commission":
+                return $this->withdrawCommision($request);
             default:
                 return response()->json(['success' => 0, 'message' => 'Invalid service provided']);
         }
@@ -129,6 +132,29 @@ class SwitchController extends Controller
         }
 
         return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['wallet' => $user->wallet, 'commission' => $user->bonus]]);
+    }
+
+    public function withdrawCommision(Request $request)
+    {
+        $input = $request->all();
+
+        $key = $request->header('Authorization');
+
+        $user = User::where("api_key", $key)->first();
+        if (!$user) {
+            return response()->json(['success' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
+        }
+
+        if ($user->agent_commision < $input['amount']) {
+            return response()->json(['success' => 0, 'message' => 'Low commission balance']);
+        }
+
+        $user->agent_commision -= $input['amount'];
+        $user->save();
+
+        Withdraw::create($input);
+
+        return response()->json(['success' => 1, 'message' => 'Withdrawal logged successfully']);
     }
 
 }

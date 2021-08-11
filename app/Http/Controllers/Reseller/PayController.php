@@ -70,17 +70,8 @@ class PayController extends Controller
         switch(strtolower($server)) {
             case "6":
                 return $air->server6($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
-            case "a":
-                $rac = ResellerAirtimeControl::where("network", "AIRTEL")->first();
-                break;
-            case "9":
-                $rac = ResellerAirtimeControl::where("network", "9MOBILE")->first();
-                break;
-            case "g":
-                $rac = ResellerAirtimeControl::where("network", "GLO")->first();
-                break;
             default:
-                $rac = "";
+                return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
         }
     }
 
@@ -119,20 +110,13 @@ class PayController extends Controller
 
         $air=new SellDataController();
 
-        switch(strtolower($server)) {
+        switch (strtolower($server)) {
             case "6":
                 return $air->server6($request, $input['coded'], $input['phone'], $ref, $net, $request, $dada, "reseller");
-            case "a":
-                $rac = ResellerAirtimeControl::where("network", "AIRTEL")->first();
-                break;
-            case "9":
-                $rac = ResellerAirtimeControl::where("network", "9MOBILE")->first();
-                break;
-            case "g":
-                $rac = ResellerAirtimeControl::where("network", "GLO")->first();
-                break;
+            case "1":
+                return $air->server1($request, $input['coded'], $input['phone'], $ref, $net, $request, $dada, "reseller");
             default:
-                $rac = "";
+                return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
         }
     }
 
@@ -244,10 +228,10 @@ class PayController extends Controller
     {
 
         if ($status == 1) {
-            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
         }
 
-        return response()->json(['success' => 1, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+        return response()->json(['success' => 1, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
     }
 
 
