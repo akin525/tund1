@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/MCD-Admin.iml" filepath="$PROJECT_DIR$/.idea/MCD-Admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/mcd_admin.iml" filepath="$PROJECT_DIR$/.idea/mcd_admin.iml" />
     </modules>
   </component>
 </project>

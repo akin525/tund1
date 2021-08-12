@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Reseller\SwitchController;
 use Illuminate\Http\Request;
 
 /*
@@ -52,7 +53,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('airtime2cash', 'UltilityController@mcd_a2ca2b')->name('mcd_a2ca2b');
     Route::post('log_mcdvoice', 'UltilityController@mcd_logvoice')->name('logvoice');
 
-    Route::post('hook/mcdassistant', 'MCDAssistantController@index')->name('mcdassistantHook');
+    Route::post('hook/smsinbox', 'UltilityController@smsinbox')->name('smsinbox');
+
+    Route::post('hook/mcdassistant', 'UltilityController@index')->name('mcdassistantHook');
     Route::post('hook', 'UltilityController@hook')->name('hook');
     Route::post('hook/monnify', 'MonnifyHookController@index')->name('monnifyhook');
     Route::post('hook/paystack', 'PaystackHookController@index')->name('Paystackhook');
@@ -61,3 +64,5 @@ Route::group(['namespace' => 'Api'], function () {
     Route::get('ra/{id}', 'UltilityController@monnifyRA')->name('monnifyRA');
     Route::get('fra/{id}', 'UltilityController@fetchmonnifyRA')->name('fetchmonnifyRA');
 });
+
+require __DIR__.'/reseller.php';

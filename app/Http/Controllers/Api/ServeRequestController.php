@@ -56,9 +56,29 @@ class ServeRequestController extends Controller
             if ($api != "mcd_app_9876234875356148750") {
                 return response()->json(['success' => 0, 'message' => 'Error, invalid request']);
             }
-                $sys=DB::table("tbl_serverconfig_tv")->where('name','=','tv')->first();
 
-            switch ($coded) {
+                $dbc=DB::table("tbl_serverconfig_tv")->where('coded', $coded)->first();
+
+                if (!$dbc) {
+                    return response()->json(['success' => 0, 'message' => 'Error, invalid coded check and try again']);
+                }
+
+                if($dbc->server==0){
+                    $this->Process0($coded, $dbc->amount, $dbc->tv_type,$dbc->phone,$transid,$input);
+                }
+
+                if($dbc->server==1){
+                    $do=new SellTVController();
+                    $do->paytvProcess($dbc->amount, $dbc->tv_package, $dbc->link, $dbc->tv_type, $phone,$transid, $input);
+                }
+
+                if($dbc->server==4){
+                    $do=new SellTVController();
+                    $do->paytvProcess4($dbc->service_id, $phone, $dbc->bundle_code, $dbc->amount, $transid, $input);
+                }
+
+
+                switch ($coded) {
                 case "d_padi":
                     $tv_type = "DSTV";
                     $tv_package = "NLTESE36";
@@ -270,22 +290,6 @@ class ServeRequestController extends Controller
                     return response()->json(['success' => 0, 'message' => 'Error, Invalid coded Type. Contact info@5starcompany.com.ng for help']);
             }
 
-            if ($tv_type == "") {
-                return response()->json(['success' => 0, 'message' => 'Error, invalid request check and try again']);
-            }
-
-            if($server==0){
-                $this->Process0($coded, $amount, $tv_type,$phone,$transid,$input);
-            }
-
-            if($server==1){
-                $this->paytvProcess($amount, $tv_package, $link, $tv_type, $phone,$transid, $input);
-            }
-
-            if($server==4){
-                $this->paytvProcess4($service_id, $phone, $bundle_code, $amount, $transid, $input);
-            }
-
             }catch(\Exception $e){
                 dd($e);
                 return response()->json(['success'=> 0, 'message'=>'Error processing transaction','error' => $e]);
@@ -467,6 +471,12 @@ class ServeRequestController extends Controller
                 $airtimesell->server5($amnt, $phone,$transid, $input);
             }else{
 
+                if(isset($input['country'])){
+                    if($input['country']=="GHS"){
+                        $airtimesell->ghanaAirtime($amnt, $phone,$transid, $input);
+                    }
+                }
+
                 if($server=='1'){
                     $this->airtimeProcess($amnt, $network, $phone, $transid, $input);
                 }elseif ($server=='1b'){
@@ -490,138 +500,6 @@ class ServeRequestController extends Controller
 
         }else{
             return response()->json(['success'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
-        }
-    }
-
-    public function paytvProcess4($service_id, $phone, $bundle_code, $amount,$transid,$input)
-    {
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => env("SERVER4")."/users/account/authenticate",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => env("SERVER4_AUTH"),
-            CURLOPT_HTTPHEADER => array(
-                "Content-Type: application/json",
-                "Content-Type: text/plain"
-            ),
-        ));
-
-        $response = curl_exec($curl);
-        curl_close($curl);
-        $response = json_decode($response, true);
-        $token = $response['token'];
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => env("SERVER4")."/services/category/" . $service_id . "/verify",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n  \"account\": \"" . $phone . "\"\n}",
-            CURLOPT_HTTPHEADER => array(
-                "Authorization: " . $token,
-                "Content-Type: application/json",
-                "Content-Type: text/plain"
-            ),
-        ));
-
-        $response = curl_exec($curl);
-        curl_close($curl);
-        $response = json_decode($response, true);
-        $name = $response['data']['name'];
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => env("SERVER4")."/bills/pay/tv",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n\t\"service_category_id\": \"" . $service_id . "\",\n\t\"smartcard\": \"" . $phone . "\",\n\t\"bundleCode\": \"" . $bundle_code . "\",\n\t\"amount\": \"" . $amount . "\",\n\t\"name\": \"" . $name . "\",\n\t\"invoicePeriod\": \"1\",\n\t\"phone\": \"08000000000\"\n}",
-            CURLOPT_HTTPHEADER => array(
-                "Content-Type: application/json",
-                "Authorization: " . $token,
-                "Content-Type: text/plain"
-            ),
-        ));
-
-        $respons = curl_exec($curl);
-        curl_close($curl);
-        $response = json_decode($respons, true);
-        $status = $response['status'];
-
-        if($status == "success"){
-            $this->addtrans("server4",$respons,$amount,1,$response['transaction']['_id'],$input);
-        }else {
-            $this->addtrans("server4",$respons,$amount,0,$transid,$input);
-        }
-    }
-
-    function paytvProcess($amnt, $tv_package, $link, $tv_type, $phone, $transid, $input){
-        $url=env('SERVER1_TV')."user_check".env('SERVER1_CRED')."&service=".$tv_type."&number=".$phone;
-        // Perform initialize to validate name on server
-        $resul = file_get_contents($url);
-        $findme   = 'accountStatus';
-        $pos = strpos($resul, $findme);
-        $arr = json_decode($resul, true);
-        // Note our use of ===.  Simply == would not work as expected
-        if ($pos === false) {
-            $findme   = 'billAmount';
-            $pos = strpos($resul, $findme);
-
-            if ($pos === false) {
-                $GLOBALS['success'] = 0;
-                $response["message"] = "The device number supplied did not return any data.";
-            }else{
-                if($arr["details"]["returnCode"]==0){
-                    // Print a single value
-                    $GLOBALS['success'] = 1;
-                    $GLOBALS['customer_name'] =$arr["details"]["customerName"];
-                    $GLOBALS['customer_number'] = $arr["details"]["customerNumber"];
-                }else{
-                    $GLOBALS['success'] = 0;
-                    $response["message"] = "The device number supplied did not return any data.";
-                }
-            }
-        } else {
-            // Print a single value
-            $GLOBALS['success'] = 1;
-            $GLOBALS['customer_name'] = $arr["details"]["lastName"];
-            $GLOBALS['customer_number'] = $arr["details"]["customerNumber"];
-        }
-
-//begining of buying
-        if($GLOBALS['success'] ==1){
-            $url=env('SERVER1_TV').$link.env('SERVER1_CRED')."&smartno=".$phone."&product_code=".$tv_package."&customer_name=".trim($GLOBALS['customer_name'])."&customer_number=".$GLOBALS['customer_number']."&trans_id=".$transid."&price=".$amnt;
-            $result = file_get_contents($url);
-
-            $findme   = 'service';
-            $pos = strpos($result, $findme);
-            // Note our use of ===.  Simply == would not work as expected
-
-            if ($pos !== false) {
-                $this->addtrans("server1",$result,$amnt,1, $transid,$input);
-            }else {
-                $this->addtrans("server1",$result,$amnt,0, $transid,$input);
-            }
-        }else{
-            $this->addtrans("server1",$resul,$amnt,0, $transid,$input);
         }
     }
 

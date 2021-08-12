@@ -3,6 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/GenerateVTPlans.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/GenerateVTPlans.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellAirtimeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellAirtimeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellDataController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellDataController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellElectricityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellElectricityController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellTVController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellTVController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Reseller/ListController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Reseller/ListController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Reseller/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Reseller/PayController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Reseller/SwitchController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Reseller/SwitchController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ResellerDataPlans.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ResellerDataPlans.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +162,7 @@
       <workItem from="1628343898549" duration="1241000" />
       <workItem from="1628437844422" duration="17000" />
       <workItem from="1628609651036" duration="3836000" />
-      <workItem from="1628691144929" duration="21873000" />
+      <workItem from="1628691144929" duration="19713000" />
     </task>
     <task id="LOCAL-00001" summary="push changes">
       <created>1628096879123</created>
@@ -190,14 +199,7 @@
       <option name="project" value="LOCAL" />
       <updated>1628190342849</updated>
     </task>
-    <task id="LOCAL-00006" summary="push changes">
-      <created>1628718096476</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1628718096476</updated>
-    </task>
-    <option name="localTasksCounter" value="7" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
