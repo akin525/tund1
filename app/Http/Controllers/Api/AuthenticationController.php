@@ -219,11 +219,10 @@ class AuthenticationController extends Controller
                 return response()->json(['success' => 0, 'message' => 'User does not exist']);
             }
             if ($user->mcdpassword != $input['password']) {
-                if ($user->email != $input['password']) {
+//                if ($user->email != $input['password']) {
                     return response()->json(['success' => 0, 'message' => 'Incorrect password attempt']);
-                }
+//                }
             }
-
             // mysql update row with matched user name
             $date = date("Y-m-d H:i:s");
             $user->last_login = $date;
