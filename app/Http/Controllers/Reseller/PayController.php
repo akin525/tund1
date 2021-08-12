@@ -55,8 +55,8 @@ class PayController extends Controller
         }
 
         $dis=explode("%", $rac->discount);
-        $discount=$input['amount'] * ($dis[0]/100);
-        $debitAmount=$input['amount'] - $discount;
+        $discount = $input['amount'] * ($dis[0] / 100);
+        $debitAmount = $input['amount'];
 
 
         return $this->debitReseller($request, $rac->network, $debitAmount, $discount, $rac->server, "airtime");
@@ -75,14 +75,6 @@ class PayController extends Controller
         }
     }
 
-    public function buyAirtimeOutput(Request $request, $ref, $status, $dada){
-
-        if($status==1){
-            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
-        }
-
-        return response()->json(['success' => 1, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
-    }
 
     public function buyData(Request $request){
         $input=$request->all();
@@ -98,8 +90,8 @@ class PayController extends Controller
         }
 
         $dis=explode("%", $rac->discount);
-        $discount=$rac->amount * ($dis[0]/100);
-        $debitAmount=$rac->amount - $discount;
+        $discount = $rac->amount * ($dis[0] / 100);
+        $debitAmount = $rac->amount;
 
 
         return $this->debitReseller($request, $rac->type, $debitAmount, $discount, $rac->server, "data");
@@ -120,16 +112,6 @@ class PayController extends Controller
         }
     }
 
-    public function buyDataOutput(Request $request, $ref, $status, $dada)
-    {
-
-        if ($status == 1) {
-            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
-        }
-
-        return response()->json(['success' => 1, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
-    }
-
 
     public function buyTV(Request $request)
     {
@@ -147,7 +129,7 @@ class PayController extends Controller
 
         $dis = explode("%", $rac->discount);
         $discount = $rac->amount * ($dis[0] / 100);
-        $debitAmount = $rac->amount - $discount;
+        $debitAmount = $rac->amount;
 
 
         return $this->debitReseller($request, $rac->type, $debitAmount, $discount, $rac->server, "tv");
@@ -165,16 +147,6 @@ class PayController extends Controller
             default:
                 return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
         }
-    }
-
-    public function buyTvOutput(Request $request, $ref, $status, $dada)
-    {
-
-        if ($status == 1) {
-            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
-        }
-
-        return response()->json(['success' => 1, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
     }
 
 
@@ -204,7 +176,7 @@ class PayController extends Controller
 
         $dis = explode("%", $rac->discount);
         $discount = $input['amount'] * ($dis[0] / 100);
-        $debitAmount = $input['amount'] - $discount;
+        $debitAmount = $input['amount'];
 
 
         return $this->debitReseller($request, $rac->type, $debitAmount, $discount, $rac->server, "electricity");
@@ -222,16 +194,6 @@ class PayController extends Controller
             default:
                 return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
         }
-    }
-
-    public function buyElectricityOutput(Request $request, $ref, $status, $dada)
-    {
-
-        if ($status == 1) {
-            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
-        }
-
-        return response()->json(['success' => 1, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
     }
 
 
@@ -299,6 +261,34 @@ class PayController extends Controller
             case "electricity":
                 return $this->buyElectricityCTD($request, $ref, $provider, $dada, $server);
         }
+    }
+
+    public function outputResponse(Request $request, $ref, $status, $dada)
+    {
+
+        if ($status == 1) {
+            $t = Transaction::find($dada['tid']);
+            $t->status = "delivered";
+            $t->server_response = $dada['server_response'];
+            $t->save();
+
+            if (isset($dada['token'])) {
+                $t->description .= " - " . $dada['token'];
+                $t->save();
+                return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
+            }
+            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+        }
+
+        $t = Transaction::find($dada['tid']);
+        $t->server_response = $dada['server_response'];
+        $t->save();
+
+        if (isset($dada['token'])) {
+            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
+        }
+
+        return response()->json(['success' => 1, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
     }
 
 }

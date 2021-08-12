@@ -138,15 +138,17 @@ class SellAirtimeController extends Controller
         $tran = new ServeRequestController();
         $rs = new PayController();
 
+        $dada['server_response'] = $response;
+
         if ($rep['code'] == '000') {
             if ($requester == "reseller") {
-                return $rs->buyAirtimeOutput($request, $transid, 1, $dada);
+                return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
-                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
+                $tran->addtrans("server6", $response, $amnt, 1, $transid, $input);
             }
-        }else {
-            if($requester == "reseller"){
-                return $rs->buyAirtimeOutput($request, $transid, 0, $dada);
+        } else {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 0, $dada);
             }else{
                 $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
             }
