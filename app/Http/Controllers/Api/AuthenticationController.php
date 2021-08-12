@@ -12,9 +12,9 @@ use App\Models\SocialLogin;
 use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -141,76 +141,86 @@ class AuthenticationController extends Controller
         $input=$request->all();
 
         if ($validator->passes()) {
-            if(isset($input['login'])){
-                $input['ip_address']=$_SERVER['REMOTE_ADDR'];
-                $input['device']=$_SERVER['HTTP_USER_AGENT'];
-                $la=LoginAttempt::create($input);
+            if (isset($input['login'])) {
+                $input['ip_address'] = $_SERVER['REMOTE_ADDR'];
+                $input['device'] = $_SERVER['HTTP_USER_AGENT'];
+                $la = LoginAttempt::create($input);
                 $job = (new LoginAttemptApiFinderJob($la->id))
                     ->delay(Carbon::now()->addSeconds(1));
                 dispatch($job);
             }
 
-            if ($input['deviceid'] != null) { //mainactivity login check
-                $de = User::all();
+//            if ($input['deviceid'] != null) { //mainactivity login check
+//                $de = User::all();
+//
+//                $GLOBALS['found'] = 0;
+//                $GLOBALS['found_username']=$input['user_name'];
+//                foreach ($de as $d) {
+//                    // user devices per user
+//                    $r_device = $d->devices;
+//                    $r_username = $d->user_name;
+//
+//                    // Assign JSON encoded string to a PHP variable
+//                    $json = $r_device;
+//                    if ($json != "") {
+//                        // Decode JSON data to PHP associative array
+//                        $arr = json_decode($json, true);
+//                        // Loop through the associative array
+//                        foreach ($arr as $key => $value) {
+//                            if ($value == $input["deviceid"]) {
+//                                $GLOBALS['found_username'] = $r_username;
+//                                $GLOBALS['found'] = 1;
+//                            }
+//                        }
+//                    }//looping through the database and also checking for device id match for username
+//                }// finish device checking
+//            }// end
 
-                $GLOBALS['found'] = 0;
-                $GLOBALS['found_username']=$input['user_name'];
-                foreach ($de as $d) {
-                    // user devices per user
-                    $r_device = $d->devices;
-                    $r_username = $d->user_name;
+//            if($input['user_name'] != "null") {
+//                $user = User::where('user_name', $input['user_name'])->first();
+//                if (!$user){
+//                    return response()->json(['success'=> 0, 'message'=>'User does not exist']);
+//                }
+//                if ($user->mcdpassword!=$input['password']){
+//                    if ($user->email!=$input['password']){
+//                        return response()->json(['success'=> 0, 'message'=>'Incorrect password attempt']);
+//                    }
+//                }
+//
+//                if($GLOBALS['found'] == 0) {
+//                    $e_device = $user->devices;
+//                    $e_arr = json_decode($e_device, true);
+//                    $date = date("Y-m-d H:i:s");
+//                    $array = array($date => $input['deviceid']);
+//                    if ($e_device != "") {
+//                        $arr = array_merge($e_arr, $array);
+//                    } else {
+//                        $arr = $array;
+//                    }
+//                    $ar = json_encode($arr);
+//                    $user->devices = $ar;
+//                    $user->save();
+//                }else{
+//
+//                    if (trim($GLOBALS['found_username'])!=$input['user_name']){
+//                        return response()->json(['success'=> 0, 'message'=>'Device belongs to another user. Kindly contact support at info@5starcompany.com.ng']);
+//                    }
+//                }
+//            }else{
+//                if($GLOBALS['found'] == 0) {
+//                    return response()->json(['success' => 0, 'message' => 'DeviceID not found']);
+//                }else{
+//                    return response()->json(['success' => 1, 'message' => 'DeviceID match found', 'user_name'=>$GLOBALS['found_username']]);
+//                }
+//            }
 
-                    // Assign JSON encoded string to a PHP variable
-                    $json = $r_device;
-                    if ($json != "") {
-                        // Decode JSON data to PHP associative array
-                        $arr = json_decode($json, true);
-                        // Loop through the associative array
-                        foreach ($arr as $key => $value) {
-                            if ($value == $input["deviceid"]) {
-                                $GLOBALS['found_username'] = $r_username;
-                                $GLOBALS['found'] = 1;
-                            }
-                        }
-                    }//looping through the database and also checking for device id match for username
-                }// finish device checking
-            }// end
-
-            if($input['user_name'] != "null") {
-                $user = User::where('user_name', $input['user_name'])->first();
-                if (!$user){
-                    return response()->json(['success'=> 0, 'message'=>'User does not exist']);
-                }
-                if ($user->mcdpassword!=$input['password']){
-                    if ($user->email!=$input['password']){
-                        return response()->json(['success'=> 0, 'message'=>'Incorrect password attempt']);
-                    }
-                }
-
-                if($GLOBALS['found'] == 0) {
-                    $e_device = $user->devices;
-                    $e_arr = json_decode($e_device, true);
-                    $date = date("Y-m-d H:i:s");
-                    $array = array($date => $input['deviceid']);
-                    if ($e_device != "") {
-                        $arr = array_merge($e_arr, $array);
-                    } else {
-                        $arr = $array;
-                    }
-                    $ar = json_encode($arr);
-                    $user->devices = $ar;
-                    $user->save();
-                }else{
-
-                    if (trim($GLOBALS['found_username'])!=$input['user_name']){
-                        return response()->json(['success'=> 0, 'message'=>'Device belongs to another user. Kindly contact support at info@5starcompany.com.ng']);
-                    }
-                }
-            }else{
-                if($GLOBALS['found'] == 0) {
-                    return response()->json(['success' => 0, 'message' => 'DeviceID not found']);
-                }else{
-                    return response()->json(['success' => 1, 'message' => 'DeviceID match found', 'user_name'=>$GLOBALS['found_username']]);
+            $user = User::where('user_name', $input['user_name'])->first();
+            if (!$user) {
+                return response()->json(['success' => 0, 'message' => 'User does not exist']);
+            }
+            if ($user->mcdpassword != $input['password']) {
+                if ($user->email != $input['password']) {
+                    return response()->json(['success' => 0, 'message' => 'Incorrect password attempt']);
                 }
             }
 
@@ -219,8 +229,8 @@ class AuthenticationController extends Controller
             $user->last_login = $date;
             $user->save();
 
-            $uinfo['full_name']=$user->full_name;
-            $uinfo['company_name']=$user->company_name;
+            $uinfo['full_name'] = $user->full_name;
+            $uinfo['company_name'] = $user->company_name;
             $uinfo['dob']=$user->dob;
             $uinfo['wallet']=$user->wallet;
             $uinfo['bonus']=$user->bonus;
@@ -552,7 +562,7 @@ class AuthenticationController extends Controller
                 $u->save();
 
                 echo $account_number . "|| ";
-            }catch (\Exception $e){
+            } catch (Exception $e) {
                 echo "Error encountered ";
             }
     }
