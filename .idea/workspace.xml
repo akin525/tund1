@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Reseller/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Reseller/PayController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +15,11 @@
     <execution />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
@@ -154,6 +160,7 @@
       <workItem from="1628437844422" duration="17000" />
       <workItem from="1628609651036" duration="3836000" />
       <workItem from="1628691144929" duration="21873000" />
+      <workItem from="1628764090250" duration="2143000" />
     </task>
     <task id="LOCAL-00001" summary="push changes">
       <created>1628096879123</created>

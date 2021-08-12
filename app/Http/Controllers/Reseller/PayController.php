@@ -246,17 +246,22 @@ class PayController extends Controller
             return response()->json(['success' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
         }
 
-        if($amount > $user->wallet){
+        if ($amount > $user->wallet) {
             return response()->json(['success' => 0, 'message' => 'Insufficient balance to handle request']);
         }
 
-        $ref="R".Carbon::now()->timestamp.rand();
+        if (isset($input['reseller_price'])) {
+            $discount += (floatval($input['reseller_price']) - floatval($amount));
+            $amount += (floatval($input['reseller_price']) - floatval($amount));
+        }
 
-        if($requester=="airtime") {
-            $tr['name']=strtoupper($provider).$input['service'];
+        $ref = "R" . Carbon::now()->timestamp . rand();
+
+        if ($requester == "airtime") {
+            $tr['name'] = strtoupper($provider) . $input['service'];
             $tr['description'] = "Resell " . strtoupper($provider) . $input['service'] . " of " . $input['amount'] . " on " . $input['phone'];
-        }else{
-            $tr['name']=strtoupper($provider);
+        } else {
+            $tr['name'] = strtoupper($provider);
             $tr['description'] = "Resell " . strtoupper($provider) . " of " . $input['coded'] . " on " . $input['phone'];
         }
         $tr['amount']=$amount;
