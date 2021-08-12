@@ -4,19 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
-use App\Jobs\ATMtransactionserveJob;
 use App\Jobs\ServeRequestJob;
-use App\Mail\TransactionNotificationMail;
 use App\Models\GeneralMarket;
 use App\Models\PndL;
 use App\Models\Settings;
-use App\Models\SystemSettings;
 use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class ServeRequestController extends Controller
@@ -56,49 +53,29 @@ class ServeRequestController extends Controller
             if ($api != "mcd_app_9876234875356148750") {
                 return response()->json(['success' => 0, 'message' => 'Error, invalid request']);
             }
-
-                $dbc=DB::table("tbl_serverconfig_tv")->where('coded', $coded)->first();
-
-                if (!$dbc) {
-                    return response()->json(['success' => 0, 'message' => 'Error, invalid coded check and try again']);
-                }
-
-                if($dbc->server==0){
-                    $this->Process0($coded, $dbc->amount, $dbc->tv_type,$dbc->phone,$transid,$input);
-                }
-
-                if($dbc->server==1){
-                    $do=new SellTVController();
-                    $do->paytvProcess($dbc->amount, $dbc->tv_package, $dbc->link, $dbc->tv_type, $phone,$transid, $input);
-                }
-
-                if($dbc->server==4){
-                    $do=new SellTVController();
-                    $do->paytvProcess4($dbc->service_id, $phone, $dbc->bundle_code, $dbc->amount, $transid, $input);
-                }
-
+                $sys = DB::table("tbl_serverconfig_tv")->where('name', '=', 'tv')->first();
 
                 switch ($coded) {
-                case "d_padi":
-                    $tv_type = "DSTV";
-                    $tv_package = "NLTESE36";
-                    $bundle_code = "NLTESE36";
-                    $link = "dstv";
-                    $amount = "1850";
-                    $tv_type_code = "14";
-                    $tv_package_code = "01";
-                    $service_id = "14";
-                    $server=$sys->dstv;
-                    break;
+                    case "d_padi":
+                        $tv_type = "DSTV";
+                        $tv_package = "NLTESE36";
+                        $bundle_code = "NLTESE36";
+                        $link = "dstv";
+                        $amount = "1850";
+                        $tv_type_code = "14";
+                        $tv_package_code = "01";
+                        $service_id = "14";
+                        $server = $sys->dstv;
+                        break;
 
-                case "d_yanga":
-                    $tv_type = "DSTV";
-                    $tv_package = "NNJ1E36";
-                    $bundle_code = "NNJ1E36";
-                    $link = "dstv";
-                    $amount = "2565";
-                    $tv_type_code = "14";
-                    $tv_package_code = "01";
+                    case "d_yanga":
+                        $tv_type = "DSTV";
+                        $tv_package = "NNJ1E36";
+                        $bundle_code = "NNJ1E36";
+                        $link = "dstv";
+                        $amount = "2565";
+                        $tv_type_code = "14";
+                        $tv_package_code = "01";
                     $service_id = "14";
                     $server=$sys->dstv;
                     break;
@@ -281,18 +258,34 @@ class ServeRequestController extends Controller
                     $tv_type_code = "03";
                     $tv_package_code = "05";
                     $service_id = "16";
-                    $server=$sys->startimes;
+                    $server = $sys->startimes;
                     break;
 
-                default:
-                    $tv_type = "";
-                    // required field is missing
-                    return response()->json(['success' => 0, 'message' => 'Error, Invalid coded Type. Contact info@5starcompany.com.ng for help']);
-            }
+                    default:
+                        $tv_type = "";
+                        // required field is missing
+                        return response()->json(['success' => 0, 'message' => 'Error, Invalid coded Type. Contact info@5starcompany.com.ng for help']);
+                }
 
-            }catch(\Exception $e){
-                dd($e);
-                return response()->json(['success'=> 0, 'message'=>'Error processing transaction','error' => $e]);
+                if ($tv_type == "") {
+                    return response()->json(['success' => 0, 'message' => 'Error, invalid request check and try again']);
+                }
+
+                if ($server == 0) {
+                    $this->Process0($coded, $amount, $tv_type, $phone, $transid, $input);
+                }
+
+                if ($server == 1) {
+                    $this->paytvProcess($amount, $tv_package, $link, $tv_type, $phone, $transid, $input);
+                }
+
+                if ($server == 4) {
+                    $this->paytvProcess4($service_id, $phone, $bundle_code, $amount, $transid, $input);
+                }
+
+            } catch (Exception $e) {
+//                dd($e);
+                return response()->json(['success' => 0, 'message' => 'Error processing transaction', 'error' => $e]);
             }
 
         }else{
@@ -335,27 +328,27 @@ class ServeRequestController extends Controller
                 $this->Process0($coded,$dbc->price, $dbc->network,$phone,$transid,$input);
             }
 
-            if($dbc->server==1){
-                if($dbc->network=="SMILE"){
-                    $do=new DataTransactionController();
-                    $do->buysmile($dbc->price, $dbc->product_code, $dbc->network, $phone,$transid, $input);
-                }else{
-                    $this->dataProcess($dbc->price, $dbc->product_code, $dbc->network, $phone,$transid, $input);
+                if ($dbc->server == 1) {
+                    if ($dbc->network == "SMILE") {
+                        $do = new DataTransactionController();
+                        $do->buysmile($dbc->price, $dbc->product_code, $dbc->network, $phone, $transid, $input);
+                    } else {
+                        $this->dataProcess($dbc->price, $dbc->product_code, $dbc->network, $phone, $transid, $input);
+                    }
                 }
-            }
 
-            if($dbc->server==2){
-                $this->dataProcess2($dbc->dataplan, $dbc->network_code, $dbc->network, $phone,$transid,$dbc->price, $input);
-            }
+                if ($dbc->server == 2) {
+                    $this->dataProcess2($dbc->dataplan, $dbc->network_code, $dbc->network, $phone, $transid, $dbc->price, $input);
+                }
 
-            if($dbc->server==3){
-                $this->dataProcess3($dbc->price, $dbc->product_code,$phone,$transid, $input, $dbc->network);
-            }
+                if ($dbc->server == 3) {
+                    $this->dataProcess3($dbc->price, $dbc->product_code, $phone, $transid, $input, $dbc->network);
+                }
 
 
-            }catch(\Exception $e){
+            } catch (Exception $e) {
                 dd($e);
-                return response()->json(['success'=> 0, 'message'=>'Error processing transaction','error' => $e]);
+                return response()->json(['success' => 0, 'message' => 'Error processing transaction', 'error' => $e]);
             }
 
         }else{
@@ -477,43 +470,178 @@ class ServeRequestController extends Controller
                     }
                 }
 
-                if($server=='1'){
+                if ($server == '1') {
                     $this->airtimeProcess($amnt, $network, $phone, $transid, $input);
-                }elseif ($server=='1b'){
-                    $this->airtimeProcess1b($amnt, $network, $phone,$transid, $input);
-                }elseif ($server=='2'){
+                } elseif ($server == '1b') {
+                    $this->airtimeProcess1b($amnt, $network, $phone, $transid, $input);
+                } elseif ($server == '2') {
                     $this->airtimeProcess2($amnt, $network_code, $phone, $transid, $input);
-                }elseif ($server=='3'){
-                    $this->airtimeProcess3($amnt, $network, $phone,$transid, $input);
-                }elseif ($server=='4'){
+                } elseif ($server == '3') {
+                    $this->airtimeProcess3($amnt, $network, $phone, $transid, $input);
+                } elseif ($server == '4') {
                     $this->airtimeProcess4($amnt, $service_id, $phone, $input);
-                }elseif ($server=='5'){
-                    $airtimesell->server5($amnt, $phone,$transid, $input);
-                }else{
-                    $this->Process0($coded,$amnt,$network,$phone,$transid,$input);
+                } elseif ($server == '5') {
+                    $airtimesell->server5($amnt, $phone, $transid, $input);
+                } else {
+                    $this->Process0($coded, $amnt, $network, $phone, $transid, $input);
                 }
             }
-            }catch(\Exception $e){
+            } catch (Exception $e) {
                 dd($e);
-                return response()->json(['success'=> 0, 'message'=>'Error processing transaction','error' => $e]);
+                return response()->json(['success' => 0, 'message' => 'Error processing transaction', 'error' => $e]);
             }
 
-        }else{
-            return response()->json(['success'=> 0, 'message'=>'Error processing transaction', 'error' => $validator->errors()]);
+        } else {
+            return response()->json(['success' => 0, 'message' => 'Error processing transaction', 'error' => $validator->errors()]);
         }
     }
 
-    public function Process0($coded,$amnt, $network, $phone, $transid, $input){
-        $message=$coded . " | " . $phone . " | ". $amnt. " | " .$network;
+    public function paytvProcess4($service_id, $phone, $bundle_code, $amount, $transid, $input)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env("SERVER4") . "/users/account/authenticate",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => env("SERVER4_AUTH"),
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Content-Type: text/plain"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $response = json_decode($response, true);
+        $token = $response['token'];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env("SERVER4") . "/services/category/" . $service_id . "/verify",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "{\n  \"account\": \"" . $phone . "\"\n}",
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: " . $token,
+                "Content-Type: application/json",
+                "Content-Type: text/plain"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $response = json_decode($response, true);
+        $name = $response['data']['name'];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env("SERVER4") . "/bills/pay/tv",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "{\n\t\"service_category_id\": \"" . $service_id . "\",\n\t\"smartcard\": \"" . $phone . "\",\n\t\"bundleCode\": \"" . $bundle_code . "\",\n\t\"amount\": \"" . $amount . "\",\n\t\"name\": \"" . $name . "\",\n\t\"invoicePeriod\": \"1\",\n\t\"phone\": \"08000000000\"\n}",
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Authorization: " . $token,
+                "Content-Type: text/plain"
+            ),
+        ));
+
+        $respons = curl_exec($curl);
+        curl_close($curl);
+        $response = json_decode($respons, true);
+        $status = $response['status'];
+
+        if ($status == "success") {
+            $this->addtrans("server4", $respons, $amount, 1, $response['transaction']['_id'], $input);
+        } else {
+            $this->addtrans("server4", $respons, $amount, 0, $transid, $input);
+        }
+    }
+
+    function paytvProcess($amnt, $tv_package, $link, $tv_type, $phone, $transid, $input)
+    {
+        $url = env('SERVER1_TV') . "user_check" . env('SERVER1_CRED') . "&service=" . $tv_type . "&number=" . $phone;
+        // Perform initialize to validate name on server
+        $resul = file_get_contents($url);
+        $findme = 'accountStatus';
+        $pos = strpos($resul, $findme);
+        $arr = json_decode($resul, true);
+        // Note our use of ===.  Simply == would not work as expected
+        if ($pos === false) {
+            $findme = 'billAmount';
+            $pos = strpos($resul, $findme);
+
+            if ($pos === false) {
+                $GLOBALS['success'] = 0;
+                $response["message"] = "The device number supplied did not return any data.";
+            } else {
+                if ($arr["details"]["returnCode"] == 0) {
+                    // Print a single value
+                    $GLOBALS['success'] = 1;
+                    $GLOBALS['customer_name'] = $arr["details"]["customerName"];
+                    $GLOBALS['customer_number'] = $arr["details"]["customerNumber"];
+                } else {
+                    $GLOBALS['success'] = 0;
+                    $response["message"] = "The device number supplied did not return any data.";
+                }
+            }
+        } else {
+            // Print a single value
+            $GLOBALS['success'] = 1;
+            $GLOBALS['customer_name'] = $arr["details"]["lastName"];
+            $GLOBALS['customer_number'] = $arr["details"]["customerNumber"];
+        }
+
+//begining of buying
+        if ($GLOBALS['success'] == 1) {
+            $url = env('SERVER1_TV') . $link . env('SERVER1_CRED') . "&smartno=" . $phone . "&product_code=" . $tv_package . "&customer_name=" . trim($GLOBALS['customer_name']) . "&customer_number=" . $GLOBALS['customer_number'] . "&trans_id=" . $transid . "&price=" . $amnt;
+            $result = file_get_contents($url);
+
+            $findme = 'service';
+            $pos = strpos($result, $findme);
+            // Note our use of ===.  Simply == would not work as expected
+
+            if ($pos !== false) {
+                $this->addtrans("server1", $result, $amnt, 1, $transid, $input);
+            } else {
+                $this->addtrans("server1", $result, $amnt, 0, $transid, $input);
+            }
+        } else {
+            $this->addtrans("server1", $resul, $amnt, 0, $transid, $input);
+        }
+    }
+
+    public function Process0($coded, $amnt, $network, $phone, $transid, $input)
+    {
+        $message = $coded . " | " . $phone . " | " . $amnt . " | " . $network;
 
         $noti = new PushNotificationController();
         $noti->PushNotiAdmin($message, "MCD Purchase Notification");
 
-        $this->addtrans("server0","Notification Sent",$amnt,1, $transid,$input);
+        $this->addtrans("server0", "Notification Sent", $amnt, 1, $transid, $input);
     }
 
-    public function airtimeProcess($amnt, $network, $phone, $transid, $input){
-        $url=env("SERVER1")."&network=".$network."&phoneNumber=".$phone."&amount=".$amnt."&trans_id=".$transid;
+    public function airtimeProcess($amnt, $network, $phone, $transid, $input)
+    {
+        $url = env("SERVER1") . "&network=" . $network . "&phoneNumber=" . $phone . "&amount=" . $amnt . "&trans_id=" . $transid;
         $result = file_get_contents($url);
 
         $findme   = 'trans_id';
