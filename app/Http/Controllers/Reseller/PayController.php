@@ -250,7 +250,12 @@ class PayController extends Controller
             return response()->json(['success' => 0, 'message' => 'Insufficient balance to handle request']);
         }
 
-        $ref="R".Carbon::now()->timestamp.rand();
+        if (isset($input['reseller_price'])) {
+            $discount += (floatval($input['reseller_price']) - floatval($amount));
+            $amount += (floatval($input['reseller_price']) - floatval($amount));
+        }
+
+        $ref = "R" . Carbon::now()->timestamp . rand();
 
         if($requester=="airtime") {
             $tr['name']=strtoupper($provider).$input['service'];
