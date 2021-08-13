@@ -90,10 +90,16 @@ class ValidateController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => array('customerId' => 4094852, 'provider' => 'BETKING', 'serviceType' => 'betting'),
+            CURLOPT_POSTFIELDS => '{
+    "serviceType": "betting",
+    "provider": "' . $type . '",
+    "customerId": "' . $phone . '"
+}',
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer ' . env('SERVER7_PUBLICKEY'),
                 'MerchantId: ' . env('SERVER7_MERCHANTID'),
+                'Authorization: Bearer ' . env('SERVER7_PUBLICKEY'),
+                'Content-Type: application/json',
+                'Cookie: sessionid=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJPcGF5LUFQSSIsImlzcyI6IjEiLCJleHAiOjE2Mjg5MjE3NDB9._xpy555vy_wMcwGScaOLCqM6L9Abia_EaisagXRswkM'
             ),
         ));
 
@@ -103,14 +109,12 @@ class ValidateController extends Controller
 
         curl_close($curl);
 
+//        $response='{"code":"00000","message":"SUCCESSFUL","data":{"provider":"BETKING","customerId":"1740532","firstName":null,"lastName":null,"userName":"Pateay"}}';
+
         $rep = json_decode($response, true);
 
-        echo $response;
-        return "samji";
-
-
-        if (isset($rep['content']['Customer_Name'])) {
-            return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name']]);
+        if ($rep['code'] == "00000") {
+            return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['data']['userName']]);
         } else {
             return response()->json(['success' => 0, 'message' => 'Unable to validate number']);
         }

@@ -32,7 +32,9 @@ class ValidationController extends Controller
             case "tv":
                 return $s->tv_server6($input['number'], strtolower($input['provider']));
             case "betting":
-                return $s->betting_server7($input['number'], strtolower($input['provider']));
+                return $s->betting_server7($input['number'], strtoupper($input['provider']));
+            case "smile":
+                return $s->tv_server6($input['number'], strtolower($input['provider']));
             default:
                 return response()->json(['success' => 0, 'message' => 'Invalid service provided']);
         }

@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/AuthenticationController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/mail/newdevicelogin.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routes/v2.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/AuthenticationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/AuthenticationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/ValidationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/ValidationController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/ValidateController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ValidateController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -138,15 +137,15 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/routes" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Http/Controllers/Api/V2" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\repo\mcd_admin\app\Http\Controllers\Api\V2" />
       <recent name="C:\repo\mcd_admin\routes" />
       <recent name="C:\repo\mcd_admin\resources\views\mail" />
-      <recent name="C:\repo\mcd_admin\app\Http\Controllers\Api\V2" />
     </key>
   </component>
   <component name="RunManager">
@@ -177,7 +176,8 @@
       <workItem from="1628790135022" duration="852000" />
       <workItem from="1628811884471" duration="5158000" />
       <workItem from="1628851494373" duration="332000" />
-      <workItem from="1628851845443" duration="10234000" />
+      <workItem from="1628851845443" duration="13272000" />
+      <workItem from="1628884416932" duration="4521000" />
     </task>
     <task id="LOCAL-00001" summary="push changes">
       <created>1628096879123</created>
@@ -221,7 +221,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628718096476</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="push changes">
+      <created>1628874995559</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1628874995560</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
