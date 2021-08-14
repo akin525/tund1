@@ -75,7 +75,11 @@ class UserController extends Controller
         $services['betting'] = $sett['betting'];
         $services['airtimeconverter'] = $sett['airtimeconverter'];
 
-        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['user' => $me, 'balances' => $balances, 'services' => $services, 'news' => $user->gnews]]);
+
+        $advts['unity_testmode'] = $sett['unity_testmode'];
+        $advts['unity_gameid'] = $sett['unity_gameid'];
+
+        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['user' => $me, 'balances' => $balances, 'services' => $services, 'news' => $user->gnews, 'adverts' => $advts]]);
     }
 
     public function change_password(Request $request)
