@@ -22,6 +22,8 @@ Route::prefix('v2')->middleware("version")->group(function () {
     Route::post('resetpassword', [AuthenticationController::class, 'resetpassword']);
     Route::post('signup', [AuthenticationController::class, 'signup']);
 
+    Route::get('biometriclogin', [AuthenticationController::class, 'biometricLogin'])->middleware('auth:sanctum');
+
     Route::post('validate', [ValidationController::class, 'index']);
 
 });

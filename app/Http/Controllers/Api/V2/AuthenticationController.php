@@ -9,13 +9,11 @@ use App\Mail\NewDeviceLoginMail;
 use App\Mail\PasswordResetMail;
 use App\Models\LoginAttempt;
 use App\Models\NewDevice;
-use App\Models\Settings;
 use App\Models\SocialLogin;
-use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -103,13 +101,13 @@ class AuthenticationController extends Controller
 
         $input['device'] = $_SERVER['HTTP_USER_AGENT'];
 
-        if (isset($input['login'])) {
-            $input['ip_address'] = $_SERVER['REMOTE_ADDR'];
-            $la = LoginAttempt::create($input);
-            $job = (new LoginAttemptApiFinderJob($la->id))
-                ->delay(Carbon::now()->addSeconds(1));
-            dispatch($job);
-        }
+
+        $input['ip_address'] = $_SERVER['REMOTE_ADDR'];
+        $la = LoginAttempt::create($input);
+        $job = (new LoginAttemptApiFinderJob($la->id))
+            ->delay(Carbon::now()->addSeconds(1));
+        dispatch($job);
+
 
         $user = User::where('user_name', $input['user_name'])->first();
         if (!$user) {
@@ -117,54 +115,13 @@ class AuthenticationController extends Controller
         }
 
         if ($user->mcdpassword != $input['password']) {
-            if ($user->email != $input['password']) {
-                return response()->json(['success' => 0, 'message' => 'Incorrect password attempt']);
-            }
+            return response()->json(['success' => 0, 'message' => 'Incorrect password attempt']);
         }
 
-        $date = date("Y-m-d H:i:s");
-        $user->last_login = $date;
-        $user->save();
+        // Revoke all tokens...
+        $user->tokens()->delete();
 
-        $uinfo['full_name'] = $user->full_name;
-        $uinfo['company_name'] = $user->company_name;
-        $uinfo['dob'] = $user->dob;
-        $uinfo['wallet'] = $user->wallet;
-        $uinfo['bonus'] = $user->bonus;
-        $uinfo['status'] = $user->status;
-        $uinfo['level'] = $user->level;
-        $uinfo['photo'] = $user->photo;
-        $uinfo['reg_date'] = $user->reg_date;
-        $uinfo['target'] = $user->target;
-        $uinfo['user_name'] = $user->user_name;
-        $uinfo['email'] = $user->email;
-        $uinfo['phoneno'] = $user->phoneno;
-        $uinfo['gnews'] = $user->gnews;
-        $uinfo['fraud'] = $user->fraud;
-        $uinfo['referral'] = $user->referral;
-        $uinfo['referral_plan'] = $user->referral_plan;
-        $uinfo['account_number'] = $user->account_number;
-        $uinfo['account_number2'] = $user->account_number2;
-        $uinfo['last_login'] = $user->last_login;
-        $uinfo['agent_commision'] = $user->agent_commision;
-        $uinfo['points'] = $user->points;
-
-        $uinfo["total_fund"] = Transaction::where([['user_name', $input['user_name']], ['name', 'wallet funding'], ['status', 'successful']])->count();
-        $uinfo["total_trans"] = Transaction::where([['user_name', $input['user_name']], ['status', 'delivered']])->count();
-        // get user transactions report from transactions table
-
-        //get airtime discounts
-        $airsets = DB::table("tbl_serverconfig_airtime")->where('name', '=', 'discount')->first();
-        $uinfo['airtime_discount_mtn'] = $airsets->mtn;
-        $uinfo['airtime_discount_glo'] = $airsets->glo;
-        $uinfo['airtime_discount_etisalat'] = $airsets->etisalat;
-        $uinfo['airtime_discount_airtel'] = $airsets->airtel;
-
-        $settings = Settings::all();
-        foreach ($settings as $setting) {
-            $sett[$setting->name] = $setting->value;
-        }
-        $d = array_merge($uinfo, $sett);
+        $token = $user->createToken($input['device'])->plainTextToken;
 
         if (isset($input['login'])) {
             $la->status = "authorized";
@@ -184,10 +141,10 @@ class AuthenticationController extends Controller
                 Mail::to($user->email)->send(new NewDeviceLoginMail($tr));
             }
 
-            return response()->json(['success' => 2, 'message' => 'Login successfully', 'data' => $d]);
+            return response()->json(['success' => 2, 'message' => 'Login successfully', 'token' => $token]);
         }
 
-        return response()->json(['success' => 1, 'message' => 'Login successfully', 'data' => $d]);
+        return response()->json(['success' => 1, 'message' => 'Login successfully', 'token' => $token]);
     }
 
     public function newdeviceLogin(Request $request)
@@ -234,7 +191,7 @@ class AuthenticationController extends Controller
         $user->devices = $device;
         $user->save();
 
-        return response()->json(['success' => 1, 'message' => 'Device Verified Successfully', 'user_name' => $user->user_name, 'email' => $user->email]);
+        return response()->json(['success' => 1, 'message' => 'Device Verified Successfully']);
     }
 
     public function socialLogin(Request $request)
@@ -275,7 +232,28 @@ class AuthenticationController extends Controller
         }
         SocialLogin::create($input);
 
-        return response()->json(['success' => 1, 'message' => 'Social login successful', 'user_name' => $user->user_name, 'email' => $user->email]);
+        $token = $user->createToken($data['device'])->plainTextToken;
+
+        return response()->json(['success' => 1, 'message' => 'Social login successful', 'token' => $token]);
+    }
+
+    public function biometricLogin(Request $request)
+    {
+        $input['device'] = $_SERVER['HTTP_USER_AGENT'];
+        $input['version'] = $request->header('version');
+
+        $user = User::find(Auth::id());
+
+        if (!$user) {
+            return response()->json(['success' => 0, 'message' => 'User does not exist']);
+        }
+
+        // Revoke all tokens...
+        $user->tokens()->delete();
+
+        $token = $user->createToken($input['device'])->plainTextToken;
+
+        return response()->json(['success' => 1, 'message' => 'Login successfully', 'token' => $token]);
     }
 
     public function resetpassword(Request $request)

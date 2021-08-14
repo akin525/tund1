@@ -3,12 +3,62 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use App\Models\Settings;
+use App\Models\Transaction;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    public function dashboard()
+    {
+        $date = date("Y-m-d H:i:s");
+        $user->last_login = $date;
+        $user->save();
+
+        $uinfo['full_name'] = $user->full_name;
+        $uinfo['company_name'] = $user->company_name;
+        $uinfo['dob'] = $user->dob;
+        $uinfo['wallet'] = $user->wallet;
+        $uinfo['bonus'] = $user->bonus;
+        $uinfo['status'] = $user->status;
+        $uinfo['level'] = $user->level;
+        $uinfo['photo'] = $user->photo;
+        $uinfo['reg_date'] = $user->reg_date;
+        $uinfo['target'] = $user->target;
+        $uinfo['user_name'] = $user->user_name;
+        $uinfo['email'] = $user->email;
+        $uinfo['phoneno'] = $user->phoneno;
+        $uinfo['gnews'] = $user->gnews;
+        $uinfo['fraud'] = $user->fraud;
+        $uinfo['referral'] = $user->referral;
+        $uinfo['referral_plan'] = $user->referral_plan;
+        $uinfo['account_number'] = $user->account_number;
+        $uinfo['account_number2'] = $user->account_number2;
+        $uinfo['last_login'] = $user->last_login;
+        $uinfo['agent_commision'] = $user->agent_commision;
+        $uinfo['points'] = $user->points;
+
+        $uinfo["total_fund"] = Transaction::where([['user_name', $input['user_name']], ['name', 'wallet funding'], ['status', 'successful']])->count();
+        $uinfo["total_trans"] = Transaction::where([['user_name', $input['user_name']], ['status', 'delivered']])->count();
+        // get user transactions report from transactions table
+
+        //get airtime discounts
+        $airsets = DB::table("tbl_serverconfig_airtime")->where('name', '=', 'discount')->first();
+        $uinfo['airtime_discount_mtn'] = $airsets->mtn;
+        $uinfo['airtime_discount_glo'] = $airsets->glo;
+        $uinfo['airtime_discount_etisalat'] = $airsets->etisalat;
+        $uinfo['airtime_discount_airtel'] = $airsets->airtel;
+
+        $settings = Settings::all();
+        foreach ($settings as $setting) {
+            $sett[$setting->name] = $setting->value;
+        }
+        $d = array_merge($uinfo, $sett);
+    }
+
     public function change_password(Request $request)
     {
         $input = $request->all();
