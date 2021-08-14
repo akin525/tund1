@@ -7,6 +7,7 @@ use App\Models\Settings;
 use App\Models\Transaction;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,15 +15,11 @@ class UserController extends Controller
 {
     public function dashboard()
     {
-        $date = date("Y-m-d H:i:s");
-        $user->last_login = $date;
-        $user->save();
+        $user = Auth::user();
 
         $uinfo['full_name'] = $user->full_name;
         $uinfo['company_name'] = $user->company_name;
         $uinfo['dob'] = $user->dob;
-        $uinfo['wallet'] = $user->wallet;
-        $uinfo['bonus'] = $user->bonus;
         $uinfo['status'] = $user->status;
         $uinfo['level'] = $user->level;
         $uinfo['photo'] = $user->photo;
@@ -38,11 +35,10 @@ class UserController extends Controller
         $uinfo['account_number'] = $user->account_number;
         $uinfo['account_number2'] = $user->account_number2;
         $uinfo['last_login'] = $user->last_login;
-        $uinfo['agent_commision'] = $user->agent_commision;
         $uinfo['points'] = $user->points;
 
-        $uinfo["total_fund"] = Transaction::where([['user_name', $input['user_name']], ['name', 'wallet funding'], ['status', 'successful']])->count();
-        $uinfo["total_trans"] = Transaction::where([['user_name', $input['user_name']], ['status', 'delivered']])->count();
+        $uinfo["total_fund"] = Transaction::where([['user_name', $user->user_name], ['name', 'wallet funding'], ['status', 'successful']])->count();
+        $uinfo["total_trans"] = Transaction::where([['user_name', $user->user_name], ['status', 'delivered']])->count();
         // get user transactions report from transactions table
 
         //get airtime discounts
@@ -57,55 +53,81 @@ class UserController extends Controller
             $sett[$setting->name] = $setting->value;
         }
         $d = array_merge($uinfo, $sett);
+
+        $me['user_name'] = $user->user_name;
+        $me['account_details'] = $user->account_number;
+        $me['referral_plan'] = $user->referral_plan;
+        $me['photo'] = $user->photo;
+
+        $balances['wallet'] = "$user->wallet";
+        $balances['bonus'] = "$user->bonus";
+        $balances['agent_commision'] = "$user->agent_commision";
+        $balances['points'] = "$user->points";
+        $balances['general_market'] = $sett['general_market'];
+
+
+        $services['airtime'] = $sett['airtime'];
+        $services['data'] = $sett['data'];
+        $services['paytv'] = $sett['paytv'];
+        $services['resultchecker'] = $sett['resultchecker'];
+        $services['rechargecard'] = $sett['resultchecker'];
+        $services['electricity'] = $sett['electricity'];
+        $services['betting'] = $sett['betting'];
+        $services['airtimeconverter'] = $sett['airtimeconverter'];
+
+        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['user' => $me, 'balances' => $balances, 'services' => $services, 'news' => $user->gnews]]);
     }
 
     public function change_password(Request $request)
     {
         $input = $request->all();
         $rules = array(
-            'user_name' => 'required',
             'o_password' => 'required',
             'n_password' => 'required',
         );
 
         $validator = Validator::make($input, $rules);
 
-        if ($validator->passes()) {
-            $user = User::where("user_name", $input['user_name'])->first();
-
-            if ($user->mcdpassword != $input['o_password']) {
-                return response()->json(['success' => 0, 'message' => 'Wrong Old Password']);
-            }
-
-            $user->mcdpassword = $input['n_password'];
-            $user->save();
-
-            return response()->json(['success' => 1, 'message' => 'Password changed successfully']);
+        if (!$validator->passes()) {
+            return response()->json(['success' => 0, 'message' => 'Required field(s) is missing']);
         }
+
+        $user = Auth::user();
+
+        if ($user->mcdpassword != $input['o_password']) {
+            return response()->json(['success' => 0, 'message' => 'Wrong Old Password']);
+        }
+
+        $user->mcdpassword = $input['n_password'];
+        $user->save();
+
+        return response()->json(['success' => 1, 'message' => 'Password changed successfully']);
+
     }
 
     public function change_pin(Request $request)
     {
         $input = $request->all();
         $rules = array(
-            'user_name' => 'required',
             'o_pin' => 'required',
             'n_pin' => 'required',
         );
 
         $validator = Validator::make($input, $rules);
 
-        if ($validator->passes()) {
-            $user = User::where("user_name", $input['user_name'])->first();
-            if ($user->pin != $input['o_pin']) {
-                return response()->json(['success' => 0, 'message' => 'Wrong Old Pin']);
-            }
-
-            $user->pin = $input['n_pin'];
-            $user->save();
-
-            return response()->json(['success' => 1, 'message' => 'Pin changed successfully']);
+        if (!$validator->passes()) {
+            return response()->json(['success' => 0, 'message' => 'Required field(s) is missing']);
         }
+
+        $user = Auth::user();
+        if ($user->pin != $input['o_pin']) {
+            return response()->json(['success' => 0, 'message' => 'Wrong Old Pin']);
+        }
+
+        $user->pin = $input['n_pin'];
+        $user->save();
+
+        return response()->json(['success' => 1, 'message' => 'Pin changed successfully']);
     }
 
     public function updateAgent(Request $request)
