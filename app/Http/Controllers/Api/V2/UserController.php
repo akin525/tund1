@@ -134,6 +134,22 @@ class UserController extends Controller
         return response()->json(['success' => 1, 'message' => 'Pin changed successfully']);
     }
 
+    public function referrals()
+    {
+        $user = Auth::user();
+        $referrals = User::where('referral', $user->user_name)->select('user_name', 'photo', 'referral_plan', 'reg_date')->get();
+
+        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => $referrals]);
+    }
+
+    public function transactions()
+    {
+        $user = Auth::user();
+        $trans = Transaction::where('user_name', $user->user_name)->get();
+
+        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => $trans]);
+    }
+
     public function updateAgent(Request $request)
     {
         /* updated on 11/08/2019 by samji

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V2\AuthenticationController;
 use App\Http\Controllers\Api\V2\OtherController;
 use App\Http\Controllers\Api\V2\UserController;
+use App\Http\Controllers\Api\V2\ValidationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,10 +24,14 @@ Route::prefix('v2')->middleware("version")->group(function () {
     Route::post('resetpassword', [AuthenticationController::class, 'resetpassword']);
     Route::post('signup', [AuthenticationController::class, 'signup']);
 
+    Route::post('validate', [ValidationController::class, 'index']);
+
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('biometriclogin', [AuthenticationController::class, 'biometricLogin']);
         Route::get('dashboard', [UserController::class, 'dashboard']);
         Route::post('changepin', [UserController::class, 'change_pin']);
+        Route::get('referrals', [UserController::class, 'referrals']);
+        Route::get('transactions', [UserController::class, 'transactions']);
         Route::post('changepassword', [UserController::class, 'change_password']);
         Route::get('paymentcheckout', [OtherController::class, 'paymentcheckout']);
     });
