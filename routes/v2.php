@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V2\AuthenticationController;
+use App\Http\Controllers\Api\V2\ListController;
 use App\Http\Controllers\Api\V2\OtherController;
 use App\Http\Controllers\Api\V2\UserController;
 use App\Http\Controllers\Api\V2\ValidationController;
@@ -34,6 +35,10 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::get('transactions', [UserController::class, 'transactions']);
         Route::post('changepassword', [UserController::class, 'change_password']);
         Route::get('paymentcheckout', [OtherController::class, 'paymentcheckout']);
+
+        Route::get('airtime', [ListController::class, 'airtime']);
+        Route::get('data/{network}', [ListController::class, 'data']);
+        Route::get('tv/{network}', [ListController::class, 'cabletv']);
     });
 
 });
