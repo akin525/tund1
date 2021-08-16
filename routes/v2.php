@@ -27,6 +27,8 @@ Route::prefix('v2')->middleware("version")->group(function () {
 
     Route::post('validate', [ValidationController::class, 'index']);
 
+    Route::get('referralPlans', [OtherController::class, 'referralPlans']);
+
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('biometriclogin', [AuthenticationController::class, 'biometricLogin']);
         Route::get('dashboard', [UserController::class, 'dashboard']);

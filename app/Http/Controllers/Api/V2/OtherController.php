@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use App\Models\ReferralPlans;
 use App\Models\Settings;
 
 class OtherController extends Controller
@@ -30,5 +31,12 @@ class OtherController extends Controller
         $d['monnify_contractcode'] = $sett['fund_monnify_contractcode'];
 
         return response()->json(['success' => 1, 'message' => 'Fetched successful', 'data' => ['status' => $data, 'details' => $d]]);
+    }
+
+    public function referralPlans()
+    {
+        $data = ReferralPlans::get();
+
+        return response()->json(['success' => 1, 'message' => 'Fetched successful', 'data' => $data]);
     }
 }

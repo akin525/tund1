@@ -118,16 +118,6 @@ class AuthenticationController extends Controller
             return response()->json(['success' => 0, 'message' => 'Incorrect password attempt']);
         }
 
-        // Revoke all tokens...
-        $user->tokens()->delete();
-
-        $token = $user->createToken($input['device'])->plainTextToken;
-
-        if (isset($input['login'])) {
-            $la->status = "authorized";
-            $la->save();
-        }
-
         if ($user->devices != $input['device']) {
             $tr['code'] = str_shuffle(substr(date('sydmM') . rand() . $input['user_name'], 0, 4));
             $tr['email'] = $user->email;
@@ -141,8 +131,20 @@ class AuthenticationController extends Controller
                 Mail::to($user->email)->send(new NewDeviceLoginMail($tr));
             }
 
-            return response()->json(['success' => 2, 'message' => 'Login successfully', 'token' => $token]);
+            $la->status = "new_device";
+            $la->save();
+
+            return response()->json(['success' => 2, 'message' => 'Login successfully']);
         }
+
+        $la->status = "authorized";
+        $la->save();
+
+        // Revoke all tokens...
+        $user->tokens()->delete();
+
+        $token = $user->createToken($input['device'])->plainTextToken;
+
 
         return response()->json(['success' => 1, 'message' => 'Login successfully', 'token' => $token]);
     }
@@ -191,7 +193,12 @@ class AuthenticationController extends Controller
         $user->devices = $device;
         $user->save();
 
-        return response()->json(['success' => 1, 'message' => 'Device Verified Successfully']);
+        // Revoke all tokens...
+        $user->tokens()->delete();
+
+        $token = $user->createToken($input['device'])->plainTextToken;
+
+        return response()->json(['success' => 1, 'message' => 'Device Verified Successfully', 'data' => $token]);
     }
 
     public function socialLogin(Request $request)
