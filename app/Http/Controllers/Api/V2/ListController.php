@@ -25,7 +25,7 @@ class ListController extends Controller
     public function data($network)
     {
 
-        $datasets = AppDataControl::where([['network', '=', strtoupper($network)], ['status', 1]])->select('coded', 'price', 'network', 'status')->get();
+        $datasets = AppDataControl::where([['network', '=', strtoupper($network)], ['status', 1]])->select('name', 'coded', 'price', 'network', 'status')->get();
 
         return response()->json(['success' => 1, 'message' => 'Fetch successfully', 'data' => $datasets]);
     }
@@ -33,7 +33,7 @@ class ListController extends Controller
     public function cabletv($network)
     {
 
-        $datasets = AppCableTVControl::where([['type', '=', strtolower($network)], ['status', 1]])->select('coded', 'price', 'type', 'status')->get();
+        $datasets = AppCableTVControl::where([['type', '=', strtolower($network)], ['status', 1]])->select('name', 'coded', 'price', 'type', 'status')->get();
 
         return response()->json(['success' => 1, 'message' => 'Fetch successfully', 'data' => $datasets]);
     }
