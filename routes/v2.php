@@ -49,6 +49,12 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::post('electricity', [PayController::class, 'buyelectricity']);
         Route::post('betting', [PayController::class, 'buybetting']);
         Route::post('airtimeconverter', [PayController::class, 'a2ca2b']);
+        Route::post('resultchecker', [PayController::class, 'resultchecker']);
+
+        Route::get('agentstatus', [UserController::class, 'agentStatus']);
+        Route::post('agent', [UserController::class, 'requestAgent']);
+
+        Route::get('freemoney', [UserController::class, 'freemoney']);
     });
 
 });
