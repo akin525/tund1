@@ -54,6 +54,9 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::get('agentstatus', [UserController::class, 'agentStatus']);
         Route::post('agent', [UserController::class, 'requestAgent']);
 
+
+        Route::post('fundwallet', [OtherController::class, 'fundwallet']);
+
         Route::get('freemoney', [UserController::class, 'freemoney']);
     });
 

@@ -58,6 +58,7 @@ class UserController extends Controller
         $me['account_details'] = $user->account_number;
         $me['referral_plan'] = $user->referral_plan;
         $me['photo'] = $user->photo;
+        $me['email'] = $user->email;
 
         $balances['wallet'] = "$user->wallet";
         $balances['bonus'] = "$user->bonus";

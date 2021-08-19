@@ -5,6 +5,12 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Models\ReferralPlans;
 use App\Models\Settings;
+use App\Models\Wallet;
+use App\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class OtherController extends Controller
 {
@@ -38,5 +44,47 @@ class OtherController extends Controller
         $data = ReferralPlans::get();
 
         return response()->json(['success' => 1, 'message' => 'Fetched successful', 'data' => $data]);
+    }
+
+    public function fundWallet(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'amount' => 'required',
+            'medium' => 'required',
+            'ref' => 'required',
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        $input = $request->all();
+
+        if (!$validator->passes()) {
+
+            return response()->json(['success' => 0, 'message' => 'Required field(s) is missing']);
+        }
+
+        $input['version'] = $request->header('version');
+
+        $input['deviceid'] = $_SERVER['HTTP_USER_AGENT'];
+
+        $input['user_name'] = Auth::user()->user_name;
+
+        $input['o_wallet'] = Auth::user()->wallet;
+
+        $input['n_wallet'] = $input['o_wallet'] + $input['amount'];
+
+        $user = User::find(Auth::id());
+
+        if (!$user) {
+            return response()->json(['success' => 0, 'message' => 'User not found']);
+        }
+
+        $input['date'] = Carbon::now();
+        $input['status'] = "pending";
+
+        Wallet::create($input);
+
+        return response()->json(['success' => 1, 'message' => 'Fund Logged for further processing']);
     }
 }
