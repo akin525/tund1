@@ -196,7 +196,7 @@ class AuthenticationController extends Controller
         // Revoke all tokens...
         $user->tokens()->delete();
 
-        $token = $user->createToken($input['device'])->plainTextToken;
+        $token = $user->createToken($device)->plainTextToken;
 
         return response()->json(['success' => 1, 'message' => 'Device Verified Successfully', 'data' => $token]);
     }
