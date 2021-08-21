@@ -67,9 +67,11 @@ class PayController extends Controller
 
         $air=new SellAirtimeController();
 
-        switch(strtolower($server)) {
+        switch (strtolower($server)) {
             case "6":
                 return $air->server6($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
+            case "4":
+                return $air->server4($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
             default:
                 return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
         }

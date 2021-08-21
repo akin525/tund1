@@ -80,7 +80,9 @@ class UserController extends Controller
         $advts['unity_testmode'] = $sett['unity_testmode'];
         $advts['unity_gameid'] = $sett['unity_gameid'];
 
-        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['user' => $me, 'balances' => $balances, 'services' => $services, 'news' => $user->gnews, 'adverts' => $advts]]);
+        $others['mcd_agent_phoneno'] = $sett['mcda_phoneno'];
+
+        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['user' => $me, 'balances' => $balances, 'services' => $services, 'news' => $user->gnews, 'adverts' => $advts, 'others' => $others]]);
     }
 
     public function change_password(Request $request)
@@ -178,7 +180,7 @@ class UserController extends Controller
             $step3 = true;
         }
 
-        return response()->json(['success' => 1, 'message' => 'Agent status fetched successfully', 'data' => ['setp1' => $step1, 'step2' => $step2, 'step3' => $step3]]);
+        return response()->json(['success' => 1, 'message' => 'Agent status fetched successfully', 'data' => ['step1' => $step1, 'step2' => $step2, 'step3' => $step3]]);
     }
 
     public function requestAgent(Request $request)
