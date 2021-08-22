@@ -34,8 +34,13 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::get('biometriclogin', [AuthenticationController::class, 'biometricLogin']);
         Route::get('dashboard', [UserController::class, 'dashboard']);
         Route::post('changepin', [UserController::class, 'change_pin']);
+
         Route::get('referrals', [UserController::class, 'referrals']);
+        Route::post('addreferral', [UserController::class, 'add_referral']);
+
         Route::get('transactions', [UserController::class, 'transactions']);
+        Route::get('gmtransactions', [OtherController::class, 'getGmTrans']);
+
         Route::post('changepassword', [UserController::class, 'change_password']);
         Route::get('paymentcheckout', [OtherController::class, 'paymentcheckout']);
 
@@ -53,6 +58,11 @@ Route::prefix('v2')->middleware("version")->group(function () {
 
         Route::get('agentstatus', [UserController::class, 'agentStatus']);
         Route::post('agent', [UserController::class, 'requestAgent']);
+        Route::post('agentdocument', [UserController::class, 'agentDocumentation']);
+
+        Route::get('banklist', [OtherController::class, 'banklist']);
+        Route::post('verifyBank', [OtherController::class, 'verifyBank']);
+        Route::post('withdrawfund', [OtherController::class, 'withdraw']);
 
 
         Route::post('fundwallet', [OtherController::class, 'fundwallet']);

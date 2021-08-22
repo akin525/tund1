@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PushNotificationController;
+use App\Models\ReferralPlans;
 use App\Models\Settings;
 use App\Models\Transaction;
 use App\User;
@@ -231,75 +233,98 @@ class UserController extends Controller
         return response()->json(['success' => 1, 'message' => 'Data submitted successfully, kindly check your mail for progress']);
     }
 
-    public function update_referral(Request $request)
+    public function agentDocumentation(Request $request)
     {
-        /*
-         * Following code will get single product details
-         * A product is identified by product id (uid)
-         */
         $input = $request->all();
         $rules = array(
-            'user_name' => 'required',
-            'referral' => 'required',
-            'version' => 'required',
-            'deviceid' => 'required');
+            'document' => 'required'
+        );
 
         $validator = Validator::make($input, $rules);
 
         $input = $request->all();
 
-        if ($validator->passes()) {
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'message' => 'Some forms are left out', 'error' => $validator->errors()]);
+        }
 
-            $uid = User::where('user_name', $input['user_name'])->first();
-            if (!$uid) {
-                return response()->json(['success' => 0, 'message' => 'User does not exist']);
-            }
+        $user = User::where('user_name', Auth::user()->user_name)->first();
+        if (!$user) {
+            return response()->json(['success' => 0, 'message' => 'User not found']);
+        }
 
-            $referral = User::where('user_name', $input['referral'])->first();
-            if (!$referral) {
-                return response()->json(['success' => 0, 'message' => 'Referral does not exist']);
-            }
+        if ($user->dob == "") {
+            return response()->json(['success' => 0, 'message' => 'Data can only be submitted once']);
+        }
 
-            if ($uid == $referral) {
-                return response()->json(['success' => 0, 'message' => 'You can not add your self as a referral']);
-            }
+        $image = $input["document"];
+        $photo = Auth::user()->user_name . ".JPG";
 
-            if ($uid->referral != "") {
-                return response()->json(['success' => 0, 'message' => 'Referral has already been added']);
-            }
-            //values gotten
-            $r_wallet = $referral->wallet;
-            $r_email = $referral->email;
-            $r_referralplan = $referral->referral_plan;
-            $r_user_name = $referral->user_name;
+//            $decodedImage = base64_decode("$image");
+//            file_put_contents(storage_path("app/public/avatar/" . $photo), $decodedImage);
 
-            $referral_count = User::where('referral', $input['referral'])->count();
+//        $user->document = 1;
+//        $user->save();
 
-            if ($r_referralplan == "free") {
-                $max = 20;
-            } elseif ($r_referralplan == "larvae") {
-                $max = 50;
-            } elseif ($r_referralplan == "butterfly") {
-                $max = 100;
-            }
+        return response()->json(['success' => 1, 'message' => 'Document submitted successfully, we are currently reviewing your request which might take days.']);
+    }
 
-            if ($max == $referral_count) {
-                return response()->json(['success' => 0, 'message' => $referral->user_name . " has reached referral limit. Kindly inform the user to upgrade referral plan"]);
-            }
+    public function add_referral(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'referral' => 'required'
+        );
 
-            $uid->referral = $input['referral'];
-            $uid->save();
+        $validator = Validator::make($input, $rules);
 
-            $noti = new ATMmanagerController();
-            $noti->PushNoti($input['referral'], "Hi " . $input['referral'] . ", " . $input['user_name'] . " has added you as a referral. You will start receiving atleast #5 on every data transaction, to earn more kindly upgrade. Thanks", "Referral");
+        $input = $request->all();
 
-            return response()->json(['success' => 1, 'message' => $referral->user_name . " has been added as your referral successfully", 'referral' => $input['referral']]);
+        if (!$validator->passes()) {
 
-        } else {
-            // required field is missing
-            // echoing JSON response
             return response()->json(['success' => 0, 'message' => 'Required field(s) is missing']);
         }
+
+        $input['user_name'] = Auth::user()->user_name;
+
+        $uid = User::where('user_name', $input['user_name'])->first();
+        if (!$uid) {
+            return response()->json(['success' => 0, 'message' => 'User does not exist']);
+        }
+
+        $referral = User::where('user_name', $input['referral'])->first();
+        if (!$referral) {
+            return response()->json(['success' => 0, 'message' => 'Referral does not exist']);
+        }
+
+        if ($uid == $referral) {
+            return response()->json(['success' => 0, 'message' => 'You can not add your self as a referral']);
+        }
+
+        if ($uid->referral != "") {
+            return response()->json(['success' => 0, 'message' => 'Referral has already been added']);
+        }
+
+        $r_referralplan = $referral->referral_plan;
+
+        $referral_count = User::where('referral', $input['referral'])->count();
+
+        $rpackage = ReferralPlans::where("name", $r_referralplan)->first();
+
+        $max = $rpackage->max_users;
+
+        if ($max == $referral_count) {
+            return response()->json(['success' => 0, 'message' => $referral->user_name . " has reached referral limit. Kindly inform the user to upgrade referral plan"]);
+        }
+
+        $uid->referral = $input['referral'];
+        $uid->save();
+
+        $noti = new PushNotificationController();
+        $noti->PushNoti($input['referral'], "Hi " . $input['referral'] . ", " . $input['user_name'] . " has added you as a referral. You will start receiving atleast #5 on every data transaction, to earn more kindly upgrade. Thanks", "Referral");
+
+        return response()->json(['success' => 1, 'message' => $referral->user_name . " has been added as your referral successfully", 'referral' => $input['referral']]);
+
     }
 
 
