@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Api\V2;
 
+use App\Http\Controllers\Api\SellAirtimeController;
 use App\Http\Controllers\Controller;
 use App\Models\Airtime2Cash;
 use App\Models\Airtime2CashSettings;
+use App\Models\Serverlog;
+use App\Models\Settings;
 use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class PayController extends Controller
@@ -37,7 +41,65 @@ class PayController extends Controller
 
         $input['device'] = $_SERVER['HTTP_USER_AGENT'];
 
-        return response()->json(['success' => 1, 'message' => 'Airtime Sent Successfully']);
+        $sys = DB::table("tbl_serverconfig_airtime")->where('name', '=', 'airtime')->first();
+
+        $sysD = DB::table("tbl_serverconfig_airtime")->where('name', '=', 'discount')->first();
+
+        switch ($input['provider']) {
+            case "MTN":
+                $server = $sys->mtn;
+                $discount = $sysD->mtn;
+                break;
+
+            case "9MOBILE":
+                $server = $sys->etisalat;
+                $discount = $sysD->etisalat;
+                break;
+
+            case "ETISALAT":
+                $server = $sys->etisalat;
+                $discount = $sysD->etisalat;
+                break;
+
+            case "GLO":
+                $server = $sys->glo;
+                $discount = $sysD->glo;
+                break;
+
+            case "AIRTEL":
+                $server = $sys->airtel;
+                $discount = $sysD->airtel;
+                break;
+
+            default:
+                // required field is missing
+                return response()->json(['success' => 0, 'message' => 'Invalid Network. Available are  MTN, 9MOBILE, GLO, AIRTEL.']);
+        }
+
+
+        if ($input['amount'] < 100) {
+            return response()->json(['success' => 0, 'message' => 'Minimum amount is #100']);
+        }
+
+        if ($input['amount'] > 5000) {
+            return response()->json(['success' => 0, 'message' => 'Maximum amount is #5000']);
+        }
+
+        $dis = explode("%", $discount);
+        $discount = $input['amount'] * ($dis[0] / 100);
+        $debitAmount = $input['amount'];
+
+        $proceed['1'] = $input['provider'];
+        $proceed['2'] = $debitAmount;
+        $proceed['3'] = $discount;
+        $proceed['4'] = $server;
+        $proceed['5'] = "airtime";
+
+        return $this->handlePassage($request, $proceed);
+
+//        return $this->debitUser($request, $input['provider'], $debitAmount, $discount, $server, "airtime");
+
+//        return response()->json(['success' => 1, 'message' => 'Airtime Sent Successfully']);
 
     }
 
@@ -167,7 +229,7 @@ class PayController extends Controller
 
             $input['user_name'] = Auth::user()->user_name;
 
-                Airtime2Cash::create($input);
+            Airtime2Cash::create($input);
 
             $number = Airtime2CashSettings::where('network', '=', $input['network'])->first();
 
@@ -244,4 +306,214 @@ class PayController extends Controller
         return response()->json(['success' => 1, 'message' => 'You will receive your request soon']);
 
     }
+
+    public function buyAirtimeCTD(Request $request, $ref, $net, $dada, $server)
+    {
+        $input = $request->all();
+
+        $air = new SellAirtimeController();
+
+        switch (strtolower($server)) {
+            case "6":
+                return $air->server6($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "reseller");
+            case "5":
+                return $air->server5($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "reseller");
+            case "4":
+                return $air->server4($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "reseller");
+            case "3":
+                return $air->server3($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "reseller");
+            case "2":
+                return $air->server2($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "reseller");
+            case "1b":
+                return $air->server1b($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "reseller");
+            case "1":
+                return $air->server1($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "reseller");
+            default:
+                return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
+        }
+    }
+
+
+    public function debitUser(Request $request, $provider, $amount, $discount, $server, $requester, $ref)
+    {
+        $input = $request->all();
+
+        $input['user_name'] = Auth::user()->user_name;
+
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['success' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
+        }
+
+        if ($amount > $user->wallet) {
+            return response()->json(['success' => 0, 'message' => 'Insufficient balance to handle request']);
+        }
+
+
+        if ($requester == "airtime") {
+            $tr['name'] = strtoupper($provider) . " " . $requester;
+            $tr['description'] = $user->user_name . " purchase " . $input['provider'] . " " . $input['amount'] . " airtime on " . $input['number'] . " using " . $input['payment'];
+            $tr['code'] = $requester;
+        } else {
+            $tr['name'] = $requester;
+            $tr['description'] = $user->user_name . " purchase " . " " . $input['coded'] . " on " . $input['number'] . " using " . $input['payment'];
+            $tr['code'] = $requester . "_" . $input['coded'];
+        }
+        $tr['amount'] = $amount;
+        $tr['date'] = Carbon::now();
+        $tr['device_details'] = "api";
+        $tr['ip_address'] = $_SERVER['REMOTE_ADDR'];
+        $tr['user_name'] = $user->user_name;
+        $tr['ref'] = $ref;
+        $tr['server'] = "server" . $server;
+        $tr['server_response'] = "";
+        $tr['payment_method'] = $input['payment'];
+        $tr['transid'] = $ref;
+        $tr['status'] = "pending";
+        $tr['extra'] = $discount;
+
+        if ($input['payment'] == "wallet") {
+            $tr['i_wallet'] = $user->wallet;
+            $tr['f_wallet'] = $tr['i_wallet'] - $amount;
+
+            $user->wallet -= $amount;
+            $user->bonus += $discount;
+            $user->save();
+
+        } else {
+            $tr['i_wallet'] = $user->wallet;
+            $tr['f_wallet'] = $tr['i_wallet'];
+        }
+
+        $t = Transaction::create($tr);
+
+        $dada['tid'] = $t->id;
+        $dada['amount'] = $amount;
+        $dada['discount'] = $discount;
+
+        switch ($requester) {
+            case "airtime":
+                return $this->buyAirtimeCTD($request, $ref, $provider, $dada, $server);
+            case "data":
+                return $this->buyDataCTD($request, $ref, $provider, $dada, $server);
+            case "tv":
+                return $this->buyTvCTD($request, $ref, $provider, $dada, $server);
+            case "electricity":
+                return $this->buyElectricityCTD($request, $ref, $provider, $dada, $server);
+        }
+    }
+
+    public function handlePassage($request, $proceed)
+    {
+        $input = $request->all();
+        $input['ip_address'] = $_SERVER['REMOTE_ADDR'];
+        $input['date'] = Carbon::now();
+        $input['phone'] = $input['number'];
+        $input['user_name'] = Auth::user()->user_name;
+        $input['transid'] = "MCD_" . substr($input['user_name'], -1, 4) . "_" . Carbon::now()->timestamp . rand();
+
+        $users = User::where("user_name", "=", $input['user_name'])->first();
+        if (!$users) {
+            $input['status'] = 'Username does not exist';
+            Serverlog::create($input);
+            return response()->json(['success' => 0, 'message' => 'Error, invalid user name']);
+        }
+
+        if ($input['payment'] == "general_market") {
+            $set = Settings::where('name', 'general_market')->first();
+            if ($set->value < 300) {
+                $input['status'] = 'general market is lower than threshold';
+                Serverlog::create($input);
+                return response()->json(['success' => 0, 'message' => 'General market balance is lower than threshold']);
+            }
+
+            $bugm = DB::table("tbl_generalmarket_blocked user")->get();
+            foreach ($bugm as $bu) {
+                //check for blocked users
+                if ($input['user_name'] == $bu->user_name) {
+                    $input['status'] = 'User suspended';
+                    Serverlog::create($input);
+                    return response()->json(['success' => 0, 'message' => 'error']);
+                }
+            }
+
+            if ($set->value >= $input['amount']) {
+                Serverlog::create($input);
+                return $this->debitUser($request, $proceed['1'], $proceed['2'], $proceed['3'], $proceed['4'], $proceed['5'], $input['transid']);
+//                return $next($request);
+            }
+
+            $input['status'] = 'general market is low';
+            Serverlog::create($input);
+            return response()->json(['success' => 0, 'message' => 'General market balance is low']);
+        }
+
+        if ($input['payment'] != "wallet") {
+            $input['status'] = 'pending';
+            Serverlog::create($input);
+            return response()->json(['success' => 1, 'message' => 'Transaction executed successfully']);
+        }
+
+        $user = User::where('user_name', $input['user_name'])->first();
+
+        if ($user->wallet <= 0) {
+            $input['status'] = 'Balance to low';
+            Serverlog::create($input);
+            return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low']);
+        }
+        if ($input['amount'] > $user->wallet) {
+            $input['status'] = 'Balance to low';
+            Serverlog::create($input);
+            return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low']);
+        }
+
+        $lasttime = Serverlog::where('user_name', $input['user_name'])->orderBy('id', 'desc')->first();
+
+        if ($lasttime) {
+            $t = Carbon::parse($lasttime->date)->diffInSeconds(Carbon::now(), false);
+
+            if ($t <= 15 && !($t < 0)) {
+                $input['status'] = 'Suspect Fraud';
+                Serverlog::create($input);
+                $user = User::where('user_name', $input['user_name'])->first();
+                $user->wallet -= $input['amount'];
+                $user->save();
+                return response()->json(['success' => 0, 'message' => 'Suspect Fraud']);
+            }
+        }
+
+        Serverlog::create($input);
+        return $this->debitUser($request, $proceed['1'], $proceed['2'], $proceed['3'], $proceed['4'], $proceed['5'], $input['transid']);
+//        return $next($request);
+    }
+
+    public function outputResp(Request $request, $ref, $status, $dada)
+    {
+
+        if ($status == 1) {
+            $t = Transaction::find($dada['tid']);
+            $t->status = "delivered";
+            $t->server_response = $dada['server_response'];
+            $t->save();
+
+            if (isset($dada['token'])) {
+                $t->description .= " - " . $dada['token'];
+                $t->save();
+                return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
+            }
+            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+        }
+
+        $t = Transaction::find($dada['tid']);
+        $t->server_response = $dada['server_response'];
+        $t->save();
+
+        if (isset($dada['token'])) {
+            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
+        }
+
+        return response()->json(['success' => 1, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+    }
+
+
 }

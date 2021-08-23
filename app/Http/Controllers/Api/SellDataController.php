@@ -18,33 +18,20 @@ class SellDataController extends Controller
             case "mtn-data":
                 $netcode = "MTN";
                 break;
+            case "glo-data":
+                $netcode = "GLO";
+                break;
             default:
-                $netcode = strtolower($net);
+                $netcode = strtoupper($net);
         }
 
         $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
-            $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => env('SERVER1N') . "data" . env('SERVER1N_AUTH') . "&network=" . $netcode . "&phoneNumber=" . $phone . "&product_code=" . $code . "&price=" . $rac->price . "&trans_id=" . $transid . "&return_url=https://mcd.com",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-                CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json'
-                ),
-            ));
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-
-            $response = curl_exec($curl);
-
-            curl_close($curl);
+            $url = env('SERVER1N') . "data" . env('SERVER1N_AUTH') . "&network=" . $netcode . "&phoneNumber=" . $phone . "&product_code=" . $code . "&price=" . $rac->price . "&trans_id=" . $transid . "&return_url=https://mcd.com";
+            // Perform transaction/initialize on our server to buy
+            $response = file_get_contents($url);
 
         } else {
             $response = '{"trans_id":"R16287146091881817015","details":{"network":"MTN","data_volume":"1GB","phone_number":"08166939205","price":"255","status":"Pending","balance":"15805"}}';
@@ -58,6 +45,54 @@ class SellDataController extends Controller
         $dada['server_response'] = $response;
 
         if (isset($rep['trans_id'])) {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 1, $dada);
+            } else {
+//                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
+            }
+        } else {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 0, $dada);
+            } else {
+//                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
+            }
+        }
+    }
+
+    public function server3($request, $code, $phone, $transid, $net, $input, $dada, $requester)
+    {
+
+        $netcode = "0";
+
+        switch ($net) {
+            case "mtn-data":
+                $netcode = "MTN";
+                break;
+            case "glo-data":
+                $netcode = "GLO";
+                break;
+            default:
+                $netcode = strtoupper($net);
+        }
+
+        if (env('FAKE_TRANSACTION', 1) == 0) {
+
+            $url = env('SERVER3N') . "data" . env('SERVER3N_AUTH') . "&number=" . $phone . "&plan=" . $code . "&transaction_id=" . $transid;
+            // Perform transaction/initialize on our server to buy
+            $response = file_get_contents($url);
+
+        } else {
+            $response = '{"network":"MTN","order":"1GB","number":"08060426915","price":"350","status":"success","ref":"agdh166363heh6366"';
+        }
+
+        $rep = json_decode($response, true);
+
+        $tran = new ServeRequestController();
+        $rs = new PayController();
+
+        $dada['server_response'] = $response;
+
+        if ($rep['status'] == "success") {
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {

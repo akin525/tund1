@@ -70,8 +70,18 @@ class PayController extends Controller
         switch (strtolower($server)) {
             case "6":
                 return $air->server6($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
+            case "5":
+                return $air->server5($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
             case "4":
                 return $air->server4($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
+            case "3":
+                return $air->server3($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
+            case "2":
+                return $air->server2($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
+            case "1b":
+                return $air->server1b($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
+            case "1":
+                return $air->server1($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
             default:
                 return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
         }
