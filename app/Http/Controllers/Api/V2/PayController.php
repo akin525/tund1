@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Api\SellAirtimeController;
+use App\Http\Controllers\Api\SellDataController;
 use App\Http\Controllers\Controller;
+use App\Jobs\ServeRequestJob;
 use App\Models\Airtime2Cash;
 use App\Models\Airtime2CashSettings;
+use App\Models\GeneralMarket;
+use App\Models\PndL;
 use App\Models\Serverlog;
 use App\Models\Settings;
 use App\Models\Transaction;
@@ -123,7 +127,30 @@ class PayController extends Controller
 
         $input['device'] = $_SERVER['HTTP_USER_AGENT'];
 
-        return response()->json(['success' => 1, 'message' => 'Data Sent Successfully']);
+
+        $rac = DB::table("tbl_serverconfig_data")->where("coded", strtolower($input['coded']))->first();
+
+        if ($rac == "") {
+            return response()->json(['success' => 0, 'message' => 'Invalid coded supplied']);
+        }
+
+        if ($rac->status == 0) {
+            return response()->json(['success' => 0, 'message' => $rac->name . ' currently unavailable']);
+        }
+
+        $discount = 0;
+        $debitAmount = $rac->pricing;
+
+        $proceed['1'] = $rac->network;
+        $proceed['2'] = $debitAmount;
+        $proceed['3'] = $discount;
+        $proceed['4'] = $rac->server;
+        $proceed['5'] = "data";
+
+        return $this->handlePassage($request, $proceed);
+
+
+//        return response()->json(['success' => 1, 'message' => 'Data Sent Successfully']);
 
     }
 
@@ -315,19 +342,39 @@ class PayController extends Controller
 
         switch (strtolower($server)) {
             case "6":
-                return $air->server6($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "reseller");
+                return $air->server6($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
             case "5":
-                return $air->server5($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "reseller");
+                return $air->server5($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
             case "4":
-                return $air->server4($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "reseller");
+                return $air->server4($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
             case "3":
-                return $air->server3($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "reseller");
+                return $air->server3($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
             case "2":
-                return $air->server2($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "reseller");
+                return $air->server2($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
             case "1b":
-                return $air->server1b($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "reseller");
+                return $air->server1b($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
             case "1":
-                return $air->server1($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "reseller");
+                return $air->server1($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
+            default:
+                return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
+        }
+    }
+
+    public function buyDataCTD(Request $request, $ref, $net, $dada, $server)
+    {
+        $input = $request->all();
+
+        $air = new SellDataController();
+
+        switch (strtolower($server)) {
+            case "6":
+                return $air->server6($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
+            case "3":
+                return $air->server3($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
+            case "2":
+                return $air->server2($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
+            case "1":
+                return $air->server1($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
             default:
                 return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
         }
@@ -339,6 +386,7 @@ class PayController extends Controller
         $input = $request->all();
 
         $input['user_name'] = Auth::user()->user_name;
+        $input['version'] = $request->header('version');
 
         $user = Auth::user();
         if (!$user) {
@@ -380,6 +428,41 @@ class PayController extends Controller
             $user->bonus += $discount;
             $user->save();
 
+            if ($requester == "data") {
+                if ($input['payment'] == "general_market") {
+                    $set = Settings::where('name', 'general_market')->first();
+                    $tr['transid'] = $ref;
+                    $tr['version'] = $input['version'];
+                    $tr['o_wallet'] = $set->value;
+                    $tr['n_wallet'] = $tr['o_wallet'] - $amount;
+                    $tr['type'] = 'debit';
+                    GeneralMarket::create($tr);
+                    $set->value -= $amount;
+                    $set->save();
+
+                    $input["type"] = "expenses";
+                    $input["gl"] = "General Market";
+                    $input["amount"] = $amount;
+                    $input['date'] = Carbon::now();
+                    $input["narration"] = "Being general market used by " . $input['user_name'] . " on " . $ref;
+
+                    PndL::create($input);
+
+                    $job = (new ServeRequestJob($input, "1", $tr, $user->id))
+                        ->delay(Carbon::now()->addSeconds(1));
+                    dispatch($job);
+                } else {
+                    $set = Settings::where('name', 'general_market')->first();
+                    $tr['version'] = $input['version'];
+                    $tr['o_wallet'] = $set->value;
+                    $tr['n_wallet'] = $tr['o_wallet'] + 5;
+                    $tr['type'] = 'credit';
+                    GeneralMarket::create($tr);
+                    $set->value = $tr['n_wallet'];
+                    $set->save();
+                }
+            }
+
         } else {
             $tr['i_wallet'] = $user->wallet;
             $tr['f_wallet'] = $tr['i_wallet'];
@@ -410,7 +493,16 @@ class PayController extends Controller
         $input['date'] = Carbon::now();
         $input['phone'] = $input['number'];
         $input['user_name'] = Auth::user()->user_name;
-        $input['transid'] = "MCD_" . substr($input['user_name'], -1, 4) . "_" . Carbon::now()->timestamp . rand();
+        $input['payment_method'] = $input['payment'];
+        $input['transid'] = "MCD_" . substr($input['user_name'], -3, 2) . "_" . Carbon::now()->timestamp . rand();
+        $input['version'] = $request->header('version');
+        $input['device_details'] = $_SERVER['HTTP_USER_AGENT'];
+        $input['wallet'] = Auth::user()->wallet;
+        $input['amount'] = $proceed['2'];
+
+        if (isset($input['provider'])) {
+            $input['network'] = $input['provider'];
+        }
 
         $users = User::where("user_name", "=", $input['user_name'])->first();
         if (!$users) {
@@ -499,9 +591,9 @@ class PayController extends Controller
             if (isset($dada['token'])) {
                 $t->description .= " - " . $dada['token'];
                 $t->save();
-                return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
+                return response()->json(['success' => 1, 'message' => 'Your transaction was successful', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
             }
-            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+            return response()->json(['success' => 1, 'message' => 'Your transaction is in progress', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
         }
 
         $t = Transaction::find($dada['tid']);
@@ -509,10 +601,10 @@ class PayController extends Controller
         $t->save();
 
         if (isset($dada['token'])) {
-            return response()->json(['success' => 1, 'message' => 'Transaction Successful instantly', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
+            return response()->json(['success' => 1, 'message' => 'Your transaction was successful', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
         }
 
-        return response()->json(['success' => 1, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+        return response()->json(['success' => 1, 'message' => 'Your transaction is in progress', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
     }
 
 

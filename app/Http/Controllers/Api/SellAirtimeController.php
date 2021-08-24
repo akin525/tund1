@@ -123,13 +123,15 @@ class SellAirtimeController extends Controller
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
 //                $tran->addtrans("server4", $response, $amnt, 1, $transid, $input);
             }
         } else {
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 0, $dada);
             } else {
-                $tran->addtrans("server4", $response, $amnt, 1, $transid, $input);
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $transid, $input);
             }
         }
     }
@@ -176,6 +178,7 @@ class SellAirtimeController extends Controller
 
         $tran = new ServeRequestController();
         $rs = new PayController();
+        $ms = new V2\PayController();
 
         $dada['server_response'] = $response;
 
@@ -183,13 +186,15 @@ class SellAirtimeController extends Controller
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $rep['orderid'], 1, $dada);
             } else {
-                $tran->addtrans("server4", $response, $amnt, 1, $rep['orderid'], $input);
+                return $ms->outputResp($request, $rep['orderid'], 1, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $rep['orderid'], $input);
             }
         } else {
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 0, $dada);
             } else {
-                $tran->addtrans("server4", $response, $amnt, 1, $transid, $input);
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $transid, $input);
             }
         }
     }
@@ -211,6 +216,7 @@ class SellAirtimeController extends Controller
 
         $tran = new ServeRequestController();
         $rs = new PayController();
+        $ms = new V2\PayController();
 
         $dada['server_response'] = $response;
 
@@ -218,13 +224,15 @@ class SellAirtimeController extends Controller
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $rep['ref'], 1, $dada);
             } else {
-                $tran->addtrans("server4", $response, $amnt, 1, $rep['ref'], $input);
+                return $ms->outputResp($request, $transid, 1, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $rep['ref'], $input);
             }
         } else {
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 0, $dada);
             } else {
-                $tran->addtrans("server4", $response, $amnt, 1, $transid, $input);
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $transid, $input);
             }
         }
     }
@@ -313,6 +321,7 @@ class SellAirtimeController extends Controller
 
         $tran = new ServeRequestController();
         $rs = new PayController();
+        $ms = new V2\PayController();
 
         $dada['server_response'] = $response;
 
@@ -320,13 +329,15 @@ class SellAirtimeController extends Controller
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $rep['transaction']['reference'], 1, $dada);
             } else {
-                $tran->addtrans("server4", $response, $amnt, 1, $rep['transaction']['reference'], $input);
+                return $ms->outputResp($request, $transid, 1, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $rep['transaction']['reference'], $input);
             }
         } else {
             if ($requester == "reseller") {
-                return $rs->outputResponse($request, $rep['transaction']['reference'], 0, $dada);
+                return $rs->outputResponse($request, $transid, 0, $dada);
             } else {
-                $tran->addtrans("server4", $response, $amnt, 1, $rep['transaction']['reference'], $input);
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $rep['transaction']['reference'], $input);
             }
         }
     }
@@ -374,6 +385,7 @@ class SellAirtimeController extends Controller
 
         $tran = new ServeRequestController();
         $rs = new PayController();
+        $ms = new V2\PayController();
 
         $dada['server_response'] = $response;
 
@@ -381,13 +393,15 @@ class SellAirtimeController extends Controller
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
-                $tran->addtrans("server5", $response, $amnt, 1, $transid, $input);
+                return $ms->outputResp($request, $transid, 1, $dada);
+//                $tran->addtrans("server5", $response, $amnt, 1, $transid, $input);
             }
         } else {
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 0, $dada);
             } else {
-                $tran->addtrans("server5", $response, $amnt, 1, $transid, $input);
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server5", $response, $amnt, 1, $transid, $input);
             }
         }
     }
@@ -437,6 +451,7 @@ class SellAirtimeController extends Controller
 
         $tran = new ServeRequestController();
         $rs = new PayController();
+        $ms = new V2\PayController();
 
         $dada['server_response'] = $response;
 
@@ -444,13 +459,15 @@ class SellAirtimeController extends Controller
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
-                $tran->addtrans("server6", $response, $amnt, 1, $transid, $input);
+                return $ms->outputResp($request, $transid, 1, $dada);
+//                $tran->addtrans("server6", $response, $amnt, 1, $transid, $input);
             }
         } else {
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 0, $dada);
-            }else{
-                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
+            }else {
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
             }
         }
     }

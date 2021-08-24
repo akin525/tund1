@@ -29,7 +29,7 @@ class SellDataController extends Controller
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
-            $url = env('SERVER1N') . "data" . env('SERVER1N_AUTH') . "&network=" . $netcode . "&phoneNumber=" . $phone . "&product_code=" . $code . "&price=" . $rac->price . "&trans_id=" . $transid . "&return_url=https://mcd.com";
+            $url = env('SERVER1N') . "data" . env('SERVER1N_AUTH') . "&network=" . $netcode . "&phoneNumber=" . $phone . "&product_code=" . $rac->product_code . "&price=" . $rac->price . "&trans_id=" . $transid . "&return_url=https://mcd.com";
             // Perform transaction/initialize on our server to buy
             $response = file_get_contents($url);
 
@@ -41,6 +41,7 @@ class SellDataController extends Controller
 
         $tran = new ServeRequestController();
         $rs = new PayController();
+        $ms = new V2\PayController();
 
         $dada['server_response'] = $response;
 
@@ -48,12 +49,78 @@ class SellDataController extends Controller
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
 //                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
             }
         } else {
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 0, $dada);
             } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
+//                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
+            }
+        }
+    }
+
+    public function server2($request, $code, $phone, $transid, $net, $input, $dada, $requester)
+    {
+
+        $service_id = "0";
+
+        switch ($net) {
+            case "MTN":
+                $service_id = "01";
+                break;
+
+            case "9MOBILE":
+                $service_id = "03";
+                break;
+
+            case "GLO":
+                $service_id = "02";
+                break;
+
+            case "AIRTEL":
+                $service_id = "04";
+                break;
+
+            default:
+                return response()->json(['success' => 0, 'message' => 'Invalid Network. Available are m for MTN, 9 for 9MOBILE, g for GLO, a for AIRTEL.']);
+        }
+
+
+        $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
+
+        if (env('FAKE_TRANSACTION', 1) == 0) {
+
+            $url = env("SERVER2N") . "APIDatabundleV1.asp" . env("SERVER2N_AUTH") . "&MobileNetwork=" . $service_id . "&DataPlan=" . $rac->dataplan . "&MobileNumber=" . $phone . "&RequestID=" . $transid . "&CallBackURL=https://www.5starcompany.com.ng";
+            // Perform transaction/initialize on our server to buy
+            $response = file_get_contents($url);
+
+        } else {
+            $response = '{"orderid":"789","statuscode":"100","status":"ORDER_RECEIVED"}';
+        }
+
+        $rep = json_decode($response, true);
+
+        $tran = new ServeRequestController();
+        $rs = new PayController();
+        $ms = new V2\PayController();
+
+        $dada['server_response'] = $response;
+
+        if ($rep['status'] == "ORDER_COMPLETED" || $rep['status'] == "ORDER_RECEIVED") {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 1, $dada);
+            } else {
+                return $ms->outputResp($request, $rep['orderid'], 1, $dada);
+//                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
+            }
+        } else {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 0, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 0, $dada);
 //                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
             }
         }
@@ -61,34 +128,23 @@ class SellDataController extends Controller
 
     public function server3($request, $code, $phone, $transid, $net, $input, $dada, $requester)
     {
-
-        $netcode = "0";
-
-        switch ($net) {
-            case "mtn-data":
-                $netcode = "MTN";
-                break;
-            case "glo-data":
-                $netcode = "GLO";
-                break;
-            default:
-                $netcode = strtoupper($net);
-        }
+        $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
-            $url = env('SERVER3N') . "data" . env('SERVER3N_AUTH') . "&number=" . $phone . "&plan=" . $code . "&transaction_id=" . $transid;
+            $url = env('SERVER3N') . "data" . env('SERVER3N_AUTH') . "&number=" . $phone . "&plan=" . $rac->product_code . "&transaction_id=" . $transid;
             // Perform transaction/initialize on our server to buy
             $response = file_get_contents($url);
 
         } else {
-            $response = '{"network":"MTN","order":"1GB","number":"08060426915","price":"350","status":"success","ref":"agdh166363heh6366"';
+            $response = '{"network":"MTN","order":"1GB","number":"08060426915","price":"350","status":"success","ref":"agdh166363heh6366"}';
         }
 
         $rep = json_decode($response, true);
 
         $tran = new ServeRequestController();
         $rs = new PayController();
+        $ms = new V2\PayController();
 
         $dada['server_response'] = $response;
 
@@ -96,12 +152,14 @@ class SellDataController extends Controller
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
 //                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
             }
         } else {
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 0, $dada);
             } else {
+                return $ms->outputResp($request, $transid, 0, $dada);
 //                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
             }
         }
@@ -109,6 +167,7 @@ class SellDataController extends Controller
 
     public function server6($request, $code, $phone, $transid, $net, $input, $dada, $requester)
     {
+        $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
             $curl = curl_init();
@@ -122,7 +181,7 @@ class SellDataController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "' . $net . '","variation_code": "' . $code . '","phone": "' . $phone . '","billersCode": "' . $phone . '"}',
+                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "' . $net . '","variation_code": "' . $rac->service_code . '","phone": "' . $phone . '","billersCode": "' . $phone . '"}',
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Basic ' . env('SERVER6_AUTH'),
                     'Content-Type: application/json'
@@ -142,6 +201,7 @@ class SellDataController extends Controller
 
         $tran = new ServeRequestController();
         $rs = new PayController();
+        $ms = new V2\PayController();
 
         $dada['server_response'] = $response;
 
@@ -149,12 +209,14 @@ class SellDataController extends Controller
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
 //                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
             }
         } else {
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 0, $dada);
             } else {
+                return $ms->outputResp($request, $transid, 0, $dada);
 //                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
             }
         }
