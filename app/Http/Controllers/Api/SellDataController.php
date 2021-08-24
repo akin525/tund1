@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Reseller\PayController;
+use App\Models\AppDataControl;
 use App\Models\ResellerDataPlans;
 
 class SellDataController extends Controller
@@ -11,25 +12,15 @@ class SellDataController extends Controller
 
     public function server1($request, $code, $phone, $transid, $net, $input, $dada, $requester)
     {
-
-        $netcode = "0";
-
-        switch ($net) {
-            case "mtn-data":
-                $netcode = "MTN";
-                break;
-            case "glo-data":
-                $netcode = "GLO";
-                break;
-            default:
-                $netcode = strtoupper($net);
+        if ($requester == "reseller") {
+            $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
+        } else {
+            $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
         }
-
-        $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
-            $url = env('SERVER1N') . "data" . env('SERVER1N_AUTH') . "&network=" . $netcode . "&phoneNumber=" . $phone . "&product_code=" . $rac->product_code . "&price=" . $rac->price . "&trans_id=" . $transid . "&return_url=https://mcd.com";
+            $url = env('SERVER1N') . "data" . env('SERVER1N_AUTH') . "&network=" . $rac->network . "&phoneNumber=" . $phone . "&product_code=" . $rac->product_code . "&price=" . $rac->price . "&trans_id=" . $transid . "&return_url=https://mcd.com";
             // Perform transaction/initialize on our server to buy
             $response = file_get_contents($url);
 
@@ -89,7 +80,11 @@ class SellDataController extends Controller
         }
 
 
-        $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
+        if ($requester == "reseller") {
+            $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
+        } else {
+            $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
+        }
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
