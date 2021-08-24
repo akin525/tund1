@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellDataController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellDataController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellTVController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellTVController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +22,14 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -225,7 +234,8 @@
       <workItem from="1629498951814" duration="3630000" />
       <workItem from="1629557580652" duration="44084000" />
       <workItem from="1629770280354" duration="531000" />
-      <workItem from="1629771666211" duration="3991000" />
+      <workItem from="1629771666211" duration="4101000" />
+      <workItem from="1629790448805" duration="3333000" />
     </task>
     <task id="LOCAL-00001" summary="push changes">
       <created>1628096879123</created>
@@ -402,7 +412,14 @@
       <option name="project" value="LOCAL" />
       <updated>1629774626469</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="push changes">
+      <created>1629775763904</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1629775763904</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

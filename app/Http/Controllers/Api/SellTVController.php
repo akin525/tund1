@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Reseller\PayController;
+use App\Models\AppCableTVControl;
+use App\Models\ResellerCableTV;
 
 class SellTVController extends Controller
 {
-    public function paytvProcess4($service_id, $phone, $bundle_code, $amount,$transid,$input)
+    public function paytvProcess4($service_id, $phone, $bundle_code, $amount, $transid, $input)
     {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env("SERVER4")."/users/account/authenticate",
+            CURLOPT_URL => env("SERVER4") . "/users/account/authenticate",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -142,6 +144,12 @@ class SellTVController extends Controller
     public function server6($request, $code, $phone, $transid, $net, $input, $dada, $requester)
     {
 
+        if ($requester == "reseller") {
+            $rac = ResellerCableTV::where("code", strtolower($input['coded']))->first();
+        } else {
+            $rac = AppCableTVControl::where("coded", strtolower($input['coded']))->first();
+        }
+
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
             $curl = curl_init();
@@ -155,7 +163,7 @@ class SellTVController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "' . $net . '","variation_code": "' . $code . '","phone": "' . $phone . '","billersCode": "' . $phone . '"}',
+                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "' . $net . '","variation_code": "' . $rac->code . '","phone": "' . $phone . '","billersCode": "' . $phone . '"}',
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Basic ' . env('SERVER6_AUTH'),
                     'Content-Type: application/json'
@@ -168,13 +176,14 @@ class SellTVController extends Controller
             curl_close($curl);
 
         } else {
-            $response = '{ "code":"00", "response_description":"TRANSACTION SUCCESSFUL", "requestId":"SAND0192837465738253A1HSD", "transactionId":"1563873435424", "amount":"50.00", "transaction_date":{ "date":"2019-07-23 10:17:16.000000", "timezone_type":3, "timezone":"Africa/Lagos" }, "purchased_code":"" }';
+            $response = '{ "code":"000", "response_description":"TRANSACTION SUCCESSFUL", "requestId":"SAND0192837465738253A1HSD", "transactionId":"1563873435424", "amount":"50.00", "transaction_date":{ "date":"2019-07-23 10:17:16.000000", "timezone_type":3, "timezone":"Africa/Lagos" }, "purchased_code":"" }';
         }
 
         $rep = json_decode($response, true);
 
         $tran = new ServeRequestController();
         $rs = new PayController();
+        $ms = new V2\PayController();
 
         $dada['server_response'] = $response;
 
@@ -182,12 +191,14 @@ class SellTVController extends Controller
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
 //                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
             }
         } else {
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 0, $dada);
             } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
 //                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
             }
         }

@@ -4,12 +4,18 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Api\SellAirtimeController;
 use App\Http\Controllers\Api\SellDataController;
+use App\Http\Controllers\Api\SellElectricityController;
+use App\Http\Controllers\Api\SellTVController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PushNotificationController;
 use App\Jobs\ServeRequestJob;
 use App\Models\Airtime2Cash;
 use App\Models\Airtime2CashSettings;
+use App\Models\AppCableTVControl;
 use App\Models\GeneralMarket;
 use App\Models\PndL;
+use App\Models\ResellerBetting;
+use App\Models\ResellerElecticity;
 use App\Models\Serverlog;
 use App\Models\Settings;
 use App\Models\Transaction;
@@ -174,7 +180,28 @@ class PayController extends Controller
 
         $input['device'] = $_SERVER['HTTP_USER_AGENT'];
 
-        return response()->json(['success' => 1, 'message' => 'TV Subscribe Successfully']);
+        $rac = AppCableTVControl::where("coded", strtolower($input['coded']))->first();
+
+        if ($rac == "") {
+            return response()->json(['success' => 0, 'message' => 'Invalid coded supplied']);
+        }
+
+        if ($rac->status == 0) {
+            return response()->json(['success' => 0, 'message' => $rac->name . ' currently unavailable']);
+        }
+
+        $discount = 10;
+        $debitAmount = $rac->price;
+
+        $proceed['1'] = $rac->network;
+        $proceed['2'] = $debitAmount * 1;
+        $proceed['3'] = $discount;
+        $proceed['4'] = $rac->server;
+        $proceed['5'] = "tv";
+
+        return $this->handlePassage($request, $proceed);
+
+//        return response()->json(['success' => 1, 'message' => 'TV Subscribe Successfully']);
 
     }
 
@@ -199,7 +226,37 @@ class PayController extends Controller
 
         $input['device'] = $_SERVER['HTTP_USER_AGENT'];
 
-        return response()->json(['success' => 1, 'message' => 'Electricity Token Generated Successfully', 'token' => 'hfhfwufwf743uewfj48ui']);
+        $rac = ResellerElecticity::where("code", strtolower($input['provider']))->first();
+
+        if ($rac == "") {
+            return response()->json(['success' => 0, 'message' => 'Invalid coded supplied']);
+        }
+
+        if ($rac->status == 0) {
+            return response()->json(['success' => 0, 'message' => $rac->name . ' currently unavailable']);
+        }
+
+        if ($input['amount'] < 100) {
+            return response()->json(['success' => 0, 'message' => 'Minimum amount is #100']);
+        }
+
+        if ($input['amount'] > 20000) {
+            return response()->json(['success' => 0, 'message' => 'Maximum amount is #20,000']);
+        }
+
+
+        $discount = 0;
+        $debitAmount = $input['amount'];
+
+        $proceed['1'] = $input['provider'];
+        $proceed['2'] = $debitAmount;
+        $proceed['3'] = $discount;
+        $proceed['4'] = $rac->server;
+        $proceed['5'] = "electricity";
+
+        return $this->handlePassage($request, $proceed);
+
+//        return response()->json(['success' => 1, 'message' => 'Electricity Token Generated Successfully', 'token' => 'hfhfwufwf743uewfj48ui']);
 
     }
 
@@ -224,7 +281,37 @@ class PayController extends Controller
 
         $input['device'] = $_SERVER['HTTP_USER_AGENT'];
 
-        return response()->json(['success' => 1, 'message' => 'Betting topup will reflect soon']);
+        $rac = ResellerBetting::where("code", strtoupper($input['provider']))->first();
+
+        if ($rac == "") {
+            return response()->json(['success' => 0, 'message' => 'Invalid coded supplied']);
+        }
+
+        if ($rac->status == 0) {
+            return response()->json(['success' => 0, 'message' => $rac->name . ' currently unavailable']);
+        }
+
+        if ($input['amount'] < 100) {
+            return response()->json(['success' => 0, 'message' => 'Minimum amount is #100']);
+        }
+
+        if ($input['amount'] > 5000) {
+            return response()->json(['success' => 0, 'message' => 'Maximum amount is #5,000']);
+        }
+
+
+        $discount = 0;
+        $debitAmount = $input['amount'];
+
+        $proceed['1'] = $input['provider'];
+        $proceed['2'] = $debitAmount;
+        $proceed['3'] = $discount;
+        $proceed['4'] = $rac->server;
+        $proceed['5'] = "betting";
+
+        return $this->handlePassage($request, $proceed);
+
+//        return response()->json(['success' => 1, 'message' => 'Betting topup will reflect soon']);
 
     }
 
@@ -380,6 +467,49 @@ class PayController extends Controller
         }
     }
 
+    public function buyTvCTD(Request $request, $ref, $net, $dada, $server)
+    {
+        $input = $request->all();
+
+        $air = new SellTVController();
+
+        switch (strtolower($server)) {
+            case "6":
+                return $air->server6($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
+            default:
+                return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
+        }
+    }
+
+    public function buyElectricityCTD(Request $request, $ref, $net, $dada, $server)
+    {
+        $input = $request->all();
+
+        $air = new SellElectricityController();
+
+        switch (strtolower($server)) {
+            case "6":
+                return $air->server6($request, $input['provider'], $input['number'], $ref, $net, $request, $dada, "reseller");
+            default:
+                return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
+        }
+    }
+
+    public function buyBettingCTD(Request $request, $ref, $net, $dada, $server)
+    {
+        $input = $request->all();
+
+        $message = "Betting: " . $input['provider'] . "|#" . $input['amount'] . "|" . $input['number'];
+
+        $push = new PushNotificationController();
+        $push->PushNotiAdmin($message, "Purchase Notification");
+
+        $dada['server_response'] = "manual";
+
+        return $this->outputResp($request, $ref, 0, $dada);
+
+    }
+
 
     public function debitUser(Request $request, $provider, $amount, $discount, $server, $requester, $ref)
     {
@@ -401,6 +531,10 @@ class PayController extends Controller
         if ($requester == "airtime") {
             $tr['name'] = strtoupper($provider) . " " . $requester;
             $tr['description'] = $user->user_name . " purchase " . $input['provider'] . " " . $input['amount'] . " airtime on " . $input['number'] . " using " . $input['payment'];
+            $tr['code'] = $requester;
+        } elseif ($requester == "electricity" || $requester == "betting") {
+            $tr['name'] = strtoupper($provider);
+            $tr['description'] = $user->user_name . " pay " . $input['amount'] . " on " . $input['number'] . " using " . $input['payment'];
             $tr['code'] = $requester;
         } else {
             $tr['name'] = $requester;
@@ -483,6 +617,8 @@ class PayController extends Controller
                 return $this->buyTvCTD($request, $ref, $provider, $dada, $server);
             case "electricity":
                 return $this->buyElectricityCTD($request, $ref, $provider, $dada, $server);
+            case "betting":
+                return $this->buyBettingCTD($request, $ref, $provider, $dada, $server);
         }
     }
 
