@@ -150,7 +150,7 @@ class UserController extends Controller
     public function transactions()
     {
         $user = Auth::user();
-        $trans = Transaction::where('user_name', $user->user_name)->get();
+        $trans = Transaction::where('user_name', $user->user_name)->OrderBy('id', 'desc')->limit(100)->get();
 
         return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => $trans]);
     }
