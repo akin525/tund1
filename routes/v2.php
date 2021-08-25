@@ -62,6 +62,7 @@ Route::prefix('v2')->middleware("version")->group(function () {
 
         Route::get('banklist', [OtherController::class, 'banklist']);
         Route::post('verifyBank', [OtherController::class, 'verifyBank']);
+        Route::post('verifybank', [OtherController::class, 'verifyBank']);
         Route::post('withdrawfund', [OtherController::class, 'withdraw']);
 
 
