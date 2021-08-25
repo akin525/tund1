@@ -61,6 +61,8 @@ class UserController extends Controller
         $me['referral_plan'] = $user->referral_plan;
         $me['photo'] = $user->photo;
         $me['email'] = $user->email;
+        $me['phoneno'] = $user->phoneno;
+        $me['target'] = $user->target;
 
         $balances['wallet'] = "$user->wallet";
         $balances['bonus'] = "$user->bonus";
@@ -267,6 +269,42 @@ class UserController extends Controller
 //        $user->save();
 
         return response()->json(['success' => 1, 'message' => 'Document submitted successfully, we are currently reviewing your request which might take days.']);
+    }
+
+    public function uploaddp(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'dp' => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        $input = $request->all();
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'message' => 'Some forms are left out', 'error' => $validator->errors()]);
+        }
+
+        $user = User::where('user_name', Auth::user()->user_name)->first();
+        if (!$user) {
+            return response()->json(['success' => 0, 'message' => 'User not found']);
+        }
+
+        if ($user->dob == "") {
+            return response()->json(['success' => 0, 'message' => 'Data can only be submitted once']);
+        }
+
+        $image = $input["dp"];
+        $photo = Auth::user()->user_name . ".JPG";
+
+//            $decodedImage = base64_decode("$image");
+//            file_put_contents(storage_path("app/public/avatar/" . $photo), $decodedImage);
+
+//        $user->document = 1;
+//        $user->save();
+
+        return response()->json(['success' => 1, 'message' => 'Image uploaded successfully']);
     }
 
     public function add_referral(Request $request)

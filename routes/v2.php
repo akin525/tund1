@@ -59,10 +59,10 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::get('agentstatus', [UserController::class, 'agentStatus']);
         Route::post('agent', [UserController::class, 'requestAgent']);
         Route::post('agentdocument', [UserController::class, 'agentDocumentation']);
+        Route::post('uploaddp', [UserController::class, 'uploaddp']);
 
         Route::get('banklist', [OtherController::class, 'banklist']);
         Route::post('verifyBank', [OtherController::class, 'verifyBank']);
-        Route::post('verifybank', [OtherController::class, 'verifyBank']);
         Route::post('withdrawfund', [OtherController::class, 'withdraw']);
 
 
