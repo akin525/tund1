@@ -14,6 +14,7 @@ use App\Models\Airtime2CashSettings;
 use App\Models\AppCableTVControl;
 use App\Models\GeneralMarket;
 use App\Models\PndL;
+use App\Models\PromoCode;
 use App\Models\ResellerBetting;
 use App\Models\ResellerElecticity;
 use App\Models\Serverlog;
@@ -37,7 +38,8 @@ class PayController extends Controller
             'amount' => 'required',
             'number' => 'required',
             'country' => 'required',
-            'payment' => 'required'
+            'payment' => 'required',
+            'ref' => 'required'
         );
 
         $validator = Validator::make($input, $rules);
@@ -120,6 +122,7 @@ class PayController extends Controller
             'coded' => 'required',
             'number' => 'required',
             'payment' => 'required',
+            'ref' => 'required'
         );
 
         $validator = Validator::make($input, $rules);
@@ -167,6 +170,7 @@ class PayController extends Controller
             'coded' => 'required',
             'number' => 'required',
             'payment' => 'required',
+            'ref' => 'required'
         );
 
         $validator = Validator::make($input, $rules);
@@ -213,6 +217,7 @@ class PayController extends Controller
             'number' => 'required',
             'amount' => 'required',
             'payment' => 'required',
+            'ref' => 'required'
         );
 
         $validator = Validator::make($input, $rules);
@@ -268,6 +273,7 @@ class PayController extends Controller
             'number' => 'required',
             'amount' => 'required',
             'payment' => 'required',
+            'ref' => 'required'
         );
 
         $validator = Validator::make($input, $rules);
@@ -421,6 +427,7 @@ class PayController extends Controller
 
     }
 
+
     public function buyAirtimeCTD(Request $request, $ref, $net, $dada, $server)
     {
         $input = $request->all();
@@ -541,6 +548,28 @@ class PayController extends Controller
             $tr['description'] = $user->user_name . " purchase " . " " . $input['coded'] . " on " . $input['number'] . " using " . $input['payment'];
             $tr['code'] = $requester . "_" . $input['coded'];
         }
+
+
+        if ($input['promo'] != "0") {
+            $pc = PromoCode::where('code', $input['promo'])->first();
+
+            $amount -= $pc->amount;
+
+            $tr['description'] .= " with NGN" . $pc->amount . " promo code";
+
+            $input["type"] = "expenses";
+            $input["gl"] = "Promo Code";
+            $input["amount"] = $pc->amount;
+            $input['date'] = Carbon::now();
+            $input["narration"] = "Being promo code used by " . $input['user_name'] . " on " . $ref;
+
+            PndL::create($input);
+
+            $pc->used = 1;
+            $pc->usedby = $input['user_name'];
+            $pc->save();
+        }
+
         $tr['amount'] = $amount;
         $tr['date'] = Carbon::now();
         $tr['device_details'] = "api";
@@ -630,11 +659,22 @@ class PayController extends Controller
         $input['phone'] = $input['number'];
         $input['user_name'] = Auth::user()->user_name;
         $input['payment_method'] = $input['payment'];
-        $input['transid'] = "MCD_" . substr($input['user_name'], -3, 2) . "_" . Carbon::now()->timestamp . rand();
+//        $input['transid'] = "MCD_" . substr($input['user_name'], -3, 2) . "_" . Carbon::now()->timestamp . rand();
+        $input['transid'] = $input['ref'];
         $input['version'] = $request->header('version');
         $input['device_details'] = $_SERVER['HTTP_USER_AGENT'];
         $input['wallet'] = Auth::user()->wallet;
         $input['amount'] = $proceed['2'];
+
+        $re = Serverlog::where('transid', $input['transid'])->first();
+
+        if ($re) {
+            $input['status'] = 'Duplicate reference';
+            $input['transid'] = $input['transid'] . '_dup';
+            Serverlog::create($input);
+            return response()->json(['success' => 0, 'message' => 'Error, duplicate transaction']);
+        }
+
 
         if (isset($input['provider'])) {
             $input['network'] = $input['provider'];
@@ -649,26 +689,10 @@ class PayController extends Controller
 
         if ($input['payment'] == "general_market") {
             $set = Settings::where('name', 'general_market')->first();
-            if ($set->value < 300) {
-                $input['status'] = 'general market is lower than threshold';
-                Serverlog::create($input);
-                return response()->json(['success' => 0, 'message' => 'General market balance is lower than threshold']);
-            }
-
-            $bugm = DB::table("tbl_generalmarket_blocked user")->get();
-            foreach ($bugm as $bu) {
-                //check for blocked users
-                if ($input['user_name'] == $bu->user_name) {
-                    $input['status'] = 'User suspended';
-                    Serverlog::create($input);
-                    return response()->json(['success' => 0, 'message' => 'error']);
-                }
-            }
 
             if ($set->value >= $input['amount']) {
                 Serverlog::create($input);
-                return $this->debitUser($request, $proceed['1'], $proceed['2'], $proceed['3'], $proceed['4'], $proceed['5'], $input['transid']);
-//                return $next($request);
+                return $this->debitUser($request, $proceed['1'], $proceed['2'], $proceed['3'], $proceed['4'], $proceed['5'], $input['ref']);
             }
 
             $input['status'] = 'general market is low';
@@ -685,12 +709,12 @@ class PayController extends Controller
         $user = User::where('user_name', $input['user_name'])->first();
 
         if ($user->wallet <= 0) {
-            $input['status'] = 'Balance to low';
+            $input['status'] = 'Balance too low';
             Serverlog::create($input);
             return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low']);
         }
         if ($input['amount'] > $user->wallet) {
-            $input['status'] = 'Balance to low';
+            $input['status'] = 'Balance too low';
             Serverlog::create($input);
             return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low']);
         }
@@ -711,7 +735,7 @@ class PayController extends Controller
         }
 
         Serverlog::create($input);
-        return $this->debitUser($request, $proceed['1'], $proceed['2'], $proceed['3'], $proceed['4'], $proceed['5'], $input['transid']);
+        return $this->debitUser($request, $proceed['1'], $proceed['2'], $proceed['3'], $proceed['4'], $proceed['5'], $input['ref']);
 //        return $next($request);
     }
 

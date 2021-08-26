@@ -5,6 +5,8 @@ namespace App\Http;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckForMaintenanceMode;
 use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\GeneralMarketMiddleware;
+use App\Http\Middleware\PromoCodeMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\ResellerAuth;
 use App\Http\Middleware\ServerlogMiddleware;
@@ -89,7 +91,9 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class,
         'server_log' => ServerlogMiddleware::class,
         'reseller_auth' => ResellerAuth::class,
-        'version' => VersionMiddleware::class
+        'version' => VersionMiddleware::class,
+        'promocode' => PromoCodeMiddleware::class,
+        'gmarket' => GeneralMarketMiddleware::class,
     ];
 
     /**
