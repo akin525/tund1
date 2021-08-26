@@ -156,7 +156,6 @@ class GenerateVTPlans extends Command
             'price' => "510",
         ]);
 
-        $billing->save();
 
         $billing = $dtp->replicate()->fill([
             'name' => "MTN 5gb - SME",

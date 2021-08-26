@@ -68,9 +68,54 @@ class ValidateController extends Controller
         $rep=json_decode($response, true);
 
 
-        if(isset($rep['content']['Customer_Name'])) {
+        if (isset($rep['content']['Customer_Name'])) {
             return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name']]);
-        }else{
+        } else {
+            return response()->json(['success' => 0, 'message' => 'Unable to validate number']);
+        }
+
+
+    }
+
+    public function betting_server7($phone, $type)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SERVER7_URL') . "bills/validate",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{
+    "serviceType": "betting",
+    "provider": "' . $type . '",
+    "customerId": "' . $phone . '"
+}',
+            CURLOPT_HTTPHEADER => array(
+                'MerchantId: ' . env('SERVER7_MERCHANTID'),
+                'Authorization: Bearer ' . env('SERVER7_PUBLICKEY'),
+                'Content-Type: application/json',
+                'Cookie: sessionid=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJPcGF5LUFQSSIsImlzcyI6IjEiLCJleHAiOjE2Mjg5MjE3NDB9._xpy555vy_wMcwGScaOLCqM6L9Abia_EaisagXRswkM'
+            ),
+        ));
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+//        $response='{"code":"00000","message":"SUCCESSFUL","data":{"provider":"BETKING","customerId":"1740532","firstName":null,"lastName":null,"userName":"Pateay"}}';
+
+        $rep = json_decode($response, true);
+
+        if ($rep['code'] == "00000") {
+            return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['data']['userName']]);
+        } else {
             return response()->json(['success' => 0, 'message' => 'Unable to validate number']);
         }
 

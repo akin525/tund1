@@ -3,7 +3,10 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -29,7 +32,7 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
+     * @param Exception $exception
      * @return void
      */
     public function report(Exception $exception)
@@ -40,12 +43,31 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param Request $request
+     * @param Exception $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
     {
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Convert an authentication exception into a response.
+     *
+     * @param Request $request
+     * @param AuthenticationException $exception
+     * @return Response
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+
+        // Here you can return your own response or work with request
+        // return response()->json(['status' : false], 401);
+
+        // This is the default
+        return $request->expectsJson()
+            ? response()->json(['success' => 0, 'message' => $exception->getMessage()], 401)
+            : redirect()->guest($exception->redirectTo() ?? route('index'));
     }
 }

@@ -8,47 +8,6 @@ use App\Http\Controllers\Reseller\PayController;
 
 class SellAirtimeController extends Controller
 {
-    public function server5($amnt, $phone, $transid, $input){
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SERVER5'),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS =>'{
-   "country": "NG",
-   "customer": "'.$phone.'",
-   "amount": '.$amnt.',
-   "recurrence": "ONCE",
-   "type": "AIRTIME",
-   "reference": "'.$transid.'"
-}',
-            CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer ' .env('RAVE_SECRET_KEY'),
-                'Content-Type: application/json'
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        $rep=json_decode($response, true);
-
-        $tran=new ServeRequestController();
-
-        if($rep['status']=='success'){
-            $tran->addtrans("server5",$response,$amnt,1,$transid,$input);
-        }else {
-            $tran->addtrans("server5",$response,$amnt,0,$transid,$input);
-        }
-    }
 
     public function ghanaAirtime($amnt, $phone, $transid, $input){
 
@@ -85,17 +44,370 @@ class SellAirtimeController extends Controller
 
         $tran=new ServeRequestController();
 
-        $at=new PushNotificationController();
+        $at = new PushNotificationController();
         $at->PushNotiAdmin($response, "Ghana Airtime response");
 
-        if($rep['status']=='success'){
-            $tran->addtrans("server5",$response,$amnt,1,$transid,$input);
-        }else {
-            $tran->addtrans("server5",$response,$amnt,0,$transid,$input);
+        if ($rep['status'] == 'success') {
+            $tran->addtrans("server5", $response, $amnt, 1, $transid, $input);
+        } else {
+            $tran->addtrans("server5", $response, $amnt, 0, $transid, $input);
         }
     }
 
-    public function server6($request, $amnt, $phone, $transid, $net, $input, $dada, $requester){
+    public function server1($request, $amnt, $phone, $transid, $net, $input, $dada, $requester)
+    {
+
+        if (env('FAKE_TRANSACTION', 1) == 0) {
+
+            $url = env("SERVER1N") . "airtime" . env("SERVER1N_AUTH") . "&network=" . $net . "&phoneNumber=" . $phone . "&amount=" . $amnt . "&trans_id=" . $transid;
+            // Perform transaction/initialize on our server to buy
+            $response = file_get_contents($url);
+
+        } else {
+
+            $response = '{"trans_id":"R16297328791102474957","details":{"network":"MTN","phone_number":"07064257276","amount":"100","price":98,"status":"SUCCESSFUL","balance":"31692"}}';
+        }
+
+        $tran = new ServeRequestController();
+        $rs = new PayController();
+        $ms = new V2\PayController();
+
+        $dada['server_response'] = $response;
+
+        $findme = 'trans_id';
+        $pos = strpos($response, $findme);
+        // Note our use of ===.  Simply == would not work as expected
+
+        if ($pos !== false) {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 1, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $transid, $input);
+            }
+        } else {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 0, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $transid, $input);
+            }
+        }
+    }
+
+    public function server1b($request, $amnt, $phone, $transid, $net, $input, $dada, $requester)
+    {
+
+        if (env('FAKE_TRANSACTION', 1) == 0) {
+
+            $url = env("SERVER1N") . "airtime_premium" . env("SERVER1N_AUTH") . "&network=" . $net . "&phoneNumber=" . $phone . "&amount=" . $amnt . "&trans_id=" . $transid . "&return_url=https://5starcompany.com.ng";
+            // Perform transaction/initialize on our server to buy
+            $response = file_get_contents($url);
+
+        } else {
+
+            $response = '{"trans_id":"R1629733519965879373","details":{"network":"MTN","phone_number":"07064257276","amount":"100","price":97,"status":"Pending","balance":"31301"}}';
+        }
+
+        $tran = new ServeRequestController();
+        $rs = new PayController();
+        $ms = new V2\PayController();
+
+        $dada['server_response'] = $response;
+
+        $findme = 'trans_id';
+        $pos = strpos($response, $findme);
+        // Note our use of ===.  Simply == would not work as expected
+
+        if ($pos !== false) {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 1, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $transid, $input);
+            }
+        } else {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 0, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $transid, $input);
+            }
+        }
+    }
+
+    public function server2($request, $amnt, $phone, $transid, $net, $input, $dada, $requester)
+    {
+
+        $service_id = "0";
+
+        switch ($net) {
+            case "MTN":
+                $service_id = "01";
+                break;
+
+            case "9MOBILE":
+                $service_id = "03";
+                break;
+
+            case "GLO":
+                $service_id = "02";
+                break;
+
+            case "AIRTEL":
+                $service_id = "04";
+                break;
+
+            default:
+                return response()->json(['success' => 0, 'message' => 'Invalid Network. Available are m for MTN, 9 for 9MOBILE, g for GLO, a for AIRTEL.']);
+        }
+
+
+        if (env('FAKE_TRANSACTION', 1) == 0) {
+
+            $url = env("SERVER2N") . "APIAirtimeV1.asp" . env("SERVER2N_AUTH") . "&MobileNetwork=" . $service_id . "&Amount=" . $amnt . "&MobileNumber=" . $phone . "&RequestID=" . $transid . "&CallBackURL=https://www.5starcompany.com.ng";
+            // Perform transaction/initialize on our server to buy
+            $response = file_get_contents($url);
+
+        } else {
+
+            $response = '{"orderid":"6410310486","statuscode":"100","status":"ORDER_RECEIVED"}';
+        }
+
+        $rep = json_decode($response, true);
+
+        $tran = new ServeRequestController();
+        $rs = new PayController();
+        $ms = new V2\PayController();
+
+        $dada['server_response'] = $response;
+
+        if ($rep['status'] == "ORDER_COMPLETED" || $rep['status'] == "ORDER_RECEIVED") {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $rep['orderid'], 1, $dada);
+            } else {
+                return $ms->outputResp($request, $rep['orderid'], 1, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $rep['orderid'], $input);
+            }
+        } else {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 0, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $transid, $input);
+            }
+        }
+    }
+
+    public function server3($request, $amnt, $phone, $transid, $net, $input, $dada, $requester)
+    {
+
+        if (env('FAKE_TRANSACTION', 1) == 0) {
+
+            $url = env("SERVER3N") . "airtime" . env("SERVER3N_AUTH") . "&network=" . $net . "&number=" . $phone . "&amount=" . $amnt . "&transaction_id=" . $transid;
+            $response = file_get_contents($url);
+
+        } else {
+
+            $response = '{"network":"MTN","order":"AIRTIME VTU","number":"08166939205","price":"123","status":"success","ref":"484641629653902"}';
+        }
+
+        $rep = json_decode($response, true);
+
+        $tran = new ServeRequestController();
+        $rs = new PayController();
+        $ms = new V2\PayController();
+
+        $dada['server_response'] = $response;
+
+        if ($rep['status'] == "success") {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $rep['ref'], 1, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $rep['ref'], $input);
+            }
+        } else {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 0, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $transid, $input);
+            }
+        }
+    }
+
+    public function server4($request, $amnt, $phone, $transid, $net, $input, $dada, $requester)
+    {
+
+        $service_id = "0";
+
+        switch ($net) {
+            case "MTN":
+                $service_id = "7";
+                break;
+
+            case "9MOBILE":
+                $service_id = "9";
+                break;
+
+            case "GLO":
+                $service_id = "8";
+                break;
+
+            case "AIRTEL":
+                $service_id = "6";
+                break;
+
+            default:
+                return response()->json(['success' => 0, 'message' => 'Invalid Network. Available are m for MTN, 9 for 9MOBILE, g for GLO, a for AIRTEL.']);
+        }
+
+
+        if (env('FAKE_TRANSACTION', 1) == 0) {
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => env("SERVER4") . "/users/account/authenticate",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => env("SERVER4_AUTH"),
+                CURLOPT_HTTPHEADER => array(
+                    "Content-Type: application/json",
+                    "Content-Type: text/plain"
+                ),
+            ));
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+
+            $resp = json_decode($response, true);
+            $token = $resp['token'];
+
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => env("SERVER4") . "/bills/pay/airtime",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => "{\n  \"amount\": \"" . $amnt . "\",\n  \"service_category_id\": \"" . $service_id . "\",\n  \"phonenumber\": \"" . $phone . "\",\n  \"status_url\": \"https://superadmin.mcd.5starcompany.com.ng/api/hook\"\n}",
+                CURLOPT_HTTPHEADER => array(
+                    "Authorization: " . $token,
+                    "Content-Type: application/json",
+                    "Content-Type: text/plain"
+                ),
+            ));
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+
+        } else {
+
+            $response = '{ "status": "success", "message": "Transaction is processing.", "transaction": { "response_payload": { "data": { "wallet_id": 667090, "id": 38393, "created_at": "2021-08-22 14:14:27", "updated_at": "2021-08-22 14:14:27", "user_id": 59, "status": "processing", "price": 121, "network": "MTN", "referrence": "59-W5TuV1MEfWS7z7GJuduz", "number": "08166939205" }, "message": "Transaction is processing.", "status": "pending" }, "__v": 0, "status_url": "https://superadmin.mcd.5starcompany.com.ng/api/hook", "status": "pending", "is_complete": false, "request_payload": { "amount": "121", "phonenumber": "08166939205" }, "_service_category": 7, "_service": 4, "amount": 121, "_user": "5e6b7d098dabef0b8466834d", "reference": "120515132", "_id": "61224db392a38d3444044f70", "deleted_at": null, "updated_at": null, "created_at": "2021-08-22T13:14:27.029Z", "is_ended": true } }';
+        }
+
+        $rep = json_decode($response, true);
+
+        $tran = new ServeRequestController();
+        $rs = new PayController();
+        $ms = new V2\PayController();
+
+        $dada['server_response'] = $response;
+
+        if ($rep['status'] == 'success') {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $rep['transaction']['reference'], 1, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $rep['transaction']['reference'], $input);
+            }
+        } else {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 0, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server4", $response, $amnt, 1, $rep['transaction']['reference'], $input);
+            }
+        }
+    }
+
+    public function server5($request, $amnt, $phone, $transid, $net, $input, $dada, $requester)
+    {
+
+        if (env('FAKE_TRANSACTION', 1) == 0) {
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => env('SERVER5'),
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => '{
+   "country": "NG",
+   "customer": "' . $phone . '",
+   "amount": ' . $amnt . ',
+   "recurrence": "ONCE",
+   "type": "AIRTIME",
+   "reference": "' . $transid . '"
+}',
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer ' . env('RAVE_SECRET_KEY'),
+                    'Content-Type: application/json'
+                ),
+            ));
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+
+        } else {
+
+            $response = '{"status":"success","message":"Bill payment Successful","data":{"phone_number":"+2348166939205","amount":101,"network":"MTN","flw_ref":"CF-FLYAPI-20210822051137450241","reference":"BPUSSD16296522980070875117"}}';
+        }
+
+        $rep = json_decode($response, true);
+
+        $tran = new ServeRequestController();
+        $rs = new PayController();
+        $ms = new V2\PayController();
+
+        $dada['server_response'] = $response;
+
+        if ($rep['status'] == 'success') {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 1, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
+//                $tran->addtrans("server5", $response, $amnt, 1, $transid, $input);
+            }
+        } else {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 0, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server5", $response, $amnt, 1, $transid, $input);
+            }
+        }
+    }
+
+    public function server6($request, $amnt, $phone, $transid, $net, $input, $dada, $requester)
+    {
 
         $netcode = "0";
 
@@ -139,6 +451,7 @@ class SellAirtimeController extends Controller
 
         $tran = new ServeRequestController();
         $rs = new PayController();
+        $ms = new V2\PayController();
 
         $dada['server_response'] = $response;
 
@@ -146,13 +459,15 @@ class SellAirtimeController extends Controller
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
-                $tran->addtrans("server6", $response, $amnt, 1, $transid, $input);
+                return $ms->outputResp($request, $transid, 1, $dada);
+//                $tran->addtrans("server6", $response, $amnt, 1, $transid, $input);
             }
         } else {
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 0, $dada);
-            }else{
-                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
+            }else {
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
             }
         }
     }
