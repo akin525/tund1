@@ -12,9 +12,9 @@ use App\Models\SocialLogin;
 use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -141,10 +141,10 @@ class AuthenticationController extends Controller
         $input=$request->all();
 
         if ($validator->passes()) {
-            if(isset($input['login'])){
-                $input['ip_address']=$_SERVER['REMOTE_ADDR'];
-                $input['device']=$_SERVER['HTTP_USER_AGENT'];
-                $la=LoginAttempt::create($input);
+            if (isset($input['login'])) {
+                $input['ip_address'] = $_SERVER['REMOTE_ADDR'];
+                $input['device'] = $_SERVER['HTTP_USER_AGENT'];
+                $la = LoginAttempt::create($input);
                 $job = (new LoginAttemptApiFinderJob($la->id))
                     ->delay(Carbon::now()->addSeconds(1));
                 dispatch($job);
@@ -154,7 +154,7 @@ class AuthenticationController extends Controller
                 $de = User::all();
 
                 $GLOBALS['found'] = 0;
-                $GLOBALS['found_username']=$input['user_name'];
+                $GLOBALS['found_username'] = $input['user_name'];
                 foreach ($de as $d) {
                     // user devices per user
                     $r_device = $d->devices;
@@ -176,18 +176,18 @@ class AuthenticationController extends Controller
                 }// finish device checking
             }// end
 
-            if($input['user_name'] != "null") {
+            if ($input['user_name'] != "null") {
                 $user = User::where('user_name', $input['user_name'])->first();
-                if (!$user){
-                    return response()->json(['success'=> 0, 'message'=>'User does not exist']);
+                if (!$user) {
+                    return response()->json(['success' => 0, 'message' => 'User does not exist']);
                 }
-                if ($user->mcdpassword!=$input['password']){
-                    if ($user->email!=$input['password']){
-                        return response()->json(['success'=> 0, 'message'=>'Incorrect password attempt']);
+                if ($user->mcdpassword != $input['password']) {
+                    if ($user->email != $input['password']) {
+                        return response()->json(['success' => 0, 'message' => 'Incorrect password attempt']);
                     }
                 }
 
-                if($GLOBALS['found'] == 0) {
+                if ($GLOBALS['found'] == 0) {
                     $e_device = $user->devices;
                     $e_arr = json_decode($e_device, true);
                     $date = date("Y-m-d H:i:s");
@@ -200,17 +200,17 @@ class AuthenticationController extends Controller
                     $ar = json_encode($arr);
                     $user->devices = $ar;
                     $user->save();
-                }else{
+                } else {
 
-                    if (trim($GLOBALS['found_username'])!=$input['user_name']){
-                        return response()->json(['success'=> 0, 'message'=>'Device belongs to another user. Kindly contact support at info@5starcompany.com.ng']);
+                    if (trim($GLOBALS['found_username']) != $input['user_name']) {
+                        return response()->json(['success' => 0, 'message' => 'Device belongs to another user. Kindly contact support at info@5starcompany.com.ng']);
                     }
                 }
-            }else{
-                if($GLOBALS['found'] == 0) {
+            } else {
+                if ($GLOBALS['found'] == 0) {
                     return response()->json(['success' => 0, 'message' => 'DeviceID not found']);
-                }else{
-                    return response()->json(['success' => 1, 'message' => 'DeviceID match found', 'user_name'=>$GLOBALS['found_username']]);
+                } else {
+                    return response()->json(['success' => 1, 'message' => 'DeviceID match found', 'user_name' => $GLOBALS['found_username']]);
                 }
             }
 
@@ -219,28 +219,28 @@ class AuthenticationController extends Controller
             $user->last_login = $date;
             $user->save();
 
-            $uinfo['full_name']=$user->full_name;
-            $uinfo['company_name']=$user->company_name;
-            $uinfo['dob']=$user->dob;
-            $uinfo['wallet']=$user->wallet;
-            $uinfo['bonus']=$user->bonus;
-            $uinfo['status']=$user->status;
-            $uinfo['level']=$user->level;
-            $uinfo['photo']=$user->photo;
-            $uinfo['reg_date']=$user->reg_date;
-            $uinfo['target']=$user->target;
-            $uinfo['user_name']=$user->user_name;
-            $uinfo['email']=$user->email;
-            $uinfo['phoneno']=$user->phoneno;
-            $uinfo['gnews']=$user->gnews;
-            $uinfo['fraud']=$user->fraud;
-            $uinfo['referral']=$user->referral;
-            $uinfo['referral_plan']=$user->referral_plan;
-            $uinfo['account_number']=$user->account_number;
-            $uinfo['account_number2']=$user->account_number2;
-            $uinfo['last_login']=$user->last_login;
-            $uinfo['agent_commision']=$user->agent_commision;
-            $uinfo['points']=$user->points;
+            $uinfo['full_name'] = $user->full_name;
+            $uinfo['company_name'] = $user->company_name;
+            $uinfo['dob'] = $user->dob;
+            $uinfo['wallet'] = $user->wallet;
+            $uinfo['bonus'] = $user->bonus;
+            $uinfo['status'] = $user->status;
+            $uinfo['level'] = $user->level;
+            $uinfo['photo'] = $user->photo;
+            $uinfo['reg_date'] = $user->reg_date;
+            $uinfo['target'] = $user->target;
+            $uinfo['user_name'] = $user->user_name;
+            $uinfo['email'] = $user->email;
+            $uinfo['phoneno'] = $user->phoneno;
+            $uinfo['gnews'] = $user->gnews;
+            $uinfo['fraud'] = $user->fraud;
+            $uinfo['referral'] = $user->referral;
+            $uinfo['referral_plan'] = $user->referral_plan;
+            $uinfo['account_number'] = $user->account_number;
+            $uinfo['account_number2'] = $user->account_number2;
+            $uinfo['last_login'] = $user->last_login;
+            $uinfo['agent_commision'] = $user->agent_commision;
+            $uinfo['points'] = $user->points;
 
             $uinfo["total_fund"] =Transaction::where([['user_name',$input['user_name']], ['name', 'wallet funding'], ['status', 'successful']])->count();
             $uinfo["total_trans"] =Transaction::where([['user_name',$input['user_name']], ['status', 'delivered']])->count();
@@ -552,7 +552,7 @@ class AuthenticationController extends Controller
                 $u->save();
 
                 echo $account_number . "|| ";
-            }catch (\Exception $e){
+            } catch (Exception $e) {
                 echo "Error encountered ";
             }
     }

@@ -66,16 +66,16 @@ class ServeRequestController extends Controller
                         $tv_package_code = "01";
                         $service_id = "14";
                         $server = $sys->dstv;
-                    break;
+                        break;
 
-                case "d_yanga":
-                    $tv_type = "DSTV";
-                    $tv_package = "NNJ1E36";
-                    $bundle_code = "NNJ1E36";
-                    $link = "dstv";
-                    $amount = "2565";
-                    $tv_type_code = "14";
-                    $tv_package_code = "01";
+                    case "d_yanga":
+                        $tv_type = "DSTV";
+                        $tv_package = "NNJ1E36";
+                        $bundle_code = "NNJ1E36";
+                        $link = "dstv";
+                        $amount = "2565";
+                        $tv_type_code = "14";
+                        $tv_package_code = "01";
                     $service_id = "14";
                     $server=$sys->dstv;
                     break;
@@ -328,14 +328,14 @@ class ServeRequestController extends Controller
                 $this->Process0($coded,$dbc->price, $dbc->network,$phone,$transid,$input);
             }
 
-            if($dbc->server==1){
-                if($dbc->network=="SMILE"){
-                    $do=new DataTransactionController();
-                    $do->buysmile($dbc->price, $dbc->product_code, $dbc->network, $phone,$transid, $input);
-                }else{
-                    $this->dataProcess($dbc->price, $dbc->product_code, $dbc->network, $phone,$transid, $input);
+                if ($dbc->server == 1) {
+                    if ($dbc->network == "SMILE") {
+                        $do = new DataTransactionController();
+                        $do->buysmile($dbc->price, $dbc->product_code, $dbc->network, $phone, $transid, $input);
+                    } else {
+                        $this->dataProcess($dbc->price, $dbc->product_code, $dbc->network, $phone, $transid, $input);
+                    }
                 }
-            }
 
                 if ($dbc->server == 2) {
                     $this->dataProcess2($dbc->dataplan, $dbc->network_code, $dbc->network, $phone, $transid, $dbc->price, $input);
@@ -470,11 +470,11 @@ class ServeRequestController extends Controller
                     }
                 }
 
-                if($server=='1'){
+                if ($server == '1') {
                     $this->airtimeProcess($amnt, $network, $phone, $transid, $input);
-                }elseif ($server=='1b'){
-                    $this->airtimeProcess1b($amnt, $network, $phone,$transid, $input);
-                }elseif ($server=='2'){
+                } elseif ($server == '1b') {
+                    $this->airtimeProcess1b($amnt, $network, $phone, $transid, $input);
+                } elseif ($server == '2') {
                     $this->airtimeProcess2($amnt, $network_code, $phone, $transid, $input);
                 } elseif ($server == '3') {
                     $this->airtimeProcess3($amnt, $network, $phone, $transid, $input);
@@ -639,8 +639,9 @@ class ServeRequestController extends Controller
         $this->addtrans("server0", "Notification Sent", $amnt, 1, $transid, $input);
     }
 
-    public function airtimeProcess($amnt, $network, $phone, $transid, $input){
-        $url=env("SERVER1")."&network=".$network."&phoneNumber=".$phone."&amount=".$amnt."&trans_id=".$transid;
+    public function airtimeProcess($amnt, $network, $phone, $transid, $input)
+    {
+        $url = env("SERVER1") . "&network=" . $network . "&phoneNumber=" . $phone . "&amount=" . $amnt . "&trans_id=" . $transid;
         $result = file_get_contents($url);
 
         $findme   = 'trans_id';
