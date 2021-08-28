@@ -49,11 +49,15 @@ class SwitchController extends Controller
 
         $s=new ValidateController();
 
-        switch ($input['service']){
+        switch ($input['service']) {
             case "electricity":
                 return $s->electricity_server6($input['phone'], $input['coded']);
             case "tv":
                 return $s->tv_server6($input['phone'], $input['coded']);
+            case "betting":
+                return $s->betting_server7($input['phone'], strtoupper($input['coded']));
+            case "smile":
+                return $s->tv_server6($input['phone'], strtolower($input['coded']));
             default:
                 return response()->json(['success' => 0, 'message' => 'Invalid service provided']);
         }
@@ -87,6 +91,8 @@ class SwitchController extends Controller
                 return $s->buyTV($request);
             case "electricity":
                 return $s->buyElectricity($request);
+            case "betting":
+                return $s->buyBetting($request);
             default:
                 return response()->json(['success' => 0, 'message' => 'Invalid service provided']);
         }
