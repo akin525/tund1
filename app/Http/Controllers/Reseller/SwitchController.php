@@ -6,7 +6,9 @@ use App\Http\Controllers\Api\ValidateController;
 use App\Http\Controllers\Controller;
 use App\Models\Withdraw;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SwitchController extends Controller
 {
@@ -144,12 +146,31 @@ class SwitchController extends Controller
     {
         $input = $request->all();
 
+        $rules = array(
+            'account_number' => 'required|max:10',
+            'bank' => 'required',
+            'bank_code' => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        if (!$validator->passes()) {
+
+            return response()->json(['success' => 0, 'message' => 'Incomplete request', 'error' => $validator->errors()]);
+        }
+
         $key = $request->header('Authorization');
 
         $user = User::where("api_key", $key)->first();
         if (!$user) {
             return response()->json(['success' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
         }
+
+        $input['user_name'] = $user->user_name;
+        $input['wallet'] = "agent_commision";
+        $input['ref'] = "W" . Carbon::now()->timestamp . rand();
+        $input['device_details'] = "api";
+        $input['version'] = "2.0";
 
         if ($user->agent_commision < $input['amount']) {
             return response()->json(['success' => 0, 'message' => 'Low commission balance']);
@@ -160,7 +181,7 @@ class SwitchController extends Controller
 
         Withdraw::create($input);
 
-        return response()->json(['success' => 1, 'message' => 'Withdrawal logged successfully']);
+        return response()->json(['success' => 1, 'message' => 'Withdrawal logged successfully', 'ref' => $input['ref']]);
     }
 
 }
