@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
+use App\Jobs\AgentPdfGeneratorJob;
+use App\Models\PromoCode;
 use App\Models\ReferralPlans;
 use App\Models\Settings;
 use App\Models\Transaction;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -163,7 +166,17 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        return response()->json(['success' => 1, 'message' => 'You have won #5 discount. Copy and apply it in your next purchase.', 'data' => 'MCD94246235']);
+        if (Carbon::now()->format("H") != env("FREEMONEY")) {
+            return response()->json(['success' => 0, 'message' => 'Sorry you did not win, try again later']);
+        }
+
+        $pm = PromoCode::where("used", 0)->first();
+
+        if (!$pm) {
+            return response()->json(['success' => 0, 'message' => 'Sorry you did not win, try again later']);
+        }
+
+        return response()->json(['success' => 1, 'message' => 'You have won #' . $pm->amount . ' discount. Copy and apply it in your next purchase.', 'data' => $pm->code]);
     }
 
     public function agentStatus()
@@ -197,8 +210,9 @@ class UserController extends Controller
             'company_name' => 'required',
             'bvn' => 'required',
             'dob' => 'required',
-            'image' => 'required',
-            'address' => 'required',
+            'street' => 'required',
+            'state' => 'required',
+            'country' => 'required',
         );
 
         $validator = Validator::make($input, $rules);
@@ -218,21 +232,16 @@ class UserController extends Controller
             return response()->json(['success' => 0, 'message' => 'Data can only be submitted once']);
         }
 
-        $image = $input["image"];
-        $photo = Auth::user()->user_name . ".JPG";
-
-//            $decodedImage = base64_decode("$image");
-//            file_put_contents(storage_path("app/public/avatar/" . $photo), $decodedImage);
-
         $user->full_name = $input['full_name'];
         $user->company_name = $input['company_name'];
         $user->dob = $input['dob'];
         $user->bvn = $input['bvn'];
-        $user->address = $input['address'];
+        $user->address = $input['street'] . " " . $input['state'] . $input['country'];
         $user->target = "Agent in progress...";
-        $user->photo = $photo;
 //            $user->note = $input["note"];
         $user->save();
+
+        AgentPdfGeneratorJob::dispatch($input, $user);
 
         return response()->json(['success' => 1, 'message' => 'Data submitted successfully, kindly check your mail for progress']);
     }
@@ -257,20 +266,20 @@ class UserController extends Controller
             return response()->json(['success' => 0, 'message' => 'User not found']);
         }
 
-        if ($user->dob == "") {
-            return response()->json(['success' => 0, 'message' => 'Data can only be submitted once']);
+        if ($user->document == 1) {
+            return response()->json(['success' => 0, 'message' => 'Document uploaded already']);
         }
 
-        $image = $input["document"];
-        $photo = Auth::user()->user_name . ".JPG";
+        $name = Auth::user()->user_name . ".pdf";
+        $folder = "testdoc";
 
-//            $decodedImage = base64_decode("$image");
-//            file_put_contents(storage_path("app/public/avatar/" . $photo), $decodedImage);
-
-//        $user->document = 1;
-//        $user->save();
-
-        return response()->json(['success' => 1, 'message' => 'Document submitted successfully, we are currently reviewing your request which might take days.']);
+        if ($this->upload2FBS($input["document"], $folder, $name) == "success") {
+            $user->document = 1;
+            $user->save();
+            return response()->json(['success' => 1, 'message' => 'Document submitted successfully, we are currently reviewing your request which might take days.']);
+        } else {
+            return response()->json(['success' => 0, 'message' => 'Document upload failed. Try again later']);
+        }
     }
 
     public function uploaddp(Request $request)
@@ -293,20 +302,16 @@ class UserController extends Controller
             return response()->json(['success' => 0, 'message' => 'User not found']);
         }
 
-        if ($user->dob == "") {
-            return response()->json(['success' => 0, 'message' => 'Data can only be submitted once']);
+        $name = Auth::user()->user_name . "_" . time() . ".jpg";
+        $folder = "avatar";
+
+        if ($this->upload2FBS($input["dp"], $folder, $name) == "success") {
+            $user->photo = $name;
+            $user->save();
+            return response()->json(['success' => 1, 'message' => 'Image uploaded successfully', 'data' => $name]);
+        } else {
+            return response()->json(['success' => 0, 'message' => 'Upload failed. Try again later']);
         }
-
-        $image = $input["dp"];
-        $photo = Auth::user()->user_name . ".JPG";
-
-//            $decodedImage = base64_decode("$image");
-//            file_put_contents(storage_path("app/public/avatar/" . $photo), $decodedImage);
-
-//        $user->document = 1;
-//        $user->save();
-
-        return response()->json(['success' => 1, 'message' => 'Image uploaded successfully']);
     }
 
     public function add_referral(Request $request)
@@ -391,6 +396,31 @@ class UserController extends Controller
             echo 'success';
         } else {
             echo 'error';
+        }
+    }
+
+
+    public function upload2FBS($base64IMG, $folder, $filename)
+    {
+        $image = $base64IMG;
+        $student = app('firebase.firestore')->database()->collection($folder)->document($filename);
+        $firebase_storage_path = $folder . '/';
+        $name = $student->id();
+        $localfolder = public_path('firebase-temp-uploads') . '/';
+        if (!file_exists($localfolder)) {
+            mkdir($localfolder, 0777, true);
+        }
+
+        $base64 = base64_decode($image);
+        $file = $name . '.png';
+        if (file_put_contents($localfolder . $file, $base64)) {
+            $uploadedfile = fopen($localfolder . $file, 'r');
+            app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path . $name]);
+            //will remove from local laravel folder
+            unlink($localfolder . $file);
+            return 'success';
+        } else {
+            return 'error';
         }
     }
 
