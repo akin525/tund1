@@ -150,6 +150,31 @@ class AuthenticationController extends Controller
                 dispatch($job);
             }
 
+            if ($input['deviceid'] != null) { //mainactivity login check
+                $de = User::all();
+
+                $GLOBALS['found'] = 0;
+                $GLOBALS['found_username'] = $input['user_name'];
+                foreach ($de as $d) {
+                    // user devices per user
+                    $r_device = $d->devices;
+                    $r_username = $d->user_name;
+
+                    // Assign JSON encoded string to a PHP variable
+                    $json = $r_device;
+                    if ($json != "") {
+                        // Decode JSON data to PHP associative array
+                        $arr = json_decode($json, true);
+                        // Loop through the associative array
+                        foreach ($arr as $key => $value) {
+                            if ($value == $input["deviceid"]) {
+                                $GLOBALS['found_username'] = $r_username;
+                                $GLOBALS['found'] = 1;
+                            }
+                        }
+                    }//looping through the database and also checking for device id match for username
+                }// finish device checking
+            }// end
 
             if ($input['user_name'] != "null") {
                 $user = User::where('user_name', $input['user_name'])->first();
@@ -161,74 +186,33 @@ class AuthenticationController extends Controller
                         return response()->json(['success' => 0, 'message' => 'Incorrect password attempt']);
                     }
                 }
+
+                if ($GLOBALS['found'] == 0) {
+                    $e_device = $user->devices;
+                    $e_arr = json_decode($e_device, true);
+                    $date = date("Y-m-d H:i:s");
+                    $array = array($date => $input['deviceid']);
+                    if ($e_device != "") {
+                        $arr = array_merge($e_arr, $array);
+                    } else {
+                        $arr = $array;
+                    }
+                    $ar = json_encode($arr);
+                    $user->devices = $ar;
+                    $user->save();
+                } else {
+
+                    if (trim($GLOBALS['found_username']) != $input['user_name']) {
+                        return response()->json(['success' => 0, 'message' => 'Device belongs to another user. Kindly contact support at info@5starcompany.com.ng']);
+                    }
+                }
+            } else {
+                if ($GLOBALS['found'] == 0) {
+                    return response()->json(['success' => 0, 'message' => 'DeviceID not found']);
+                } else {
+                    return response()->json(['success' => 1, 'message' => 'DeviceID match found', 'user_name' => $GLOBALS['found_username']]);
+                }
             }
-
-
-//            if ($input['deviceid'] != null) { //mainactivity login check
-//                $de = User::all();
-//
-//                $GLOBALS['found'] = 0;
-//                $GLOBALS['found_username'] = $input['user_name'];
-//                foreach ($de as $d) {
-//                    // user devices per user
-//                    $r_device = $d->devices;
-//                    $r_username = $d->user_name;
-//
-//                    // Assign JSON encoded string to a PHP variable
-//                    $json = $r_device;
-//                    if ($json != "") {
-//                        // Decode JSON data to PHP associative array
-//                        $arr = json_decode($json, true);
-//                        // Loop through the associative array
-//                        foreach ($arr as $key => $value) {
-//                            if ($value == $input["deviceid"]) {
-//                                $GLOBALS['found_username'] = $r_username;
-//                                $GLOBALS['found'] = 1;
-//                            }
-//                        }
-////                        $GLOBALS['found_username'] = $r_username;
-////                        $GLOBALS['found'] = 0;
-//                    }//looping through the database and also checking for device id match for username
-//                }// finish device checking
-//            }
-
-//            if ($input['user_name'] != "null") {
-//                $user = User::where('user_name', $input['user_name'])->first();
-//                if (!$user) {
-//                    return response()->json(['success' => 0, 'message' => 'User does not exist']);
-//                }
-//                if ($user->mcdpassword != $input['password']) {
-//                    if ($user->email != $input['password']) {
-//                        return response()->json(['success' => 0, 'message' => 'Incorrect password attempt']);
-//                    }
-//                }
-//
-//                if ($GLOBALS['found'] == 0) {
-//                    $e_device = $user->devices;
-//                    $e_arr = json_decode($e_device, true);
-//                    $date = date("Y-m-d H:i:s");
-//                    $array = array($date => $input['deviceid']);
-//                    if ($e_device != "") {
-//                        $arr = array_merge($e_arr, $array);
-//                    } else {
-//                        $arr = $array;
-//                    }
-//                    $ar = json_encode($arr);
-//                    $user->devices = $ar;
-//                    $user->save();
-//                } else {
-//
-//                    if (trim($GLOBALS['found_username']) != $input['user_name']) {
-//                        return response()->json(['success' => 0, 'message' => 'Device belongs to another user. Kindly contact support at info@5starcompany.com.ng']);
-//                    }
-//                }
-//            } else {
-//                if ($GLOBALS['found'] == 0) {
-//                    return response()->json(['success' => 0, 'message' => 'DeviceID not found']);
-//                } else {
-//                    return response()->json(['success' => 1, 'message' => 'DeviceID match found', 'user_name' => $GLOBALS['found_username']]);
-//                }
-//            }
 
             // mysql update row with matched user name
             $date = date("Y-m-d H:i:s");
