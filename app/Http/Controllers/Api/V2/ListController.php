@@ -25,7 +25,7 @@ class ListController extends Controller
     public function data($network)
     {
 
-        $datasets = AppDataControl::where([['network', '=', strtoupper($network)], ['status', 1]])->select('name', 'coded', 'price', 'network', 'status')->get();
+        $datasets = AppDataControl::where([['network', '=', strtoupper($network)], ['status', 1]])->select('name', 'coded', 'pricing as price', 'network', 'status')->get();
 
         return response()->json(['success' => 1, 'message' => 'Fetch successfully', 'data' => $datasets]);
     }
