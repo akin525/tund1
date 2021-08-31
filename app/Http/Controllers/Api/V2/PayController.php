@@ -700,10 +700,10 @@ class PayController extends Controller
             return response()->json(['success' => 0, 'message' => 'General market balance is low']);
         }
 
-        if ($input['payment'] != "wallet") {
+        if ($input['payment'] != "wallet" && $input['payment'] != "general_market") {
             $input['status'] = 'pending';
             Serverlog::create($input);
-            return response()->json(['success' => 1, 'message' => 'Transaction executed successfully']);
+            return response()->json(['success' => 1, 'message' => 'Transaction executed successfully', 'ref' => $input['transid']]);
         }
 
         $user = User::where('user_name', $input['user_name'])->first();

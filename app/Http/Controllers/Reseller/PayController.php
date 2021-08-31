@@ -7,7 +7,9 @@ use App\Http\Controllers\Api\SellDataController;
 use App\Http\Controllers\Api\SellElectricityController;
 use App\Http\Controllers\Api\SellTVController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PushNotificationController;
 use App\Models\ResellerAirtimeControl;
+use App\Models\ResellerBetting;
 use App\Models\ResellerCableTV;
 use App\Models\ResellerDataPlans;
 use App\Models\ResellerElecticity;
@@ -208,6 +210,52 @@ class PayController extends Controller
         }
     }
 
+    public function buyBetting(Request $request)
+    {
+        $input = $request->all();
+
+        $rac = ResellerBetting::where("code", strtolower($input['coded']))->first();
+
+        if ($rac == "") {
+            return response()->json(['success' => 0, 'message' => 'Invalid coded supplied']);
+        }
+
+        if ($rac->status == 0) {
+            return response()->json(['success' => 0, 'message' => $rac->name . ' currently unavailable']);
+        }
+
+
+        if ($input['amount'] < 100) {
+            return response()->json(['success' => 0, 'message' => 'Minimum amount is #100']);
+        }
+
+        if ($input['amount'] > 20000) {
+            return response()->json(['success' => 0, 'message' => 'Maximum amount is #20,000']);
+        }
+
+
+        $dis = explode("%", $rac->discount);
+        $discount = $input['amount'] * ($dis[0] / 100);
+        $debitAmount = $input['amount'];
+
+
+        return $this->debitReseller($request, "Betting TopUp", $debitAmount, $discount, $rac->server, "betting");
+    }
+
+    public function buyBettingCTD(Request $request, $ref, $net, $dada, $server)
+    {
+        $input = $request->all();
+
+        $message = "Betting: " . $input['coded'] . "|#" . $input['amount'] . "|" . $input['phone'];
+
+        $push = new PushNotificationController();
+        $push->PushNotiAdmin($message, "Reseller Notification");
+
+        $dada['server_response'] = "manual";
+
+        return $this->outputResponse($request, $ref, 0, $dada);
+    }
+
 
     public function debitReseller(Request $request, $provider, $amount, $discount, $server, $requester)
     {
@@ -272,6 +320,8 @@ class PayController extends Controller
                 return $this->buyTvCTD($request, $ref, $provider, $dada, $server);
             case "electricity":
                 return $this->buyElectricityCTD($request, $ref, $provider, $dada, $server);
+            case "betting":
+                return $this->buyBettingCTD($request, $ref, $provider, $dada, $server);
         }
     }
 
