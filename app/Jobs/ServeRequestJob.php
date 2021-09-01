@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Mail\TransactionNotificationMail;
 use App\Models\PndL;
-use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -49,7 +48,7 @@ class ServeRequestJob implements ShouldQueue
             Mail::to($user->email)->send(new TransactionNotificationMail($tr));
         }
 
-        if ($input['payment_method'] == "general_market") {
+        if ($input['payment'] == "general_market") {
             return;
         }
 

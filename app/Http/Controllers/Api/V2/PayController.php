@@ -197,7 +197,7 @@ class PayController extends Controller
         $discount = 10;
         $debitAmount = $rac->price;
 
-        $proceed['1'] = $rac->network;
+        $proceed['1'] = $rac->type;
         $proceed['2'] = $debitAmount * 1;
         $proceed['3'] = $discount;
         $proceed['4'] = $rac->server;
