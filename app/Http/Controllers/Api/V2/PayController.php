@@ -610,10 +610,6 @@ class PayController extends Controller
                     $input["narration"] = "Being general market used by " . $input['user_name'] . " on " . $ref;
 
                     PndL::create($input);
-
-                    $job = (new ServeRequestJob($input, "1", $tr, $user->id))
-                        ->delay(Carbon::now()->addSeconds(1));
-                    dispatch($job);
                 } else {
                     $set = Settings::where('name', 'general_market')->first();
                     $tr['version'] = $input['version'];
@@ -632,6 +628,10 @@ class PayController extends Controller
         }
 
         $t = Transaction::create($tr);
+
+        $job = (new ServeRequestJob($input, "1", $tr, $user->id))
+            ->delay(Carbon::now()->addSeconds(1));
+        dispatch($job);
 
         $dada['tid'] = $t->id;
         $dada['amount'] = $amount;
