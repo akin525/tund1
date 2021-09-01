@@ -588,7 +588,7 @@ class PayController extends Controller
             $tr['f_wallet'] = $tr['i_wallet'] - $amount;
 
             $user->wallet -= $amount;
-            $user->bonus += $discount;
+            $user->agent_commision += $discount;
             $user->save();
 
             if ($requester == "data") {
@@ -629,6 +629,7 @@ class PayController extends Controller
 
         $t = Transaction::create($tr);
 
+        $input["service"] = $requester;
         $job = (new ServeRequestJob($input, "1", $tr, $user->id))
             ->delay(Carbon::now()->addSeconds(1));
         dispatch($job);
@@ -665,6 +666,7 @@ class PayController extends Controller
         $input['device_details'] = $_SERVER['HTTP_USER_AGENT'];
         $input['wallet'] = Auth::user()->wallet;
         $input['amount'] = $proceed['2'];
+        $input["service"] = $proceed['5'];
 
         $re = Serverlog::where('transid', $input['transid'])->first();
 

@@ -406,7 +406,7 @@ class UserController extends Controller
         $student = app('firebase.firestore')->database()->collection($folder)->document($filename);
         $firebase_storage_path = $folder . '/';
         $name = $student->id();
-        $localfolder = public_path('firebase-temp-uploads') . '/';
+        $localfolder = storage_path('firebase-temp-uploads') . '/';
         if (!file_exists($localfolder)) {
             mkdir($localfolder, 0777, true);
         }

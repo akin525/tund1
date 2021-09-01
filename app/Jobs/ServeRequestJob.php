@@ -62,7 +62,7 @@ class ServeRequestJob implements ShouldQueue
                 $input["type"] = "income";
                 $input["gl"] = "Data";
                 $input["amount"] = 20;
-                $input["narration"] = "Being wallet data charges on " . $input['transid'];
+                $input["narration"] = "Being wallet data charges on " . $input['ref'];
                 $input["date"] = Carbon::now();
 
                 PndL::create($input);
@@ -70,7 +70,7 @@ class ServeRequestJob implements ShouldQueue
                 $input["type"] = "income";
                 $input["gl"] = "Data";
                 $input["amount"] = 50;
-                $input["narration"] = "Being atm data charges on " . $input['transid'];
+                $input["narration"] = "Being atm data charges on " . $input['ref'];
                 $input["date"] = Carbon::now();
 
                 PndL::create($input);

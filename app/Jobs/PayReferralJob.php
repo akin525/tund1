@@ -56,9 +56,9 @@ class PayReferralJob implements ShouldQueue
             $amount = round($am/100);
         } else if ($input['service'] == "data") {
             $amount = $data;
-        } else if ($input['service'] == "paytv") {
+        } else if ($input['service'] == "tv") {
             $am = $price * $paytv;
-            $amount = round($am/100);
+            $amount = round($am / 100);
         }
 
         echo $amount;
@@ -66,7 +66,7 @@ class PayReferralJob implements ShouldQueue
         if ($amount > 0) {
             $tr['name'] = "Referral Bonus";
             $tr['description'] = "Being referral bonus on " . $tr['description'];
-            $tr['code'] = "rc_" . $input['service'] . "_" . $input['coded'];
+            $tr['code'] = "rc_" . $input['service'];
             $tr['amount'] = $amount;
             $tr['date'] = Carbon::now();
             $tr['status'] = "successful";
@@ -82,7 +82,7 @@ class PayReferralJob implements ShouldQueue
             $input["gl"]="Referral Bonus";
             $input["amount"]=$amount;
             $input['date'] = Carbon::now();
-            $input["narration"]="Being referral bonus paid to ".$ruser->user_name. " on ".$input['transid'];
+            $input["narration"] = "Being referral bonus paid to " . $ruser->user_name . " on " . $input['ref'];
 
             PndL::create($input);
         }
