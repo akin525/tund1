@@ -380,7 +380,13 @@ class PayController extends Controller
         }
 
         $input["user_name"] = Auth::user()->user_name;
-        $input['price'] = 700;
+        $net = $input['type'];
+
+        if ($net == "WAEC") {
+            $input['price'] = 1700;
+        } else {
+            $input['price'] = 700;
+        }
 
         $user = User::where('user_name', $input["user_name"])->first();
 
@@ -389,7 +395,6 @@ class PayController extends Controller
         }
 
         $uid = $input['user_name'];
-        $net = $input['type'];
         $qty = $input['quantity'];
         $price = $input['price'];
         $p = $price * $qty;
@@ -399,9 +404,6 @@ class PayController extends Controller
         $input['amount'] = $p;
 
         if ($p > $user->wallet) {
-            echo $p;
-            echo "<br/>";
-            echo $user->wallet;
             return response()->json(['success' => 0, 'message' => 'Insufficient Balance']);
         }
 
