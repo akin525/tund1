@@ -58,7 +58,7 @@ class ServeRequestJob implements ShouldQueue
         }
 
         if ($input['service'] == "data") {
-            if($input['payment_method']=="wallet" ) {
+            if ($input['payment'] == "wallet") {
                 $input["type"] = "income";
                 $input["gl"] = "Data";
                 $input["amount"] = 20;
@@ -66,7 +66,7 @@ class ServeRequestJob implements ShouldQueue
                 $input["date"] = Carbon::now();
 
                 PndL::create($input);
-            }else{
+            } else {
                 $input["type"] = "income";
                 $input["gl"] = "Data";
                 $input["amount"] = 50;
