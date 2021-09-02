@@ -109,7 +109,7 @@ class AuthenticationController extends Controller
         dispatch($job);
 
 
-        $user = User::where('user_name', $input['user_name'])->first();
+        $user = User::where([['user_name', $input['user_name']], ['email', $input['user_name']]])->first();
         if (!$user) {
             return response()->json(['success' => 0, 'message' => 'User does not exist']);
         }
@@ -119,7 +119,7 @@ class AuthenticationController extends Controller
         }
 
         if ($user->devices != $input['device']) {
-            $tr['code'] = str_shuffle(substr(date('sydmM') . rand() . $input['user_name'], 0, 4));
+            $tr['code'] = str_shuffle(substr(date('sydmM') . rand() . $user->user_name, 0, 4));
             $tr['email'] = $user->email;
             $tr['user_name'] = $user->user_name;
             $tr['expired'] = Carbon::now()->addHour();
