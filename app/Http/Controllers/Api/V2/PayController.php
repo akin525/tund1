@@ -586,44 +586,48 @@ class PayController extends Controller
         $tr['extra'] = $discount;
 
         if ($input['payment'] == "wallet") {
-            $tr['i_wallet'] = $user->wallet;
-            $tr['f_wallet'] = $tr['i_wallet'] - $amount;
 
-            $user->wallet -= $amount;
+            $tr['i_wallet'] = $user->wallet;
+
+            if ($requester == "data") {
+                $tr['f_wallet'] = $tr['i_wallet'] - $amount - 20;
+            } else {
+                $tr['f_wallet'] = $tr['i_wallet'] - $amount;
+            }
+
             $user->agent_commision += $discount;
+            $user->wallet = $tr['f_wallet'];
             $user->save();
 
             if ($requester == "data") {
-                if ($input['payment'] == "general_market") {
-                    $set = Settings::where('name', 'general_market')->first();
-                    $tr['transid'] = $ref;
-                    $tr['version'] = $input['version'];
-                    $tr['o_wallet'] = $set->value;
-                    $tr['n_wallet'] = $tr['o_wallet'] - $amount;
-                    $tr['type'] = 'debit';
-                    GeneralMarket::create($tr);
-                    $set->value -= $amount;
-                    $set->save();
-
-                    $input["type"] = "expenses";
-                    $input["gl"] = "General Market";
-                    $input["amount"] = $amount;
-                    $input['date'] = Carbon::now();
-                    $input["narration"] = "Being general market used by " . $input['user_name'] . " on " . $ref;
-
-                    PndL::create($input);
-                } else {
-                    $set = Settings::where('name', 'general_market')->first();
-                    $tr['version'] = $input['version'];
-                    $tr['o_wallet'] = $set->value;
-                    $tr['n_wallet'] = $tr['o_wallet'] + 5;
-                    $tr['type'] = 'credit';
-                    GeneralMarket::create($tr);
-                    $set->value = $tr['n_wallet'];
-                    $set->save();
-                }
+                $set = Settings::where('name', 'general_market')->first();
+                $tr['version'] = $input['version'];
+                $tr['o_wallet'] = $set->value;
+                $tr['n_wallet'] = $tr['o_wallet'] + 5;
+                $tr['type'] = 'credit';
+                GeneralMarket::create($tr);
+                $set->value = $tr['n_wallet'];
+                $set->save();
             }
 
+        } elseif ($input['payment'] == "general_market") {
+            $set = Settings::where('name', 'general_market')->first();
+            $tr['transid'] = $ref;
+            $tr['version'] = $input['version'];
+            $tr['o_wallet'] = $set->value;
+            $tr['n_wallet'] = $tr['o_wallet'] - $amount;
+            $tr['type'] = 'debit';
+            GeneralMarket::create($tr);
+            $set->value -= $amount;
+            $set->save();
+
+            $input["type"] = "expenses";
+            $input["gl"] = "General Market";
+            $input["amount"] = $amount;
+            $input['date'] = Carbon::now();
+            $input["narration"] = "Being general market used by " . $input['user_name'] . " on " . $ref;
+
+            PndL::create($input);
         } else {
             $tr['i_wallet'] = $user->wallet;
             $tr['f_wallet'] = $tr['i_wallet'];
