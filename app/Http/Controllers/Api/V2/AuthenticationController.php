@@ -169,14 +169,14 @@ class AuthenticationController extends Controller
 
         $device = $_SERVER['HTTP_USER_AGENT'];
 
-        $user = User::where('user_name', $input['user_name'])->first();
+        $user = User::where([['user_name', $input['user_name']], ['email', $input['user_name']]])->first();
 
         if (!$user) {
             return response()->json(['success' => 0, 'message' => 'User does not exist']);
         }
 
 
-        $nl = NewDevice::where([['user_name', $input['user_name']], ['device', $device]])->latest()->first();
+        $nl = NewDevice::where([['user_name', $user->user_name], ['device', $device]])->latest()->first();
 
         if (!$nl) {
             return response()->json(['success' => 0, 'message' => 'Kindly login']);
