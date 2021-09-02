@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/AuthenticationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/AuthenticationController.php" afterDir="false" />
-    </list>
+    <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -262,7 +260,7 @@
       <workItem from="1630576357674" duration="10000" />
       <workItem from="1630578013280" duration="1228000" />
       <workItem from="1630601318654" duration="256000" />
-      <workItem from="1630614220335" duration="312000" />
+      <workItem from="1630614220335" duration="399000" />
     </task>
     <task id="LOCAL-00001" summary="push changes">
       <created>1628096879123</created>
@@ -586,7 +584,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630614467172</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Add email/username to new device login">
+      <created>1630614556508</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1630614556508</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -608,7 +613,8 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <MESSAGE value="push changes" />
     <MESSAGE value="Add email/username to login" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add email/username to login" />
+    <MESSAGE value="Add email/username to new device login" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add email/username to new device login" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

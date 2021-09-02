@@ -109,7 +109,7 @@ class AuthenticationController extends Controller
         dispatch($job);
 
 
-        $user = User::where([['user_name', $input['user_name']], ['email', $input['user_name']]])->first();
+        $user = User::where('user_name', $input['user_name'])->orWhere('email', $input['user_name'])->first();
         if (!$user) {
             return response()->json(['success' => 0, 'message' => 'User does not exist']);
         }
@@ -169,7 +169,7 @@ class AuthenticationController extends Controller
 
         $device = $_SERVER['HTTP_USER_AGENT'];
 
-        $user = User::where([['user_name', $input['user_name']], ['email', $input['user_name']]])->first();
+        $user = User::where('user_name', $input['user_name'])->orWhere('email', $input['user_name'])->first();
 
         if (!$user) {
             return response()->json(['success' => 0, 'message' => 'User does not exist']);
