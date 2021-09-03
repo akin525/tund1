@@ -304,7 +304,7 @@ class PayController extends Controller
         $t=Transaction::create($tr);
 
         $user->wallet -= $amount;
-        $user->bonus += $discount;
+        $user->agent_commision += $discount;
         $user->save();
 
         $dada['tid']=$t->id;
