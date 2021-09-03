@@ -123,7 +123,11 @@ class SellDataController extends Controller
 
     public function server3($request, $code, $phone, $transid, $net, $input, $dada, $requester)
     {
-        $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
+        if ($requester == "reseller") {
+            $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
+        } else {
+            $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
+        }
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
@@ -162,7 +166,12 @@ class SellDataController extends Controller
 
     public function server6($request, $code, $phone, $transid, $net, $input, $dada, $requester)
     {
-        $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
+
+        if ($requester == "reseller") {
+            $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
+        } else {
+            $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
+        }
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
             $curl = curl_init();
@@ -176,7 +185,7 @@ class SellDataController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "' . $net . '","variation_code": "' . $rac->service_code . '","phone": "' . $phone . '","billersCode": "' . $phone . '"}',
+                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "' . $net . '","variation_code": "' . $rac->code . '","phone": "' . $phone . '","billersCode": "' . $phone . '"}',
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Basic ' . env('SERVER6_AUTH'),
                     'Content-Type: application/json'
