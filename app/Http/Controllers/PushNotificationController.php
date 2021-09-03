@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+
 class PushNotificationController extends Controller
 {
-    public function PushNoti($user_name,$message, $title){
+    public function PushNoti($user_name, $message, $title)
+    {
 
-        $user_name_tr=str_replace(" ","", $user_name);
+        $user_name_tr = str_replace(" ", "", $user_name);
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -64,11 +67,11 @@ class PushNotificationController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
 
-//        $json=json_decode($uresponse, true);
-//
-//        DB::table('tbl_pushnotiflog')->insert(
-//            ['user_name' => $user_name, 'message' => $message, 'response' => $json['message_id']]
-//        );
+        $json = json_decode($uresponse, true);
+
+        DB::table('tbl_pushnotiflog')->insert(
+            ['user_name' => $user_name, 'message' => $message, 'response' => $json['message_id']]
+        );
 
         echo $response;
     }
