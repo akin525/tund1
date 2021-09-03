@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-
 class PushNotificationController extends Controller
 {
     public function PushNoti($user_name,$message, $title){
@@ -56,9 +54,9 @@ class PushNotificationController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS =>"{\n\"to\": \"/topics/videx\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"MCD Data Purchase Notification\",\n\t\"body\":\"". $message."\"\n\t}\n}\n",
+            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/videx\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"MCD Data Purchase Notification\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
             CURLOPT_HTTPHEADER => array(
-                "Authorization: key=".env('PUSH_NOTIFICATION_KEY'),
+                "Authorization: key=" . env('PUSH_NOTIFICATION_KEY'),
                 "Content-Type: application/json",
                 "Content-Type: text/plain"
             ),
@@ -66,11 +64,11 @@ class PushNotificationController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
 
-        $json=json_decode($uresponse, true);
-
-        DB::table('tbl_pushnotiflog')->insert(
-            ['user_name' => $user_name, 'message' => $message, 'response' => $json['message_id']]
-        );
+//        $json=json_decode($uresponse, true);
+//
+//        DB::table('tbl_pushnotiflog')->insert(
+//            ['user_name' => $user_name, 'message' => $message, 'response' => $json['message_id']]
+//        );
 
         echo $response;
     }

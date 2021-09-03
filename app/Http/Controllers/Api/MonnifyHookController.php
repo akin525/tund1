@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
+use App\Jobs\SendoutMonnifyHookJob;
 use App\Models\PndL;
 use App\Models\Serverlog;
 use App\Models\Transaction;
 use App\Models\Wallet;
 use App\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -61,7 +63,7 @@ class MonnifyHookController extends Controller
             if ($product_reference === "Mcdat"){
                 $this->MCDatfundwallet($acctd_name,$paymentamount,$transactionreference, $cfee);
             }else{
-                $this->RAfundwallet($acctd_name,$paymentamount,$product_reference, $transactionreference, $cfee);
+                $this->RAfundwallet($acctd_name, $paymentamount, $product_reference, $transactionreference, $cfee, $input);
             }
         }
 
@@ -125,12 +127,25 @@ class MonnifyHookController extends Controller
 
     }
 
-    private function RAfundwallet($name, $amount, $reference, $transactionreference, $cfee){
-        $charges=50;
-        $u=User::where('user_name', '=', $reference)->first();
-        $w=Wallet::where('ref',$transactionreference)->first();
+    private function RAfundwallet($name, $amount, $reference, $transactionreference, $cfee, $input)
+    {
+        $charges = 50;
+        $u = User::where('user_name', '=', $reference)->first();
+        $w = Wallet::where('ref', $transactionreference)->first();
 
-        if(!$w) {
+        if ($reference == "emmext") {
+            //send out notification  to efe mobile money
+
+            echo "na efe mobile money get am";
+
+            $job = (new SendoutMonnifyHookJob($input))
+                ->delay(Carbon::now()->addSeconds(1));
+            dispatch($job);
+
+            return;
+        }
+
+        if (!$w) {
             if ($u) {
                 $input['name'] = "wallet funding";
                 $input['amount'] = $amount;
@@ -314,7 +329,7 @@ class MonnifyHookController extends Controller
                 $u->save();
 
                 echo $account_number . "|| ";
-            }catch (\Exception $e){
+            } catch (Exception $e) {
                 echo "Error encountered ";
                 continue;
             }
