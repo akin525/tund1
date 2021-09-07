@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Jobs\CreateProvidusAccountJob;
 use App\Jobs\LoginAttemptApiFinderJob;
+use App\Mail\NewDeviceLoginMail;
 use App\Mail\PasswordResetMail;
 use App\Models\LoginAttempt;
 use App\Models\NewDevice;
@@ -117,24 +118,24 @@ class AuthenticationController extends Controller
             return response()->json(['success' => 0, 'message' => 'Incorrect password attempt']);
         }
 
-//        if ($user->devices != $input['device']) {
-//            $tr['code'] = str_shuffle(substr(date('sydmM') . rand() . $user->user_name, 0, 4));
-//            $tr['email'] = $user->email;
-//            $tr['user_name'] = $user->user_name;
-//            $tr['expired'] = Carbon::now()->addHour();
-//            $tr['device'] = $_SERVER['HTTP_USER_AGENT'];
-//
-//            NewDevice::create($tr);
-//
+        if ($user->devices != $input['device']) {
+            $tr['code'] = str_shuffle(substr(date('sydmM') . rand() . $user->user_name, 0, 4));
+            $tr['email'] = $user->email;
+            $tr['user_name'] = $user->user_name;
+            $tr['expired'] = Carbon::now()->addHour();
+            $tr['device'] = $_SERVER['HTTP_USER_AGENT'];
+
+            NewDevice::create($tr);
+
 //            if (env('APP_ENV') != "local") {
-//                Mail::to($user->email)->send(new NewDeviceLoginMail($tr));
+            Mail::to($user->email)->send(new NewDeviceLoginMail($tr));
 //            }
-//
-//            $la->status = "new_device";
-//            $la->save();
-//
-//            return response()->json(['success' => 2, 'message' => 'Login successfully']);
-//        }
+
+            $la->status = "new_device";
+            $la->save();
+
+            return response()->json(['success' => 2, 'message' => 'Login successfully']);
+        }
 
         $la->status = "authorized";
         $la->save();

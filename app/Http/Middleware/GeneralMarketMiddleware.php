@@ -6,6 +6,7 @@ use App\Models\Serverlog;
 use App\Models\Settings;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class GeneralMarketMiddleware
@@ -20,6 +21,8 @@ class GeneralMarketMiddleware
     public function handle($request, Closure $next)
     {
         $input = $request->all();
+
+        $input['user_name'] = Auth::user()->user_name;
 
         if ($input['payment'] == "general_market") {
             $set = Settings::where('name', 'general_market')->first();
@@ -37,12 +40,6 @@ class GeneralMarketMiddleware
                     Serverlog::create($input);
                     return response()->json(['success' => 0, 'message' => 'error']);
                 }
-            }
-
-            if ($input['amount'] > $set->value) {
-                $input['status'] = 'general market is low';
-                Serverlog::create($input);
-                return response()->json(['success' => 0, 'message' => 'General market balance is low']);
             }
         }
 

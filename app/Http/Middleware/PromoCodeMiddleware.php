@@ -29,8 +29,10 @@ class PromoCodeMiddleware
                 return response()->json(['success' => 0, 'message' => 'Invalid Promo Code']);
             }
 
-            if ($pc->used == 1) {
-                return response()->json(['success' => 0, 'message' => 'Promo Code has been used']);
+            if ($pc->reuseable == 0) {
+                if ($pc->used == 1) {
+                    return response()->json(['success' => 0, 'message' => 'Promo Code has been used']);
+                }
             }
         }
 

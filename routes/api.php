@@ -13,6 +13,55 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('/testsendgrid', function (Request $request) {
+
+    $headers = array(
+        'Authorization: Bearer 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',
+        'Content-Type: application/json'
+    );
+
+    $datas = array(
+        "personalizations" => array(
+            array(
+                "to" => array(
+                    array(
+                        "email" => "odejinmisamuel@gmail.com",
+                        "name" => "Samuel"
+                    )
+                )
+            )
+        ),
+        "from" => array(
+            "email" => "info@5starcompany.com.ng"
+        ),
+        "subject" => "Test Mail",
+        "content" => array(
+            array(
+                "type" => "text/html",
+                "value" => view('mail.newdevicelogin')->render()
+            )
+        )
+    );
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLINFO_HEADER_OUT, true); // enable tracking
+    curl_setopt($ch, CURLOPT_URL, "https://api.sendgrid.com/v3/mail/send");
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($datas));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    $response = curl_exec($ch);
+    $headerSent = curl_getinfo($ch, CURLINFO_HEADER_OUT); // request headers
+    curl_close($ch);
+
+    echo $response;
+
+
+});
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
+    <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="push changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/AuthenticationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/AuthenticationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/OfflineServicesController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WalletController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WalletController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/GeneralMarketMiddleware.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/GeneralMarketMiddleware.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/PromoCodeMiddleware.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/PromoCodeMiddleware.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -274,14 +279,11 @@
       <workItem from="1630715051812" duration="339000" />
       <workItem from="1630771961983" duration="650000" />
       <workItem from="1630778399311" duration="1026000" />
-      <workItem from="1630850138877" duration="610000" />
-    </task>
-    <task id="LOCAL-00005" summary="push changes">
-      <created>1628190342849</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1628190342849</updated>
+      <workItem from="1630850138877" duration="982000" />
+      <workItem from="1630908944928" duration="8287000" />
+      <workItem from="1630938738149" duration="52000" />
+      <workItem from="1630953647552" duration="1379000" />
+      <workItem from="1631021043829" duration="2418000" />
     </task>
     <task id="LOCAL-00006" summary="push changes">
       <created>1628718096476</created>
@@ -619,7 +621,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630710937797</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="push changes">
+      <created>1630852099801</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1630852099802</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -568,7 +568,7 @@ class PayController extends Controller
             PndL::create($input);
 
             $pc->used = 1;
-            $pc->usedby = $input['user_name'];
+            $pc->usedby .= $input['user_name'] . " ";
             $pc->save();
         }
 
@@ -699,6 +699,13 @@ class PayController extends Controller
             $set = Settings::where('name', 'general_market')->first();
 
             if ($set->value >= $input['amount']) {
+
+                if ($input['amount'] > env("GMARKET_SINGLE_USAGE_LIMIT")) {
+                    $input['status'] = 'Excessive usage';
+                    Serverlog::create($input);
+                    return response()->json(['success' => 0, 'message' => 'Excessive usage detected, kindly reduce purchase to ' . env("GMARKET_SINGLE_USAGE_LIMIT")]);
+                }
+
                 Serverlog::create($input);
                 return $this->debitUser($request, $proceed['1'], $proceed['2'], $proceed['3'], $proceed['4'], $proceed['5'], $input['ref']);
             }

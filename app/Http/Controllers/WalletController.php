@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\PndL;
 use App\Models\Transaction;
 use App\User;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class WalletController extends Controller
 {
@@ -119,8 +118,8 @@ class WalletController extends Controller
 //                );
 
 
-                $at=new PushNotificationController();
-                $at->PushNoti($input['user_name'], $input["description"], "Wallet Funded By Admin" );
+                $at = new PushNotificationController();
+                $at->PushNoti($input['user_name'], $input["description"], "Wallet Funded");
 
                 return redirect('/addfund')->with('success', $input["user_name"]. ' wallet funded successfully!');
             }else{
