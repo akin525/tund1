@@ -9,6 +9,6 @@ class GeneralMarket extends Model
     protected $table='tbl_generalmarket';
 
     protected $fillable = [
-        'o_wallet', 'n_wallet', 'type', 'date', 'user_name', 'amount', 'transid', 'version', 'device_details'
+        'i_wallet', 'f_wallet', 'type', 'date', 'user_name', 'amount', 'transid', 'version', 'device_details'
     ];
 }

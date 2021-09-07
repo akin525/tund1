@@ -614,8 +614,8 @@ class PayController extends Controller
             $set = Settings::where('name', 'general_market')->first();
             $tr['transid'] = $ref;
             $tr['version'] = $input['version'];
-            $tr['o_wallet'] = $set->value;
-            $tr['n_wallet'] = $tr['o_wallet'] - $amount;
+            $tr['i_wallet'] = $set->value;
+            $tr['f_wallet'] = $tr['i_wallet'] - $amount;
             $tr['type'] = 'debit';
             GeneralMarket::create($tr);
             $set->value -= $amount;
