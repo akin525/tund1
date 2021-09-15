@@ -10,7 +10,6 @@ use App\Models\ReferralPlans;
 use App\Models\Settings;
 use App\Models\Transaction;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -166,11 +165,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        if (Carbon::now()->format("H") != env("FREEMONEY")) {
-            return response()->json(['success' => 0, 'message' => 'Sorry you did not win, try again later']);
-        }
-
-        $pm = PromoCode::where("used", 0)->first();
+        $pm = PromoCode::where("used", 0)->inRandomOrder()->first();
 
         if (!$pm) {
             return response()->json(['success' => 0, 'message' => 'Sorry you did not win, try again later']);

@@ -127,9 +127,9 @@ class AuthenticationController extends Controller
 
             NewDevice::create($tr);
 
-//            if (env('APP_ENV') != "local") {
-            Mail::to($user->email)->send(new NewDeviceLoginMail($tr));
-//            }
+            if (env('APP_ENV') != "local") {
+                Mail::to($user->email)->send(new NewDeviceLoginMail($tr));
+            }
 
             $la->status = "new_device";
             $la->save();
