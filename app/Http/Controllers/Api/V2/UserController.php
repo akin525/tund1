@@ -154,6 +154,16 @@ class UserController extends Controller
         return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => $referrals]);
     }
 
+    public function profile()
+    {
+        $user = Auth::user();
+        $referrals = User::where('referral', $user->user_name)->count();
+        $transactions = Transaction::where([['user_name', $user->user_name], ['name', '!=', 'wallet funding'], ['status', '!=', 'delivered']])->count();
+        $funds = Transaction::where([['user_name', $user->user_name], ['name', 'wallet funding']])->count();
+
+        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['referrals' => $referrals, 'funds' => $funds, 'transactions' => $transactions]]);
+    }
+
     public function transactions()
     {
         $user = Auth::user();
