@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Http\Controllers\Offline\SwitchController;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -31,6 +32,9 @@ class SMSinboxJob implements ShouldQueue
      */
     public function handle()
     {
-        //
+        echo "starting inboxjob function <br/>";
+
+        $of = new SwitchController();
+        $of->junction($this->input['message'], $this->input['sender']);
     }
 }

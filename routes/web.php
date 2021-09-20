@@ -11,7 +11,7 @@
 |
 */
 
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 Auth::routes(['register' => false]);
 
@@ -24,15 +24,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/ayomi', 'passwordhash@update');
 //Route::post('/login', 'passwordhash@login');
-    Route::get('/addpassword/{id}/{password}', function ($id, $password) {
-        $u = \App\User::find($id);
-        $u->password = Hash::make($password);
-        $u->save();
-        echo "success";
-    });
+//    Route::get('/addpassword/{id}/{password}', function ($id, $password) {
+//        $u = \App\User::find($id);
+//        $u->password = Hash::make($password);
+//        $u->save();
+//        echo "success";
+//    });
 
     Route::get('/logout', function () {
-        \Illuminate\Support\Facades\Auth::logout();
+        Auth::logout();
         return redirect('/login')->with('success', 'You have successfully logout');
     });
     Route::get('/users', 'UsersController@index')->name('users');

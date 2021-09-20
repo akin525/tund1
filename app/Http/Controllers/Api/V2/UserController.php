@@ -10,6 +10,7 @@ use App\Models\ReferralPlans;
 use App\Models\Settings;
 use App\Models\Transaction;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -266,7 +267,7 @@ class UserController extends Controller
         }
 
         $name = Auth::user()->user_name . ".pdf";
-        $folder = "testdoc";
+        $folder = "doc";
 
         if ($this->upload2FBS($input["document"], $folder, $name) == "success") {
             $user->document = 1;
@@ -274,6 +275,41 @@ class UserController extends Controller
             return response()->json(['success' => 1, 'message' => 'Document submitted successfully, we are currently reviewing your request which might take days.']);
         } else {
             return response()->json(['success' => 0, 'message' => 'Document upload failed. Try again later']);
+        }
+    }
+
+    public function bulkAirtime(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'document' => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        $input = $request->all();
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'message' => 'Document not found', 'error' => $validator->errors()]);
+        }
+
+        $user = User::where('user_name', Auth::user()->user_name)->first();
+        if (!$user) {
+            return response()->json(['success' => 0, 'message' => 'User not found']);
+        }
+
+        $ref = "MCD_" . Auth::user()->user_name . "_" . Carbon::now()->timestamp . rand();
+
+        $name = $ref . ".xlsx";
+        $folder = "bulkairtime";
+
+        if ($this->upload2FBS($input["document"], $folder, $name) == "success") {
+            $noti = new PushNotificationController();
+            $noti->PushNotiAdmin("You have a new bulk airtime request with ref => " . $ref, "Bulk Airtime");
+
+            return response()->json(['success' => 1, 'message' => 'File submitted successfully.']);
+        } else {
+            return response()->json(['success' => 0, 'message' => 'File upload failed. Try again later']);
         }
     }
 

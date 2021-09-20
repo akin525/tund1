@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Offline\SwitchController;
 
 class ValidateController extends Controller
 {
-    public function electricity_server6($phone, $type){
+    public function electricity_server6($phone, $type, $requester = "nm", $sender = "nm")
+    {
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SERVER6')."merchant-verify",
+            CURLOPT_URL => env('SERVER6') . "merchant-verify",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -32,20 +34,30 @@ class ValidateController extends Controller
 
         $rep=json_decode($response, true);
 
+        $of = new SwitchController();
 
-        if(isset($rep['content']['Customer_Name'])) {
-            return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name']]);
-        }else{
-            return response()->json(['success' => 0, 'message' => 'Unable to validate number']);
+        if (isset($rep['content']['Customer_Name'])) {
+            if ($requester == "offline") {
+                return $of->returnSuccess('Validated successfully ' . $rep['content']['Customer_Name'], $sender);
+            } else {
+                return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name']]);
+            }
+        } else {
+            if ($requester == "offline") {
+                return $of->returnError('Unable to validate number', $sender);
+            } else {
+                return response()->json(['success' => 0, 'message' => 'Unable to validate number']);
+            }
         }
 
     }
 
-    public function tv_server6($phone, $type){
+    public function tv_server6($phone, $type, $requester = "nm", $sender = "nm")
+    {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SERVER6')."merchant-verify",
+            CURLOPT_URL => env('SERVER6') . "merchant-verify",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -67,17 +79,26 @@ class ValidateController extends Controller
 
         $rep=json_decode($response, true);
 
+        $of = new SwitchController();
 
         if (isset($rep['content']['Customer_Name'])) {
-            return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name']]);
+            if ($requester == "offline") {
+                return $of->returnSuccess('Validated successfully ' . $rep['content']['Customer_Name'], $sender);
+            } else {
+                return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name']]);
+            }
         } else {
-            return response()->json(['success' => 0, 'message' => 'Unable to validate number']);
+            if ($requester == "offline") {
+                return $of->returnSuccess('Unable to validate number.', $sender);
+            } else {
+                return response()->json(['success' => 0, 'message' => 'Unable to validate number']);
+            }
         }
 
 
     }
 
-    public function betting_server7($phone, $type)
+    public function betting_server7($phone, $type, $requester = "nm", $sender = "nm")
     {
         $curl = curl_init();
 
@@ -113,10 +134,20 @@ class ValidateController extends Controller
 
         $rep = json_decode($response, true);
 
+        $of = new SwitchController();
+
         if ($rep['code'] == "00000") {
-            return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['data']['userName']]);
+            if ($requester == "offline") {
+                return $of->returnSuccess('Validated successfully ' . $rep['data']['userName'], $sender);
+            } else {
+                return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['data']['userName']]);
+            }
         } else {
-            return response()->json(['success' => 0, 'message' => 'Unable to validate number']);
+            if ($requester == "offline") {
+                return $of->returnSuccess('Unable to validate number.', $sender);
+            } else {
+                return response()->json(['success' => 0, 'message' => 'Unable to validate number']);
+            }
         }
 
 

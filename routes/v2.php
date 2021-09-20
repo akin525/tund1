@@ -56,6 +56,8 @@ Route::prefix('v2')->middleware("version")->group(function () {
             Route::post('betting', [PayController::class, 'buybetting']);
         });
 
+        Route::post('bulkairtime', [UserController::class, 'bulkAirtime']);
+
         Route::post('airtimeconverter', [PayController::class, 'a2ca2b']);
         Route::post('resultchecker', [PayController::class, 'resultchecker']);
 
