@@ -199,7 +199,7 @@ class MCDAssistantController extends Controller
 
         if ($u){//checking if user exist
             if($u->account_number!=0){
-                $rep=$user_name . ", your personal MCD Account number is ". $u->account_number." (Providus Bank). Is there any other thing you will like me to for you?";
+                $rep = $user_name . ", your personal MCD Account number is " . $u->account_number . ". Is there any other thing you will like me to do for you?";
             }else{
                 $rep=$user_name . ", personal account has not been created for you. Kindly contact support @ 07011223737";
             }
