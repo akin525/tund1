@@ -414,6 +414,7 @@ class SellAirtimeController extends Controller
         switch ($net) {
             case "9MOBILE":
                 $netcode = "etisalat";
+                break;
             default:
                 $netcode = strtolower($net);
         }

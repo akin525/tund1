@@ -156,4 +156,234 @@ class SwitchController extends Controller
         }
         return $this->returnSuccess($message, $sender);
     }
+
+    public function buyData($number, $plan, $sender)
+    {
+        echo "Working on buy data";
+        $user = User::where("phoneno", $sender)->first();
+        if (!$user) {
+            return $this->returnError("Phone Number does not exist. Kindly contact us on whatsapp@07011223737", $sender);
+        }
+
+        $token = $user->createToken("sms")->plainTextToken;
+
+        $ref = "MCD_SMS_" . strtoupper(substr($user->user_name, 0, 2)) . "_" . Carbon::now()->timestamp . rand();
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env("APP_URL") . '/api/v2/data',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{
+    "code": "' . $plan . '",
+    "number": "' . $number . '",
+    "payment" : "wallet",
+    "promo" : "0",
+    "ref":"' . $ref . '"
+}',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer ' . $token,
+                'version: 6.0',
+                'Content-Type: application/json',
+                'User-Agent: SMS',
+            ),
+        ));
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        echo $response;
+
+        $rep = json_decode($response, true);
+
+        if ($rep['success'] == 1) {
+            $message = $rep['message'] . " with reference " . $rep['ref'] . ". Debit Amount: " . $rep['debitAmount'] . ". Commission: " . $rep['discountAmount'];
+        } else {
+            $message = $rep['message'];
+        }
+        return $this->returnSuccess($message, $sender);
+    }
+
+    public function buyTV($number, $plan, $sender)
+    {
+        echo "Working on buy tv";
+        $user = User::where("phoneno", $sender)->first();
+        if (!$user) {
+            return $this->returnError("Phone Number does not exist. Kindly contact us on whatsapp@07011223737", $sender);
+        }
+
+        $token = $user->createToken("sms")->plainTextToken;
+
+        $ref = "MCD_SMS_" . strtoupper(substr($user->user_name, 0, 2)) . "_" . Carbon::now()->timestamp . rand();
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env("APP_URL") . '/api/v2/tv',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{
+    "code": "' . $plan . '",
+    "number": "' . $number . '",
+    "payment" : "wallet",
+    "promo" : "0",
+    "ref":"' . $ref . '"
+}',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer ' . $token,
+                'version: 6.0',
+                'Content-Type: application/json',
+                'User-Agent: SMS',
+            ),
+        ));
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        echo $response;
+
+        $rep = json_decode($response, true);
+
+        if ($rep['success'] == 1) {
+            $message = $rep['message'] . " with reference " . $rep['ref'] . ". Debit Amount: " . $rep['debitAmount'] . ". Commission: " . $rep['discountAmount'];
+        } else {
+            $message = $rep['message'];
+        }
+        return $this->returnSuccess($message, $sender);
+    }
+
+    public function buyElectricity($number, $type, $plan, $sender)
+    {
+        echo "Working on buy electricity";
+        $user = User::where("phoneno", $sender)->first();
+        if (!$user) {
+            return $this->returnError("Phone Number does not exist. Kindly contact us on whatsapp@07011223737", $sender);
+        }
+
+        $token = $user->createToken("sms")->plainTextToken;
+
+        $ref = "MCD_SMS_" . strtoupper(substr($user->user_name, 0, 2)) . "_" . Carbon::now()->timestamp . rand();
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env("APP_URL") . '/api/v2/electricity',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{
+    "provider": "' . $type . '",
+    "amount": "' . $plan . '",
+    "number": "' . $number . '",
+    "payment" : "wallet",
+    "promo" : "0",
+    "ref":"' . $ref . '"
+}',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer ' . $token,
+                'version: 6.0',
+                'Content-Type: application/json',
+                'User-Agent: SMS',
+            ),
+        ));
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        echo $response;
+
+        $rep = json_decode($response, true);
+
+        if ($rep['success'] == 1) {
+            $message = $rep['message'] . " with reference " . $rep['ref'] . ". Debit Amount: " . $rep['debitAmount'] . ". Commission: " . $rep['discountAmount'];
+        } else {
+            $message = $rep['message'];
+        }
+        return $this->returnSuccess($message, $sender);
+    }
+
+    public function buyBetting($number, $type, $plan, $sender)
+    {
+        echo "Working on buy betting";
+        $user = User::where("phoneno", $sender)->first();
+        if (!$user) {
+            return $this->returnError("Phone Number does not exist. Kindly contact us on whatsapp@07011223737", $sender);
+        }
+
+        $token = $user->createToken("sms")->plainTextToken;
+
+        $ref = "MCD_SMS_" . strtoupper(substr($user->user_name, 0, 2)) . "_" . Carbon::now()->timestamp . rand();
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env("APP_URL") . '/api/v2/betting',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{
+    "provider": "' . $type . '",
+    "amount": "' . $plan . '",
+    "number": "' . $number . '",
+    "payment" : "wallet",
+    "promo" : "0",
+    "ref":"' . $ref . '"
+}',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer ' . $token,
+                'version: 6.0',
+                'Content-Type: application/json',
+                'User-Agent: SMS',
+            ),
+        ));
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        echo $response;
+
+        $rep = json_decode($response, true);
+
+        if ($rep['success'] == 1) {
+            $message = $rep['message'] . " with reference " . $rep['ref'] . ". Debit Amount: " . $rep['debitAmount'] . ". Commission: " . $rep['discountAmount'];
+        } else {
+            $message = $rep['message'];
+        }
+        return $this->returnSuccess($message, $sender);
+    }
 }

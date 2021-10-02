@@ -498,7 +498,7 @@ class PayController extends Controller
 
         switch (strtolower($server)) {
             case "6":
-                return $air->server6($request, $input['provider'], $input['number'], $ref, $net, $request, $dada, "reseller");
+                return $air->server6($request, $input['provider'], $input['number'], $ref, $net, $request, $dada, "mcd");
             default:
                 return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
         }

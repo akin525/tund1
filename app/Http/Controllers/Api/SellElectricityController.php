@@ -40,8 +40,8 @@ class SellElectricityController extends Controller
 
         $rep = json_decode($response, true);
 
-        $tran = new ServeRequestController();
         $rs = new PayController();
+        $ms = new V2\PayController();
 
         $dada['server_response'] = $response;
 
@@ -51,14 +51,14 @@ class SellElectricityController extends Controller
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
-//                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
+                return $ms->outputResp($request, $transid, 1, $dada);
             }
         } else {
             $dada['token'] = "Token: pending";
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 0, $dada);
             } else {
-//                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
+                return $ms->outputResp($request, $transid, 0, $dada);
             }
         }
     }
