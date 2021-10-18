@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Offline;
 
 use App\Http\Controllers\Api\ValidateController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PushNotificationController;
 use App\User;
 use Carbon\Carbon;
 
@@ -42,15 +43,26 @@ class SwitchController extends Controller
                 $type = $input[3];
                 $plan = $input[4];
                 return $this->buyAirtime($number, $type, $plan, $sender);
-//            case "data":
-//                return $s->buyData($request);
-//            case "tv":
-//                return $s->buyTV($request);
-//            case "electricity":
-//                return $s->buyElectricity($request);
-//            case "betting":
-//                return $s->buyBetting($request);
-
+            case "data":
+                $number = $input[2];
+                $type = $input[3];
+                $plan = $input[4];
+                return $this->buyData($number, $plan, $sender);
+            case "tv":
+                $number = $input[2];
+                $type = $input[3];
+                $plan = $input[4];
+                return $this->buyTV($number, $plan, $sender);
+            case "electricity":
+                $number = $input[2];
+                $type = $input[3];
+                $plan = $input[4];
+                return $this->buyElectricity($number, $type, $plan, $sender);
+            case "betting":
+                $number = $input[2];
+                $type = $input[3];
+                $plan = $input[4];
+                return $this->buyBetting($number, $type, $plan, $sender);
             default:
                 return $this->returnError('Invalid service provided', $sender);
         }
@@ -63,6 +75,19 @@ class SwitchController extends Controller
         return 'done';
     }
 
+    public function returnSuccess($message, $sender): string
+    {
+//        echo "success: " . $message;
+
+        $user = User::where("phoneno", $sender)->first();
+
+        $dis = new PushNotificationController();
+        return $dis->send_smsroute9ja($user->user_name, $message);
+
+        return "done";
+    }
+
+
     public function myBalance($sender)
     {
         $user = User::where("phoneno", $sender)->first();
@@ -71,12 +96,6 @@ class SwitchController extends Controller
         }
 
         return $this->returnSuccess("Wallet Balance: " . $user->wallet . ", Commission: " . $user->agent_commision, $sender);
-    }
-
-    public function returnSuccess($message, $sender): string
-    {
-        echo "success: " . $message;
-        return "done";
     }
 
     public function validateService($number, $type, $plan, $sender)
@@ -91,8 +110,6 @@ class SwitchController extends Controller
                 return $s->tv_server6($number, $plan, "offline", $sender);
             case "betting":
                 return $s->betting_server7($number, strtoupper($plan), "offline", $sender);
-            case "smile":
-                return $s->tv_server6($number, $plan);
             default:
                 return $this->returnError('Invalid service provided', $sender);
         }
