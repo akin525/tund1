@@ -133,7 +133,7 @@ class MonnifyHookController extends Controller
         $u = User::where('user_name', '=', $reference)->first();
         $w = Wallet::where('ref', $transactionreference)->first();
 
-        if ($reference == "emmext") {
+        if ($reference == "emmext" || $reference == "rmmext") {
             //send out notification  to efe mobile money
 
             echo "na efe mobile money get am";

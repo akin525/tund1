@@ -57,6 +57,10 @@ class ServeRequestJob implements ShouldQueue
             return;
         }
 
+        //give points to the user
+        $user->points += 1;
+        $user->save();
+
         if ($input['service'] == "data") {
             if ($input['payment'] == "wallet") {
                 $input["type"] = "income";

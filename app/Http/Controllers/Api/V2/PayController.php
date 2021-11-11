@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Api\SellAirtimeController;
 use App\Http\Controllers\Api\SellDataController;
+use App\Http\Controllers\Api\SellEducationalController;
 use App\Http\Controllers\Api\SellElectricityController;
 use App\Http\Controllers\Api\SellTVController;
 use App\Http\Controllers\Controller;
@@ -420,6 +421,9 @@ class PayController extends Controller
 
         $user->wallet = $input['f_wallet'];
         $user->save();
+
+        $edu = new SellEducationalController();
+        $edu->server1($ref, $input, 'mcd');
 
 
 //            $at = new PushNotificationController();
