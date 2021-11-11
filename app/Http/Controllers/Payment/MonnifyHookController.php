@@ -138,11 +138,12 @@ class MonnifyHookController extends Controller
 
             echo "na efe mobile money get am";
 
+            $charges = $cfee;
+            $u = User::where('user_name', '=', "Izormor2019")->first();
+
             $job = (new SendoutMonnifyHookJob($input))
                 ->delay(Carbon::now()->addSeconds(1));
             dispatch($job);
-
-            return;
         }
 
         if (!$w) {
@@ -206,7 +207,7 @@ class MonnifyHookController extends Controller
                 $noti->PushNoti($input['user_name'], $notimssg, "Account Transfer Successful");
             }
         }else{
-            echo "Already created ";
+            echo "Already credited ";
         }
     }
 
