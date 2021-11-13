@@ -12,6 +12,7 @@
 */
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Auth::routes(['register' => false]);
 
@@ -46,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/{id}', 'UsersController@profile')->name('profile');
     Route::get('/wallet', 'WalletController@index')->name('wallet');
     Route::get('/transaction', 'TransactionController@index')->name('transaction');
-    Route::get('/cryptorequest', 'TransactionController@cryptos')->name('cryptos');
+
     Route::get('/generalmarket', 'TransactionController@gmhistory')->name('generalmarket');
     Route::get('/plcharges', 'TransactionController@plcharges')->name('plcharges');
     Route::post('/rechargecard', 'TransactionController@rechargecard')->name('rechargecard');
@@ -57,18 +58,7 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/cc', 'mail.passwordreset');
     Route::view('/finduser', 'find_user');
     Route::POST('/finduser', 'UsersController@finduser')->name('finduser');
-    Route::POST('/referral_upgrade', 'UsersController@referral_upgrade')->name('referral.upgrade');
-    Route::view('/referral_upgrade', 'referral_upgrade');
-    Route::view('/addfund', 'addfund');
-    Route::view('/rechargecard', 'rechargecard');
-    Route::post('/addfund', 'WalletController@addfund')->name('addfund');
-    Route::view('/addtransaction', 'addtransaction');
-    Route::post('/addtransaction', 'TransactionController@addtransaction')->name('addtransaction');
-    Route::view('/adddatatransaction', 'addtransaction_data');
-    Route::post('/adddatatransaction', 'TransactionController@addtransaction_data')->name('adddatatransaction');
-    Route::view('/reversal', 'reversal');
-    Route::post('/reversal-confirm', 'TransactionController@reversal_confirm')->name('reversal.confirm');
-    Route::get('/reverse-transaction/{id}', 'TransactionController@reverse')->name('reverse');
+
     Route::view('/gnews', 'addgnews');
     Route::post('/gnews', 'UsersController@addgnews')->name('addgnews');
     Route::post('/user-sms', 'UsersController@sendsms')->name('user.sms');
@@ -77,8 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/agentpayment', 'UsersController@agent_list')->name('agent.payment.list');
     Route::post('/agentpayment-confirm', 'UsersController@agent_confirm')->name('agent.payment.confirmation');
     Route::post('/agentpayment', 'UsersController@agent_payment')->name('agent.payment');
-    Route::get('/airtime2cash', 'TransactionController@airtime2cash')->name('transaction.airtime2cash');
-    Route::post('/airtime2cash', 'TransactionController@airtime2cashpayment')->name('transaction.airtime2cash.payment');
+
     Route::view('/verification_server5', 'verification_s5');
     Route::view('/verification_server4', 'verification_s4');
     Route::view('/verification_server3', 'verification_s3');
@@ -94,7 +83,27 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/verification_server4', 'VerificationController@server4')->name('verification_server4');
     Route::post('/verification_server5', 'VerificationController@server5')->name('verification_server5');
 
-    Route::get('/report_pnl', 'ReportsController@pnl')->name('report_pnl');
+    Route::middleware(['authCheck'])->group(function () {
+        Route::POST('/referral_upgrade', 'UsersController@referral_upgrade')->name('referral.upgrade');
+        Route::view('/referral_upgrade', 'referral_upgrade');
+
+        Route::get('/airtime2cash', 'TransactionController@airtime2cash')->name('transaction.airtime2cash');
+        Route::post('/airtime2cash', 'TransactionController@airtime2cashpayment')->name('transaction.airtime2cash.payment');
+
+        Route::view('/addfund', 'addfund');
+        Route::view('/rechargecard', 'rechargecard');
+        Route::post('/addfund', 'WalletController@addfund')->name('addfund')->middleware('authCheck');
+        Route::view('/addtransaction', 'addtransaction');
+        Route::post('/addtransaction', 'TransactionController@addtransaction')->name('addtransaction');
+        Route::view('/adddatatransaction', 'addtransaction_data');
+        Route::post('/adddatatransaction', 'TransactionController@addtransaction_data')->name('adddatatransaction');
+        Route::view('/reversal', 'reversal');
+        Route::post('/reversal-confirm', 'TransactionController@reversal_confirm')->name('reversal.confirm');
+        Route::get('/reverse-transaction/{id}', 'TransactionController@reverse')->name('reverse');
+        Route::get('/report_pnl', 'ReportsController@pnl')->name('report_pnl');
+        Route::get('/cryptorequest', 'TransactionController@cryptos')->name('cryptos');
+    });
+
 });
 
 

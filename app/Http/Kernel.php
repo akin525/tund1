@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\AuthorizationCheck;
 use App\Http\Middleware\CheckForMaintenanceMode;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\GeneralMarketMiddleware;
@@ -94,6 +95,7 @@ class Kernel extends HttpKernel
         'version' => VersionMiddleware::class,
         'promocode' => PromoCodeMiddleware::class,
         'gmarket' => GeneralMarketMiddleware::class,
+        'authCheck' => AuthorizationCheck::class,
     ];
 
     /**

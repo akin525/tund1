@@ -121,15 +121,16 @@ class OtherController extends Controller
             if ($u->bonus < $input['amount']) {
                 return response()->json(['success' => 0, 'message' => 'Low wallet balance']);
             }
+            $u->bonus -= $input['amount'];
         }
 
-        if ($input['wallet'] == "Agent Commission") {
+        if ($input['wallet'] == "Commission") {
             if ($u->agent_commision < $input['amount']) {
                 return response()->json(['success' => 0, 'message' => 'Low wallet balance']);
             }
+            $u->agent_commision -= $input['amount'];
         }
 
-        $u->agent_commision -= $input['amount'];
         $u->save();
 
         Withdraw::create($input);

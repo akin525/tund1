@@ -51,9 +51,11 @@ class PayReferralJob implements ShouldQueue
         $price = $input['amount'];
 
 
+        $amount = 0;
+
         if ($input['service'] == "airtime") {
             $am = $price * $airtime;
-            $amount = round($am/100);
+            $amount = round($am / 100);
         } else if ($input['service'] == "data") {
             $amount = $data;
         } else if ($input['service'] == "tv") {
@@ -61,7 +63,6 @@ class PayReferralJob implements ShouldQueue
             $amount = round($am / 100);
         }
 
-        echo $amount;
 
         if ($amount > 0) {
             $tr['name'] = "Referral Bonus";
