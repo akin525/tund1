@@ -3,7 +3,9 @@
 namespace App\Jobs;
 
 use App\Http\Controllers\PushNotificationController;
+use App\Models\PndL;
 use App\Models\Withdraw;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -103,6 +105,15 @@ class WithdrawalPayoutJob implements ShouldQueue
 
         $sf->status = 1;
         $sf->save();
+
+
+        $input["type"] = "expenses";
+        $input["gl"] = "Withdrawal";
+        $input["amount"] = $sf->amount;
+        $input['date'] = Carbon::now();
+        $input["narration"] = "Being $sf->wallet withdrawal payout on $sf->ref";
+
+        PndL::create($input);
 
         $noti = new PushNotificationController();
         $noti->PushNoti($sf['user_name'], "Your withdrawal with reference $sf->ref has been paid to your bank account.", "Withdrawal Request Completed");
