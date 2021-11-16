@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Reseller;
 use App\Http\Controllers\Api\ValidateController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
+use App\Models\PndL;
+use App\Models\Transaction;
 use App\Models\Withdraw;
 use App\User;
 use Carbon\Carbon;
@@ -185,28 +187,72 @@ class SwitchController extends Controller
         $input['ref'] = "RW" . Carbon::now()->timestamp . rand();
         $input['device_details'] = "api";
         $input['version'] = "2.0";
+        $fee = env('WITHDRAWAL_FEE');
+        $total = $input['amount'] + $fee;
+
+        $wallet_bal = 0;
 
         if ($input['wallet'] == "Commission") {
-            if ($user->agent_commision < $input['amount']) {
+            if ($user->agent_commision < $total) {
                 return response()->json(['success' => 0, 'message' => 'Low commission balance']);
             }
-            $user->agent_commision -= $input['amount'];
+            $wallet_bal = $user->agent_commision;
+            $user->agent_commision -= $total;
         }
 
         if ($input['wallet'] == "Wallet") {
-            if ($user->wallet < $input['amount']) {
+            if ($user->wallet < $total) {
                 return response()->json(['success' => 0, 'message' => 'Low wallet balance']);
             }
-            $user->wallet -= $input['amount'];
+            $wallet_bal = $user->wallet;
+            $user->wallet -= $total;
+        }
+
+        if ($input['amount'] > env('WITHDRAWAL_LIMIT')) {
+            return response()->json(['success' => 0, 'message' => 'Withdrawal limit exceeded. Max is ' . env('WITHDRAWAL_LIMIT')]);
         }
 
         $user->save();
 
         Withdraw::create($input);
 
+        $tr['name'] = "Withdrawal";
+        $tr['description'] = $input['wallet'] . " withdrawal on " . $input['account_number'] . " (" . $input['bank'] . ")";
+        $tr['amount'] = $input['amount'];
+        $tr['date'] = Carbon::now();
+        $tr['device_details'] = "api";
+        $tr['ip_address'] = $_SERVER['REMOTE_ADDR'];
+        $tr['i_wallet'] = $wallet_bal;
+        $tr['f_wallet'] = $tr['i_wallet'] - $tr['amount'];
+        $tr['user_name'] = $user->user_name;
+        $tr['ref'] = $input['ref'];
+        $tr['code'] = "withdraw";
+        $tr['server'] = "auto";
+        $tr['server_response'] = "";
+        $tr['payment_method'] = "wallet";
+        $tr['transid'] = $input['ref'];
+        $tr['status'] = "submitted";
+        $tr['extra'] = "";
+        Transaction::create($tr);
+
+        $tr['description'] = "Fee on " . $tr['description'];
+        $tr['code'] = "withdraw_fee";
+        $tr['i_wallet'] = $tr['f_wallet'];
+        $tr['f_wallet'] = $tr['i_wallet'] - $fee;
+        $tr['amount'] = $fee;
+        Transaction::create($tr);
+
+        $input["type"] = "income";
+        $input["gl"] = "Withdrawal Fee";
+        $input["amount"] = $fee;
+        $input['date'] = Carbon::now();
+        $input["narration"] = "Being withdrawal payout fee on " . $input['ref'] . " via reseller " . $input['wallet'];
+
+        PndL::create($input);
+
+
         $noti = new PushNotificationController();
         $noti->PushNoti('Izormor2019', "There is a pending withdrawal request, kindly approve on the dashboard.", "Withdrawal Request");
-
 
         return response()->json(['success' => 1, 'message' => 'Withdrawal logged successfully', 'ref' => $input['ref']]);
     }

@@ -74,7 +74,7 @@ class PushNotificationController extends Controller
             ['user_name' => $user_name, 'message' => $message, 'response' => $json['message_id']]
         );
 
-        echo $response;
+//        echo $response;
     }
 
     public function PushNotiAdmin($message, $title){
