@@ -172,6 +172,9 @@ class WalletController extends Controller
             return back()->with('error', 'Transaction has been completed earlier');
         }
 
+        $with->status = 2;
+        $with->save();
+
         WithdrawalPayoutJob::dispatch($with)->delay(Carbon::now()->addSeconds(1));
 
         return back()->with('success', 'Withdrawal process has been initiated in background');

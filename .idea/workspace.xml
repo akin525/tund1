@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="push changes">
+    <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/OtherController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/OtherController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Reseller/SwitchController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Reseller/SwitchController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WalletController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WalletController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/withdrawal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/withdrawal.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -367,14 +364,7 @@
       <workItem from="1636825539747" duration="183000" />
       <workItem from="1636835520378" duration="615000" />
       <workItem from="1636918060168" duration="214000" />
-      <workItem from="1637044779886" duration="7044000" />
-    </task>
-    <task id="LOCAL-00019" summary="push changes">
-      <created>1629284264523</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1629284264523</updated>
+      <workItem from="1637044779886" duration="7876000" />
     </task>
     <task id="LOCAL-00020" summary="push changes">
       <created>1629341080995</created>
@@ -712,7 +702,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637047818623</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="push changes">
+      <created>1637051923178</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1637051923178</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

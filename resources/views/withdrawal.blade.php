@@ -52,8 +52,10 @@
                                     <td>
                                         @if($dat->status == 1)
                                             <span class="badge badge-success">Completed</span>
+                                        @elseif($dat->status == 2)
+                                            <span class="badge badge-info">Processing</span>
                                         @else
-                                            <span class="badge badge-info">Pending</span>
+                                            <span class="badge badge-danger">Pending</span>
                                         @endif
                                     </td>
                                     <td>{{$dat->wallet}}</td>
@@ -62,7 +64,7 @@
                                     <td>{{$dat->version}}</td>
                                     <td>{{$dat->created_at}}</td>
                                     <td>
-                                        @if($dat->status != 1)
+                                        @if($dat->status == 0)
                                             <form method="post" action="{{route('withdrawal_submit')}}">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{$dat->id}}"/>
