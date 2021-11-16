@@ -105,7 +105,7 @@ class WithdrawalPayoutJob implements ShouldQueue
         $sf->save();
 
         $noti = new PushNotificationController();
-        $noti->PushNoti($sf['user_name'], "Your withdrawal with reference $sf->ref has been paid to your bank account.", "Withdrawal Request");
+        $noti->PushNoti($sf['user_name'], "Your withdrawal with reference $sf->ref has been paid to your bank account.", "Withdrawal Request Completed");
 
     }
 }
