@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reseller;
 
 use App\Http\Controllers\Api\ValidateController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PushNotificationController;
 use App\Models\Withdraw;
 use App\User;
 use Carbon\Carbon;
@@ -149,7 +150,8 @@ class SwitchController extends Controller
         $rules = array(
             'account_number' => 'required|max:10',
             'bank' => 'required',
-            'bank_code' => 'required'
+            'bank_code' => 'required',
+            'wallet' => 'required'
         );
 
         $validator = Validator::make($input, $rules);
@@ -166,20 +168,45 @@ class SwitchController extends Controller
             return response()->json(['success' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
         }
 
+        $valid_wallets = ['Commission', 'Wallet'];
+        $valid = false;
+
+        foreach ($valid_wallets as $valid) {
+            if ($input['wallet'] == $valid) {
+                $valid = true;
+            }
+        }
+
+        if (!$valid) {
+            return response()->json(['success' => 0, 'message' => 'Invalid wallet type supplied. Valid wallets are Commission, Wallet']);
+        }
+
         $input['user_name'] = $user->user_name;
-        $input['wallet'] = "agent_commision";
-        $input['ref'] = "W" . Carbon::now()->timestamp . rand();
+        $input['ref'] = "RW" . Carbon::now()->timestamp . rand();
         $input['device_details'] = "api";
         $input['version'] = "2.0";
 
-        if ($user->agent_commision < $input['amount']) {
-            return response()->json(['success' => 0, 'message' => 'Low commission balance']);
+        if ($input['wallet'] == "Commission") {
+            if ($user->agent_commision < $input['amount']) {
+                return response()->json(['success' => 0, 'message' => 'Low commission balance']);
+            }
+            $user->agent_commision -= $input['amount'];
         }
 
-        $user->agent_commision -= $input['amount'];
+        if ($input['wallet'] == "Wallet") {
+            if ($user->wallet < $input['amount']) {
+                return response()->json(['success' => 0, 'message' => 'Low wallet balance']);
+            }
+            $user->wallet -= $input['amount'];
+        }
+
         $user->save();
 
         Withdraw::create($input);
+
+        $noti = new PushNotificationController();
+        $noti->PushNoti('Izormor2019', "There is a pending withdrawal request, kindly approve on the dashboard.", "Withdrawal Request");
+
 
         return response()->json(['success' => 1, 'message' => 'Withdrawal logged successfully', 'ref' => $input['ref']]);
     }

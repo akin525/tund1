@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\WithdrawalPayoutJob;
 use App\Models\PndL;
 use App\Models\Transaction;
+use App\Models\Wallet;
 use App\Models\Withdraw;
 use App\User;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,9 +21,11 @@ class WalletController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
-        $wallet = DB::table('tbl_wallet')->orderBy('id', 'desc')->paginate(25);
+
+        $wallet = Wallet::orderBy('id', 'desc')->paginate(25);
 
         return view('wallets', ['data' => $wallet]);
 
@@ -35,8 +40,7 @@ class WalletController extends Controller
 
         $validator = Validator::make($input, $rules);
 
-        if ($validator->passes())
-        {
+        if ($validator->passes()) {
             $sms_id="15658";
             $sms_secret="66Wby95tGM15Wo3uQk1OwiYO3muum4Ds";
             $sms_pass="zEKJKdpxfvuDzYtTZipihelDJQ0NttZ28JMSXbpcHT";
@@ -124,7 +128,7 @@ class WalletController extends Controller
 
                 return redirect('/addfund')->with('success', $input["user_name"]. ' wallet funded successfully!');
             }else{
-                        $validator->errors()->add('username', 'The username does not exist!');
+                $validator->errors()->add('username', 'The username does not exist!');
 
                 return redirect('/addfund')
                     ->withErrors($validator)
@@ -144,5 +148,32 @@ class WalletController extends Controller
     {
         $with = Withdraw::paginate();
         return view('withdrawal', ['data' => $with]);
+    }
+
+    public function withdrawal_submit(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'id' => 'required|int');
+
+        $validator = Validator::make($input, $rules);
+
+        if (!$validator->passes()) {
+            return back()->with('error', 'Missing required key');
+        }
+
+        $with = Withdraw::find($input['id']);
+
+        if (!$with) {
+            return back()->with('error', 'Kindly provide a valid data');
+        }
+
+        if ($with->status == 1) {
+            return back()->with('error', 'Transaction has been completed earlier');
+        }
+
+        WithdrawalPayoutJob::dispatch($with)->delay(Carbon::now()->addSeconds(1));
+
+        return back()->with('success', 'Withdrawal process has been initiated in background');
     }
 }

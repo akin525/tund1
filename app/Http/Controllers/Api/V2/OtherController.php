@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PushNotificationController;
 use App\Models\GeneralMarket;
 use App\Models\ReferralPlans;
 use App\Models\Settings;
@@ -134,6 +135,9 @@ class OtherController extends Controller
         $u->save();
 
         Withdraw::create($input);
+
+        $noti = new PushNotificationController();
+        $noti->PushNoti('Izormor2019', "There is a pending withdrawal request, kindly approve on the dashboard.", "Withdrawal Request");
 
         return response()->json(['success' => 1, 'message' => 'Withdrawal logged successfully']);
 

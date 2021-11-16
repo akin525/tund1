@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/withdrawal.blade.php" afterDir="false" />
+    <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="push changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellEducationalController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellEducationalController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/OtherController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/OtherController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Reseller/SwitchController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Reseller/SwitchController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WalletController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WalletController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/withdrawal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/withdrawal.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -367,14 +367,7 @@
       <workItem from="1636825539747" duration="183000" />
       <workItem from="1636835520378" duration="615000" />
       <workItem from="1636918060168" duration="214000" />
-      <workItem from="1637044779886" duration="2952000" />
-    </task>
-    <task id="LOCAL-00018" summary="push changes">
-      <created>1629284196423</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1629284196423</updated>
+      <workItem from="1637044779886" duration="7044000" />
     </task>
     <task id="LOCAL-00019" summary="push changes">
       <created>1629284264523</created>
@@ -712,7 +705,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636804265380</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="push changes">
+      <created>1637047818622</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1637047818623</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -765,7 +765,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/app/Http/Controllers/Api/V2/OtherController.php</url>
-          <line>141</line>
+          <line>145</line>
           <properties>
             <option name="className" value="\App\Http\Controllers\Api\V2\OtherController" />
             <option name="methodName" value="banklist" />

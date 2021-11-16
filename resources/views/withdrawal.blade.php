@@ -10,6 +10,21 @@
                 <div class="card-body">
                     <h4 class="mt-0 header-title">Withdrawal Requests</h4>
                     {{--                    <p class="text-muted mb-4 font-13">Use <code>pencil icon</code> to view user profile.</p>--}}
+
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     <div class="table-responsive">
                         <table class="table table-striped mb-0">
                             <thead>
@@ -48,7 +63,8 @@
                                     <td>{{$dat->created_at}}</td>
                                     <td>
                                         @if($dat->status != 1)
-                                            <form action="{{route('withdrawal_submit')}}">
+                                            <form method="post" action="{{route('withdrawal_submit')}}">
+                                                @csrf
                                                 <input type="hidden" name="id" value="{{$dat->id}}"/>
                                                 <button type="submit" class="btn btn-primary">Approve</button>
                                             </form>
