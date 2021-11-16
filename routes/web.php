@@ -46,6 +46,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/request_approve', 'UsersController@approve')->name('user approval');
     Route::get('/profile/{id}', 'UsersController@profile')->name('profile');
     Route::get('/wallet', 'WalletController@index')->name('wallet');
+
+    Route::get('/withdrawal', 'WalletController@withdrawal_list')->name('withdrawal_list');
+    Route::post('/withdrawal', 'WalletController@withdrawal_list')->name('withdrawal_submit');
+
     Route::get('/transaction', 'TransactionController@index')->name('transaction');
 
     Route::get('/generalmarket', 'TransactionController@gmhistory')->name('generalmarket');

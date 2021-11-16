@@ -123,6 +123,7 @@
                                 <li><a href="/addfund">Credit User</a></li>
                             @endif
                             <li><a href="/wallet">Wallet</a></li>
+                            <li><a href="{{route('withdrawal_list')}}">Withdrawal</a></li>
                             {{--                            <li><a href="charts-chartjs.html">Chartjs Chart</a></li>--}}
                             {{--                            <li><a href="charts-c3.html">C3 Chart</a></li>--}}
                             {{--                            <li><a href="charts-flot.html">Flot Chart</a></li>--}}

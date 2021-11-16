@@ -21,7 +21,7 @@ class SellEducationalController extends Controller
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
-            $url = env('SERVER1N') . strtolower($input['type']) . env('SERVER1N_AUTH') . "&product_code=" . $rac->code . "&price=" . $rac->price . "&trans_id=" . $transid;
+            $url = env('SERVER1N') . 'bills/' . strtolower($input['type']) . env('SERVER1N_AUTH') . "&product_code=" . $rac->code . "&price=" . $rac->price . "&trans_id=" . $transid;
             // Perform transaction/initialize on our server to buy
             $response = file_get_contents($url);
 

@@ -1,0 +1,69 @@
+@extends('layouts.layouts')
+@section('title', 'Wallet List')
+@section('parentPageTitle', 'Wallet')
+
+@section('content')
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="mt-0 header-title">Withdrawal Requests</h4>
+                    {{--                    <p class="text-muted mb-4 font-13">Use <code>pencil icon</code> to view user profile.</p>--}}
+                    <div class="table-responsive">
+                        <table class="table table-striped mb-0">
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Username</th>
+                                <th>Account Number</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Wallet</th>
+                                <th>Reference</th>
+                                <th>Bank Name</th>
+                                <th>Version</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($data as $dat)
+                                <tr>
+                                    <td>{{$dat->id}}</td>
+                                    <td>{{$dat->user_name}}</td>
+                                    <td>{{$dat->account_number}}</td>
+                                    <td>&#8358;{{$dat->amount}}</td>
+                                    <td>
+                                        @if($dat->status == 1)
+                                            <span class="badge badge-success">Completed</span>
+                                        @else
+                                            <span class="badge badge-info">Pending</span>
+                                        @endif
+                                    </td>
+                                    <td>{{$dat->wallet}}</td>
+                                    <td>{{$dat->ref}}</td>
+                                    <td>{{$dat->bank}}</td>
+                                    <td>{{$dat->version}}</td>
+                                    <td>{{$dat->created_at}}</td>
+                                    <td>
+                                        @if($dat->status != 1)
+                                            <form action="{{route('withdrawal_submit')}}">
+                                                <input type="hidden" name="id" value="{{$dat->id}}"/>
+                                                <button type="submit" class="btn btn-primary">Approve</button>
+                                            </form>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                        {{ $data->links() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end col -->
+    </div>
+    <!-- end row -->
+@endsection

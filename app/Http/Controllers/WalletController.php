@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PndL;
 use App\Models\Transaction;
+use App\Models\Withdraw;
 use App\User;
 use DB;
 use Illuminate\Http\Request;
@@ -130,12 +131,18 @@ class WalletController extends Controller
                     ->withInput($input);
             }
 
-        }else{
+        } else {
 
             return redirect('/addfund')
                 ->withErrors($validator)
                 ->withInput($input);
 //            return response()->json(['status'=> 0, 'message'=>'Unable to login with errors', 'error' => $validator->errors()]);;
         }
+    }
+
+    public function withdrawal_list()
+    {
+        $with = Withdraw::paginate();
+        return view('withdrawal', ['data' => $with]);
     }
 }
