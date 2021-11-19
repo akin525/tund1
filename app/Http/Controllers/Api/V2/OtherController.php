@@ -235,7 +235,7 @@ class OtherController extends Controller
     public function getPoints()
     {
         $us = User::orderBy('points', 'desc')->limit(10)->get(['full_name', 'user_name', 'points', 'photo']);
-        $use = User::orderBy('points', 'desc')->limit(10)->get(['full_name', 'user_name', 'points', 'photo']);
+        $use = User::orderBy('points', 'desc')->get(['full_name', 'user_name', 'points', 'photo']);
         $rank = 1;
 
         foreach ($use as $item) {
