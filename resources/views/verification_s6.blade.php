@@ -65,10 +65,10 @@
         @if($response ?? '')
         swal({
             title: "{{$status}}",
-            type: @if($status=="success") "success" @else "error" @endif,
+            type: @if($status=="delivered") "success" @else "error" @endif,
             html: '{{$description}}',
-            showCloseButton: @if($status=="success") !0 @else 0 @endif,
-            showCancelButton: @if($status!="success") !0 @else 0 @endif,
+            showCloseButton: @if($status=="delivered") !0 @else 0 @endif,
+            showCancelButton: @if($status!="delivered") !0 @else 0 @endif,
             confirmButtonClass: "btn btn-success",
             cancelButtonClass: "btn btn-danger ml-2",
             confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
