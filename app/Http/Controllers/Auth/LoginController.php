@@ -29,8 +29,8 @@ class LoginController extends Controller
 //        if (Auth::attempt(['email' => $input['email'], 'password' => $input['password'], 'location_id' => $input['location_id']])) {
         if (Auth::attempt(['email' => $input['email'], 'password' => $input['password']])) {
             // Authentication passed...
-            if(auth()->user()->status!="admin" && auth()->user()->status!="staff"){
-                $status=auth()->user()->status;
+            if (auth()->user()->status != "admin" && auth()->user()->status != "staff" && auth()->user()->status != "superadmin") {
+                $status = auth()->user()->status;
 
                 DB::table('audit_trail')->insert(
                     ['admin_id' => auth()->user()->id, 'subject' => 'Unauthorized login', 'action' => 'Login', 'type' => 'Account', 'ip' => $_SERVER['REMOTE_ADDR'], 'device' => $_SERVER['HTTP_USER_AGENT']]
