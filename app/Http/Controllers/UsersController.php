@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests;
+use App\Mail\Notification;
 use App\Models\PndL;
 use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\View;
-use App\Mail\Notification;
 
 class UsersController extends Controller
 {
@@ -106,7 +104,7 @@ class UsersController extends Controller
             ->Where('status', 'LIKE', "%$status%")
             ->Where('wallet', 'LIKE', "%$wallet%")
             ->Where('reg_date', 'LIKE', "%$regdate%")
-            ->paginate(25);
+            ->get();
 
         $cquery = User::Where('user_name', 'LIKE', "%$user_name%")
             ->Where('phoneno', 'LIKE', "%$phoneno%")
@@ -190,8 +188,7 @@ class UsersController extends Controller
 
         if(!$u){
             return redirect('/referral_upgrade')->with('error', $input["user_name"]. ' does not exist!');
-        }
-        elseif($u->wallet >= $amount){
+        } elseif($u->wallet >= $amount){
             $input['name'] = "Referral Upgrade";
             $input['amount'] = $amount;
             $input['status'] = 'successful';
@@ -280,7 +277,7 @@ class UsersController extends Controller
         $GLOBALS['email'] = $ap->email;
 
         $data = array('name' => $ap->full_name, 'messag' => $input['message']);
-        $mail=Mail::send('email_notification', $data, function ($message) {
+        Mail::send('email_notification', $data, function ($message) {
             $message->to($GLOBALS['email'], 'MCD Client')->subject('MCD Notification');
             $message->from('info@5starcompany.com.ng', '5Star Company');
         });
@@ -324,7 +321,7 @@ class UsersController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-               $json=json_decode($response, true);
+        $json=json_decode($response, true);
 
 
         DB::table('tbl_pushnotiflog')->insert(
@@ -379,9 +376,9 @@ class UsersController extends Controller
 
         $tc = Transaction::where([['code', '=', "acp_".Carbon::now()->subMonth()->format('m.y')], ['user_name', '=', $input["user_name"]]])->get();
 
-            if(!$tc->isEmpty()){
-                return back()->with('error', 'Payment made already!');
-            }
+        if(!$tc->isEmpty()){
+            return back()->with('error', 'Payment made already!');
+        }
 
 
         $trans = Transaction::where([['user_name', '=', $input["user_name"]], ['name', 'NOT LIKE', '%airtime%'], ['status', '=', 'delivered'], ['date', 'LIKE', '%'.Carbon::now()->subMonth()->format("Y-m").'%']])->get();

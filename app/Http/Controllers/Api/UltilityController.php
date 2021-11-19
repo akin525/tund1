@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class UltilityController extends Controller
@@ -45,6 +46,36 @@ class UltilityController extends Controller
             return response()->json(['status' => 0, 'message' => 'Error logging SMS', 'error' => $validator->errors()]);
         }
 
+    }
+
+    public function sendemail(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'user_name' => 'required',
+            'message' => 'required',);
+
+        $validator = Validator::make($input, $rules);
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'message' => 'Incomplete request', 'error' => $validator->errors()]);
+        }
+
+        $ap = User::where('user_name', $input['user_name'])->first();
+
+        $GLOBALS['email'] = $ap->email;
+
+        $data = array('name' => $ap->full_name, 'messag' => $input['message']);
+        Mail::send('email_notification', $data, function ($message) {
+            $message->to($GLOBALS['email'], 'MCD Client')->subject('Message Reply');
+            $message->from('info@5starcompany.com.ng', '5Star Inn Company');
+        });
+
+        DB::table('tbl_emaillog')->insert(
+            ['user_name' => $input["user_name"], 'message' => $input['message'], 'email' => $ap->email, 'response' => 'sent']
+        );
+
+        return response()->json(['status' => 1, 'message' => 'Message send successfully']);
     }
 
     public function mcd_logvoice(Request $request)

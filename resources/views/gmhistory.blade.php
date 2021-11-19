@@ -38,10 +38,10 @@
                                             <span class="badge badge-warning">{{$dat->type}}</span>
                                         @endif
 
-                                        </td>
+                                    </td>
                                     <td>{{$dat->transid}}</td>
-                                    <td>&#8358;{{$dat->o_wallet}}</td>
-                                    <td>&#8358;{{$dat->n_wallet}}</td>
+                                    <td>&#8358;{{$dat->i_wallet}}</td>
+                                    <td>&#8358;{{$dat->f_wallet}}</td>
                                     <td>{{$dat->version}}</td>
                                     <td>{{$dat->created_at}}</td>
                                 </tr>

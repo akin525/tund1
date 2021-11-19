@@ -29,7 +29,7 @@
                                     <div class="col-2 align-self-center"><i class="far fa-gem text-gradient-danger"></i></div>
                                     <div class="col-10 text-right">
                                         <h5 class="mt-0 mb-1">{{ $p_nd_l ?? 'p and l' }}</h5>
-                                        <p class="mb-0 font-12 text-muted">Income Charges</p>
+                                        <p class="mb-0 font-12 text-muted">Today's Charges</p>
                                     </div>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                                     <div class="col-2 align-self-center"><i class="fas fa-users text-gradient-warning"></i></div>
                                     <div class="col-10 text-right">
                                         <h5 class="mt-0 mb-1">{{ $today_user ?? 'Active User Calculated' }}</h5>
-                                        <p class="mb-0 font-12 text-muted">Total Users</p>
+                                        <p class="mb-0 font-12 text-muted">Today's Users</p>
                                     </div>
                                 </div>
                             </div>
@@ -56,10 +56,78 @@
                         <div class="card-body">
                             <div class="icon-contain">
                                 <div class="row">
-                                    <div class="col-2 align-self-center"><i class="fas fa-database text-gradient-primary"></i></div>
+                                    <div class="col-2 align-self-center"><i
+                                            class="fas fa-database text-gradient-primary"></i></div>
                                     <div class="col-10 text-right">
                                         <h5 class="mt-0 mb-1">{{ $today_deposits ?? 'Today Deposits' }}</h5>
-                                        <p class="mb-0 font-12 text-muted">Today Deposits</p>
+                                        <p class="mb-0 font-12 text-muted">Today's Deposits</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-briefcase text-success"></i>
+                                    </div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $data ?? 'Today Data' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Today's Data</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-briefcase text-success"></i>
+                                    </div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $airtime ?? 'airtime' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Today's Airtime</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-briefcase text-success"></i>
+                                    </div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $tv ?? 'tv' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Today's CableTv</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-briefcase text-success"></i>
+                                    </div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $betting ?? 'Today Betting' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Today's Betting</p>
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +137,11 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <div class="btn-group btn-group-toggle float-right" data-toggle="buttons"><label class="btn btn-primary btn-sm active"><input type="radio" name="options" id="option1" checked=""> This Week</label> <label class="btn btn-primary btn-sm"><input type="radio" name="options" id="option2"> Last Month</label></div>
+                    <div class="btn-group btn-group-toggle float-right" data-toggle="buttons"><label
+                            class="btn btn-primary btn-sm active"><input type="radio" name="options" id="option1"
+                                                                         checked=""> This Week</label> <label
+                            class="btn btn-primary btn-sm"><input type="radio" name="options" id="option2"> Last
+                            Month</label></div>
                     <h5 class="header-title mb-4 mt-0">Weekly Record</h5>
                     <canvas id="lineChar" height="82"></canvas>
                 </div>
@@ -79,10 +151,14 @@
             <div class="card">
                 <div class="card-body">
                     <div class="dropdown d-inline-block float-right">
-                        <a class="nav-link dropdown-toggle arrow-none" id="dLabel4" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"><i class="fas fa-ellipsis-v font-20 text-muted"></i></a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel4"><a class="dropdown-item" href="#">Create Project</a> <a class="dropdown-item" href="#">Open Project</a> <a class="dropdown-item" href="#">Tasks Details</a></div>
+                        <a class="nav-link dropdown-toggle arrow-none" id="dLabel4" data-toggle="dropdown" href="#"
+                           role="button" aria-haspopup="false" aria-expanded="false"><i
+                                class="fas fa-ellipsis-v font-20 text-muted"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel4"><a
+                                class="dropdown-item" href="#">Create Project</a> <a class="dropdown-item" href="#">Open
+                                Project</a> <a class="dropdown-item" href="#">Tasks Details</a></div>
                     </div>
-                    <h5 class="header-title mb-4 mt-0">Activity</h5>
+                    <h5 class="header-title mb-4 mt-0">Service Status</h5>
                     <div>
                         @foreach($allsettings as $settings)
                             <div>{{$settings->name}}
@@ -164,7 +240,7 @@
             <div class="card timeline-card">
                 <div class="card-body p-0">
                     <div class="bg-gradient2 text-white text-center py-3 mb-4">
-                        <p class="mb-0 font-18"><i class="mdi mdi-clock-outline font-20"></i> This Week's Activity</p>
+                        <p class="mb-0 font-18"><i class="mdi mdi-clock-outline font-20"></i> Admin Activities</p>
                     </div>
                 </div>
                 <div class="card-body boxscroll">
@@ -203,20 +279,22 @@
                             </thead>
                             <tbody>
                             @foreach($transactions as $trans)
-                            <tr>
-                                <td>{{$trans->name}}</td>
-                                <td>{{$trans->description}}</td>
-                                <td>
-                                    @if ($trans->status =="delivered" || $trans->status =="successful" )
-                                        <span class="badge badge-boxed badge-soft-success">{{$trans->status}}</span>
-                                    @elseif ($trans->status =="not_delivered" || $trans->status =="cancelled")
-                                    <span class="badge badge-boxed badge-soft-warning">{{$trans->status}}</span>
-                                    @endif
-                                </td>
-                                <td>{{\Carbon\Carbon::parse($trans->date)->toFormattedDateString()}}</td>
-                                <td>&#8358;{{number_format($trans->amount)}}</td>
-                                <td>{{$trans->server}}</td>
-                            </tr>
+                                <tr>
+                                    <td>{{$trans->name}}</td>
+                                    <td>{{$trans->description}}</td>
+                                    <td>
+                                        @if ($trans->status =="delivered" || $trans->status =="successful" )
+                                            <span class="badge badge-boxed badge-soft-success">{{$trans->status}}</span>
+                                        @elseif ($trans->status =="not_delivered" || $trans->status =="cancelled")
+                                            <span class="badge badge-boxed badge-soft-warning">{{$trans->status}}</span>
+                                        @else
+                                            <span class="badge badge-boxed badge-soft-warning">{{$trans->status}}</span>
+                                        @endif
+                                    </td>
+                                    <td>{{\Carbon\Carbon::parse($trans->date)->toFormattedDateString()}}</td>
+                                    <td>&#8358;{{number_format($trans->amount)}}</td>
+                                    <td>{{$trans->server}}</td>
+                                </tr>
                             @endforeach
                             </tbody>
                         </table>

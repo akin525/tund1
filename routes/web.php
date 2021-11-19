@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -63,6 +64,9 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/finduser', 'find_user');
     Route::POST('/finduser', 'UsersController@finduser')->name('finduser');
 
+    Route::view('/findtransaction', 'find_transaction')->name('findtransaction');
+    Route::post('/findtransaction', [TransactionController::class, 'finduser'])->name('findtransactionsubmit');
+
     Route::view('/gnews', 'addgnews');
     Route::post('/gnews', 'UsersController@addgnews')->name('addgnews');
     Route::post('/user-sms', 'UsersController@sendsms')->name('user.sms');
@@ -72,6 +76,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/agentpayment-confirm', 'UsersController@agent_confirm')->name('agent.payment.confirmation');
     Route::post('/agentpayment', 'UsersController@agent_payment')->name('agent.payment');
 
+    Route::view('/verification_server6', 'verification_s6')->name('verification_s6');
     Route::view('/verification_server5', 'verification_s5');
     Route::view('/verification_server4', 'verification_s4');
     Route::view('/verification_server3', 'verification_s3');
@@ -86,6 +91,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/verification_server1dt', 'VerificationController@server1dt')->name('verification_server1dt');
     Route::post('/verification_server4', 'VerificationController@server4')->name('verification_server4');
     Route::post('/verification_server5', 'VerificationController@server5')->name('verification_server5');
+    Route::post('/verification_server6', 'VerificationController@server6')->name('verification_server6');
 
     Route::middleware(['authCheck'])->group(function () {
         Route::POST('/referral_upgrade', 'UsersController@referral_upgrade')->name('referral.upgrade');

@@ -213,14 +213,55 @@ class VerificationController extends Controller
         $res = json_decode($response, true);
 
         if($res["status"] !== "success"){
-            $status="Error";
-            $d="Invalid reference number";
-        }else{
-            $status=$res["status"];
-            $d=$res['data']['product_name'] ." " .$res['data']['product']." " .$res['data']['customer_id']."-" .$res['data']['amount'];
+            $status = "Error";
+            $d = "Invalid reference number";
+        } else {
+            $status = $res["status"];
+            $d = $res['data']['product_name'] . " " . $res['data']['product'] . " " . $res['data']['customer_id'] . "-" . $res['data']['amount'];
 
         }
 
-        return view('verification_s5', ['status' => $status, 'description' => $d, 'response'=>true]);
+        return view('verification_s5', ['status' => $status, 'description' => $d, 'response' => true]);
+    }
+
+    public function server6(Request $request)
+    {
+        $input = $request->all();
+        $ref = $input['ref'];
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env("SERVER6") . 'requery',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array('request_id' => $ref),
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Basic ' . env('SERVER6_AUTH'),
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        // Convert JSON string to Array
+        $res = json_decode($response, true);
+
+        if ($res["code"] === "000") {
+            $status = $res["content"]["transactions"]["status"];
+            $d = $res['content']['transactions']['product_name'] . " " . $res['content']['transactions']['unit_price'] . " " . $res['content']['transactions']['phone'];
+        } else {
+            $status = "Error";
+            $d = "Invalid reference number";
+        }
+
+        return view('verification_s6', ['status' => $status, 'description' => $d, 'response' => true]);
     }
 }

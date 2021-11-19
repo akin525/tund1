@@ -33,7 +33,7 @@ class LoginController extends Controller
                 $status=auth()->user()->status;
 
                 DB::table('audit_trail')->insert(
-                    ['user_id' => Auth::user()->id, 'subject' => 'Unauthorized login', 'action' => 'Login', 'type'=> 'Account', 'ip' => $_SERVER['REMOTE_ADDR'], 'device' => $_SERVER['HTTP_USER_AGENT']]
+                    ['admin_id' => auth()->user()->id, 'subject' => 'Unauthorized login', 'action' => 'Login', 'type' => 'Account', 'ip' => $_SERVER['REMOTE_ADDR'], 'device' => $_SERVER['HTTP_USER_AGENT']]
                 );
 
                 $this->guard()->logout();
@@ -50,7 +50,7 @@ class LoginController extends Controller
 
         }else{
             DB::table('audit_trail')->insert(
-                ['admin_id' => '0', 'subject' => 'Failed Login Attempt with email: '.$input['email'] ." Password: ".$input['password'], 'action' => 'Login', 'type'=> 'Account', 'ip' => $_SERVER['REMOTE_ADDR'], 'device' => $_SERVER['HTTP_USER_AGENT']]
+                ['admin_id' => 0, 'subject' => 'Failed Login Attempt with email: ' . $input['email'] . " Password: " . $input['password'], 'action' => 'Login', 'type' => 'Account', 'ip' => $_SERVER['REMOTE_ADDR'], 'device' => $_SERVER['HTTP_USER_AGENT']]
             );
             return redirect('/login')->with('error', 'These credentials do not match our records!');
         }

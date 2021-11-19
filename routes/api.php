@@ -104,6 +104,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('hook', 'UltilityController@hook')->name('hook');
     Route::get('ra/{id}', 'UltilityController@monnifyRA')->name('monnifyRA');
     Route::get('fra/{id}', 'UltilityController@fetchmonnifyRA')->name('fetchmonnifyRA');
+
+    Route::post('sendemail', 'UltilityController@sendemail');
 });
 
 require __DIR__ . '/reseller.php';

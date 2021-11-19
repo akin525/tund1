@@ -75,6 +75,8 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::post('fundwallet', [OtherController::class, 'fundwallet']);
 
         Route::get('freemoney', [UserController::class, 'freemoney']);
+
+        Route::get('leaderboard', [OtherController::class, 'getPoints']);
     });
 
 });

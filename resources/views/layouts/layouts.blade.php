@@ -96,6 +96,7 @@
                         <ul class="list-unstyled">
                             <li><a href="/transaction">Transaction History</a></li>
                             <li><a href="/generalmarket">General Market</a></li>
+                            <li><a href="{{route('findtransaction')}}">Find Transaction</a></li>
 
                             @if(\Illuminate\Support\Facades\Auth::user()->status == "superadmin")
                                 <li><a href="/cryptorequest">Crypto Request</a></li>
@@ -166,16 +167,17 @@
                             <li><a href="/verification_server3">Server 3</a></li>
                             <li><a href="/verification_server4">Server 4</a></li>
                             <li><a href="/verification_server5">Server 5</a></li>
+                            <li><a href="{{route('verification_s6')}}">Server 6</a></li>
                         </ul>
-{{--                    </li>--}}
-{{--                    <li class="menu-title">Extra</li>--}}
-{{--                    <li class="has_sub">--}}
-{{--                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-map"></i><span> Maps </span><span class="badge badge-pill badge-danger float-right">2</span></a>--}}
-{{--                        <ul class="list-unstyled">--}}
-{{--                            <li><a href="maps-google.html">Google Map</a></li>--}}
-{{--                            <li><a href="maps-vector.html">Vector Map</a></li>--}}
-{{--                        </ul>--}}
-{{--                    </li>--}}
+                    {{--                    </li>--}}
+                    {{--                    <li class="menu-title">Extra</li>--}}
+                    {{--                    <li class="has_sub">--}}
+                    {{--                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-map"></i><span> Maps </span><span class="badge badge-pill badge-danger float-right">2</span></a>--}}
+                    {{--                        <ul class="list-unstyled">--}}
+                    {{--                            <li><a href="maps-google.html">Google Map</a></li>--}}
+                    {{--                            <li><a href="maps-vector.html">Vector Map</a></li>--}}
+                    {{--                        </ul>--}}
+                    {{--                    </li>--}}
 {{--                    <li class="has_sub">--}}
 {{--                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-copy"></i><span> Pages </span><span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>--}}
 {{--                        <ul class="list-unstyled">--}}

@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Airtime2Cash;
-use App\Models\PndL;
 use App\Models\Transaction;
 use App\User;
-use Carbon\CarbonImmutable;
-use Illuminate\Http\Request;
 use DB;
-use Illuminate\Support\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -17,39 +14,40 @@ use PDF;
 
 class TransactionController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
-        $data = DB::table('tbl_transactions')->orderBy('id', 'desc')->paginate(25);
-        $tt = DB::table('tbl_transactions')->get()->count();
-        $ft = DB::table('tbl_transactions')->where([['status', '=', 'cancelled'], ['date', 'like', date('Y-m-d').'%']])->orWhere([['status', '=', 'Unsuccessful'], ['date', 'like', date('Y-m-d').'%']])->orWhere([['status', '=', 'Error'], ['date', 'like', date('Y-m-d').'%']])->get()->count();
-        $st = DB::table('tbl_transactions')->where([['status', '=', 'delivered'], ['date', 'like', date('Y-m-d').'%']])->orWhere([['status', '=', 'submitted'], ['date', 'like', date('Y-m-d').'%']])->orWhere([['status', '=', 'API_successful'], ['date', 'like', date('Y-m-d').'%']])->count();
-        $rt = DB::table('tbl_transactions')->where([['status', '=', 'reversed'], ['date', 'like', date('Y-m-d').'%']])->count();
+        $data = Transaction::orderBy('id', 'desc')->paginate(25);
+        $tt = Transaction::count();
+        $ft = Transaction::where([['status', '=', 'cancelled'], ['date', 'like', date('Y-m-d') . '%']])->orWhere([['status', '=', 'Unsuccessful'], ['date', 'like', date('Y-m-d') . '%']])->orWhere([['status', '=', 'Error'], ['date', 'like', date('Y-m-d') . '%']])->get()->count();
+        $st = Transaction::where([['status', '=', 'delivered'], ['date', 'like', date('Y-m-d') . '%']])->orWhere([['status', '=', 'submitted'], ['date', 'like', date('Y-m-d') . '%']])->orWhere([['status', '=', 'API_successful'], ['date', 'like', date('Y-m-d') . '%']])->count();
+        $rt = Transaction::where([['status', '=', 'reversed'], ['date', 'like', date('Y-m-d') . '%']])->count();
 
-        $mutable = Carbon::now();
-        $gdate="";
-        $gtrans="";
-        $gwallet="";
-        for($x = 0; $x <= 7; $x++){
-            $modifiedImmutable = CarbonImmutable::now()->add('-'.$x, 'day');
-            $imdf =substr($modifiedImmutable, 0, 10);
-            $gt = DB::table('tbl_transactions')
-                ->where([['status', '=', 'delivered']])
-                ->whereDate('date', $imdf)
-                ->count();
+//        $mutable = Carbon::now();
+//        $gdate="";
+//        $gtrans="";
+//        $gwallet="";
+//        for($x = 0; $x <= 7; $x++){
+//            $modifiedImmutable = CarbonImmutable::now()->add('-'.$x, 'day');
+//            $imdf =substr($modifiedImmutable, 0, 10);
+//            $gt = DB::table('tbl_transactions')
+//                ->where([['status', '=', 'delivered']])
+//                ->whereDate('date', $imdf)
+//                ->count();
+//
+//            $ft = DB::table('tbl_transactions')
+//                ->where([['name', '=', 'wallet funding']])
+//                ->whereDate('date', $imdf)
+//                ->count();
+//
+//            $imdf =substr($modifiedImmutable, 8, 2);
+//                $gdate = $gdate . ", " . $imdf;
+//                $gtrans = $gtrans . "," . $gt;
+//                $gwallet = $gwallet . "," . $ft;
+//
+//        }
 
-            $ft = DB::table('tbl_transactions')
-                ->where([['name', '=', 'wallet funding']])
-                ->whereDate('date', $imdf)
-                ->count();
-
-            $imdf =substr($modifiedImmutable, 8, 2);
-                $gdate = $gdate . ", " . $imdf;
-                $gtrans = $gtrans . "," . $gt;
-                $gwallet = $gwallet . "," . $ft;
-
-        }
-
-        return view('transactions', ['data' => $data, 'tt'=>$tt, 'ft'=>$ft, 'st'=>$st, 'rt'=>$rt, 'g_date'=>substr($gdate, 1), 'g_tran'=>substr($gtrans, 1), 'g_wallet'=>substr($gwallet, 1)]);
+        return view('transactions', ['data' => $data, 'tt' => $tt, 'ft' => $ft, 'st' => $st, 'rt' => $rt]);
 
     }
 
@@ -480,11 +478,42 @@ class TransactionController extends Controller
         return view('plcharges', ['data' => $wallet]);
     }
 
-    public function cryptos(){
+    public function cryptos()
+    {
 
         $crypto = DB::table('tbl_luno')->orderBy('id', 'desc')->paginate(25);
 
         return view('crypto_request', ['crypto' => $crypto]);
+    }
+
+    public function finduser(Request $request)
+    {
+        $input = $request->all();
+        $user_name = $input['user_name'];
+        $phoneno = $input['phoneno'];
+        $reference = $input['reference'];
+        $amount = $input['amount'];
+        $transaction_type = $input['transaction_type'];
+        $date = $input['date'];
+
+        // Instantiates a Query object
+        $query = Transaction::Where('user_name', 'LIKE', "%$user_name%")
+            ->Where('description', 'LIKE', "%$phoneno%")
+            ->Where('name', 'LIKE', "%$transaction_type%")
+            ->Where('ref', 'LIKE', "%$reference%")
+            ->Where('amount', 'LIKE', "%$amount%")
+            ->Where('date', 'LIKE', "%$date%")
+            ->get();
+
+        $cquery = Transaction::Where('user_name', 'LIKE', "%$user_name%")
+            ->Where('description', 'LIKE', "%$phoneno%")
+            ->Where('name', 'LIKE', "%$transaction_type%")
+            ->Where('ref', 'LIKE', "%$reference%")
+            ->Where('amount', 'LIKE', "%$amount%")
+            ->Where('date', 'LIKE', "%$date%")
+            ->count();
+
+        return view('find_transaction', ['datas' => $query, 'count' => $cquery, 'result' => true]);
     }
 
 }

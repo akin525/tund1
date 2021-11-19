@@ -232,4 +232,11 @@ class OtherController extends Controller
         return response()->json(['success' => 1, 'message' => 'General Market Transactions Fetched', 'data' => $trans, 'wallet' => $set->value]);
     }
 
+    public function getPoints()
+    {
+        $us = User::orderBy('points', 'desc')->limit(10)->get(['full_name', 'user_name', 'points', 'photo']);
+
+        return response()->json(['success' => 1, 'message' => 'Leaderboard Fetched successfully', 'data' => $us]);
+    }
+
 }
