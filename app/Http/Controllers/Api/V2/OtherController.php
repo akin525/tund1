@@ -235,8 +235,18 @@ class OtherController extends Controller
     public function getPoints()
     {
         $us = User::orderBy('points', 'desc')->limit(10)->get(['full_name', 'user_name', 'points', 'photo']);
+        $use = User::orderBy('points', 'desc')->limit(10)->get(['full_name', 'user_name', 'points', 'photo']);
+        $rank = 1;
 
-        return response()->json(['success' => 1, 'message' => 'Leaderboard Fetched successfully', 'data' => $us]);
+        foreach ($use as $item) {
+            if ($item->user_name == Auth::user()->user_name) {
+                break;
+            } else {
+                $rank++;
+            }
+        }
+
+        return response()->json(['success' => 1, 'message' => 'Leaderboard Fetched successfully', 'rank' => $rank, 'data' => $us]);
     }
 
 }
