@@ -104,6 +104,7 @@ class UsersController extends Controller
             ->Where('status', 'LIKE', "%$status%")
             ->Where('wallet', 'LIKE', "%$wallet%")
             ->Where('reg_date', 'LIKE', "%$regdate%")
+            ->limit(100)
             ->get();
 
         $cquery = User::Where('user_name', 'LIKE', "%$user_name%")

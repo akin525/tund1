@@ -503,6 +503,8 @@ class TransactionController extends Controller
             ->Where('ref', 'LIKE', "%$reference%")
             ->Where('amount', 'LIKE', "%$amount%")
             ->Where('date', 'LIKE', "%$date%")
+            ->OrderBy('id', 'desc')
+            ->limit(1000)
             ->get();
 
         $cquery = Transaction::Where('user_name', 'LIKE', "%$user_name%")
