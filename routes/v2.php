@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V2\AuthenticationController;
+use App\Http\Controllers\Api\V2\GiveAwayController;
 use App\Http\Controllers\Api\V2\ListController;
 use App\Http\Controllers\Api\V2\OtherController;
 use App\Http\Controllers\Api\V2\PayController;
@@ -77,6 +78,10 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::get('freemoney', [UserController::class, 'freemoney']);
 
         Route::get('leaderboard', [OtherController::class, 'getPoints']);
+
+        Route::post('create-giveaway', [GiveAwayController::class, 'create']);
+        Route::get('fetch-giveaway', [GiveAwayController::class, 'fetch']);
+        Route::post('request-giveaway', [GiveAwayController::class, 'request']);
     });
 
 });
