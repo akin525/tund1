@@ -80,7 +80,8 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::get('leaderboard', [OtherController::class, 'getPoints']);
 
         Route::post('create-giveaway', [GiveAwayController::class, 'create']);
-        Route::get('fetch-giveaway', [GiveAwayController::class, 'fetch']);
+        Route::get('fetch-giveaways', [GiveAwayController::class, 'fetchs']);
+        Route::get('fetch-giveaway/{id}', [GiveAwayController::class, 'fetch']);
         Route::post('request-giveaway', [GiveAwayController::class, 'request']);
     });
 

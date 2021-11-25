@@ -84,10 +84,23 @@ class GiveAwayController extends Controller
         return response()->json(['success' => 1, 'message' => 'Give away created successfully']);
     }
 
-    public function fetch()
+    public function fetchs()
     {
         $ga = GiveAway::latest()->get();
         return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => $ga]);
+    }
+
+    public function fetch($id)
+    {
+        $ga = GiveAway::find($id);
+        $rga = GiveAwayRequest::where("giveaway_id", $ga->id)->get();
+        $cga = User::where("user_name", $ga->user_name)->select('user_name', 'company_name', 'full_name', 'photo')->first();
+        $completed = false;
+
+        if ($rga->count() >= $ga->quantity) {
+            $completed = true;
+        }
+        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['giveaway' => $ga, 'requesters' => $rga, 'giver' => $cga, 'completed' => $completed]]);
     }
 
     public function request(Request $request)
