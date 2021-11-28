@@ -236,6 +236,7 @@ class OtherController extends Controller
     {
         $us = User::orderBy('points', 'desc')->limit(10)->get(['full_name', 'user_name', 'points', 'photo']);
         $use = User::orderBy('points', 'desc')->get(['full_name', 'user_name', 'points', 'photo']);
+        $settings = Settings::where('name', 'leaderboard_banner')->first();
         $rank = 1;
 
         foreach ($use as $item) {
@@ -246,7 +247,7 @@ class OtherController extends Controller
             }
         }
 
-        return response()->json(['success' => 1, 'message' => 'Leaderboard Fetched successfully', 'rank' => $rank, 'data' => $us]);
+        return response()->json(['success' => 1, 'message' => 'Leaderboard Fetched successfully', 'rank' => $rank, 'data' => $us, 'banner' => $settings]);
     }
 
 }
