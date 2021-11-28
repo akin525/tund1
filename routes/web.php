@@ -22,21 +22,6 @@ Route::get('/', function () {
 });
 
 
-Route::get('/giveaway/{filename}', function ($filename) {
-    $path = storage_path('app/public/giveaway/' . $filename);
-
-    if (!File::exists($path)) {
-        abort(404);
-    }
-    $file = File::get($path);
-    $type = File::mimeType($path);
-
-    $response = Response::make($file, 200);
-    $response->header("Content-Type", $type);
-    return $response;
-})->name('show.roombanner');
-
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', 'HomeController@index')->name('home');
     Route::get('/home', 'HomeController@index')->name('home');
@@ -131,6 +116,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
 });
+
+require __DIR__ . '/storages.php';
 
 
 

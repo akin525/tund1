@@ -90,6 +90,7 @@ class UserController extends Controller
         $advts['unity_gameid'] = $sett['unity_gameid'];
 
         $others['mcd_agent_phoneno'] = $sett['mcda_phoneno'];
+        $others['leaderboard_banner'] = $sett['leaderboard_banner'];
 
         return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['user' => $me, 'balances' => $balances, 'services' => $services, 'news' => $user->gnews, 'adverts' => $advts, 'others' => $others]]);
     }
