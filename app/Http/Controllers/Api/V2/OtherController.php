@@ -247,7 +247,7 @@ class OtherController extends Controller
             }
         }
 
-        return response()->json(['success' => 1, 'message' => 'Leaderboard Fetched successfully', 'rank' => $rank, 'data' => $us, 'banner' => $settings]);
+        return response()->json(['success' => 1, 'message' => 'Leaderboard Fetched successfully', 'rank' => $rank, 'data' => $us, 'banner' => $settings->value]);
     }
 
 }
