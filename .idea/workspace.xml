@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="push changes">
       <change afterPath="$PROJECT_DIR$/app/Http/Controllers/USSD/IndexCotroller.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routes/storages.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/app/public/.gitignore" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/app/public/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -389,14 +384,7 @@
       <workItem from="1637738894990" duration="668000" />
       <workItem from="1637778629455" duration="647000" />
       <workItem from="1637838787136" duration="1530000" />
-      <workItem from="1638069237376" duration="1116000" />
-    </task>
-    <task id="LOCAL-00032" summary="push changes">
-      <created>1630052641733</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1630052641733</updated>
+      <workItem from="1638069237376" duration="1446000" />
     </task>
     <task id="LOCAL-00033" summary="push changes">
       <created>1630150118443</created>
@@ -734,7 +722,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637840301285</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="push changes">
+      <created>1638070512695</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1638070512696</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
