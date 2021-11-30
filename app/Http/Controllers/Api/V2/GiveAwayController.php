@@ -87,7 +87,7 @@ class GiveAwayController extends Controller
     public function fetchs()
     {
         $ga = GiveAway::latest()->get();
-        $mgac = GiveAway::where("user_id", Auth::id())->count();
+        $mgac = GiveAway::where("user_name", Auth::user()->user_name)->count();
         return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'mygiveaway' => $mgac, 'data' => $ga]);
     }
 
