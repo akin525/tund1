@@ -468,4 +468,21 @@ class UserController extends Controller
         }
     }
 
+    public function uploadFile2FBS($filepath, $folder, $filename)
+    {
+        $student = app('firebase.firestore')->database()->collection($folder)->document($filename);
+        $firebase_storage_path = $folder . '/';
+        $name = $student->id();
+        $localfolder = storage_path('firebase-temp-uploads') . '/';
+        if (!file_exists($localfolder)) {
+            mkdir($localfolder, 0777, true);
+        }
+
+        $uploadedfile = fopen($filepath, 'r');
+        app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path . $name]);
+        //will remove from local laravel folder
+        unlink($filepath);
+        return 'success';
+    }
+
 }

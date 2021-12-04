@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Api\SellAirtimeController;
+use App\Http\Controllers\Api\SellBettingTopup;
 use App\Http\Controllers\Api\SellDataController;
 use App\Http\Controllers\Api\SellEducationalController;
 use App\Http\Controllers\Api\SellElectricityController;
 use App\Http\Controllers\Api\SellTVController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\PushNotificationController;
 use App\Jobs\ServeRequestJob;
 use App\Models\Airtime2Cash;
 use App\Models\Airtime2CashSettings;
@@ -512,14 +512,16 @@ class PayController extends Controller
     {
         $input = $request->all();
 
-        $message = "Betting: " . $input['provider'] . "|#" . $input['amount'] . "|" . $input['number'];
+        $air = new SellBettingTopup();
 
-        $push = new PushNotificationController();
-        $push->PushNotiAdmin($message, "Purchase Notification");
-
-        $dada['server_response'] = "manual";
-
-        return $this->outputResp($request, $ref, 0, $dada);
+        switch (strtolower($server)) {
+            case "7":
+                return $air->server7($request, $input['provider'], $input['number'], $ref, $input['amount'], $request, $dada, "mcd");
+            case "0":
+                return $air->server0($request, $input['provider'], $input['number'], $ref, $input['amount'], $request, $dada, "mcd");
+            default:
+                return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
+        }
 
     }
 
