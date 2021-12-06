@@ -29,7 +29,8 @@
                                 <tr>
                                     <td>
                                         <div>
-                                            <p>Device Details: {{$_SERVER['HTTP_USER_AGENT']}}</p>
+                                            <p>Device
+                                                Details: {{$request->header('device') ?? $_SERVER['HTTP_USER_AGENT']}}</p>
                                             <p>IP address: {{$_SERVER['REMOTE_ADDR']}}</p>
                                             <p>Date &
                                                 Time: {{\Carbon\Carbon::now()->format('D, M d, Y  H:i:s a T')}}</p>
