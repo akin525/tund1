@@ -118,7 +118,7 @@ class DatabaseBackUp extends Command
     {
         set_time_limit(0);
 
-        $filename = "backup-" . Carbon::now()->format('Y-m-d H:i') . ".sql";
+        $filename = "backup-" . Carbon::now()->format('Y-m-d-H:i') . ".sql";
         $storage = storage_path("") . "/db_backup/" . $filename;
 
         // run the cli job
