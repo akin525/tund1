@@ -16,7 +16,7 @@ class DatabaseBackUp extends Command
      *
      * @var string
      */
-    protected $signature = 'backup:mysql {--command= : <create|restore> command to execute} {--snapshot= : provide name of snapshot}';
+    protected $signature = 'backup:mysql {--command= : <create|local|restore> command to execute} {--snapshot= : provide name of snapshot}';
 
     /**
      * The console command description.
@@ -47,6 +47,10 @@ class DatabaseBackUp extends Command
                 $this->takeSnapShot();
                 break;
 
+            case 'local':
+                $this->takelocalSnapShot();
+                break;
+
             case 'restore':
                 $this->restoreSnapShot();
                 break;
@@ -68,8 +72,6 @@ class DatabaseBackUp extends Command
 
         $filename = "backup-" . Carbon::now()->format('Y-m-d') . ".sql";
         $storage = storage_path("") . "/db_backup/" . $filename;
-
-        echo 'mysqldump -u' . env('DB_USERNAME') . ' -p' . env('DB_PASSWORD') . ' ' . env('DB_DATABASE') . ' > ' . $storage;
 
         // run the cli job
         $process = new Process('mysqldump -u' . env('DB_USERNAME') . ' -p' . env('DB_PASSWORD') . ' ' . env('DB_DATABASE') . ' > ' . $storage);
@@ -102,6 +104,35 @@ class DatabaseBackUp extends Command
             }
 
 //            @unlink($storage);
+        } catch (Exception $e) {
+            $this->info($e->getMessage());
+        }
+    }
+
+    /**
+     * Function takes regular backup
+     * for mysql database..
+     *
+     */
+    private function takelocalSnapShot()
+    {
+        set_time_limit(0);
+
+        $filename = "backup-" . Carbon::now()->format('Y-m-d H:i') . ".sql";
+        $storage = storage_path("") . "/db_backup/" . $filename;
+
+        // run the cli job
+        $process = new Process('mysqldump -u' . env('DB_USERNAME') . ' -p' . env('DB_PASSWORD') . ' ' . env('DB_DATABASE') . ' > ' . $storage);
+        $process->run();
+
+        try {
+
+            if ($process->isSuccessful()) {
+                $this->info("Local Backup was successfully");
+            } else {
+                throw new ProcessFailedException($process);
+            }
+
         } catch (Exception $e) {
             $this->info($e->getMessage());
         }

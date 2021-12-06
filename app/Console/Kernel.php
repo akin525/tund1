@@ -33,6 +33,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('backup:mysql --command=create')
             ->withoutOverlapping()
             ->dailyAt('23:59');
+
+        $schedule->command('backup:mysql --command=local')
+            ->withoutOverlapping()
+            ->hourly();
     }
 
     /**

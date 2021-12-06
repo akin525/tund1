@@ -11,10 +11,12 @@ class SellBettingTopup extends Controller
     public function server7($request, $provider, $number, $transid, $amount, $input, $dada, $requester)
     {
 
-        $json = '{"amount": "' . $amount . '","customerId": "' . $number . '","provider": "' . $provider . '","reference": "' . $transid . '"}';
-
         if (env('FAKE_TRANSACTION', 1) == 0) {
-            $sec_key = hash_hmac('sha512', $json, env('GIFTBILLS_ENCRYPTION'));
+            $json = '{"amount": "' . $amount . '","customerId": "' . $number . '","provider": "' . $provider . '","reference": "' . $transid . '"}';
+            $code = json_decode($json, true);
+            ksort($code);
+            $sorted = json_encode($code);
+            $sec_key = hash_hmac('SHA512', $sorted, trim(env('GIFTBILLS_ENCRYPTION')));
 
             $curl = curl_init();
 

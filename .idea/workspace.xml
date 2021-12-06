@@ -4,9 +4,13 @@
     <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="push changes">
       <change afterPath="$PROJECT_DIR$/app/Http/Controllers/USSD/IndexCotroller.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/DatabaseBackUp.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/DatabaseBackUp.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Console/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellBettingTopup.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellBettingTopup.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/AuthenticationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/AuthenticationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/OtherController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/OtherController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/app/public/banners/customeroftheyear.jpeg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -392,14 +396,13 @@
       <workItem from="1638254459250" duration="976000" />
       <workItem from="1638290814158" duration="2269000" />
       <workItem from="1638533160066" duration="1519000" />
-      <workItem from="1638626355986" duration="6222000" />
-    </task>
-    <task id="LOCAL-00039" summary="push changes">
-      <created>1630439882203</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1630439882203</updated>
+      <workItem from="1638626355986" duration="6558000" />
+      <workItem from="1638656117491" duration="172000" />
+      <workItem from="1638708676325" duration="69000" />
+      <workItem from="1638709291821" duration="1649000" />
+      <workItem from="1638711653575" duration="1225000" />
+      <workItem from="1638775646618" duration="4742000" />
+      <workItem from="1638792170047" duration="1794000" />
     </task>
     <task id="LOCAL-00040" summary="push changes">
       <created>1630487344678</created>
@@ -737,7 +740,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638291724482</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="push changes">
+      <created>1638653273906</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1638653273908</updated>
+    </task>
+    <option name="localTasksCounter" value="89" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

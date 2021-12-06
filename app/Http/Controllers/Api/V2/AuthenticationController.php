@@ -39,7 +39,7 @@ class AuthenticationController extends Controller
         $input['version'] = $request->header('version');
 
         $user_name = $input['user_name'];
-        $deviceid = $_SERVER['HTTP_USER_AGENT'];
+        $deviceid = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
 
         $user = User::where('user_name', $user_name)->get();
         if (!$user->isEmpty()) {
@@ -99,7 +99,7 @@ class AuthenticationController extends Controller
 
         $input['version'] = $request->header('version');
 
-        $input['device'] = $_SERVER['HTTP_USER_AGENT'];
+        $input['device'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
 
 
         $input['ip_address'] = $_SERVER['REMOTE_ADDR'];
@@ -123,7 +123,7 @@ class AuthenticationController extends Controller
             $tr['email'] = $user->email;
             $tr['user_name'] = $user->user_name;
             $tr['expired'] = Carbon::now()->addHour();
-            $tr['device'] = $_SERVER['HTTP_USER_AGENT'];
+            $tr['device'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
 
             NewDevice::create($tr);
 
@@ -167,7 +167,7 @@ class AuthenticationController extends Controller
 
         $input['version'] = $request->header('version');
 
-        $device = $_SERVER['HTTP_USER_AGENT'];
+        $device = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
 
         $user = User::where('user_name', $input['user_name'])->orWhere('email', $input['user_name'])->first();
 
@@ -225,7 +225,7 @@ class AuthenticationController extends Controller
 
         $data['user_name'] = $input['email'];
         $data['password'] = $input['accesstoken'];
-        $data['device'] = $_SERVER['HTTP_USER_AGENT'];
+        $data['device'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
         $data['ip_address'] = $_SERVER['REMOTE_ADDR'];
 
         $la = LoginAttempt::create($data);
@@ -246,7 +246,7 @@ class AuthenticationController extends Controller
 
     public function biometricLogin(Request $request)
     {
-        $input['device'] = $_SERVER['HTTP_USER_AGENT'];
+        $input['device'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
         $input['version'] = $request->header('version');
 
         $user = User::find(Auth::id());

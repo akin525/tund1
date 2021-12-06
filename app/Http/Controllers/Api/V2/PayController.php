@@ -52,7 +52,7 @@ class PayController extends Controller
 
         $input['version'] = $request->header('version');
 
-        $input['device'] = $_SERVER['HTTP_USER_AGENT'];
+        $input['device'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
 
         $sys = DB::table("tbl_serverconfig_airtime")->where('name', '=', 'airtime')->first();
 
@@ -135,7 +135,7 @@ class PayController extends Controller
 
         $input['version'] = $request->header('version');
 
-        $input['device'] = $_SERVER['HTTP_USER_AGENT'];
+        $input['device'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
 
 
         $rac = DB::table("tbl_serverconfig_data")->where("coded", strtolower($input['coded']))->first();
@@ -183,7 +183,7 @@ class PayController extends Controller
 
         $input['version'] = $request->header('version');
 
-        $input['device'] = $_SERVER['HTTP_USER_AGENT'];
+        $input['device'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
 
         $rac = AppCableTVControl::where("coded", strtolower($input['coded']))->first();
 
@@ -230,7 +230,7 @@ class PayController extends Controller
 
         $input['version'] = $request->header('version');
 
-        $input['device'] = $_SERVER['HTTP_USER_AGENT'];
+        $input['device'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
 
         $rac = ResellerElecticity::where("code", strtolower($input['provider']))->first();
 
@@ -286,7 +286,7 @@ class PayController extends Controller
 
         $input['version'] = $request->header('version');
 
-        $input['device'] = $_SERVER['HTTP_USER_AGENT'];
+        $input['device'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
 
         $rac = ResellerBetting::where("code", strtoupper($input['provider']))->first();
 
@@ -344,7 +344,7 @@ class PayController extends Controller
 
             $input['version'] = $request->header('version');
 
-            $input['device_details'] = $_SERVER['HTTP_USER_AGENT'];
+            $input['device_details'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
 
             $input['phoneno'] = $input['number'];
 
@@ -675,7 +675,7 @@ class PayController extends Controller
 //        $input['transid'] = "MCD_" . substr($input['user_name'], -3, 2) . "_" . Carbon::now()->timestamp . rand();
         $input['transid'] = $input['ref'];
         $input['version'] = $request->header('version');
-        $input['device_details'] = $_SERVER['HTTP_USER_AGENT'];
+        $input['device_details'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
         $input['wallet'] = Auth::user()->wallet;
         $input['amount'] = $proceed['2'];
         $input["service"] = $proceed['5'];

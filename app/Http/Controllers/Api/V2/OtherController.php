@@ -69,7 +69,7 @@ class OtherController extends Controller
 
         $input['version'] = $request->header('version');
 
-        $input['deviceid'] = $_SERVER['HTTP_USER_AGENT'];
+        $input['deviceid'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
 
         $input['user_name'] = Auth::user()->user_name;
 
@@ -113,7 +113,7 @@ class OtherController extends Controller
 
         $input['version'] = $request->header('version');
 
-        $input['device_details'] = $_SERVER['HTTP_USER_AGENT'];
+        $input['device_details'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
 
         $u = User::where("user_name", $input['user_name'])->first();
 
