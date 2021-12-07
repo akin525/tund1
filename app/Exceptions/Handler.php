@@ -65,9 +65,14 @@ class Handler extends ExceptionHandler
         // Here you can return your own response or work with request
         // return response()->json(['status' : false], 401);
 
-        // This is the default
-        return $request->expectsJson()
-            ? response()->json(['success' => 0, 'message' => $exception->getMessage()], 401)
-            : redirect()->guest($exception->redirectTo() ?? route('index'));
+        if ($request->header('Authorization')) {
+            return response()->json(['success' => 0, 'message' => "Kindly click on logout and login again"], 401);
+        } else {
+
+            // This is the default
+            return $request->expectsJson()
+                ? response()->json(['success' => 0, 'message' => "Kindly click on logout and login again"], 401)
+                : redirect()->guest($exception->redirectTo() ?? route('index'));
+        }
     }
 }
