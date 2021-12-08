@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/mail/newdevicelogin.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/mail/newdevicelogin.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -400,14 +399,7 @@
       <workItem from="1638892609446" duration="2007000" />
       <workItem from="1638962143309" duration="242000" />
       <workItem from="1638970078207" duration="812000" />
-      <workItem from="1638971478306" duration="45000" />
-    </task>
-    <task id="LOCAL-00044" summary="push changes">
-      <created>1630575020818</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1630575020818</updated>
+      <workItem from="1638971478306" duration="399000" />
     </task>
     <task id="LOCAL-00045" summary="push changes">
       <created>1630579235613</created>
@@ -745,7 +737,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638894610396</updated>
     </task>
-    <option name="localTasksCounter" value="93" />
+    <task id="LOCAL-00093" summary="push changes">
+      <created>1638971579654</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1638971579655</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

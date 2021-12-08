@@ -30,7 +30,7 @@
                                     <td>
                                         <div>
                                             <p>Device
-                                                Details: {{$_SERVER('device') ?? $_SERVER['HTTP_USER_AGENT']}}</p>
+                                                Details: {{$data['device']}}</p>
                                             <p>IP address: {{$_SERVER['REMOTE_ADDR']}}</p>
                                             <p>Date &
                                                 Time: {{\Carbon\Carbon::now()->format('D, M d, Y  H:i:s a T')}}</p>
