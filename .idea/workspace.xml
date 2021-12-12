@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/resources/views/mail/newdevicelogin.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/mail/newdevicelogin.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/GiveAwayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/GiveAwayController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -399,21 +400,14 @@
       <workItem from="1638892609446" duration="2007000" />
       <workItem from="1638962143309" duration="242000" />
       <workItem from="1638970078207" duration="812000" />
-      <workItem from="1638971478306" duration="1046000" />
-    </task>
-    <task id="LOCAL-00046" summary="Add email/username to login">
-      <created>1630614467172</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1630614467172</updated>
-    </task>
-    <task id="LOCAL-00047" summary="Add email/username to new device login">
-      <created>1630614556508</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1630614556508</updated>
+      <workItem from="1638971478306" duration="1346000" />
+      <workItem from="1638978940752" duration="210000" />
+      <workItem from="1638990988581" duration="63000" />
+      <workItem from="1639047958574" duration="606000" />
+      <workItem from="1639055442144" duration="565000" />
+      <workItem from="1639070839055" duration="612000" />
+      <workItem from="1639145977927" duration="1006000" />
+      <workItem from="1639285325615" duration="2032000" />
     </task>
     <task id="LOCAL-00048" summary="Add email/username to new device login">
       <created>1630615002101</created>
@@ -744,7 +738,21 @@
       <option name="project" value="LOCAL" />
       <updated>1638971891336</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="push changes">
+      <created>1638973019051</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1638973019051</updated>
+    </task>
+    <task id="LOCAL-00096" summary="push changes">
+      <created>1638973089647</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1638973089647</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

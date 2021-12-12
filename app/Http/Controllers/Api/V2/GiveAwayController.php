@@ -37,7 +37,13 @@ class GiveAwayController extends Controller
 
         $wallet_bal = Auth::user()->wallet;
 
-        if ($input['amount'] > $wallet_bal) {
+        if ($input['type'] == "Data") {
+            return response()->json(['success' => 0, 'message' => 'Data Giveaway is currently not available. Kindly try others']);
+        }
+
+        $total = $input['amount'] * $input['quantity'];
+
+        if ($wallet_bal < $total) {
             return response()->json(['success' => 0, 'message' => 'Insufficient balance to handle request']);
         }
 
@@ -51,16 +57,18 @@ class GiveAwayController extends Controller
             file_put_contents(storage_path("app/public/giveaway/" . $photo), $decodedImage);
 
             $input["image"] = "giveaway/" . $photo;
+        } else {
+            $input["image"] = "giveaway/mcd_logo.png";
         }
 
         $input["user_name"] = Auth::user()->user_name;
         $g = GiveAway::create($input);
 
-        $ref = "MCD_" . substr(Auth::user()->user_name, 0, 3) . $g->id;
+        $ref = "MCD_giveaway" . substr(Auth::user()->user_name, 0, 3) . $g->id;
 
         $tr['name'] = "Giveaway";
         $tr['description'] = $input['type'] . " " . $input['type_code'] . " " . $input['amount'] . " for " . $input['quantity'] . " people";
-        $tr['amount'] = $input['amount'];
+        $tr['amount'] = $total;
         $tr['date'] = Carbon::now();
         $tr['device_details'] = "api";
         $tr['ip_address'] = $_SERVER['REMOTE_ADDR'];
@@ -81,7 +89,7 @@ class GiveAwayController extends Controller
         $user->save();
 
 
-        return response()->json(['success' => 1, 'message' => 'Give away created successfully']);
+        return response()->json(['success' => 1, 'message' => 'Giveaway created successfully']);
     }
 
     public function fetchs()
