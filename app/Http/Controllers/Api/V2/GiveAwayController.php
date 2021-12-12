@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\GiveawayNotificationJob;
 use App\Models\GiveAway;
 use App\Models\GiveAwayRequest;
 use App\Models\Transaction;
@@ -88,6 +89,10 @@ class GiveAwayController extends Controller
         $user->wallet = $tr['f_wallet'];
         $user->save();
 
+        $input['user_name'] = Auth::user()->user_name;
+
+        GiveawayNotificationJob::dispatch($input)->delay(now()->addSeconds(2));
+
 
         return response()->json(['success' => 1, 'message' => 'Giveaway created successfully']);
     }
@@ -143,12 +148,19 @@ class GiveAwayController extends Controller
         }
 
         //check if am the owner
+        if ($qq->user_name == Auth::user()->user_name) {
+            return response()->json(['success' => 0, 'message' => 'Let other claim this giveaway nah']);
+        }
 
         //check if i have requested earlier
+        $gr = GiveAwayRequest::where([['giveaway_id', $input['giveaway_id'], ['user_name', Auth::user()->user_name]]])->exists();
+        if ($gr) {
+            return response()->json(['success' => 0, 'message' => 'You don request before. Let other claim this giveaway nah']);
+        }
 
         $input["user_name"] = Auth::user()->user_name;
 
-        $input["amount"] = $ga->amount / $ga->quantity;
+        $input["amount"] = $ga->amount;
 
         GiveAwayRequest::create($input);
 
