@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/GiveAwayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/GiveAwayController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PushNotificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PushNotificationController.php" afterDir="false" />
-    </list>
+    <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -408,14 +404,7 @@
       <workItem from="1639055442144" duration="565000" />
       <workItem from="1639070839055" duration="612000" />
       <workItem from="1639145977927" duration="1006000" />
-      <workItem from="1639285325615" duration="4194000" />
-    </task>
-    <task id="LOCAL-00049" summary="push changes">
-      <created>1630657790881</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1630657790881</updated>
+      <workItem from="1639285325615" duration="4523000" />
     </task>
     <task id="LOCAL-00050" summary="push changes">
       <created>1630672627086</created>
@@ -753,7 +742,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639295693741</updated>
     </task>
-    <option name="localTasksCounter" value="98" />
+    <task id="LOCAL-00098" summary="push giveaway stuffs">
+      <created>1639316438969</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1639316438969</updated>
+    </task>
+    <option name="localTasksCounter" value="99" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -786,7 +782,8 @@
     <MESSAGE value="Add email/username to login" />
     <MESSAGE value="Add email/username to new device login" />
     <MESSAGE value="push changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="push changes" />
+    <MESSAGE value="push giveaway stuffs" />
+    <option name="LAST_COMMIT_MESSAGE" value="push giveaway stuffs" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

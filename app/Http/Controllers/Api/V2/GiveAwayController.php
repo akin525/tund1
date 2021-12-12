@@ -107,6 +107,8 @@ class GiveAwayController extends Controller
     public function fetch($id)
     {
         $ga = GiveAway::find($id);
+        $ga->views += 1;
+        $ga->save();
         $rga = GiveAwayRequest::where("giveaway_id", $ga->id)->get();
         $cga = User::where("user_name", $ga->user_name)->select('user_name', 'company_name', 'full_name', 'photo')->first();
         $completed = false;
