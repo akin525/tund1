@@ -150,7 +150,7 @@ class GiveAwayController extends Controller
         }
 
         //check if am the owner
-        if ($qq->user_name == Auth::user()->user_name) {
+        if ($ga->user_name == Auth::user()->user_name) {
             return response()->json(['success' => 0, 'message' => 'Let other claim this giveaway nah']);
         }
 
