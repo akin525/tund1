@@ -31,6 +31,7 @@ class NewDeviceLoginMail extends Mailable
     {
         return $this->view('mail.newdevicelogin')
             ->bcc('odejinmisamuel@gmail.com')
+            ->bcc('odejinmiemmanuel@gmail.com')
             ->subject($this->data['user_name'] . "| New Device Login")
             ->with(['data' => $this->data]);
     }
