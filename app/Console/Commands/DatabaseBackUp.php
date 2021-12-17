@@ -16,7 +16,7 @@ class DatabaseBackUp extends Command
      *
      * @var string
      */
-    protected $signature = 'backup:mysql {--command= : <create|local|restore> command to execute} {--snapshot= : provide name of snapshot}';
+    protected $signature = 'backup:mysql {--command= : <create|local|delete|restore> command to execute} {--snapshot= : provide name of snapshot}';
 
     /**
      * The console command description.
@@ -49,6 +49,10 @@ class DatabaseBackUp extends Command
 
             case 'local':
                 $this->takelocalSnapShot();
+                break;
+
+            case 'delete':
+                $this->deletelocalSnapShots();
                 break;
 
             case 'restore':
@@ -129,6 +133,34 @@ class DatabaseBackUp extends Command
 
             if ($process->isSuccessful()) {
                 $this->info("Local Backup was successfully");
+            } else {
+                throw new ProcessFailedException($process);
+            }
+
+        } catch (Exception $e) {
+            $this->info($e->getMessage());
+        }
+    }
+
+    /**
+     * Function delete regular backup
+     * for mysql database..
+     *
+     */
+    private function deletelocalSnapShots()
+    {
+        set_time_limit(0);
+
+        $dbstorage = storage_path("") . "/db_backup/*.sql";
+
+        // run the cli job
+        $process = new Process('rm -R ' . $dbstorage);
+        $process->run();
+
+        try {
+
+            if ($process->isSuccessful()) {
+                $this->info("All backup has been deleted successfully");
             } else {
                 throw new ProcessFailedException($process);
             }
