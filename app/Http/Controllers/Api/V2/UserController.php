@@ -409,6 +409,9 @@ class UserController extends Controller
         $uid->referral = $input['referral'];
         $uid->save();
 
+$referral->points+=1;
+$referral->save();
+
         $noti = new PushNotificationController();
         $noti->PushNoti($input['referral'], "Hi " . $input['referral'] . ", " . $input['user_name'] . " has added you as a referral. You will start receiving atleast #5 on every data transaction, to earn more kindly upgrade. Thanks", "Referral");
 
