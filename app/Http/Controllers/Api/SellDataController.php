@@ -252,7 +252,9 @@ class SellDataController extends Controller
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => array('action' => 'data-topup', 'category_id' => '12', 'plan_id' => $rac->plan_id, 'contact_opt' => '2', 'phone_num' => $phone),
                 CURLOPT_HTTPHEADER => array(
-                    env('SERVER8_AUTH')
+                    env('SERVER8_AUTH'),
+                    'referer: https://honourworld.ng/products/data-top-up',
+                    'user-agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Mobile Safari/537.36'
                 ),
             ));
 
@@ -263,13 +265,13 @@ class SellDataController extends Controller
             curl_close($curl);
 
         } else {
-            $response = '{"code":"000","content":{"transactions":{"status":"delivered","product_name":"MTNData","unique_element":"08166939205","unit_price":100,"quantity":1,"service_verification":null,"channel":"api","commission":3,"total_amount":97,"discount":null,"type":"DataServices","email":"odejinmisamuel@gmail.com","phone":"08166939205","name":null,"convinience_fee":0,"amount":100,"platform":"api","method":"api","transactionId":"16287015152955612203232964"}},"response_description":"TRANSACTIONSUCCESSFUL","requestId":"R16287015121692605289","amount":"100.00","transaction_date":{"date":"2021-08-1118:05:15.000000","timezone_type":3,"timezone":"Africa\/Lagos"},"purchased_code":""}';
+            $response = '{"reset":true,"result":1,"url":"https:\/\/honourworld.ng\/products\/data-top-up","msg":"Data top-up request has been received and will be processed shortly! "}';
         }
 
         try {
             $rep = json_decode($response, true);
         } catch (Exception $e) {
-            $response = '{"code":"05","content":{"transactions":{"status":"delivered","product_name":"MTNData","unique_element":"08166939205","unit_price":100,"quantity":1,"service_verification":null,"channel":"api","commission":3,"total_amount":97,"discount":null,"type":"DataServices","email":"odejinmisamuel@gmail.com","phone":"08166939205","name":null,"convinience_fee":0,"amount":100,"platform":"api","method":"api","transactionId":"16287015152955612203232964"}},"response_description":"TRANSACTIONSUCCESSFUL","requestId":"R16287015121692605289","amount":"100.00","transaction_date":{"date":"2021-08-1118:05:15.000000","timezone_type":3,"timezone":"Africa\/Lagos"},"purchased_code":""}';
+            $response = '{"reset":true,"result":0,"url":"https:\/\/honourworld.ng\/products\/data-top-up","msg":"Data top-up request has been received and will be processed shortly! "}';
         }
 
 
@@ -279,7 +281,7 @@ class SellDataController extends Controller
 
         $dada['server_response'] = $response;
 
-        if ($rep['code'] == '000') {
+        if (isset($rep['result'])) {
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
