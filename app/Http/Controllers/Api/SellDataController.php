@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Reseller\PayController;
 use App\Models\AppDataControl;
 use App\Models\ResellerDataPlans;
+use Exception;
 
 class SellDataController extends Controller
 {
@@ -202,6 +203,75 @@ class SellDataController extends Controller
         }
 
         $rep = json_decode($response, true);
+
+        $tran = new ServeRequestController();
+        $rs = new PayController();
+        $ms = new V2\PayController();
+
+        $dada['server_response'] = $response;
+
+        if ($rep['code'] == '000') {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 1, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
+//                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
+            }
+        } else {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 0, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
+            }
+        }
+    }
+
+    public function server8($request, $code, $phone, $transid, $net, $input, $dada, $requester)
+    {
+
+        if ($requester == "reseller") {
+            $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
+        } else {
+            $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
+        }
+
+        if (env('FAKE_TRANSACTION', 1) == 0) {
+
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://honourworld.ng/datatopup',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array('action' => 'data-topup', 'category_id' => '12', 'plan_id' => $rac->plan_id, 'contact_opt' => '2', 'phone_num' => $phone),
+                CURLOPT_HTTPHEADER => array(
+                    env('SERVER8_AUTH')
+                ),
+            ));
+
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+
+        } else {
+            $response = '{"code":"000","content":{"transactions":{"status":"delivered","product_name":"MTNData","unique_element":"08166939205","unit_price":100,"quantity":1,"service_verification":null,"channel":"api","commission":3,"total_amount":97,"discount":null,"type":"DataServices","email":"odejinmisamuel@gmail.com","phone":"08166939205","name":null,"convinience_fee":0,"amount":100,"platform":"api","method":"api","transactionId":"16287015152955612203232964"}},"response_description":"TRANSACTIONSUCCESSFUL","requestId":"R16287015121692605289","amount":"100.00","transaction_date":{"date":"2021-08-1118:05:15.000000","timezone_type":3,"timezone":"Africa\/Lagos"},"purchased_code":""}';
+        }
+
+        try {
+            $rep = json_decode($response, true);
+        } catch (Exception $e) {
+            $response = '{"code":"05","content":{"transactions":{"status":"delivered","product_name":"MTNData","unique_element":"08166939205","unit_price":100,"quantity":1,"service_verification":null,"channel":"api","commission":3,"total_amount":97,"discount":null,"type":"DataServices","email":"odejinmisamuel@gmail.com","phone":"08166939205","name":null,"convinience_fee":0,"amount":100,"platform":"api","method":"api","transactionId":"16287015152955612203232964"}},"response_description":"TRANSACTIONSUCCESSFUL","requestId":"R16287015121692605289","amount":"100.00","transaction_date":{"date":"2021-08-1118:05:15.000000","timezone_type":3,"timezone":"Africa\/Lagos"},"purchased_code":""}';
+        }
+
 
         $tran = new ServeRequestController();
         $rs = new PayController();

@@ -45,7 +45,9 @@ class ServeRequestJob implements ShouldQueue
         $user = User::find($this->userid);
 
         if($status==1) {
-            Mail::to($user->email)->send(new TransactionNotificationMail($tr));
+            if (env('SEND_TRANSACTION_MAIL') == "1") {
+                Mail::to($user->email)->send(new TransactionNotificationMail($tr));
+            }
         }
 
         if ($input['payment'] == "general_market") {
@@ -58,8 +60,10 @@ class ServeRequestJob implements ShouldQueue
         }
 
         //give points to the user
-        $user->points += 1;
-        //$user->save();
+        if ($input['service'] != "airtime") {
+            $user->points += 1;
+            $user->save();
+        }
 
         if ($input['service'] == "data") {
             if ($input['payment'] == "wallet") {
@@ -70,6 +74,7 @@ class ServeRequestJob implements ShouldQueue
                 $input["date"] = Carbon::now();
 
                 PndL::create($input);
+
             } else {
                 $input["type"] = "income";
                 $input["gl"] = "Data";
