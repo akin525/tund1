@@ -25,6 +25,12 @@ class GeneralMarketMiddleware
         $input['user_name'] = Auth::user()->user_name;
 
         if ($input['payment'] == "general_market") {
+
+            $setg = Settings::where('name', 'pay_gm')->first();
+            if ($setg->value != 1) {
+                return response()->json(['success' => 0, 'message' => 'General market service is currently unavailable. Try later']);
+            }
+
             $set = Settings::where('name', 'general_market')->first();
             if ($set->value < 300) {
                 $input['status'] = 'general market is lower than threshold';

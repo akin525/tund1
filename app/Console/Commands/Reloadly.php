@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\AirtimeCountry;
 use Illuminate\Console\Command;
 
 class Reloadly extends Command
@@ -60,7 +61,13 @@ class Reloadly extends Command
         curl_close($curl);
 //        echo $response;
 
-        $rep = json_decode($response, true);
+        $reps = json_decode($response, true);
+
+        foreach ($reps as $rep) {
+            AirtimeCountry::create([
+
+            ]);
+        }
 
     }
 }
