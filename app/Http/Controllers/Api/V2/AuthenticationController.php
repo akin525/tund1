@@ -55,7 +55,7 @@ class AuthenticationController extends Controller
         $create["wallet"] = "0";
         $create["status"] = "client";
         $create["level"] = "1";
-        $create["target"] = "Make up to 10 transactions to be eligible for an Agent and send a request mail to info@5starcompany.com.ng where you earn incentives on transactions done at the end of the month";
+        $create["target"] = env('NEW_ACCOUNT_MESSAGE');
         $create["user_name"] = $user_name;
         $create["email"] = $input["email"];
         $create["phoneno"] = $input["phoneno"];
