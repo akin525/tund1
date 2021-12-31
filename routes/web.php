@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\TransactionController;
+use App\Jobs\NewAccountGiveaway;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,10 @@ Auth::routes(['register' => false]);
 
 Route::get('/', function () {
     return redirect('login');
+});
+
+Route::get('/testgi', function () {
+    NewAccountGiveaway::dispatchNow('samji');
 });
 
 

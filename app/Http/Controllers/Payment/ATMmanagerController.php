@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Payment;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
 use App\Jobs\ATMtransactionserveJob;
+use App\Jobs\NewAccountGiveaway;
 use App\Models\PndL;
 use App\Models\Transaction;
 use App\User;
@@ -54,26 +55,28 @@ class ATMmanagerController extends Controller
         }
 
         if($cfee!=0){
-            $input["type"]="expenses";
-            $input["gl"]=$payment_method;
-            $input["amount"]=$cfee;
-            $input["narration"]="Payment gateway charges on ".$reference;
+            $input["type"] = "expenses";
+            $input["gl"] = $payment_method;
+            $input["amount"] = $cfee;
+            $input["narration"] = "Payment gateway charges on " . $reference;
 
             PndL::create($input);
         }
 
-        $u->wallet=$wallet;
+        $u->wallet = $wallet;
         $u->save();
 
-        $at=new PushNotificationController();
-        $at->PushNoti($u->user_name,"Hi ".$u->user_name.", your wallet has been credited with the sum of ".$amount." via ".$payment_method, "Payment Notification");
+        NewAccountGiveaway::dispatch($u->user_name)->delay(now()->addSecond());
+
+        $at = new PushNotificationController();
+        $at->PushNoti($u->user_name, "Hi " . $u->user_name . ", your wallet has been credited with the sum of " . $amount . " via " . $payment_method, "Payment Notification");
     }
 
 
     public function atmtransactionserve($id){
         echo "launching ATM transaction job";
         $job = (new ATMtransactionserveJob($id))
-            ->delay(Carbon::now()->addSeconds(1));
+            ->delay(Carbon::now()->addSeconds(2));
         dispatch($job);
     }
 

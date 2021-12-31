@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
+use App\Jobs\NewAccountGiveaway;
 use App\Jobs\SendoutMonnifyHookJob;
 use App\Models\PndL;
 use App\Models\Serverlog;
@@ -195,13 +196,15 @@ class MonnifyHookController extends Controller
                 $input['deviceid'] = $input['code'];
                 Wallet::create($input);
 
-                if($cfee!=0){
-                    $input["type"]="expenses";
-                    $input["amount"]=$cfee;
-                    $input["narration"]="Payment gateway charges on personal account with ref ".$transactionreference;
+                if ($cfee != 0) {
+                    $input["type"] = "expenses";
+                    $input["amount"] = $cfee;
+                    $input["narration"] = "Payment gateway charges on personal account with ref " . $transactionreference;
 
                     PndL::create($input);
                 }
+
+                NewAccountGiveaway::dispatch($u->user_name)->delay(now()->addSecond());
 
                 $noti = new PushNotificationController();
                 $noti->PushNoti($input['user_name'], $notimssg, "Account Transfer Successful");

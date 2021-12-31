@@ -291,20 +291,20 @@ class TransactionsController extends Controller
             $user->wallet = $input['f_wallet'];
             $user->save();
 
-            function dataProcess($price, $productcode, $network, $phone, $transid, $input){
-                $url= env('SERVER1_DATA')."&network=".$network."&phoneNumber=".$phone."&price=".$price."&product_code=".$productcode."&trans_id=".$transid."&return_url=https://superadmin.mcd.5starcompany.com.ng/api/hook";
-                $result = file_get_contents($url);
-
-                $findme='trans_id';
-                $pos = strpos($result, $findme);
-                // Note our use of ===.  Simply == would not work as expected
-
-                if ($pos !== false) {
-                    $this->addtrans("server1",$result,$price,1,$transid,$input);
-                }else {
-                    $this->addtrans("server1",$result,$price,0,$transid,$input);
-                }
-            }
+//            function dataProcess($price, $productcode, $network, $phone, $transid, $input){
+//                $url= env('SERVER1_DATA')."&network=".$network."&phoneNumber=".$phone."&price=".$price."&product_code=".$productcode."&trans_id=".$transid."&return_url=https://superadmin.mcd.5starcompany.com.ng/api/hook";
+//                $result = file_get_contents($url);
+//
+//                $findme='trans_id';
+//                $pos = strpos($result, $findme);
+//                // Note our use of ===.  Simply == would not work as expected
+//
+//                if ($pos !== false) {
+//                    $this->addtrans("server1",$result,$price,1,$transid,$input);
+//                }else {
+//                    $this->addtrans("server1",$result,$price,0,$transid,$input);
+//                }
+//            }
 
             $at = new PushNotificationController();
             $at->PushNoti($input['user_name'], "Hi " . $input['user_name'] . ", you will receive your " . $net . " request in your mail soon. Thanks", "Result Checker");

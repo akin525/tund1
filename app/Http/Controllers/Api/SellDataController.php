@@ -236,6 +236,9 @@ class SellDataController extends Controller
             $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
         }
 
+        echo $rac;
+        echo "here";
+
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
 
