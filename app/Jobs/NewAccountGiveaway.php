@@ -51,7 +51,7 @@ class NewAccountGiveaway implements ShouldQueue
             return;
         }
 
-        $ac = Transaction::where('name', 'Newyear Giveaway')->latest()->first();
+        $ac = Transaction::where([['name', 'Newyear Giveaway'], ['user_name', $user]])->latest()->first();
 
         if ($ac) {
             echo "you have been served";
