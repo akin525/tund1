@@ -582,7 +582,7 @@ class PayController extends Controller
 
         $tr['amount'] = $amount;
         $tr['date'] = Carbon::now();
-        $tr['device_details'] = "api";
+        $tr['device_details'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
         $tr['ip_address'] = $_SERVER['REMOTE_ADDR'];
         $tr['user_name'] = $user->user_name;
         $tr['ref'] = $ref;

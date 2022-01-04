@@ -31,13 +31,15 @@ class LoginAttemptApiFinderJob implements ShouldQueue
      */
     public function handle()
     {
-        $la=LoginAttempt::find($this->id);
+        $la = LoginAttempt::find($this->id);
 
-        $loc2 = file_get_contents('http://ip-api.com/json/'.$la->ip_address);
+        echo "-- Running IPcheck for " . $la->user_name;
+
+        $loc2 = file_get_contents('http://ip-api.com/json/' . $la->ip_address);
         echo $loc2;
         $obj = json_decode($loc2);
 
-        if($obj->status=="success") {
+        if ($obj->status == "success") {
             $la->city = $obj->city;
             $la->region = $obj->regionName;
             $la->country = $obj->country;
