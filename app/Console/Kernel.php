@@ -41,6 +41,11 @@ class Kernel extends ConsoleKernel
         $schedule->command('backup:mysql --command=local')
             ->withoutOverlapping()
             ->hourly();
+
+        $schedule->command('promocode:generate')
+            ->withoutOverlapping()
+            ->dailyAt('04:00');
+
     }
 
     /**
