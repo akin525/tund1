@@ -176,6 +176,22 @@ class SellDataController extends Controller
             $code = $rac->coded;
         }
 
+        if ($net == "9MOBILE") {
+            $net = "etisalat-data";
+        }
+
+        if ($net == "GLO") {
+            $net = "glo-data";
+        }
+
+        if ($net == "MTN") {
+            $net = "mtn-data";
+        }
+
+        if ($net == "AIRTEL") {
+            $net = "airtel-data";
+        }
+
         if (env('FAKE_TRANSACTION', 1) == 0) {
             $curl = curl_init();
 

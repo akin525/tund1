@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\ResellerCableTV;
 use App\Models\ResellerDataPlans;
 use Illuminate\Console\Command;
 
@@ -12,7 +13,7 @@ class GenerateVTPlans extends Command
      *
      * @var string
      */
-    protected $signature = 'samji:generatevt';
+    protected $signature = 'samji:vtpass';
 
     /**
      * The console command description.
@@ -89,49 +90,49 @@ class GenerateVTPlans extends Command
 //        ]);
 
 //
-//        $this->info("Fetching tv plans");
-//
-//        $inters=['dstv','gotv', 'startimes'];
-//
-//        foreach ($inters as $inte) {
-//
-//            $curl = curl_init();
-//
-//            curl_setopt_array($curl, array(
-//                CURLOPT_URL => env('SERVER6') . "service-variations?serviceID=".$inte,
-//                CURLOPT_RETURNTRANSFER => true,
-//                CURLOPT_ENCODING => '',
-//                CURLOPT_MAXREDIRS => 10,
-//                CURLOPT_TIMEOUT => 0,
-//                CURLOPT_FOLLOWLOCATION => true,
-//                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-//                CURLOPT_CUSTOMREQUEST => 'GET',
-//                CURLOPT_HTTPHEADER => array(
-//                    'Authorization: Basic ' . env('SERVER6_AUTH'),
-//                    'Content-Type: application/json'
-//                ),
-//            ));
-//            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-//
-//            $response = curl_exec($curl);
-//
-//            echo $response;
-//
-//            curl_close($curl);
-//
-//            $rep = json_decode($response, true);
-//
-//            foreach ($rep['content']['varations'] as $plans){
-//                ResellerCableTV::create([
-//                    'name' => $plans['name'],
-//                    'code' => $plans['variation_code'],
-//                    'amount' => $plans['variation_amount'],
-//                    'type' => $inte,
-//                    'discount' => '1%',
-//                    'status' => 1,
-//                ]);
-//            }
-//        }
+        $this->info("Fetching tv plans");
+
+        $inters = ['dstv', 'gotv', 'startimes'];
+
+        foreach ($inters as $inte) {
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => env('SERVER6') . "service-variations?serviceID=" . $inte,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Basic ' . env('SERVER6_AUTH'),
+                    'Content-Type: application/json'
+                ),
+            ));
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+            $response = curl_exec($curl);
+
+            echo $response;
+
+            curl_close($curl);
+
+            $rep = json_decode($response, true);
+
+            foreach ($rep['content']['varations'] as $plans) {
+                ResellerCableTV::create([
+                    'name' => $plans['name'],
+                    'code' => $plans['variation_code'],
+                    'amount' => $plans['variation_amount'],
+                    'type' => $inte,
+                    'discount' => '1%',
+                    'status' => 1,
+                ]);
+            }
+        }
 
 
         $this->info("Fetching data plans");
@@ -199,6 +200,7 @@ class GenerateVTPlans extends Command
                     'name' => $plans['name'],
                     'code' => $plans['variation_code'],
                     'amount' => $plans['variation_amount'],
+                    'price' => $plans['variation_amount'],
                     'type' => $inte,
                     'discount' => '2%',
                     'status' => 1,
