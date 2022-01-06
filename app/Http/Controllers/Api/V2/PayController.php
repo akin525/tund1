@@ -440,7 +440,7 @@ class PayController extends Controller
 
         $air = new SellAirtimeController();
 
-        if ($input['country'] == 'NG') {
+        if ($input['country'] == 'NG' || $input['country'] == 'Nigeria') {
             switch (strtolower($server)) {
                 case "9":
                     return $air->server9($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
