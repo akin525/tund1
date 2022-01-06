@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use App\Models\AirtimeCountry;
 use App\Models\AppAirtimeControl;
 use App\Models\AppCableTVControl;
 use App\Models\AppDataControl;
@@ -20,6 +21,13 @@ class ListController extends Controller
         $uinfo['discount_airtel'] = $airsets->airtel;
 
         return response()->json(['success' => 1, 'message' => 'Fetch successfully', 'data' => $uinfo]);
+    }
+
+    public function airtimeInt()
+    {
+        $airsets = AirtimeCountry::get();
+
+        return response()->json(['success' => 1, 'message' => 'Fetch successfully', 'data' => $airsets]);
     }
 
     public function data($network)

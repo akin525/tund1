@@ -46,6 +46,7 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::get('paymentcheckout', [OtherController::class, 'paymentcheckout']);
 
         Route::get('airtime', [ListController::class, 'airtime']);
+        Route::get('airtime/countries', [ListController::class, 'airtimeInt']);
         Route::get('data/{network}', [ListController::class, 'data']);
         Route::get('tv/{network}', [ListController::class, 'cabletv']);
 

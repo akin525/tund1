@@ -440,23 +440,29 @@ class PayController extends Controller
 
         $air = new SellAirtimeController();
 
-        switch (strtolower($server)) {
-            case "6":
-                return $air->server6($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-            case "5":
-                return $air->server5($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-            case "4":
-                return $air->server4($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-            case "3":
-                return $air->server3($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-            case "2":
-                return $air->server2($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-            case "1b":
-                return $air->server1b($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-            case "1":
-                return $air->server1($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-            default:
-                return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
+        if ($input['country'] == 'NG') {
+            switch (strtolower($server)) {
+                case "9":
+                    return $air->server9($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
+                case "6":
+                    return $air->server6($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
+                case "5":
+                    return $air->server5($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
+                case "4":
+                    return $air->server4($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
+                case "3":
+                    return $air->server3($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
+                case "2":
+                    return $air->server2($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
+                case "1b":
+                    return $air->server1b($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
+                case "1":
+                    return $air->server1($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
+                default:
+                    return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
+            }
+        } else {
+            return $air->server9($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
         }
     }
 

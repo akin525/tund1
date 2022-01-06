@@ -466,9 +466,79 @@ class SellAirtimeController extends Controller
         } else {
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 0, $dada);
-            }else {
+            } else {
                 return $ms->outputResp($request, $transid, 0, $dada);
 //                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
+            }
+        }
+    }
+
+    public function server9($request, $amnt, $phone, $transid, $net, $input, $dada, $requester)
+    {
+
+        if (env('FAKE_TRANSACTION', 1) == 0) {
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://topups.reloadly.com/topups',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_POSTFIELDS => '{
+	"operatorId":"' . $input['operatorID'] . '",
+	"amount":"' . $amnt . '",
+	"useLocalAmount": false,
+	"customIdentifier": "' . $transid . '",
+	"recipientPhone": {
+		"countryCode": "' . $input['country'] . '",
+		"number": "' . $phone . '"
+	},
+	"senderPhone": {
+		"countryCode": "NG",
+		"number": "08166939205"
+	}
+}',
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer eyJraWQiOiIwMDA1YzFmMC0xMjQ3LTRmNmUtYjU2ZC1jM2ZkZDVmMzhhOTIiLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMTQwNyIsImlzcyI6Imh0dHBzOi8vcmVsb2FkbHkuYXV0aDAuY29tLyIsImh0dHBzOi8vcmVsb2FkbHkuY29tL3NhbmRib3giOmZhbHNlLCJodHRwczovL3JlbG9hZGx5LmNvbS9wcmVwYWlkVXNlcklkIjoiMTE0MDciLCJndHkiOiJjbGllbnQtY3JlZGVudGlhbHMiLCJhdWQiOiJodHRwczovL3RvcHVwcy1oczI1Ni5yZWxvYWRseS5jb20iLCJuYmYiOjE2NDA5MjA3NjcsImF6cCI6IjExNDA3Iiwic2NvcGUiOiJzZW5kLXRvcHVwcyByZWFkLW9wZXJhdG9ycyByZWFkLXByb21vdGlvbnMgcmVhZC10b3B1cHMtaGlzdG9yeSByZWFkLXByZXBhaWQtYmFsYW5jZSByZWFkLXByZXBhaWQtY29tbWlzc2lvbnMiLCJleHAiOjE2NDYxMDQ3NjcsImh0dHBzOi8vcmVsb2FkbHkuY29tL2p0aSI6IjRiMjBlYzgzLTljYWQtNGMzMS05YmU2LTFkNmZkZWNiNDAwMCIsImlhdCI6MTY0MDkyMDc2NywianRpIjoiZGExMzk2YTctOWI0OS00ZmM2LWJkNzEtMzVmNThiMTBmNzhhIn0.z-50LgZ15qR6iskekitueaNi95UoQdsFgRItfy8EsSw',
+                    'Accept: application/com.reloadly.topups-v1+json',
+                    'Content-Type: application/json'
+                ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+//            echo $response;
+        } else {
+
+            $response = '{"transactionId":5006650,"status":"SUCCESSFUL","operatorTransactionId":"2022010618581735701299205","customIdentifier":"732843","recipientPhone":"2348166939205","recipientEmail":null,"senderPhone":"2348166939205","countryCode":"NG","operatorId":341,"operatorName":"MTN Nigeria","discount":0,"discountCurrencyCode":"NGN","requestedAmount":5,"requestedAmountCurrencyCode":"NGN","deliveredAmount":5,"deliveredAmountCurrencyCode":"NGN","transactionDate":"2022-01-06 12:58:16","pinDetail":null,"balanceInfo":{"oldBalance":8980.00,"newBalance":8975.00,"currencyCode":"NGN","currencyName":"Nigerian Naira","updatedAt":"2022-01-06 17:58:16"}}';
+        }
+
+        $rep = json_decode($response, true);
+
+        $tran = new ServeRequestController();
+        $rs = new PayController();
+        $ms = new V2\PayController();
+
+        $dada['server_response'] = $response;
+
+        if (isset($rep['transactionId'])) {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 1, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
+            }
+        } else {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 0, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 0, $dada);
             }
         }
     }
