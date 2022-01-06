@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\DatabaseBackUp;
 use App\Console\Commands\GenerateVTPlans;
+use App\Console\Commands\PromocodeGeneration;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -16,7 +17,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         GenerateVTPlans::class,
-        DatabaseBackUp::class
+        DatabaseBackUp::class,
+        PromocodeGeneration::class
     ];
 
     /**
