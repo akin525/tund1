@@ -146,7 +146,7 @@ class WalletController extends Controller
 
     public function withdrawal_list()
     {
-        $with = Withdraw::paginate();
+        $with = Withdraw::latest()->paginate();
         return view('withdrawal', ['data' => $with]);
     }
 

@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\TransactionController;
+use App\Jobs\Airtime2CashNotificationJob;
 use App\Jobs\NewAccountGiveaway;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,10 @@ Route::get('/', function () {
 
 Route::get('/testgi', function () {
     NewAccountGiveaway::dispatchNow('samji');
+});
+
+Route::get('/a2cn', function () {
+    Airtime2CashNotificationJob::dispatch("mcd_ewquweqd")->delay(now()->addSeconds());
 });
 
 

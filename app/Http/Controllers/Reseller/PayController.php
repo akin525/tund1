@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\SellElectricityController;
 use App\Http\Controllers\Api\SellTVController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
+use App\Models\Airtime2Cash;
+use App\Models\Airtime2CashSettings;
 use App\Models\ResellerAirtimeControl;
 use App\Models\ResellerBetting;
 use App\Models\ResellerCableTV;
@@ -355,6 +357,64 @@ class PayController extends Controller
         }
 
         return response()->json(['success' => 1, 'message' => 'Transaction is pending', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+    }
+
+    public function a2cash(Request $request)
+    {
+        $input = $request->all();
+
+//        try {
+        switch (strtolower($input['coded'])) {
+            case "m":
+                $input['network'] = "Mtn";
+                break;
+            case "a":
+                $input['network'] = "Airtel";
+                break;
+            default:
+                $input['network'] = "";
+        }
+
+        if ($input['network'] == "") {
+            return response()->json(['success' => 0, 'message' => 'Valid coded is m for MTN, a for Airtel']);
+        }
+
+        if (!isset($input['ref']) || $input['ref'] == "") {
+            return response()->json(['success' => 0, 'message' => 'Kindly provide a ref']);
+        }
+
+        $air = Airtime2Cash::where('ref', $input['ref'])->first();
+
+        if ($air) {
+            return response()->json(['success' => 0, 'message' => 'Kindly provide a unique ref']);
+        }
+
+        $key = $request->header('Authorization');
+
+        $user = User::where("api_key", $key)->first();
+
+        $input['ip'] = $_SERVER['REMOTE_ADDR'];
+
+        $input['version'] = "2.0";
+
+        $input['device_details'] = $_SERVER['HTTP_USER_AGENT'];
+
+        $input['phoneno'] = $input['phone'];
+
+        $input['user_name'] = $user->user_name;
+
+        $input['receiver'] = "wallet";
+
+        Airtime2Cash::create($input);
+
+        $number = Airtime2CashSettings::where('network', '=', $input['network'])->first();
+
+        return response()->json(['success' => 1, 'message' => 'Transfer #' . $input['amount'] . ' to ' . $number->number . ' and get your value instantly. Reference: ' . $input['ref'] . '. By doing so, you acknowledge that you are the legitimate owner of this airtime and you have permission to send it to us and to take possession of the airtime.', 'data' => ['number' => $number->number, 'ref' => $input['ref']]]);
+//        } catch (\Exception $e) {
+//            return response()->json(['success' => 0, 'message' => 'An error occurred', 'error' => $e]);
+//        }
+
+
     }
 
 }

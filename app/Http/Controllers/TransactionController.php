@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\Airtime2CashNotificationJob;
 use App\Models\Airtime2Cash;
 use App\Models\Transaction;
 use App\User;
@@ -62,24 +63,24 @@ class TransactionController extends Controller
         }
 
 
-/*        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://www.nellobytesystems.com/APIEPINV1.asp?UserID=CK10123847&APIKey=W5352Q23GDS924D7UA1B84YYY506178I69DDE4JR1ZRAR80FCBQF819D4T7HKI85&MobileNetwork=".$input['network']."&Value=".$input['amount']."&Quantity=".$input['quantity']."&CallBackURL=http://www.5starcompany.com.ng",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => [
-                "content-type: application/json",
-                "cache-control: no-cache"
-            ],
-        ));
+        /*        $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "https://www.nellobytesystems.com/APIEPINV1.asp?UserID=CK10123847&APIKey=W5352Q23GDS924D7UA1B84YYY506178I69DDE4JR1ZRAR80FCBQF819D4T7HKI85&MobileNetwork=".$input['network']."&Value=".$input['amount']."&Quantity=".$input['quantity']."&CallBackURL=http://www.5starcompany.com.ng",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_CUSTOMREQUEST => "GET",
+                    CURLOPT_HTTPHEADER => [
+                        "content-type: application/json",
+                        "cache-control: no-cache"
+                    ],
+                ));
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
+                $response = curl_exec($curl);
+                $err = curl_error($curl);
 
-        if($err){
-            // there was an error contacting the Paystack API
-            die('Curl returned error: ' . $err);
-        }*/
+                if($err){
+                    // there was an error contacting the Paystack API
+                    die('Curl returned error: ' . $err);
+                }*/
 
 //        $response='{"TXN_EPIN":[{"transactionid":"6342727713","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984254","pin":"146297803330390","amount":"100"},{"transactionid":"6342727714","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984255","pin":"146297845881340","amount":"100"},{"transactionid":"6342727715","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984256","pin":"146297693718491","amount":"100"},{"transactionid":"6342727716","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984257","pin":"146297614150942","amount":"100"},{"transactionid":"6342727717","transactiondate":"5/14/2020 11:00:00 AM","batchno":"203682","mobilenetwork":"GLO","sno":"680401306984258","pin":"146297845985782","amount":"100"}]}';
 //        $response='{"TXN_EPIN":[{"transactionid":"6342615591","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005099279064","pin":"17287167093507274","amount":"100"},{"transactionid":"6342615594","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005105116628","pin":"58508681769179769","amount":"100"},{"transactionid":"6342615584","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005164416614","pin":"50815693195674413","amount":"100"},{"transactionid":"6342615587","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005208228089","pin":"74256074917601404","amount":"100"},{"transactionid":"6342615588","transactiondate":"5/14/2020 9:41:00 PM","batchno":"205352","mobilenetwork":"MTN","sno":"00000005239979674","pin":"07022003391573100","amount":"100"}]}';
@@ -107,9 +108,9 @@ class TransactionController extends Controller
         $data = ['user' => $user, 'cards'=>$tranx['TXN_EPIN']];
         $pdf = PDF::loadView('pdf_rechargecard', $data);
 
-/*        foreach ($cards as $card){
-            DB::table('tbl_rechargecards')->where('id', $card->id)->update(["status"=>"sent", "user_name"=>$user_name]);
-        }*/
+        /*        foreach ($cards as $card){
+                    DB::table('tbl_rechargecards')->where('id', $card->id)->update(["status"=>"sent", "user_name"=>$user_name]);
+                }*/
 
 //        return $pdf->stream($user_name.'_rechargecard.pdf');
         //start generating reference
@@ -158,9 +159,9 @@ class TransactionController extends Controller
         $data = ['user' => $user, 'cards'=>$cards];
         $pdf = PDF::loadView('pdf_rechargecard', $data);
 
-                foreach ($cards as $card){
-                    DB::table('tbl_rechargecards')->where('id', $card->id)->update(["status"=>"sent", "user_name"=>$user_name]);
-                }
+        foreach ($cards as $card){
+            DB::table('tbl_rechargecards')->where('id', $card->id)->update(["status"=>"sent", "user_name"=>$user_name]);
+        }
 
         return $pdf->stream($user_name.'_rechargecard.pdf');
 
@@ -197,8 +198,7 @@ class TransactionController extends Controller
 
         $validator = Validator::make($input, $rules);
 
-        if ($validator->passes())
-        {
+        if ($validator->passes()) {
             $sms_id="15658";
             $sms_secret="66Wby95tGM15Wo3uQk1OwiYO3muum4Ds";
             $sms_pass="zEKJKdpxfvuDzYtTZipihelDJQ0NttZ28JMSXbpcHT";
@@ -325,8 +325,7 @@ class TransactionController extends Controller
 
         $validator = Validator::make($input, $rules);
 
-        if ($validator->passes())
-        {
+        if ($validator->passes()) {
 
             $amount=$input["amount"];
             $user= User::where('user_name', $input["user_name"])->first();
@@ -386,7 +385,7 @@ class TransactionController extends Controller
         }else{
             $rtran = Transaction::where('id', '=', $tran->id)->get();
         }
-                return view('reversal', ['data' => $tran, 'rtran'=>$rtran, 'val'=>true]);
+        return view('reversal', ['data' => $tran, 'rtran'=>$rtran, 'val'=>true]);
     }
 
     public function reverse(Request $request, $id)
@@ -447,19 +446,23 @@ class TransactionController extends Controller
         $input["name"]="wallet funding";
         $input["status"]="successful";
         $input["code"]="fund_a2w";
-        $input["amount"]=$r_amount;
-        $input["user_name"]=$ref->user_name;
-        $input["i_wallet"]=$user->wallet;
-        $input["f_wallet"]=$user->wallet + $r_amount;
-        $input["extra"]='Initiated by ' . Auth::user()->full_name;
+        $input["amount"] = $r_amount;
+        $input["user_name"] = $ref->user_name;
+        $input["i_wallet"] = $user->wallet;
+        $input["f_wallet"] = $user->wallet + $r_amount;
+        $input["extra"] = 'Initiated by ' . Auth::user()->full_name;
 
-        $ref->status="successful";
+        $ref->status = "successful";
         $ref->save();
-        $user->update(["wallet"=> $user->wallet + $r_amount]);
+        $user->update(["wallet" => $user->wallet + $r_amount]);
         Transaction::create($input);
 
-        $at=new PushNotificationController();
-        $at->PushNoti($input['user_name'], $input["description"], "Airtime Converter" );
+        if ($ref->webhook_url != "" && $ref->webhook_url != null) {
+            Airtime2CashNotificationJob::dispatch($ref)->delay(now()->addSeconds());
+        }
+
+        $at = new PushNotificationController();
+        $at->PushNoti($input['user_name'], $input["description"], "Airtime Converter");
 
         return redirect('/airtime2cash')->with('success', 'Transaction successful!');
     }

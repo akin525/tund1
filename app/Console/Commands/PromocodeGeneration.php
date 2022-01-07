@@ -46,7 +46,7 @@ class PromocodeGeneration extends Command
             $sh1 = str_shuffle($str);
             $st = $sh1 . uniqid();
             $sh2 = str_shuffle($st);
-            $sh3 = "MCD-" . substr($sh2, 0, env('PROMO_CODE_LENGTH'));
+            $sh3 = "MCD-" . substr($sh2, 0, env('PROMO_CODE_LENGTH', 8));
 
             PromoCode::create([
                 'code' => $sh3
