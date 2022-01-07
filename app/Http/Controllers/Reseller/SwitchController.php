@@ -100,6 +100,8 @@ class SwitchController extends Controller
                 return $s->buyBetting($request);
             case "airtime2wallet":
                 return $s->a2cash($request);
+            case "airtime2bank":
+                return $s->a2bank($request);
             default:
                 return response()->json(['success' => 0, 'message' => 'Invalid service provided']);
         }
