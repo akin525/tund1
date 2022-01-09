@@ -330,7 +330,7 @@ class OtherController extends Controller
    "customer":{
       "email":"' . Auth::user()->email . '",
       "phonenumber":"' . Auth::user()->phoneno . '",
-      "name":"' . Auth::user()->user_name . " " . Auth::user()->full_name . '"
+      "name":"' . Auth::user()->user_name . '" MegaCheapData"
    },
    "customizations":{
       "title":"Mega Cheap Data",
