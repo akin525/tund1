@@ -614,14 +614,16 @@ class PayController extends Controller
             $user->save();
 
             if ($requester == "data") {
-                $set = Settings::where('name', 'general_market')->first();
-                $tr['version'] = $input['version'];
-                $tr['o_wallet'] = $set->value;
-                $tr['n_wallet'] = $tr['o_wallet'] + 5;
-                $tr['type'] = 'credit';
-                GeneralMarket::create($tr);
-                $set->value = $tr['n_wallet'];
-                $set->save();
+                if ($input['coded'] != "m1") {
+                    $set = Settings::where('name', 'general_market')->first();
+                    $tr['version'] = $input['version'];
+                    $tr['o_wallet'] = $set->value;
+                    $tr['n_wallet'] = $tr['o_wallet'] + 5;
+                    $tr['type'] = 'credit';
+                    GeneralMarket::create($tr);
+                    $set->value = $tr['n_wallet'];
+                    $set->save();
+                }
             }
 
         } elseif ($input['payment'] == "general_market") {
