@@ -300,7 +300,7 @@ class OtherController extends Controller
 
         $doctor = $frency + $docto;
 
-        return response()->json(['success' => 1, 'message' => 'Converted successfully', 'rate' => $doctor]);
+        return response()->json(['success' => 1, 'message' => 'Converted successfully', 'data' => ['rate' => $doctor]]);
     }
 
     public function flutterwavePayment(Request $request)
@@ -373,7 +373,7 @@ class OtherController extends Controller
             return response()->json(['success' => 0, 'message' => 'An error occurred when processing your action.']);
         }
 
-        return response()->json(['success' => 1, 'message' => 'Payment link generated successfully', 'link' => $rep['data']['link']]);
+        return response()->json(['success' => 1, 'message' => 'Payment link generated successfully', 'data' => ['link' => $rep['data']['link']]]);
     }
 
 }
