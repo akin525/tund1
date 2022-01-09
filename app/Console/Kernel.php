@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CurrencyRate;
 use App\Console\Commands\DatabaseBackUp;
 use App\Console\Commands\GenerateVTPlans;
 use App\Console\Commands\PromocodeGeneration;
@@ -18,7 +19,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         GenerateVTPlans::class,
         DatabaseBackUp::class,
-        PromocodeGeneration::class
+        PromocodeGeneration::class,
+        CurrencyRate::class
     ];
 
     /**
@@ -47,6 +49,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('promocode:generate')
             ->withoutOverlapping()
             ->dailyAt('04:00');
+
+        $schedule->command('samji:fetchrates')
+            ->withoutOverlapping()
+            ->dailyAt('05:30');
 
     }
 

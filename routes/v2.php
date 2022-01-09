@@ -80,6 +80,9 @@ Route::prefix('v2')->middleware("version")->group(function () {
 
         Route::get('leaderboard', [OtherController::class, 'getPoints']);
 
+        Route::post('get-equivalent', [OtherController::class, 'getEqv']);
+        Route::post('payment/flutterwave', [OtherController::class, 'flutterwavePayment']);
+
         Route::post('create-giveaway', [GiveAwayController::class, 'create']);
         Route::get('fetch-giveaways', [GiveAwayController::class, 'fetchs']);
         Route::get('fetch-giveaway/{id}', [GiveAwayController::class, 'fetch']);

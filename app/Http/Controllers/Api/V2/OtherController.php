@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
+use App\Models\AirtimeCountry;
 use App\Models\GeneralMarket;
 use App\Models\ReferralPlans;
 use App\Models\Settings;
@@ -248,6 +249,131 @@ class OtherController extends Controller
         }
 
         return response()->json(['success' => 1, 'message' => 'Leaderboard Fetched successfully', 'rank' => $rank, 'data' => $us, 'banner' => $settings->value]);
+    }
+
+    public function getEqv(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'from' => 'required',
+            'to' => 'required',
+            'amount' => 'required',
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'message' => 'Incomplete request', 'error' => $validator->errors()]);
+        }
+
+        $fc = AirtimeCountry::where("currencyCode", $input['from'])->first();
+        if (!$fc) {
+            return response()->json(['status' => 0, 'message' => 'Kindly provide a valid country code for From']);
+        }
+
+        if ($fc->status != 1) {
+            return response()->json(['status' => 0, 'message' => $input['from'] . " is currently not active"]);
+        }
+
+        if ($fc->USDrate == 0) {
+            return response()->json(['status' => 0, 'message' => $input['from'] . " does not have rate"]);
+        }
+
+        $tc = AirtimeCountry::where("currencyCode", $input['to'])->first();
+        if (!$tc) {
+            return response()->json(['status' => 0, 'message' => 'Kindly provide a valid country code for To']);
+        }
+
+        if ($tc->status != 1) {
+            return response()->json(['status' => 0, 'message' => $input['to'] . " is currently not active"]);
+        }
+
+        if ($tc->USDrate == 0) {
+            return response()->json(['status' => 0, 'message' => $input['to'] . " does not have rate"]);
+        }
+
+        $usd = $input['amount'] / $fc->USDrate;
+
+        $frency = $tc->USDrate * $usd;
+
+        $docto = env('COINRENCY_DOCTOR', 20) * $input['amount'];
+
+        $doctor = $frency + $docto;
+
+        return response()->json(['success' => 1, 'message' => 'Converted successfully', 'rate' => $doctor]);
+    }
+
+    public function flutterwavePayment(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'ref' => 'required',
+            'desc' => 'required',
+            'amount' => 'required',
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'message' => 'Incomplete request', 'error' => $validator->errors()]);
+        }
+
+        $data = '{
+   "tx_ref":"' . $input['ref'] . '",
+   "amount":"' . $input['amount'] . '",
+   "currency":"NGN",
+   "redirect_url":"https://example.com/success",
+   "payment_options":"card,barter,mobilemoneyghana,qr,ussd,credit,payattitude",
+   "meta":{
+      "desc":"' . $input['desc'] . '"
+   },
+   "customer":{
+      "email":"' . Auth::user()->email . '",
+      "phonenumber":"' . Auth::user()->phoneno . '",
+      "name":"' . Auth::user()->user_name . " " . Auth::user()->full_name . '"
+   },
+   "customizations":{
+      "title":"Mega Cheap Data",
+      "description":"...the cheapest you can always get",
+      "logo":"https://app.mcd.5starcompany.com.ng/img/mcd_logo.png"
+   }
+}';
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.flutterwave.com/v3/payments",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $data,
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer ' . env('RAVE_SECRET_KEY'),
+                'Content-Type: application/json'
+            ),
+        ));
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+        $response = curl_exec($curl);
+
+//        echo $response;
+
+        curl_close($curl);
+
+//        $response='/{ "status":"success", "message":"Hosted Link", "data":{ "link":"https://api.flutterwave.com/v3/hosted/pay/f524c1196ffda5556341" } }';
+
+        $rep = json_decode($response, true);
+
+        if ($rep['status'] != "success") {
+            return response()->json(['success' => 0, 'message' => 'An error occurred when processing your action.']);
+        }
+
+        return response()->json(['success' => 1, 'message' => 'Payment link generated successfully', 'link' => $rep['data']['link']]);
     }
 
 }
