@@ -136,6 +136,8 @@ class ATMtransactionserveJob implements ShouldQueue
             $air = new SellAirtimeController();
 
             switch (strtolower($server)) {
+                case "9":
+                    return $air->server9($r, $input['amount'], $input['number'], $input['transid'], $input['network'], $input, $dada, "mcd");
                 case "6":
                     return $air->server6($r, $input['amount'], $input['phone'], $input['transid'], $input['network'], $input, $dada, "mcd");
                 case "5":
@@ -169,6 +171,8 @@ class ATMtransactionserveJob implements ShouldQueue
             $air = new SellDataController();
 
             switch (strtolower($rac->server)) {
+                case "8":
+                    return $air->server8($r, $input['coded'], $input['number'], $input['transid'], $rac->network, $input, $dada, "mcd");
                 case "6":
                     return $air->server6($r, $input['coded'], $input['phone'], $input['transid'], $rac->network, $input, $dada, "mcd");
                 case "3":
