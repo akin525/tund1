@@ -54,52 +54,60 @@ class PayController extends Controller
 
         $input['device'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
 
-        $sys = DB::table("tbl_serverconfig_airtime")->where('name', '=', 'airtime')->first();
 
-        $sysD = DB::table("tbl_serverconfig_airtime")->where('name', '=', 'discount')->first();
+        if (strtoupper($input['country']) == "NG" || strtoupper($input['country']) == "NIGERIA") {
+            $sys = DB::table("tbl_serverconfig_airtime")->where('name', '=', 'airtime')->first();
 
-        switch ($input['provider']) {
-            case "MTN":
-                $server = $sys->mtn;
-                $discount = $sysD->mtn;
-                break;
+            $sysD = DB::table("tbl_serverconfig_airtime")->where('name', '=', 'discount')->first();
 
-            case "9MOBILE":
-                $server = $sys->etisalat;
-                $discount = $sysD->etisalat;
-                break;
+            switch ($input['provider']) {
+                case "MTN":
+                    $server = $sys->mtn;
+                    $discount = $sysD->mtn;
+                    break;
 
-            case "ETISALAT":
-                $server = $sys->etisalat;
-                $discount = $sysD->etisalat;
-                break;
+                case "9MOBILE":
+                    $server = $sys->etisalat;
+                    $discount = $sysD->etisalat;
+                    break;
 
-            case "GLO":
-                $server = $sys->glo;
-                $discount = $sysD->glo;
-                break;
+                case "ETISALAT":
+                    $server = $sys->etisalat;
+                    $discount = $sysD->etisalat;
+                    break;
 
-            case "AIRTEL":
-                $server = $sys->airtel;
-                $discount = $sysD->airtel;
-                break;
+                case "GLO":
+                    $server = $sys->glo;
+                    $discount = $sysD->glo;
+                    break;
 
-            default:
-                // required field is missing
-                return response()->json(['success' => 0, 'message' => 'Invalid Network. Available are  MTN, 9MOBILE, GLO, AIRTEL.']);
+                case "AIRTEL":
+                    $server = $sys->airtel;
+                    $discount = $sysD->airtel;
+                    break;
+
+                default:
+                    // required field is missing
+                    return response()->json(['success' => 0, 'message' => 'Invalid Network. Available are  MTN, 9MOBILE, GLO, AIRTEL.']);
+            }
+
+
+            if ($input['amount'] < 100) {
+                return response()->json(['success' => 0, 'message' => 'Minimum amount is #100']);
+            }
+
+            if ($input['amount'] > 5000) {
+                return response()->json(['success' => 0, 'message' => 'Maximum amount is #5000']);
+            }
+
+            $dis = explode("%", $discount);
+            $discount = $input['amount'] * ($dis[0] / 100);
+
+        } else {
+            $server = 9;
+            $discount = 0;
         }
 
-
-        if ($input['amount'] < 100) {
-            return response()->json(['success' => 0, 'message' => 'Minimum amount is #100']);
-        }
-
-        if ($input['amount'] > 5000) {
-            return response()->json(['success' => 0, 'message' => 'Maximum amount is #5000']);
-        }
-
-        $dis = explode("%", $discount);
-        $discount = $input['amount'] * ($dis[0] / 100);
         $debitAmount = $input['amount'];
 
         $proceed['1'] = $input['provider'];
