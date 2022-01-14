@@ -287,7 +287,7 @@ class SellDataController extends Controller
         try {
             $rep = json_decode($response, true);
         } catch (Exception $e) {
-            $response = '{"reset":true,"result":0,"url":"https:\/\/honourworld.ng\/products\/data-top-up","msg":"Data top-up request has been received and will be processed shortly! "}';
+            $response = '{"error":"' . $e . '"reset":true,"result":0,"url":"There_was_an_error_https:\/\/honourworld.ng\/products\/data-top-up","msg":"Data top-up request has been received and will be processed shortly! "}';
         }
 
 
