@@ -504,7 +504,7 @@ class TransactionController extends Controller
             ->Where('description', 'LIKE', "%$phoneno%")
             ->Where('name', 'LIKE', "%$transaction_type%")
             ->Where('ref', 'LIKE', "%$reference%")
-            ->Where('amount', 'LIKE', "%$amount%")
+            ->Where('amount', "$amount")
             ->Where('date', 'LIKE', "%$date%")
             ->OrderBy('id', 'desc')
             ->limit(1000)
@@ -514,7 +514,7 @@ class TransactionController extends Controller
             ->Where('description', 'LIKE', "%$phoneno%")
             ->Where('name', 'LIKE', "%$transaction_type%")
             ->Where('ref', 'LIKE', "%$reference%")
-            ->Where('amount', 'LIKE', "%$amount%")
+            ->Where('amount', "$amount")
             ->Where('date', 'LIKE', "%$date%")
             ->count();
 

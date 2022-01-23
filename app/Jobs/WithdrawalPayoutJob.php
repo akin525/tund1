@@ -59,7 +59,7 @@ class WithdrawalPayoutJob implements ShouldQueue
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            "Authorization: Bearer " . env("PAYSTACK_KEY"),
+            "Authorization: Bearer " . env("PAYSTACK_SECRET_KEY"),
             "Cache-Control: no-cache",
         ));
 
@@ -90,7 +90,7 @@ class WithdrawalPayoutJob implements ShouldQueue
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            "Authorization: Bearer " . env("PAYSTACK_KEY"),
+            "Authorization: Bearer " . env("PAYSTACK_SECRET_KEY"),
             "Cache-Control: no-cache",
         ));
 
