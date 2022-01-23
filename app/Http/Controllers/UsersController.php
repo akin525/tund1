@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Mail\Notification;
 use App\Models\PndL;
 use App\Models\Transaction;
+use App\Models\VirtualAccountClient;
 use App\User;
 use Carbon\Carbon;
 use DB;
@@ -457,7 +458,7 @@ class UsersController extends Controller
 
         PndL::create($input);
 
-        return redirect('/agentpayment')->with('success', 'Agent Payment paid successfully to '.$user->user_name.' with the sum of '.$amount);
+        return redirect('/agentpayment')->with('success', 'Agent Payment paid successfully to ' . $user->user_name . ' with the sum of ' . $amount);
     }
 
     public function loginattempt()
@@ -466,6 +467,14 @@ class UsersController extends Controller
         $login = DB::table('tbl_login_attempt')->orderBy('id', 'desc')->paginate(10);
 
         return view('login_attempts', ['login' => $login]);
+    }
+
+    public function vaccounts()
+    {
+
+        $datas['accounts'] = VirtualAccountClient::orderBy('id', 'desc')->paginate(10);
+
+        return view('resellers_virtual_accounts', $datas);
     }
 
 }

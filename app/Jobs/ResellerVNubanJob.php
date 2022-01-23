@@ -83,6 +83,7 @@ class ResellerVNubanJob implements ShouldQueue
         $input["ip_address"] = "127.0.0.1:A";
         $input["ref"] = $transactionreference;
         $input["date"] = Carbon::now();
+        $input["extra"] = $acct_number;
 
         Transaction::create($input);
 
