@@ -10,6 +10,7 @@ use App\Models\VirtualAccountClient;
 use App\Models\Wallet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaystackHookController extends Controller
 {
