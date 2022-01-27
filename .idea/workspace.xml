@@ -21,9 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="Commit Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Payment/PaystackHookController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Payment/PaystackHookController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Reseller/OthersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Reseller/OthersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/reseller.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/reseller.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -494,14 +491,7 @@
       <workItem from="1642920786842" duration="21809000" />
       <workItem from="1643055969831" duration="132000" />
       <workItem from="1643152165664" duration="2891000" />
-      <workItem from="1643308868276" duration="5454000" />
-    </task>
-    <task id="LOCAL-00082" summary="push changes">
-      <created>1638070715275</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1638070715275</updated>
+      <workItem from="1643308868276" duration="6325000" />
     </task>
     <task id="LOCAL-00083" summary="push changes">
       <created>1638072347416</created>
@@ -839,7 +829,14 @@
       <option name="project" value="LOCAL" />
       <updated>1643188870682</updated>
     </task>
-    <option name="localTasksCounter" value="131" />
+    <task id="LOCAL-00131" summary="Commit Changes">
+      <created>1643314568641</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1643314568641</updated>
+    </task>
+    <option name="localTasksCounter" value="132" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -886,10 +883,10 @@
     </state>
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1643313573217" />
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1642942623520" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1643188869714">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1643314602140">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1642858452695" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1643314602140" />
     <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.800.552@0.0.1366.720" timestamp="1643188869714" />
     <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1643173716088" />
     <state x="129" y="53" key="DiffContextDialog" timestamp="1641691941004">
@@ -901,10 +898,10 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="463" y="114" key="FileChooserDialogImpl/0.0.1366.720@0.0.1366.720" timestamp="1642058928501" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1643188872987">
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1643314571655">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1641691942240" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1643314571655" />
     <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.800.552@0.0.1366.720" timestamp="1643188872987" />
     <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1643173724324" />
     <state x="389" y="93" width="587" height="534" key="find.popup" timestamp="1643308972486">
