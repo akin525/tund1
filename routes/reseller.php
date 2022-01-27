@@ -21,4 +21,5 @@ Route::prefix('reseller')->middleware("reseller_auth")->group(function () {
     Route::post('list', [SwitchController::class, 'listService']);
     Route::post('me', [SwitchController::class, 'junction']);
     Route::post('virtual-account', [OthersController::class, 'reserveAccount']);
+    Route::post('payment-link', [OthersController::class, 'generatePaymentLink']);
 });

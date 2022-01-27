@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Reseller;
 
 use App\Http\Controllers\Controller;
-use App\Models\Nuban;
+use App\Models\ResellerPaymentLink;
 use App\Models\VirtualAccountClient;
 use App\User;
 use Carbon\Carbon;
@@ -226,13 +226,42 @@ class OthersController extends Controller
 
     }
 
-    // Generate Dedicated NUBAN (Virtual Account Number)
-    public function generateVAccount()
+    //Generate payment link
+    public function generatePaymentLink(Request $request)
     {
+        $input = $request->all();
+        $rules = array(
+            'email' => 'required|email|min:5',
+            'amount' => 'required|min:2',
+            'reference' => 'required|String|min:5',
+            'callback_url' => 'required',
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        if (!$validator->passes()) {
+            return response()->json(['success' => 0, 'message' => 'Required field(s) is missing']);
+        }
+
+        $key = $request->header('Authorization');
+
+        $user = User::where("api_key", $key)->first();
+        if (!$user) {
+            return response()->json(['success' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
+        }
+
+        $ui = ResellerPaymentLink::where('reseller_reference', $input['reference'])->first();
+
+        if ($ui) {
+            return response()->json(['success' => 1, 'message' => 'Reference already exist', 'data' => ['link' => $ui->payment_link, 'reference' => $ui->reference]]);
+        }
+
+        $ppay = $input['amount'] * 100;
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('PAYSTACK_URL') . "dedicated_account",
+            CURLOPT_URL => env('PAYSTACK_URL') . "transaction/initialize",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -240,9 +269,14 @@ class OthersController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => '{"customer": "' . auth()->user()->pk_customer_code . '","preferred_bank": "wema-bank"}',
+            CURLOPT_POSTFIELDS => '{
+    "email": "' . $input['email'] . '",
+    "amount": "' . $ppay . '",
+    "reference": "' . $input['reference'] . '",
+    "callback_url" : "' . $input['callback_url'] . '"
+}',
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer ' . env('PAYSTACK_SECRET_KEY'),
+                'Authorization: Bearer ' . env('PAYSTACK_SECRET_KEY2'),
                 'Content-Type: application/json'
             ),
         ));
@@ -250,27 +284,27 @@ class OthersController extends Controller
 
         $response = curl_exec($curl);
 
+//        echo $response;
+
         curl_close($curl);
 
         $res = json_decode($response, true);
 
-        if ($res['status'] == true) {
-            $dn['user_id'] = auth()->user()->id;
-            $dn['customer_id'] = auth()->user()->pk_customer_id;
-            $dn['customer_code'] = auth()->user()->pk_customer_code;
-            $dn['bank_name'] = $res['data']['bank']['name'];
-            $dn['bank_slug'] = $res['data']['bank']['slug'];
-            $dn['account_name'] = $res['data']['account_name'];
-            $dn['account_number'] = $res['data']['account_number'];
-            Nuban::create($dn);
+        if ($res['status']) {
+            $dn['reseller_id'] = $user->id;
+            $dn['access_code'] = $res['data']['access_code'];
+            $dn['reference'] = $res['data']['reference'];
+            $dn['payment_link'] = $res['data']['authorization_url'];
+            $dn['reseller_reference'] = $input['reference'];
+            $dn['email'] = $input['email'];
+            $dn['amount'] = $input['amount'];
+            $dn['callback_url'] = $input['callback_url'];
+            ResellerPaymentLink::create($dn);
 
-            $pkc = User::findOrFail(auth()->user()->id);
-            $pkc->acc_status = 1;
-            $pkc->save();
-            return back()->with("success", $res['message']);
+            return response()->json(['success' => 1, 'message' => 'Payment link generated', 'data' => ['link' => $dn['payment_link'], 'reference' => $dn['reference']]]);
         }
 
-        return back()->with("error", "Unable to create your NUBAN Account Now. Try again later.");
+        return response()->json(['success' => 0, 'message' => 'An error occurred. Kindly contact admin']);
 
     }
 

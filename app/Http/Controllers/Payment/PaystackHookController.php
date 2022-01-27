@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ResellerPaymentLinkJob;
 use App\Jobs\ResellerVNubanJob;
 use App\Models\PndL;
+use App\Models\ResellerPaymentLink;
 use App\Models\Serverlog;
 use App\Models\VirtualAccountClient;
 use App\Models\Wallet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class PaystackHookController extends Controller
 {
@@ -22,12 +23,12 @@ class PaystackHookController extends Controller
 
         echo "52.31.139.75, 52.49.173.169, 52.214.14.220<br/>";
 
-        DB::table('tbl_webhook_paystack')->insert(['payment_reference' => $input['data']['reference'], 'payment_id' => $input['data']['id'], 'status' => $input['data']['status'], 'amount' => $input['data']['amount'], 'fees' => $input['data']['fees'], 'customer_code' => $input['data']['customer']['customer_code'], 'email' => $input['data']['customer']['email'], 'paystack_signature' => $request->header('X-Paystack-Signature'), 'paid_at' => $input['data']['paidAt'], 'channel' => $input['data']['channel'], 'remote_address' => $_SERVER['REMOTE_ADDR'], 'extra' => $data2]);
-
-//         only a post with paystack signature header gets our attention
-        if (!$request->headers->has('X-Paystack-Signature')) {
-            return "invalid request";
-        }
+//        DB::table('tbl_webhook_paystack')->insert(['payment_reference' => $input['data']['reference'], 'payment_id' => $input['data']['id'], 'status' => $input['data']['status'], 'amount' => $input['data']['amount'], 'fees' => $input['data']['fees'], 'customer_code' => $input['data']['customer']['customer_code'], 'email' => $input['data']['customer']['email'], 'paystack_signature' => $request->header('X-Paystack-Signature'), 'paid_at' => $input['data']['paidAt'], 'channel' => $input['data']['channel'], 'remote_address' => $_SERVER['REMOTE_ADDR'], 'extra' => $data2]);
+//
+////         only a post with paystack signature header gets our attention
+//        if (!$request->headers->has('X-Paystack-Signature')) {
+//            return "invalid request";
+//        }
 
         if ($input['event'] != "charge.success") {
             return "charge->success expected";
@@ -68,25 +69,35 @@ class PaystackHookController extends Controller
         }
 
         $fun=Wallet::where('ref',$reference)->first();
-        if($fun){
-            if ($fun->status!="completed") {
-                $fun->status='completed';
+        if ($fun) {
+            if ($fun->status != "completed") {
+                $fun->status = 'completed';
                 $fun->save();
 
-                $at=new ATMmanagerController();
+                $at = new ATMmanagerController();
                 $at->atmfundwallet($fun, $amount, $reference, "Paystack", $fees);
             }
         }
 
-        $findme   = 'mcd_agent';
+        $rpl = ResellerPaymentLink::where('reseller_reference', $reference)->first();
+        if ($rpl) {
+            if ($rpl->status == 0) {
+                $rpl->status = 1;
+                $rpl->save();
+
+                ResellerPaymentLinkJob::dispatch($input)->delay(now()->addSecond());
+            }
+        }
+
+        $findme = 'mcd_agent';
         $pos = strpos($reference, $findme);
         // Note our use of ===.  Simply == would not work as expected
         if ($pos !== false) {
-            $p=PndL::where('narration',$reference)->first();
-            if (!$p){
-                $input["type"]="income";
-                $input["gl"]="Agent Registration";
-                $input["amount"]=$amount;
+            $p = PndL::where('narration', $reference)->first();
+            if (!$p) {
+                $input["type"] = "income";
+                $input["gl"] = "Agent Registration";
+                $input["amount"] = $amount;
                 $input["date"]=Carbon::now();
                 $input["narration"]=$reference;
                 PndL::create($input);
