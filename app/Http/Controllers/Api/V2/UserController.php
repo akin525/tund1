@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
 use App\Jobs\AgentPdfGeneratorJob;
+use App\Models\PndL;
 use App\Models\PromoCode;
 use App\Models\ReferralPlans;
 use App\Models\Settings;
 use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -246,7 +249,7 @@ class UserController extends Controller
         $user->company_name = $input['company_name'];
         $user->dob = $input['dob'];
         $user->bvn = $input['bvn'];
-        $user->address = $input['street'] . " " . $input['state'] . $input['country'];
+        $user->address = $input['street'] . "; " . $input['state'] . "; " . $input['country'];
         $user->target = "Agent in progress...";
 //            $user->note = $input["note"];
         $user->save();
@@ -254,6 +257,56 @@ class UserController extends Controller
         AgentPdfGeneratorJob::dispatch($input, $user);
 
         return response()->json(['success' => 1, 'message' => 'Data submitted successfully, kindly check your mail for progress']);
+    }
+
+    public function requestAgentDocument()
+    {
+        $user = User::where('user_name', Auth::user()->user_name)->first();
+        if (!$user) {
+            return response()->json(['success' => 0, 'message' => 'User not found']);
+        }
+
+        if ($user->dob == "") {
+            return response()->json(['success' => 0, 'message' => 'You need to submit agent request first']);
+        }
+
+        $split_addr = explode(';', $user->address);
+
+        $url = "https://mcd.5starcompany.com.ng/app/agent_pdf_generator.php?";
+        $params = "full_name=" . urlencode($user->full_name);
+        $params .= "&company_name=" . urlencode($user->company_name);
+        $params .= "&street_no=" . urlencode($split_addr[0] ?? ' ');
+        $params .= "&state=" . urlencode($split_addr[1] ?? '');
+        $params .= "&country=" . urlencode($split_addr[2] ?? ' ');
+        $params .= "&request=Agent";
+        $params .= "&user_name=" . $user->user_name;
+        $params .= "&email=" . urlencode($user->email);
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url . $params,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $resp = json_decode($response, true);
+
+        $docbase = "https://mcd.5starcompany.com.ng/app/docs/";
+
+        return response()->json(['success' => 1, 'message' => 'Document generated successfully', 'data' => $docbase . $resp['filename']]);
     }
 
     public function agentDocumentation(Request $request)
@@ -410,14 +463,84 @@ class UserController extends Controller
         $uid->referral = $input['referral'];
         $uid->save();
 
-$referral->points+=1;
-$referral->save();
+        $referral->points += 1;
+        $referral->save();
 
         $noti = new PushNotificationController();
         $noti->PushNoti($input['referral'], "Hi " . $input['referral'] . ", " . $input['user_name'] . " has added you as a referral. You will start receiving atleast #5 on every data transaction, to earn more kindly upgrade. Thanks", "Referral");
 
         return response()->json(['success' => 1, 'message' => $referral->user_name . " has been added as your referral successfully", 'referral' => $input['referral']]);
 
+    }
+
+    public function referral_upgrade(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'id' => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'message' => 'Some forms are left out', 'error' => $validator->errors()]);
+        }
+
+        $plan = ReferralPlans::find($input['id']);
+
+        if (!$plan) {
+            return response()->json(['status' => 0, 'message' => 'Referral plan does not exist.']);
+        }
+
+        $u = User::where('user_name', Auth::user()->user_name)->first();
+
+        if (!$u) {
+            return response()->json(['status' => 0, 'message' => $u->user_name . ' does not exist!']);
+        }
+
+
+        if ($u->wallet < $plan->price) {
+            return response()->json(['status' => 0, 'message' => $u->user_name . ' wallet balance is currently low.']);
+        }
+
+
+        $input['name'] = "Referral Upgrade";
+        $input['amount'] = $plan->price;
+        $input['status'] = 'successful';
+        $input['description'] = "Being amount charged for referral upgrade to " . $plan->plan . " on " . $u->user_name;
+        $input['user_name'] = $u->user_name;
+        $input['code'] = 'aru';
+        $input['i_wallet'] = $u->wallet;
+        $wallet = $u->wallet - $u->amount;
+        $input['f_wallet'] = $wallet;
+        $input["ip_address"] = "127.0.0.1:A";
+        $input["date"] = date("y-m-d H:i:s");
+        $input["extra"] = 'Initiated by ' . Auth::user()->full_name;
+
+        Transaction::create($input);
+
+        $input["type"] = "income";
+        $input["narration"] = $input['description'];
+
+        PndL::create($input);
+
+        $u->wallet = $input['f_wallet'];
+        $u->referral_plan = $plan->name;
+        $u->save();
+
+        $GLOBALS['email'] = $u->email;
+
+        try {
+            $data = array('name' => $u->full_name, 'date' => date("D, d M Y"));
+            Mail::send('email_referral_upgrade', $data, function ($message) {
+                $message->to($GLOBALS['email'], 'MCD Customer')->subject('MCD Referral Upgrade');
+                $message->from('info@5starcompany.com.ng', '5Star Inn Company');
+            });
+        } catch (Exception $e) {
+
+        }
+
+        return response()->json(['status' => 1, 'message' => $u->user_name . ' has been upgraded to ' . $plan->name . ' successfully!']);
     }
 
 

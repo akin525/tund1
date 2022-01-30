@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Http\Controllers\PushNotificationController;
-use App\User;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -43,13 +42,9 @@ class GiveawayNotificationJob implements ShouldQueue
             $message = substr($input['user_name'], 0, 3) . " just created Giveaway of " . $input['type'] . " #" . $input['amount'] . " come and claim it now.";
             $title = $input['type'] . " Giveaway 🎉 !!";
 
-            $users = User::where("user_name", "!=", $input['user_name'])->get();
-
-            foreach ($users as $user) {
-                echo "Sending notification to " . $user->user_name;
-                $u = new PushNotificationController();
-                $u->PushPersonal($user->user_name, $message, $title);
-            }
+            echo "Sending notification to giveaway subscribers";
+            $u = new PushNotificationController();
+            $u->PushTopic('giveaway', $message, $title);
         } catch (Exception $e) {
             echo $e;
         }

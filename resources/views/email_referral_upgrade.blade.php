@@ -284,10 +284,12 @@
                 <table class="main" width="100%" cellpadding="0" cellspacing="0">
                     <tr>
                         <td class="content-wrap">
-                            <table  cellpadding="0" cellspacing="0">
+                            <table cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td>
-                                        <img class="img-responsive" src="https://superadmin.5starcompany.com.ng/img/mcd_logo.png" width="100px" height="100px"/>
+                                        <img class="img-responsive"
+                                             src="https://app.mcd.5starcompany.com.ng/img/mcd_logo.png" width="100px"
+                                             height="100px"/>
                                     </td>
                                 </tr>
                                 <tr>

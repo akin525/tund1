@@ -93,13 +93,13 @@ class ServeRequestJob implements ShouldQueue
 
         $ruser = User::where('user_name', $user->referral)->first();
 
-        if($ruser->wallet < 100){
+        if ($ruser->wallet < 100) {
             return;
         }
 
-        $job = (new PayReferralJob($input, $tr, $ruser->id))
-            ->delay(Carbon::now()->addSeconds(1));
-        dispatch($job);
+//        $job = (new PayReferralJob($input, $tr, $ruser->id))
+//            ->delay(Carbon::now()->addSeconds(1));
+//        dispatch($job);
 
     }
 }

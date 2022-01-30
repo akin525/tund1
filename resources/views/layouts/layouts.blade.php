@@ -195,6 +195,11 @@
                             <span>Virtual Accounts
 {{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
                             </span></a></li>
+
+                    <li><a href="{{route('payment-links')}}" class="waves-effect"><i class="dripicons-archive"></i>
+                            <span>Payment Links
+{{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
+                            </span></a></li>
                 </ul>
             </div>
             <div class="clearfix"></div>

@@ -20,7 +20,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="Commit Changes">
+      <change afterPath="$PROJECT_DIR$/resources/views/resellers_payment_links.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PushNotificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PushNotificationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/GiveawayNotificationJob.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/GiveawayNotificationJob.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/NewAccountGiveaway.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/NewAccountGiveaway.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/ServeRequestJob.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/ServeRequestJob.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/v2.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/v2.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,15 +214,15 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\repo\mcd_admin\app\Http\Controllers\payment" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\repo\mcd_admin\resources\views" />
       <recent name="C:\repo\mcd_admin\storage\app\public\banners" />
       <recent name="C:\repo\mcd_admin\routes" />
       <recent name="C:\repo\mcd_admin\resources\views\mail" />
       <recent name="C:\repo\mcd_admin\app\Http\Controllers\Payment" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\repo\mcd_admin\app\Http\Controllers\payment" />
     </key>
   </component>
   <component name="RunManager">
@@ -492,13 +502,9 @@
       <workItem from="1643055969831" duration="132000" />
       <workItem from="1643152165664" duration="2891000" />
       <workItem from="1643308868276" duration="6325000" />
-    </task>
-    <task id="LOCAL-00083" summary="push changes">
-      <created>1638072347416</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1638072347416</updated>
+      <workItem from="1643316086393" duration="53000" />
+      <workItem from="1643384620720" duration="1035000" />
+      <workItem from="1643527523480" duration="8714000" />
     </task>
     <task id="LOCAL-00084" summary="push changes">
       <created>1638072888758</created>
@@ -836,7 +842,14 @@
       <option name="project" value="LOCAL" />
       <updated>1643314568641</updated>
     </task>
-    <option name="localTasksCounter" value="132" />
+    <task id="LOCAL-00132" summary="Commit Changes">
+      <created>1643316118148</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1643316118150</updated>
+    </task>
+    <option name="localTasksCounter" value="133" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -878,15 +891,15 @@
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1643313573217">
+    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1643533786293">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1643313573217" />
-    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1642942623520" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1643314602140">
+    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1643533786293" />
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1643316116960">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1643314602140" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1643316116960" />
     <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.800.552@0.0.1366.720" timestamp="1643188869714" />
     <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1643173716088" />
     <state x="129" y="53" key="DiffContextDialog" timestamp="1641691941004">
@@ -898,10 +911,10 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="463" y="114" key="FileChooserDialogImpl/0.0.1366.720@0.0.1366.720" timestamp="1642058928501" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1643314571655">
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1643316121910">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1643314571655" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1643316121910" />
     <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.800.552@0.0.1366.720" timestamp="1643188872987" />
     <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1643173724324" />
     <state x="389" y="93" width="587" height="534" key="find.popup" timestamp="1643308972486">
@@ -913,10 +926,10 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="339" y="160" key="run.anything.popup/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1643313156884" />
-    <state x="346" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1642973916447">
+    <state x="346" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1643385045880">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="346" y="41" width="672" height="678" key="search.everywhere.popup/0.0.1366.720@0.0.1366.720" timestamp="1642973916447" />
+    <state x="346" y="41" width="672" height="678" key="search.everywhere.popup/0.0.1366.720@0.0.1366.720" timestamp="1643385045880" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

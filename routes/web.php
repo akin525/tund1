@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UsersController;
 use App\Jobs\Airtime2CashNotificationJob;
 use App\Jobs\NewAccountGiveaway;
 use Illuminate\Support\Facades\Auth;
@@ -59,7 +60,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/{id}', 'UsersController@profile')->name('profile');
     Route::get('/wallet', 'WalletController@index')->name('wallet');
 
-    Route::get('/virtual-accounts', 'UsersController@vaccounts')->name('virtual-accounts');
+    Route::get('/virtual-accounts', [UsersController::class, 'vaccounts'])->name('virtual-accounts');
+    Route::get('/payment-links', [UsersController::class, 'paymentLinks'])->name('payment-links');
 
     Route::get('/withdrawal', 'WalletController@withdrawal_list')->name('withdrawal_list');
     Route::post('/withdrawal', 'WalletController@withdrawal_submit')->name('withdrawal_submit');

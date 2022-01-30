@@ -111,6 +111,34 @@ class PushNotificationController extends Controller
 //        echo $response;
     }
 
+    public function PushTopic($topic, $message, $title)
+    {
+
+        $topic = str_replace(" ", "", $topic);
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/" . $topic . "\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"" . $title . "\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: key=" . env('PUSH_NOTIFICATION_KEY'),
+                "Content-Type: application/json",
+                "Content-Type: text/plain"
+            ),
+        ));
+        $response = curl_exec($curl);
+
+//        echo $response;
+    }
+
     public function PushNotiAdmin($message, $title)
     {
 

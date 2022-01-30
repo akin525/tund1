@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Mail\Notification;
 use App\Models\PndL;
+use App\Models\ResellerPaymentLink;
 use App\Models\Transaction;
 use App\Models\VirtualAccountClient;
 use App\User;
@@ -79,10 +80,10 @@ class UsersController extends Controller
     public function pending(Request $request)
     {
 
-        $users = DB::table('tbl_agents')->where('target', 'like', '%in progress%')->orderBy('id', 'desc')->get();
-        $tp = DB::table('tbl_agents')->where('target', 'like', '%in progress%')->orderBy('id', 'desc')->count();
-        $rp = DB::table('tbl_agents')->where('target', 'like', '%Reseller in progress%')->orderBy('id', 'desc')->count();
-        $ap = DB::table('tbl_agents')->where('target', 'like', '%Agent in progress%')->orderBy('id', 'desc')->count();
+        $users = User::where([['target', 'like', '%in progress%'], ['document', 1]])->latest()->get();
+        $tp = User::where('target', 'like', '%in progress%')->orderBy('id', 'desc')->count();
+        $rp = User::where('target', 'like', '%Reseller in progress%')->orderBy('id', 'desc')->count();
+        $ap = User::where('target', 'like', '%Agent in progress%')->orderBy('id', 'desc')->count();
 
 
         return view('pending_request', ['users' => $users, 'tp' => $tp, 'rp' => $rp, 'ap' => $ap]);
@@ -471,10 +472,16 @@ class UsersController extends Controller
 
     public function vaccounts()
     {
-
         $datas['accounts'] = VirtualAccountClient::orderBy('id', 'desc')->paginate(10);
 
         return view('resellers_virtual_accounts', $datas);
+    }
+
+    public function paymentLinks()
+    {
+        $datas['datas'] = ResellerPaymentLink::orderBy('id', 'desc')->paginate(10);
+
+        return view('resellers_payment_links', $datas);
     }
 
 }
