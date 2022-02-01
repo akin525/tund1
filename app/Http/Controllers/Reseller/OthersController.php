@@ -20,14 +20,14 @@ class OthersController extends Controller
             'business_short_name' => 'required|min:2',
             'email' => 'required|email|min:5',
             'phone' => 'required|min:5',
-            'uniqueid' => 'required|min:9',
+            'uniqueid' => 'required|min:7',
             'webhook_url' => 'required',
         );
 
         $validator = Validator::make($input, $rules);
 
         if (!$validator->passes()) {
-            return response()->json(['success' => 0, 'message' => 'Required field(s) is missing']);
+            return response()->json(['success' => 0, 'message' => 'Required field(s) is missing', 'error' => $validator->errors()]);
         }
 
         $key = $request->header('Authorization');
@@ -240,7 +240,7 @@ class OthersController extends Controller
         $validator = Validator::make($input, $rules);
 
         if (!$validator->passes()) {
-            return response()->json(['success' => 0, 'message' => 'Required field(s) is missing']);
+            return response()->json(['success' => 0, 'message' => 'Required field(s) is missing', 'error' => $validator->errors()]);
         }
 
         $key = $request->header('Authorization');
