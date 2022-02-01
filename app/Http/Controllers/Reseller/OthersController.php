@@ -20,7 +20,7 @@ class OthersController extends Controller
             'business_short_name' => 'required|min:2',
             'email' => 'required|email|min:5',
             'phone' => 'required|numeric|digits:11|starts_with:0',
-            'uniqueid' => 'required|min:7',
+            'uniqueid' => 'required|min:4',
             'webhook_url' => 'required',
         );
 
