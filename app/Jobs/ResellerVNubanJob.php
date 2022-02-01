@@ -83,7 +83,8 @@ class ResellerVNubanJob implements ShouldQueue
         $input["ip_address"] = "127.0.0.1:A";
         $input["ref"] = $transactionreference;
         $input["date"] = Carbon::now();
-        $input["extra"] = $acct_number;
+        $input["device_details"] = $acct_number;
+        $input["extra"] = '';
 
         Transaction::create($input);
 
@@ -101,6 +102,7 @@ class ResellerVNubanJob implements ShouldQueue
         $pl["narration"] = "Provider " . $pl["narration"];
         PndL::create($pl);
 
+        $input["amount"] = $charges;
         $input["description"] = "Fee charges on reseller virtual account funding";
         $input["name"] = "Auto Charge";
         $input["code"] = "rvac";
