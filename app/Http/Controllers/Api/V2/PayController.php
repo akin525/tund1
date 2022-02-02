@@ -483,6 +483,8 @@ class PayController extends Controller
         switch (strtolower($server)) {
             case "8":
                 return $air->server8($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
+            case "7":
+                return $air->server7($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
             case "6":
                 return $air->server6($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
             case "3":

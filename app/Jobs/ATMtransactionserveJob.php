@@ -173,6 +173,8 @@ class ATMtransactionserveJob implements ShouldQueue
             switch (strtolower($rac->server)) {
                 case "8":
                     return $air->server8($r, $input['coded'], $input['phone'], $input['transid'], $rac->network, $input, $dada, "mcd");
+                case "7":
+                    return $air->server7($r, $input['coded'], $input['phone'], $input['transid'], $rac->network, $input, $dada, "mcd");
                 case "6":
                     return $air->server6($r, $input['coded'], $input['phone'], $input['transid'], $rac->network, $input, $dada, "mcd");
                 case "3":
