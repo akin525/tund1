@@ -507,7 +507,7 @@ class UserController extends Controller
         $input['name'] = "Referral Upgrade";
         $input['amount'] = $plan->price;
         $input['status'] = 'successful';
-        $input['description'] = "Being amount charged for referral upgrade to " . $plan->plan . " on " . $u->user_name;
+        $input['description'] = "Being amount charged for referral upgrade to " . strtoupper($plan->name) . " by " . $u->user_name;
         $input['user_name'] = $u->user_name;
         $input['code'] = 'aru';
         $input['i_wallet'] = $u->wallet;
@@ -521,7 +521,7 @@ class UserController extends Controller
 
         $input["type"] = "income";
         $input["gl"] = "referral upgrade";
-        $input["narration"] = $input['description'] . " by " . $u->user_name;
+        $input["narration"] = $input['description'];
 
         PndL::create($input);
 
