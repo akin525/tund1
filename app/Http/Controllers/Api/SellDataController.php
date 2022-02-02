@@ -266,7 +266,11 @@ class SellDataController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => array('provider' => '2', 'category_id' => '12', 'plan_id' => $rac->gift_id, 'reference' => $transid, 'number' => $phone),
+                CURLOPT_POSTFIELDS => '{"provider":2,
+"plan_id": ' . $rac->gift_id . ',
+"number": "' . $phone . '",
+"reference": "' . $transid . '"
+}',
                 CURLOPT_HTTPHEADER => array(
                     'Content-Type: application/json',
                     'MerchantId: ' . env('GIFTBILLS_MERCHANTID'),
