@@ -54,7 +54,7 @@ class ResellerVNubanJob implements ShouldQueue
 
         $vac = VirtualAccountClient::where('account_number', $acct_number)->first();
 
-        $charges = env('RESELLER_VACCT_CHARGES', 40);
+        $charges = (env('RESELLER_VACCT_CHARGES', 1) / 100) * $amount;
 
         $u = User::find($vac->reseller_id);
 
