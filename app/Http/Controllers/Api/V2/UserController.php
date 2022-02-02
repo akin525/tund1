@@ -483,24 +483,24 @@ class UserController extends Controller
         $validator = Validator::make($input, $rules);
 
         if (!$validator->passes()) {
-            return response()->json(['status' => 0, 'message' => 'Some forms are left out', 'error' => $validator->errors()]);
+            return response()->json(['success' => 0, 'message' => 'Some forms are left out', 'error' => $validator->errors()]);
         }
 
         $plan = ReferralPlans::find($input['id']);
 
         if (!$plan) {
-            return response()->json(['status' => 0, 'message' => 'Referral plan does not exist.']);
+            return response()->json(['success' => 0, 'message' => 'Referral plan does not exist.']);
         }
 
         $u = User::where('user_name', Auth::user()->user_name)->first();
 
         if (!$u) {
-            return response()->json(['status' => 0, 'message' => $u->user_name . ' does not exist!']);
+            return response()->json(['success' => 0, 'message' => $u->user_name . ' does not exist!']);
         }
 
 
         if ($u->wallet < $plan->price) {
-            return response()->json(['status' => 0, 'message' => $u->user_name . ' wallet balance is currently low.']);
+            return response()->json(['success' => 0, 'message' => $u->user_name . ' wallet balance is currently low.']);
         }
 
 
@@ -540,7 +540,7 @@ class UserController extends Controller
 
         }
 
-        return response()->json(['status' => 1, 'message' => $u->user_name . ' has been upgraded to ' . $plan->name . ' successfully!']);
+        return response()->json(['success' => 1, 'message' => $u->user_name . ' has been upgraded to ' . $plan->name . ' successfully!']);
     }
 
 
