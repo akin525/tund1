@@ -243,6 +243,76 @@ class SellDataController extends Controller
         }
     }
 
+    public function server7($request, $code, $phone, $transid, $net, $input, $dada, $requester)
+    {
+
+        if ($requester == "reseller") {
+            $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
+        } else {
+            $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
+        }
+
+        if (env('FAKE_TRANSACTION', 1) == 0) {
+
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => env('GIFTBILLS_URL') . "internet/data",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array('provider' => '2', 'category_id' => '12', 'plan_id' => $rac->gift_id, 'reference' => $transid, 'number' => $phone),
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                    'MerchantId: ' . env('GIFTBILLS_MERCHANTID'),
+                    'Authorization: Bearer ' . env('GIFTBILLS_API_KEY')
+                ),
+            ));
+
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+
+        } else {
+            $response = ' {     "success": true,     "code": "00000",     "message": "SUCCESSFUL",     "data": {         "orderNo": "PK-50999",         "reference": "mcd_07036218209",         "status": "successful",         "errorMsg": "1.0 GB Internet Data on 07036218209"     } }';
+        }
+
+        try {
+            $rep = json_decode($response, true);
+        } catch (Exception $e) {
+            $response = '{"error":"' . $e . '"reset":true,"result":0,"url":"There_was_an_error_https:\/\/honourworld.ng\/products\/data-top-up","msg":"Data top-up request has been received and will be processed shortly! "}';
+        }
+
+
+        $tran = new ServeRequestController();
+        $rs = new PayController();
+        $ms = new V2\PayController();
+
+        $dada['server_response'] = $response;
+
+        if ($rep['success']) {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 1, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
+            }
+        } else {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 0, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 0, $dada);
+            }
+        }
+
+    }
+
     public function server8($request, $code, $phone, $transid, $net, $input, $dada, $requester)
     {
 
