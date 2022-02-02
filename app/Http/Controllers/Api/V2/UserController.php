@@ -520,7 +520,8 @@ class UserController extends Controller
         Transaction::create($input);
 
         $input["type"] = "income";
-        $input["narration"] = $input['description'];
+        $input["gl"] = "referral upgrade";
+        $input["narration"] = $input['description'] . " by " . $u->user_name;
 
         PndL::create($input);
 
