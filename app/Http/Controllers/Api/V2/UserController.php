@@ -504,6 +504,11 @@ class UserController extends Controller
         }
 
 
+        if ($u->referral_plan == $plan->name) {
+            return response()->json(['success' => 0, 'message' => "You have already subscribed to this plan."]);
+        }
+
+
         $input['name'] = "Referral Upgrade";
         $input['amount'] = $plan->price;
         $input['status'] = 'successful';
@@ -511,8 +516,7 @@ class UserController extends Controller
         $input['user_name'] = $u->user_name;
         $input['code'] = 'aru';
         $input['i_wallet'] = $u->wallet;
-        $wallet = $u->wallet - $u->amount;
-        $input['f_wallet'] = $wallet;
+        $input['f_wallet'] = $input['i_wallet'] - $plan->amount;
         $input["ip_address"] = "127.0.0.1:A";
         $input["date"] = date("y-m-d H:i:s");
         $input["extra"] = 'Initiated by ' . Auth::user()->full_name;
@@ -527,6 +531,8 @@ class UserController extends Controller
 
         $u->wallet = $input['f_wallet'];
         $u->referral_plan = $plan->name;
+        $u->bonus += $plan->user_earn_amount;
+        $u->points += $plan->user_earn_points;
         $u->save();
 
         $GLOBALS['email'] = $u->email;

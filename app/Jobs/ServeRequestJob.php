@@ -97,9 +97,9 @@ class ServeRequestJob implements ShouldQueue
             return;
         }
 
-//        $job = (new PayReferralJob($input, $tr, $ruser->id))
-//            ->delay(Carbon::now()->addSeconds(1));
-//        dispatch($job);
+        $job = (new PayReferralJob($input, $tr, $ruser->id, $user))
+            ->delay(Carbon::now()->addSeconds(1));
+        dispatch($job);
 
     }
 }
