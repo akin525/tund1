@@ -394,7 +394,7 @@ class PayController extends Controller
         if ($net == "WAEC") {
             $input['price'] = 1700;
         } else {
-            $input['price'] = 700;
+            $input['price'] = 800;
         }
 
         $user = User::where('user_name', $input["user_name"])->first();
