@@ -87,11 +87,11 @@ class PayReferralJob implements ShouldQueue
         $tr['date'] = Carbon::now();
         $tr['status'] = "successful";
         $tr['user_name'] = $owner->user_name;
-        $tr['i_wallet'] = $owner->wallet;
+        $tr['i_wallet'] = $owner->bonus;
         $tr['f_wallet'] = $tr['i_wallet'] + $amount;
         Transaction::create($tr);
 
-        $owner->wallet = $tr['f_wallet'];
+        $owner->bonus = $tr['f_wallet'];
         $owner->save();
 
         $input["type"] = "expenses";
