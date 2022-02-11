@@ -60,12 +60,15 @@ class PayReferralJob implements ShouldQueue
 
         $price = $tr['amount'];
 
+        $amount = 0;
 
         if ($input['service'] == "airtime") {
             $am = $price * $airtime;
             $amount = round($am / 100);
         } else if ($input['service'] == "data") {
-            $amount = $data;
+            if ($input['coded'] == "m500" || $input['coded'] == "m1" || $input['coded'] == "m2" || $input['coded'] == "m3" || $input['coded'] == "m5" || $input['coded'] == "m10") {
+                $amount = $data;
+            }
         } else if ($input['service'] == "tv") {
             $am = $price * $paytv;
             $amount = round($am / 100);
