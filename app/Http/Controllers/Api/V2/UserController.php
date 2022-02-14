@@ -448,17 +448,17 @@ class UserController extends Controller
             return response()->json(['success' => 0, 'message' => 'Referral has already been added']);
         }
 
-        $r_referralplan = $referral->referral_plan;
+//        $r_referralplan = $referral->referral_plan;
 
-        $referral_count = User::where('referral', $input['referral'])->count();
+//        $referral_count = User::where('referral', $input['referral'])->count();
 
-        $rpackage = ReferralPlans::where("name", $r_referralplan)->first();
+//        $rpackage = ReferralPlans::where("name", $r_referralplan)->first();
 
-        $max = $rpackage->max_users;
-
-        if ($max == $referral_count) {
-            return response()->json(['success' => 0, 'message' => $referral->user_name . " has reached referral limit. Kindly inform the user to upgrade referral plan"]);
-        }
+//        $max = $rpackage->max_users;
+//
+//        if ($max == $referral_count) {
+//            return response()->json(['success' => 0, 'message' => $referral->user_name . " has reached referral limit. Kindly inform the user to upgrade referral plan"]);
+//        }
 
         $uid->referral = $input['referral'];
         $uid->save();
@@ -466,8 +466,12 @@ class UserController extends Controller
         $referral->points += 1;
         $referral->save();
 
-        $noti = new PushNotificationController();
-        $noti->PushNoti($input['referral'], "Hi " . $input['referral'] . ", " . $input['user_name'] . " has added you as a referral. You will start receiving atleast #5 on every data transaction, to earn more kindly upgrade. Thanks", "Referral");
+        try {
+            $noti = new PushNotificationController();
+            $noti->PushNoti($input['referral'], "Hi " . $input['referral'] . ", " . $input['user_name'] . " has added you as a referral. You will start receiving atleast #5 on every data transaction, to earn more kindly upgrade. Thanks", "Referral");
+        } catch (Exception $e) {
+
+        }
 
         return response()->json(['success' => 1, 'message' => $referral->user_name . " has been added as your referral successfully", 'referral' => $input['referral']]);
 
