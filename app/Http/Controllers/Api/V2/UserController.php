@@ -516,7 +516,7 @@ class UserController extends Controller
         $input['user_name'] = $u->user_name;
         $input['code'] = 'aru';
         $input['i_wallet'] = $u->wallet;
-        $input['f_wallet'] = $input['i_wallet'] - $plan->amount;
+        $input['f_wallet'] = $input['i_wallet'] - $plan->price;
         $input["ip_address"] = "127.0.0.1:A";
         $input["date"] = date("y-m-d H:i:s");
         $input["extra"] = 'Initiated by ' . Auth::user()->full_name;
