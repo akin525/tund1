@@ -52,12 +52,48 @@ class TransactionController extends Controller
 
     }
 
-    public function rechargecard(Request $request){
+    public function server8(Request $request)
+    {
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://honourworld.ng/transactions/data-top-up',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array('action' => 'get-user-tranx'),
+            CURLOPT_HTTPHEADER => array(
+                env('SERVER8_AUTH'),
+                'referer: https://honourworld.ng/products/data-top-up',
+                'user-agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Mobile Safari/537.36'
+            ),
+        ));
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $rep = json_decode($response, true);
+
+
+        return view('transactions_server8', ['data' => $rep['data']]);
+
+    }
+
+    public function rechargecard(Request $request)
+    {
         $input = $request->all();
 
         $user = DB::table('tbl_agents')->where('user_name', $input['user_name'])->first();
 
-        if(!$user){
+        if (!$user) {
             return redirect()->route('rechargecard')
                 ->with('success','User doesnt exist');
         }

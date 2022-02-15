@@ -168,6 +168,7 @@
                             <li><a href="/verification_server4">Server 4</a></li>
                             <li><a href="/verification_server5">Server 5</a></li>
                             <li><a href="{{route('verification_s6')}}">Server 6</a></li>
+                            <li><a href="{{route('transaction8')}}">Server 8 Transactions</a></li>
                         </ul>
                     {{--                    </li>--}}
                     {{--                    <li class="menu-title">Extra</li>--}}

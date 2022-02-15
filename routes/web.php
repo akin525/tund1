@@ -67,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/withdrawal', 'WalletController@withdrawal_submit')->name('withdrawal_submit');
 
     Route::get('/transaction', 'TransactionController@index')->name('transaction');
+    Route::get('/transaction_server8', [TransactionController::class, 'server8'])->name('transaction8');
 
     Route::get('/generalmarket', 'TransactionController@gmhistory')->name('generalmarket');
     Route::get('/plcharges', 'TransactionController@plcharges')->name('plcharges');
