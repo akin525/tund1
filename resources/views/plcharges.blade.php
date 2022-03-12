@@ -15,6 +15,7 @@
                             <thead>
                             <tr>
                                 <th>id</th>
+                                <th>GL</th>
                                 <th>Type</th>
                                 <th>Amount</th>
                                 <th>Narration</th>
@@ -25,6 +26,7 @@
                             @foreach($data as $dat)
                                 <tr>
                                     <td>{{$dat->id}}</td>
+                                    <td>{{$dat->gl}}</td>
                                     <td>
                                         @if($dat->type=="income")
                                             <span class="badge badge-success">{{$dat->type}}</span>

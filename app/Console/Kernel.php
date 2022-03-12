@@ -46,9 +46,9 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping()
             ->hourly();
 
-        $schedule->command('promocode:generate')
-            ->withoutOverlapping()
-            ->dailyAt('04:00');
+//        $schedule->command('promocode:generate')
+//            ->withoutOverlapping()
+//            ->dailyAt('04:00');
 
         $schedule->command('samji:fetchrates')
             ->withoutOverlapping()

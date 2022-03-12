@@ -4,14 +4,15 @@
 
 @section('content')
     <div class="row">
-        <div class="col-lg-9">
+        <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-3">
                     <div class="card">
                         <div class="card-body">
                             <div class="icon-contain">
                                 <div class="row">
-                                    <div class="col-2 align-self-center"><i class="fas fa-tasks text-gradient-success"></i></div>
+                                    <div class="col-2 align-self-center"><i
+                                            class="fas fa-tasks text-gradient-success"></i></div>
                                     <div class="col-10 text-right">
                                         <h5 class="mt-0 mb-1">{{ $today_transaction ?? 'Today Transactions Calculated' }}</h5>
                                         <p class="mb-0 font-12 text-muted">Transactions</p>
@@ -135,6 +136,143 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-briefcase text-success"></i>
+                                    </div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $electricity ?? 'Today electricity' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Today's Electricity</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-briefcase text-success"></i>
+                                    </div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $rch ?? 'rch' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Today's Result Checker</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-briefcase text-success"></i>
+                                    </div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $airtime2wallet ?? 'airtime2wallet' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Today's Airtime2wallet</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-briefcase text-success"></i>
+                                    </div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $airtime2cash ?? 'Today airtime2cash' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Today's Airtime2Bank</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-briefcase text-success"></i>
+                                    </div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $upgrade ?? 'Today upgrade' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Today's Upgrade</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-piggy-bank text-success"></i>
+                                    </div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $virtualaccount ?? 'virtualaccount' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Today's Virtual Account</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i
+                                            class="fas fa-arrow-circle-right text-success"></i>
+                                    </div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $withdraw ?? 'withdraw' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Today's Withdraw</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i
+                                            class="fas fa-hand-holding-heart text-success"></i>
+                                    </div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $giveaway ?? 'Today giveaway' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Today's Giveaway</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-body">
                     <div class="btn-group btn-group-toggle float-right" data-toggle="buttons"><label
@@ -147,36 +285,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="dropdown d-inline-block float-right">
-                        <a class="nav-link dropdown-toggle arrow-none" id="dLabel4" data-toggle="dropdown" href="#"
-                           role="button" aria-haspopup="false" aria-expanded="false"><i
-                                class="fas fa-ellipsis-v font-20 text-muted"></i></a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel4"><a
-                                class="dropdown-item" href="#">Create Project</a> <a class="dropdown-item" href="#">Open
-                                Project</a> <a class="dropdown-item" href="#">Tasks Details</a></div>
-                    </div>
-                    <h5 class="header-title mb-4 mt-0">Service Status</h5>
-                    <div>
-                        @foreach($allsettings as $settings)
-                            <div>{{$settings->name}}
-                                    @if($settings->value)
-                                        <i class="mdi mdi-label text-success mr-2">On</i>
-                                    @else
-                                        <i class="mdi mdi-label text-danger mr-2">Off</i>
-                                    @endif
-                            </div>
-                        @endforeach
-                    </div>
-                    <ul class="list-unstyled list-inline text-center mb-0 mt-3">
-                        <li class="mb-2 list-inline-item text-muted font-13"><i class="mdi mdi-label text-success mr-2"></i>Active</li>
-                        <li class="mb-2 list-inline-item text-muted font-13"><i class="mdi mdi-label text-danger mr-2"></i>Disabled</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+
     </div>
     <div class="row">
         <div class="col-xl-4">
@@ -230,80 +339,48 @@
                         <div class="media-body ml-3">
                             <h6>Quarterly Target</h6>
                             <p class="text-muted font-13">Get up to active 20k users this quarter</p>
-{{--                            <a href="#" class="btn btn-gradient-secondary">Confirm</a>--}}
+                            {{--                            <a href="#" class="btn btn-gradient-secondary">Confirm</a>--}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-lg-6">
-            <div class="card timeline-card">
-                <div class="card-body p-0">
-                    <div class="bg-gradient2 text-white text-center py-3 mb-4">
-                        <p class="mb-0 font-18"><i class="mdi mdi-clock-outline font-20"></i> Admin Activities</p>
-                    </div>
-                </div>
-                <div class="card-body boxscroll">
-                    <div class="timeline">
-                        @foreach($audit_trails as $audit)
-                        <div class="entry">
-                            <div class="title">
-                                <h6>{{\Carbon\Carbon::parse($audit->created_at)->toFormattedDateString()}}</h6>
-                            </div>
-                            <div class="body">
-                                <p>{{$audit->subject}} - <a href="#" class="text-primary">{{$audit->admin_id}}</a></p>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xl-12">
+
+        <div class="col-lg-3">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="header-title pb-3 mt-0">Recent Transactions</h5>
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead>
-                            <tr class="align-self-center">
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th>Amount</th>
-                                <th>Server</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($transactions as $trans)
-                                <tr>
-                                    <td>{{$trans->name}}</td>
-                                    <td>{{$trans->description}}</td>
-                                    <td>
-                                        @if ($trans->status =="delivered" || $trans->status =="successful" )
-                                            <span class="badge badge-boxed badge-soft-success">{{$trans->status}}</span>
-                                        @elseif ($trans->status =="not_delivered" || $trans->status =="cancelled")
-                                            <span class="badge badge-boxed badge-soft-warning">{{$trans->status}}</span>
-                                        @else
-                                            <span class="badge badge-boxed badge-soft-warning">{{$trans->status}}</span>
-                                        @endif
-                                    </td>
-                                    <td>{{\Carbon\Carbon::parse($trans->date)->toFormattedDateString()}}</td>
-                                    <td>&#8358;{{number_format($trans->amount)}}</td>
-                                    <td>{{$trans->server}}</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                    <div class="dropdown d-inline-block float-right">
+                        <a class="nav-link dropdown-toggle arrow-none" id="dLabel4" data-toggle="dropdown" href="#"
+                           role="button" aria-haspopup="false" aria-expanded="false"><i
+                                class="fas fa-ellipsis-v font-20 text-muted"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel4"><a
+                                class="dropdown-item" href="#">Create Project</a> <a class="dropdown-item" href="#">Open
+                                Project</a> <a class="dropdown-item" href="#">Tasks Details</a></div>
                     </div>
-                    <!--end table-responsive-->
-                    <div class="pt-3 border-top text-right"><a href="/transaction" class="text-primary">View all <i class="mdi mdi-arrow-right"></i></a></div>
+                    <h5 class="header-title mb-4 mt-0">Service Status</h5>
+                    <div>
+                        @foreach($allsettings as $settings)
+                            <div>{{$settings->name}}
+                                @if($settings->value)
+                                    <i class="mdi mdi-label text-success mr-2">On</i>
+                                @else
+                                    <i class="mdi mdi-label text-danger mr-2">Off</i>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                    <ul class="list-unstyled list-inline text-center mb-0 mt-3">
+                        <li class="mb-2 list-inline-item text-muted font-13"><i
+                                class="mdi mdi-label text-success mr-2"></i>Active
+                        </li>
+                        <li class="mb-2 list-inline-item text-muted font-13"><i
+                                class="mdi mdi-label text-danger mr-2"></i>Disabled
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
+
     </div>
     <!-- end row -->
 @stop

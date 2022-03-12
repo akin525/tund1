@@ -619,7 +619,6 @@ class PayController extends Controller
                 $tr['f_wallet'] = $tr['i_wallet'] - $amount;
             }
 
-            $user->agent_commision += $discount;
             $user->wallet = $tr['f_wallet'];
             $user->save();
 
@@ -660,6 +659,20 @@ class PayController extends Controller
         }
 
         $t = Transaction::create($tr);
+
+        if ($input['payment'] == "wallet") {
+            if ($discount > 0) {
+                $tr['name'] = "Commission";
+                $tr['description'] = "MCD Commission on " . $ref;
+                $tr['code'] = "tcommission";
+                $tr['amount'] = $discount;
+                $tr['status'] = "successful";
+                Transaction::create($tr);
+
+                $user->agent_commision += $discount;
+                $user->save();
+            }
+        }
 
         $input["service"] = $requester;
         $job = (new ServeRequestJob($input, "1", $tr, $user->id))
@@ -787,6 +800,7 @@ class PayController extends Controller
             $t = Transaction::find($dada['tid']);
             $t->status = "delivered";
             $t->server_response = $dada['server_response'];
+            $t->server_ref = $dada['server_ref'];
             $t->save();
 
             if (isset($dada['token'])) {

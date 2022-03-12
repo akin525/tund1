@@ -2,55 +2,77 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class VerificationController extends Controller
 {
-    public function server3(Request $request){
+    public function server3(Request $request)
+    {
         $input = $request->all();
-        $ref=$input['ref'];
+        $ref = $input['ref'];
 
-        $url=env("SERVER3_QUERY") ."&reference=".$ref;
+        $trans = Transaction::where('ref', $ref)->latest()->first();
+
+        if (!$trans) {
+            return back()->with('error', 'Transaction reference not found');
+        }
+
+        $url = env("SERVER3_QUERY") . "&reference=" . $trans->server_ref;
 
         $result = file_get_contents($url);
         // Convert JSON string to Array
         $someArray = json_decode($result, true);
 
-        return view('verification_s3', ['status' => $someArray["status"], 'description' => $someArray["description"], 'response'=>true]);
+        return view('verification_s3', ['status' => $someArray["status"], 'description' => $someArray["description"], 'response' => true]);
     }
 
-    public function server2(Request $request){
+    public function server2(Request $request)
+    {
         $input = $request->all();
-        $ref=$input['ref'];
+        $ref = $input['ref'];
 
-        $url=env("SERVER2_QUERY") ."&OrderID=".$ref;
+        $trans = Transaction::where('ref', $ref)->latest()->first();
+
+        if (!$trans) {
+            return back()->with('error', 'Transaction reference not found');
+        }
+
+        $url = env("SERVER2_QUERY") . "&OrderID=" . $trans->server_ref;
 
         $result = file_get_contents($url);
         // Convert JSON string to Array
         $someArray = json_decode($result, true);
 
-        if($someArray["status"]=="MISSING_ORDERID"){
-            $status="Error";
-            $d="Invalid reference number";
-        }else{
-            $status=$someArray["remark"];
+        if ($someArray["status"] == "MISSING_ORDERID") {
+            $status = "Error";
+            $d = "Invalid reference number";
+        } else {
+            $status = $someArray["remark"];
             $d=$someArray["mobilenetwork"] ." " .$someArray["ordertype"]." " .$someArray["mobilenumber"];
         }
 
         return view('verification_s2', ['status' => $status, 'description' => $d, 'response'=>true]);
     }
 
-    public function server1b(Request $request){
+    public function server1b(Request $request)
+    {
         $input = $request->all();
-        $ref=$input['ref'];
+        $ref = $input['ref'];
 
-        $url=env("SERVER1B_QUERY") ."&trans_id=".$ref;
+        $trans = Transaction::where('ref', $ref)->latest()->first();
+
+        if (!$trans) {
+            return back()->with('error', 'Transaction reference not found');
+        }
+
+        $url = env("SERVER1B_QUERY") . "&trans_id=" . $trans->server_ref;
 
         $result = file_get_contents($url);
         // Convert JSON string to Array
         $someArray = json_decode($result, true);
 
-        $findme='trans_id';
+        $findme = 'trans_id';
         $pos = strpos($result, $findme);
         // Note our use of ===.  Simply == would not work as expected
 
@@ -65,17 +87,24 @@ class VerificationController extends Controller
         return view('verification_s1b', ['status' => $status, 'description' => $d, 'response'=>true]);
     }
 
-    public function server1(Request $request){
+    public function server1(Request $request)
+    {
         $input = $request->all();
-        $ref=$input['ref'];
+        $ref = $input['ref'];
 
-        $url=env("SERVER1_QUERY") ."&trans_id=".$ref;
+        $trans = Transaction::where('ref', $ref)->latest()->first();
+
+        if (!$trans) {
+            return back()->with('error', 'Transaction reference not found');
+        }
+
+        $url = env("SERVER1_QUERY") . "&trans_id=" . $trans->server_ref;
 
         $result = file_get_contents($url);
         // Convert JSON string to Array
         $someArray = json_decode($result, true);
 
-        $findme='trans_id';
+        $findme = 'trans_id';
         $pos = strpos($result, $findme);
         // Note our use of ===.  Simply == would not work as expected
 
@@ -90,17 +119,25 @@ class VerificationController extends Controller
         return view('verification_s1', ['status' => $status, 'description' => $d, 'response'=>true]);
     }
 
-    public function server1dt(Request $request){
+    public function server1dt(Request $request)
+    {
         $input = $request->all();
-        $ref=$input['ref'];
+        $ref = $input['ref'];
 
-        $url=env("SERVER1DT_QUERY") ."&trans_id=".$ref;
+        $trans = Transaction::where('ref', $ref)->latest()->first();
+
+        if (!$trans) {
+            return back()->with('error', 'Transaction reference not found');
+        }
+
+
+        $url = env("SERVER1DT_QUERY") . "&trans_id=" . $trans->server_ref;
 
         $result = file_get_contents($url);
         // Convert JSON string to Array
         $someArray = json_decode($result, true);
 
-        $findme='trans_id';
+        $findme = 'trans_id';
         $pos = strpos($result, $findme);
         // Note our use of ===.  Simply == would not work as expected
 
@@ -183,15 +220,21 @@ class VerificationController extends Controller
         return view('verification_s4', ['status' => $status, 'description' => $d, 'response'=>true]);
     }
 
-    public function server5(Request $request){
+    public function server5(Request $request)
+    {
         $input = $request->all();
-        $ref=$input['ref'];
+        $ref = $input['ref'];
 
+        $trans = Transaction::where('ref', $ref)->latest()->first();
+
+        if (!$trans) {
+            return back()->with('error', 'Transaction reference not found');
+        }
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env("SERVER5").'/'.$ref,
+            CURLOPT_URL => env("SERVER5") . '/' . $trans->server_ref,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -229,6 +272,12 @@ class VerificationController extends Controller
         $input = $request->all();
         $ref = $input['ref'];
 
+        $trans = Transaction::where('ref', $ref)->latest()->first();
+
+        if (!$trans) {
+            return back()->with('error', 'Transaction reference not found');
+        }
+
 
         $curl = curl_init();
 
@@ -241,7 +290,7 @@ class VerificationController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => array('request_id' => $ref),
+            CURLOPT_POSTFIELDS => array('request_id' => $trans->server_ref),
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Basic ' . env('SERVER6_AUTH'),
             ),

@@ -1,5 +1,5 @@
 @extends('layouts.layouts')
-@section('title', 'Wallet List')
+@section('title', 'Withdrawal List')
 @section('parentPageTitle', 'Wallet')
 
 @section('content')

@@ -38,6 +38,7 @@ class SellDataController extends Controller
         $dada['server_response'] = $response;
 
         if (isset($rep['trans_id'])) {
+            $dada['server_ref'] = $transid;
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
@@ -106,6 +107,7 @@ class SellDataController extends Controller
         $dada['server_response'] = $response;
 
         if ($rep['status'] == "ORDER_COMPLETED" || $rep['status'] == "ORDER_RECEIVED") {
+            $dada['server_ref'] = $rep['orderid'];
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
@@ -149,6 +151,7 @@ class SellDataController extends Controller
         $dada['server_response'] = $response;
 
         if ($rep['status'] == "success") {
+            $dada['server_ref'] = $rep['content']['transactions']['transactionId'];
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
@@ -229,6 +232,7 @@ class SellDataController extends Controller
         $dada['server_response'] = $response;
 
         if ($rep['code'] == '000') {
+            $dada['server_ref'] = $rep['content']['transactions']['transactionId'];
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {

@@ -120,6 +120,7 @@ class SellAirtimeController extends Controller
         // Note our use of ===.  Simply == would not work as expected
 
         if ($pos !== false) {
+            $dada['server_ref'] = $transid;
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
@@ -183,6 +184,7 @@ class SellAirtimeController extends Controller
         $dada['server_response'] = $response;
 
         if ($rep['status'] == "ORDER_COMPLETED" || $rep['status'] == "ORDER_RECEIVED") {
+            $dada['server_ref'] = $rep['orderid'];
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $rep['orderid'], 1, $dada);
             } else {
@@ -221,6 +223,7 @@ class SellAirtimeController extends Controller
         $dada['server_response'] = $response;
 
         if ($rep['status'] == "success") {
+            $dada['server_ref'] = $rep['ref'];
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $rep['ref'], 1, $dada);
             } else {
@@ -326,6 +329,7 @@ class SellAirtimeController extends Controller
         $dada['server_response'] = $response;
 
         if ($rep['status'] == 'success') {
+            $dada['server_ref'] = $rep['transaction']['_id'];
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $rep['transaction']['reference'], 1, $dada);
             } else {
@@ -390,6 +394,7 @@ class SellAirtimeController extends Controller
         $dada['server_response'] = $response;
 
         if ($rep['status'] == 'success') {
+            $dada['server_ref'] = $rep['data']['flw_ref'];
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
@@ -457,6 +462,7 @@ class SellAirtimeController extends Controller
         $dada['server_response'] = $response;
 
         if ($rep['code'] == '000') {
+            $dada['server_ref'] = $rep['content']['transactions']['transactionId'];
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
@@ -529,6 +535,7 @@ class SellAirtimeController extends Controller
         $dada['server_response'] = $response;
 
         if (isset($rep['transactionId'])) {
+//            $dada['server_ref'] = $rep['content']['transactions']['transactionId'];
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {

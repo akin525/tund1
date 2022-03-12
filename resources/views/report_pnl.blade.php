@@ -24,7 +24,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" method="POST" action="{{ route('finduser') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('report_pnl') }}">
                         @csrf
                         <div class="form-group row">
                             <div class="col-md-12">
@@ -34,11 +34,17 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-calendar-check"></i> </span>
                                     </div>
-                                    <input style="margin-right: 20px" name="date" type="month" value="2011-08"  placeholder="Search for month" class="form-control @error('date') is-invalid @enderror">
+                                    <input style="margin-right: 20px" name="date" type="month"
+                                           value="{{\Carbon\Carbon::now()->format('Y-m')}}"
+                                           placeholder="Search for month"
+                                           class="form-control @error('date') is-invalid @enderror">
                                 </div>
 
                                 <div class="input-group mt-2" style="align-content: center">
-                                    <button class="btn btn-gradient-primary btn-large" type="submit" style="align-self: center; align-content: center"><i class="fa fa-search"></i> Search</button>
+                                    <button class="btn btn-gradient-primary btn-large" type="submit"
+                                            style="align-self: center; align-content: center"><i
+                                            class="fa fa-search"></i> Search
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -49,11 +55,12 @@
         </div>
     </div>
 
-    @if($income ?? '')
+        @if($income ?? '')
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="mt-0 header-title">Profit & Loss Report</h4>
+                        <h4 class="mt-0 header-title">Profit & Loss Report
+                            for {{\Carbon\Carbon::parse($date)->format('F, Y')}}</h4>
                         <p class="text-muted mb-4 font-13"></p>
                         <div class="table-responsive">
 

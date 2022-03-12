@@ -49,6 +49,7 @@ class SellElectricityController extends Controller
             $dada['token'] = $rep['purchased_code'];
 
             if ($requester == "reseller") {
+                $dada['server_ref'] = $rep['content']['transactions']['transactionId'];
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
                 return $ms->outputResp($request, $transid, 1, $dada);

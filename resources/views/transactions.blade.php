@@ -12,7 +12,8 @@
                         <div class="card-body">
                             <div class="icon-contain">
                                 <div class="row">
-                                    <div class="col-2 align-self-center"><i class="fas fa-users text-gradient-success"></i></div>
+                                    <div class="col-2 align-self-center"><i
+                                            class="fas fa-briefcase text-gradient-success"></i></div>
                                     <div class="col-10 text-right">
                                         <h5 class="mt-0 mb-1">{{ number_format($tt) ?? 'Total Transactions' }}</h5>
                                         <p class="mb-0 font-12 text-muted">Total Transactions</p>
@@ -27,10 +28,11 @@
                         <div class="card-body justify-content-center">
                             <div class="icon-contain">
                                 <div class="row">
-                                    <div class="col-2 align-self-center"><i class="fas fa-tasks text-gradient-danger"></i></div>
+                                    <div class="col-2 align-self-center"><i
+                                            class="fas fa-briefcase text-gradient-danger"></i></div>
                                     <div class="col-10 text-right">
-                                        <h5 class="mt-0 mb-1">{{ number_format($st) ?? 'Total Successful' }}</h5>
-                                        <p class="mb-0 font-12 text-muted">Total Successful</p>
+                                        <h5 class="mt-0 mb-1">{{ number_format($ft) ?? 'Total Today' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Transactions Today</p>
                                     </div>
                                 </div>
                             </div>
@@ -42,10 +44,11 @@
                         <div class="card-body">
                             <div class="icon-contain">
                                 <div class="row">
-                                    <div class="col-2 align-self-center"><i class="fas fa-eraser text-gradient-warning"></i></div>
+                                    <div class="col-2 align-self-center"><i
+                                            class="fas fa-briefcase text-gradient-warning"></i></div>
                                     <div class="col-10 text-right">
-                                        <h5 class="mt-0 mb-1">{{ $ft ?? 'Total Agent' }}</h5>
-                                        <p class="mb-0 font-12 text-muted">Total Failed</p>
+                                        <h5 class="mt-0 mb-1">{{ $st ?? 'Transactions Yesterday' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Transactions Yesterday</p>
                                     </div>
                                 </div>
                             </div>
@@ -57,10 +60,11 @@
                         <div class="card-body">
                             <div class="icon-contain">
                                 <div class="row">
-                                    <div class="col-2 align-self-center"><i class="fas fa-arrow-circle-right text-gradient-primary"></i></div>
+                                    <div class="col-2 align-self-center"><i
+                                            class="fas fa-briefcase text-gradient-primary"></i></div>
                                     <div class="col-10 text-right">
                                         <h5 class="mt-0 mb-1">{{ number_format($rt) ?? 'Total Reversed' }}</h5>
-                                        <p class="mb-0 font-12 text-muted">Total Reversed</p>
+                                        <p class="mb-0 font-12 text-muted">Transactions 2Days Ago</p>
                                     </div>
                                 </div>
                             </div>

@@ -98,14 +98,13 @@
                             <li><a href="/generalmarket">General Market</a></li>
                             <li><a href="{{route('findtransaction')}}">Find Transaction</a></li>
 
-                            @if(\Illuminate\Support\Facades\Auth::user()->status == "superadmin")
-                                <li><a href="/cryptorequest">Crypto Request</a></li>
-                                <li><a href="/addtransaction">Add Airtime Transaction</a></li>
-                                <li><a href="/adddatatransaction">Add Data Transaction</a></li>
-                                <li><a href="/airtime2cash">Airtime Converter</a></li>
-                                <li><a href="/reversal">Reverse Transaction</a></li>
-                                <li><a href="/plcharges">P Charges</a></li>
-                            @endif
+                            {{--                                <li><a href="/cryptorequest">Crypto Request</a></li>--}}
+                            <li><a href="/addtransaction">Add Airtime Transaction</a></li>
+                            <li><a href="/adddatatransaction">Add Data Transaction</a></li>
+                            <li><a href="/airtime2cash">Airtime Converter</a></li>
+                            <li><a href="/reversal">Reverse Transaction</a></li>
+                            <li><a href="/plcharges">P Charges</a></li>
+
                             {{--                            <li><a href="form-uploads.html">Form File Upload</a></li>--}}
                             {{--                            <li><a href="form-mask.html">Form Mask</a></li>--}}
                             {{--                            <li><a href="form-summernote.html">Summernote</a></li>--}}

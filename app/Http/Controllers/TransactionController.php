@@ -6,6 +6,7 @@ use App\Jobs\Airtime2CashNotificationJob;
 use App\Models\Airtime2Cash;
 use App\Models\Transaction;
 use App\User;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,9 +21,9 @@ class TransactionController extends Controller
 
         $data = Transaction::orderBy('id', 'desc')->paginate(25);
         $tt = Transaction::count();
-        $ft = Transaction::where([['status', '=', 'cancelled'], ['date', 'like', date('Y-m-d') . '%']])->orWhere([['status', '=', 'Unsuccessful'], ['date', 'like', date('Y-m-d') . '%']])->orWhere([['status', '=', 'Error'], ['date', 'like', date('Y-m-d') . '%']])->get()->count();
-        $st = Transaction::where([['status', '=', 'delivered'], ['date', 'like', date('Y-m-d') . '%']])->orWhere([['status', '=', 'submitted'], ['date', 'like', date('Y-m-d') . '%']])->orWhere([['status', '=', 'API_successful'], ['date', 'like', date('Y-m-d') . '%']])->count();
-        $rt = Transaction::where([['status', '=', 'reversed'], ['date', 'like', date('Y-m-d') . '%']])->count();
+        $ft = Transaction::where([['date', 'like', Carbon::now()->format('Y-m-d') . '%']])->count();
+        $st = Transaction::where([['date', 'like', Carbon::now()->subDay()->format('Y-m-d') . '%']])->count();
+        $rt = Transaction::where([['date', 'like', Carbon::now()->subDays(2)->format('Y-m-d') . '%']])->count();
 
 //        $mutable = Carbon::now();
 //        $gdate="";
@@ -407,21 +408,22 @@ class TransactionController extends Controller
     {
         $input = $request->all();
 
-        $tran = Transaction::where('id', '=', $input["id"])->orderby('id', 'desc')->first();
+        $tran = Transaction::where('id', '=', $input["id"])->orwhere('ref', '=', $input["id"])->orderby('id', 'desc')->first();
 
         if (!$tran) {
-            $tran = Transaction::where('description', 'LIKE', '%'.$input['id'].'%')->orderby('id', 'desc')->first();
-            if (!$tran) {
-                return redirect('/reversal')->with('error', 'Transaction doesnt exist!');
-            }
+            return redirect()->route('reversal')->with('error', 'Transaction doesnt exist!');
         }
 
-        if ($tran->ref){
+        if ($tran->status == "reversed") {
+            return redirect()->route('reversal')->with('error', 'Transactions has been reversed earlier!');
+        }
+
+        if ($tran->ref) {
             $rtran = Transaction::where('ref', '=', $tran->ref)->get();
-        }else{
+        } else {
             $rtran = Transaction::where('id', '=', $tran->id)->get();
         }
-        return view('reversal', ['data' => $tran, 'rtran'=>$rtran, 'val'=>true]);
+        return view('reversal', ['data' => $tran, 'rtran' => $rtran, 'val' => true]);
     }
 
     public function reverse(Request $request, $id)
@@ -537,21 +539,21 @@ class TransactionController extends Controller
 
         // Instantiates a Query object
         $query = Transaction::Where('user_name', 'LIKE', "%$user_name%")
-            ->Where('description', 'LIKE', "%$phoneno%")
-            ->Where('name', 'LIKE', "%$transaction_type%")
-            ->Where('ref', 'LIKE', "%$reference%")
-            ->Where('amount', "$amount")
-            ->Where('date', 'LIKE', "%$date%")
+            ->orWhere('description', 'LIKE', "%$phoneno%")
+            ->orWhere('name', 'LIKE', "%$transaction_type%")
+            ->orWhere('ref', 'LIKE', "%$reference%")
+            ->orWhere('amount', "$amount")
+            ->orWhere('date', 'LIKE', "%$date%")
             ->OrderBy('id', 'desc')
             ->limit(1000)
             ->get();
 
         $cquery = Transaction::Where('user_name', 'LIKE', "%$user_name%")
-            ->Where('description', 'LIKE', "%$phoneno%")
-            ->Where('name', 'LIKE', "%$transaction_type%")
-            ->Where('ref', 'LIKE', "%$reference%")
-            ->Where('amount', "$amount")
-            ->Where('date', 'LIKE', "%$date%")
+            ->orWhere('description', 'LIKE', "%$phoneno%")
+            ->orWhere('name', 'LIKE', "%$transaction_type%")
+            ->orWhere('ref', 'LIKE', "%$reference%")
+            ->orWhere('amount', "$amount")
+            ->orWhere('date', 'LIKE', "%$date%")
             ->count();
 
         return view('find_transaction', ['datas' => $query, 'count' => $cquery, 'result' => true]);

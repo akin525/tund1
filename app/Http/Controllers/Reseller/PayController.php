@@ -305,20 +305,32 @@ class PayController extends Controller
         $tr['ref']=$ref;
         $tr['code']=$input['service']."_".$input['coded'];
         $tr['server']="server".$server;
-        $tr['server_response']="";
-        $tr['payment_method']="wallet";
+        $tr['server_response'] = "";
+        $tr['payment_method'] = "wallet";
         $tr['transid'] = $ref;
         $tr['status'] = "pending";
         $tr['extra'] = $discount;
-        $t=Transaction::create($tr);
+        $t = Transaction::create($tr);
 
         $user->wallet -= $amount;
         $user->agent_commision += $discount;
         $user->save();
 
-        $dada['tid']=$t->id;
-        $dada['amount']=$amount;
-        $dada['discount']=$discount;
+        if ($discount > 0) {
+            $tr['name'] = "Commission";
+            $tr['description'] = "MCD Commission on " . $ref;
+            $tr['code'] = "tcommission";
+            $tr['amount'] = $discount;
+            $tr['status'] = "successful";
+            Transaction::create($tr);
+
+            $user->agent_commision += $discount;
+            $user->save();
+        }
+
+        $dada['tid'] = $t->id;
+        $dada['amount'] = $amount;
+        $dada['discount'] = $discount;
 
         switch ($requester) {
             case "airtime":
@@ -341,6 +353,7 @@ class PayController extends Controller
             $t = Transaction::find($dada['tid']);
             $t->status = "delivered";
             $t->server_response = $dada['server_response'];
+            $t->server_ref = $dada['server_ref'];
             $t->save();
 
             if (isset($dada['token'])) {
