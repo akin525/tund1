@@ -20,29 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="push changes">
-      <change beforePath="$PROJECT_DIR$/.idea/mcd_admin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mcd_admin.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellAirtimeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellAirtimeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellDataController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellDataController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellElectricityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellElectricityController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellTVController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellTVController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ReportsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ReportsController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Reseller/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Reseller/PayController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/VerificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/VerificationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/home.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/plcharges.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/plcharges.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/report_pnl.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/report_pnl.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/transactions.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/transactions.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/withdrawal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/withdrawal.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -554,14 +534,7 @@
       <workItem from="1645070664323" duration="332000" />
       <workItem from="1645716951796" duration="34000" />
       <workItem from="1645913312182" duration="154000" />
-      <workItem from="1647025502036" duration="15465000" />
-    </task>
-    <task id="LOCAL-00105" summary="push changes">
-      <created>1640922274666</created>
-      <option name="number" value="00105" />
-      <option name="presentableId" value="LOCAL-00105" />
-      <option name="project" value="LOCAL" />
-      <updated>1640922274667</updated>
+      <workItem from="1647025502036" duration="17775000" />
     </task>
     <task id="LOCAL-00106" summary="push changes">
       <created>1640939934872</created>
@@ -899,7 +872,14 @@
       <option name="project" value="LOCAL" />
       <updated>1644925017033</updated>
     </task>
-    <option name="localTasksCounter" value="154" />
+    <task id="LOCAL-00154" summary="push changes">
+      <created>1647068091711</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1647068091711</updated>
+    </task>
+    <option name="localTasksCounter" value="155" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -955,10 +935,10 @@
     </state>
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1647030657185" />
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1643533786293" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1644925016069">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1647068090055">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1643316116960" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1647068090055" />
     <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.800.552@0.0.1366.720" timestamp="1643188869714" />
     <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1644925016069" />
     <state x="129" y="53" key="DiffContextDialog" timestamp="1641691941004">
@@ -970,10 +950,10 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="463" y="114" key="FileChooserDialogImpl/0.0.1366.720@0.0.1366.720" timestamp="1642058928501" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1644925020065">
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1647068095787">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1643316121910" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1647068095787" />
     <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.800.552@0.0.1366.720" timestamp="1643188872987" />
     <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1644925020065" />
     <state x="492" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1643713260430">

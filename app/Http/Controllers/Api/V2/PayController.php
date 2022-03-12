@@ -800,7 +800,7 @@ class PayController extends Controller
             $t = Transaction::find($dada['tid']);
             $t->status = "delivered";
             $t->server_response = $dada['server_response'];
-            $t->server_ref = $dada['server_ref'];
+            $t->server_ref = $dada['server_ref'] ?? '';
             $t->save();
 
             if (isset($dada['token'])) {
