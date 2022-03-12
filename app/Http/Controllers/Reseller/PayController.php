@@ -322,9 +322,11 @@ class PayController extends Controller
             $tr['code'] = "tcommission";
             $tr['amount'] = $discount;
             $tr['status'] = "successful";
+            $tr['i_wallet'] = $user->agent_commision;
+            $tr['f_wallet'] = $tr['i_wallet'] + $discount;
             Transaction::create($tr);
 
-            $user->agent_commision += $discount;
+            $user->agent_commision = $tr['f_wallet'];
             $user->save();
         }
 
