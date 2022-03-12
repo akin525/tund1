@@ -38,7 +38,7 @@ class VerificationController extends Controller
             return back()->with('error', 'Transaction reference not found');
         }
 
-        $url = env("SERVER2_QUERY") . "&OrderID=" . $trans->server_ref;
+        $url = env("SERVER2_QUERY") . "&RequestID=" . $ref;
 
         $result = file_get_contents($url);
         // Convert JSON string to Array
@@ -227,6 +227,7 @@ class VerificationController extends Controller
 
         $trans = Transaction::where('ref', $ref)->latest()->first();
 
+
         if (!$trans) {
             return back()->with('error', 'Transaction reference not found');
         }
@@ -242,8 +243,9 @@ class VerificationController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_HTTPHEADER => array(
-                'Authorization: ' . env('RAVE_SECRET_KEY'),
+                'Authorization: Bearer ' . env('RAVE_SECRET_KEY'),
                 'Content-Type: application/json'
             ),
         ));
@@ -290,7 +292,8 @@ class VerificationController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => array('request_id' => $trans->server_ref),
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POSTFIELDS => array('request_id' => $ref),
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Basic ' . env('SERVER6_AUTH'),
             ),
@@ -305,7 +308,7 @@ class VerificationController extends Controller
 
         if ($res["code"] === "000") {
             $status = $res["content"]["transactions"]["status"];
-            $d = $res['content']['transactions']['product_name'] . " " . $res['content']['transactions']['unit_price'] . " " . $res['content']['transactions']['phone'];
+            $d = $res['content']['transactions']['product_name'] . " " . $res['content']['transactions']['unit_price'] . " " . $res['content']['transactions']['unique_element'];
         } else {
             $status = "Error";
             $d = "Invalid reference number";

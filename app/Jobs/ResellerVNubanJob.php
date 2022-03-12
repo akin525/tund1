@@ -63,6 +63,8 @@ class ResellerVNubanJob implements ShouldQueue
             return;
         }
 
+        echo $u->user_name;
+
         $tcheck = Transaction::where('ref', $transactionreference)->first();
 
         if ($tcheck) {
