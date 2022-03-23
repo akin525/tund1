@@ -45,4 +45,40 @@ class ListController extends Controller
 
         return response()->json(['success' => 1, 'message' => 'Fetch successfully', 'data' => $datasets]);
     }
+
+    public function jamb()
+    {
+
+        if (env('FAKE_TRANSACTION', 1) == 0) {
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => env('SERVER6') . "service-variations?serviceID=jamb",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Basic ' . env('SERVER6_AUTH'),
+                    'Content-Type: application/json'
+                ),
+            ));
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+
+        } else {
+            $response = '{ "response_description": "000", "content": { "ServiceName": "Jamb", "serviceID": "jamb", "convinience_fee": "0 %", "varations": [ { "variation_code": "utme", "name": "UTME", "variation_amount": "4700.00", "fixedPrice": "Yes" }, { "variation_code": "de", "name": "Direct Entry (DE)", "variation_amount": "4700.00", "fixedPrice": "Yes" } ] } }';
+        }
+
+        $rep = json_decode($response, true);
+
+
+        return response()->json(['success' => 1, 'message' => 'Fetch successfully', 'data' => $rep['content']['varations']]);
+    }
 }

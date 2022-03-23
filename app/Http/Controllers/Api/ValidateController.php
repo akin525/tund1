@@ -98,6 +98,52 @@ class ValidateController extends Controller
 
     }
 
+    public function utme_server6($phone, $type, $requester = "nm", $sender = "nm")
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SERVER6') . "merchant-verify",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array('billersCode' => $phone, 'type' => $type, 'serviceID' => 'jamb'),
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Basic ' . env('SERVER6_AUTH'),
+            ),
+        ));
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $rep = json_decode($response, true);
+
+        $of = new SwitchController();
+
+        if (isset($rep['content']['Customer_Name'])) {
+            if ($requester == "offline") {
+                return $of->returnSuccess('Validated successfully ' . $rep['content']['Customer_Name'], $sender);
+            } else {
+                return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name']]);
+            }
+        } else {
+            if ($requester == "offline") {
+                return $of->returnSuccess('Unable to validate jamb id.', $sender);
+            } else {
+                return response()->json(['success' => 0, 'message' => 'Unable to validate jamb id']);
+            }
+        }
+
+
+    }
+
     public function betting_server7($phone, $type, $requester = "nm", $sender = "nm")
     {
         $curl = curl_init();

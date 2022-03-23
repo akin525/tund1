@@ -60,4 +60,62 @@ class SellEducationalController extends Controller
 
         return null;
     }
+
+    public function server6_utme($request, $code, $phone, $transid, $input, $dada, $requester)
+    {
+
+        if (env('FAKE_TRANSACTION', 1) == 0) {
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => env('SERVER6') . "pay",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "jamb","variation_code": "' . $code . '","phone": "08166939205","billersCode": "' . $phone . '","amount": "' . $request->get('amount') . '"}',
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Basic ' . env('SERVER6_AUTH'),
+                    'Content-Type: application/json'
+                ),
+            ));
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+
+        } else {
+            $response = '{ "code": "000", "content": { "transactions": { "status": "delivered", "product_name": "Jamb", "unique_element": "0123456789", "unit_price": 4700, "quantity": 1, "service_verification": null, "channel": "api", "commission": 0, "total_amount": 4700, "discount": null, "type": "Education", "email": "sandbox@vtpass.com", "phone": "07061933309", "name": null, "convinience_fee": 0, "amount": 4700, "platform": "api", "method": "api", "transactionId": "16457951913329637534894519" } }, "response_description": "TRANSACTION SUCCESSFUL", "requestId": "20220225kseeoqytisffmfkd45jkfdjdjjeodlkuwowjswiwoqidkpwfiokl", "amount": "4700.00", "transaction_date": { "date": "2022-02-25 14:19:51.000000", "timezone_type": 3, "timezone": "Africa/Lagos" }, "purchased_code": "Pin : 367574683050773", "Pin": "Pin : 367574683050773" }';
+        }
+
+        $rep = json_decode($response, true);
+
+        $rs = new PayController();
+        $ms = new V2\PayController();
+
+        $dada['server_response'] = $response;
+
+        if ($rep['code'] == '000') {
+            $dada['token'] = $rep['purchased_code'];
+            $dada['server_ref'] = $rep['content']['transactions']['transactionId'];
+
+            if ($requester == "reseller") {
+                $dada['server_ref'] = $rep['content']['transactions']['transactionId'];
+                return $rs->outputResponse($request, $transid, 1, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
+            }
+        } else {
+            $dada['token'] = "Pin: pending";
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 0, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 0, $dada);
+            }
+        }
+    }
 }

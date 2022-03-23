@@ -330,6 +330,42 @@ class PayController extends Controller
 
     }
 
+    function buyJamb(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'provider' => 'required',
+            'amount' => 'required',
+            'number' => 'required',
+            'payment' => 'required',
+            'ref' => 'required',
+            'coded' => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        if (!$validator->passes()) {
+
+            return response()->json(['success' => 0, 'message' => 'Required field(s) is missing']);
+        }
+
+        $input['version'] = $request->header('version');
+
+        $input['device'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
+
+        $debitAmount = $input['amount'];
+        $server = 6;
+        $discount = 0;
+
+        $proceed['1'] = $input['provider'];
+        $proceed['2'] = $debitAmount;
+        $proceed['3'] = $discount;
+        $proceed['4'] = $server;
+        $proceed['5'] = "jamb";
+
+        return $this->handlePassage($request, $proceed);
+    }
+
     public function a2ca2b(Request $request)
     {
 
@@ -544,6 +580,17 @@ class PayController extends Controller
     }
 
 
+    public function buyJambCTD(Request $request, $ref, $net, $dada, $server)
+    {
+        $input = $request->all();
+
+        $air = new SellEducationalController();
+
+        return $air->server6_utme($request, $input['coded'], $input['number'], $ref, $request, $dada, "mcd");
+
+    }
+
+
     public function debitUser(Request $request, $provider, $amount, $discount, $server, $requester, $ref)
     {
         $input = $request->all();
@@ -579,21 +626,24 @@ class PayController extends Controller
         if ($input['promo'] != "0") {
             $pc = PromoCode::where('code', $input['promo'])->first();
 
-            $amount -= $pc->amount;
+            if ($pc) {
 
-            $tr['description'] .= " with NGN" . $pc->amount . " promo code";
+                $amount -= $pc->amount;
 
-            $input["type"] = "expenses";
-            $input["gl"] = "Promo Code";
-            $input["amount"] = $pc->amount;
-            $input['date'] = Carbon::now();
-            $input["narration"] = "Being promo code used by " . $input['user_name'] . " on " . $ref;
+                $tr['description'] .= " with NGN" . $pc->amount . " promo code";
 
-            PndL::create($input);
+                $input["type"] = "expenses";
+                $input["gl"] = "Promo Code";
+                $input["amount"] = $pc->amount;
+                $input['date'] = Carbon::now();
+                $input["narration"] = "Being promo code used by " . $input['user_name'] . " on " . $ref;
 
-            $pc->used = 1;
-            $pc->usedby .= $input['user_name'] . " ";
-            $pc->save();
+                PndL::create($input);
+
+                $pc->used = 1;
+                $pc->usedby .= $input['user_name'] . " ";
+                $pc->save();
+            }
         }
 
         $tr['amount'] = $amount;
@@ -696,6 +746,8 @@ class PayController extends Controller
                 return $this->buyElectricityCTD($request, $ref, $provider, $dada, $server);
             case "betting":
                 return $this->buyBettingCTD($request, $ref, $provider, $dada, $server);
+            case "jamb":
+                return $this->buyJambCTD($request, $ref, $provider, $dada, $server);
         }
     }
 
