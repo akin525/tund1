@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\GiveAway;
-use App\Models\PndL;
 use App\Models\Transaction;
 use App\Models\VirtualAccountClient;
 use App\Models\Withdraw;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -32,11 +29,11 @@ class HomeController extends Controller
     public function index()
     {
         $today = Carbon::now()->format('Y-m-d');
-        $data['today_user'] = User::where('reg_date', 'LIKE', '%' . $today . '%')->count();
+//        $data['today_user'] = User::where('reg_date', 'LIKE', '%' . $today . '%')->count();
 
-        $data['today_deposits'] = Transaction::where([['name', '=', 'wallet funding'], ['date', 'LIKE', '%' . $today . '%']])->sum('amount');
+//        $data['today_deposits'] = Transaction::where([['name', '=', 'wallet funding'], ['date', 'LIKE', '%' . $today . '%']])->sum('amount');
 
-        $data['today_transaction'] = Transaction::where('date', 'LIKE', '%' . $today . '%')->count();
+//        $data['today_transaction'] = Transaction::where('date', 'LIKE', '%' . $today . '%')->count();
 //        $data['yesterday_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDay()->format('Y-m-d') . '%')->count();
 //        $data['d2_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(2)->format('Y-m-d') . '%')->count();
 //        $data['d3_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(3)->format('Y-m-d') . '%')->count();
@@ -44,7 +41,7 @@ class HomeController extends Controller
 //        $data['d5_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(5)->format('Y-m-d') . '%')->count();
 //        $data['d6_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(6)->format('Y-m-d') . '%')->count();
 
-        $data['users'] = User::orderBy('id', 'DESC')->limit(15)->get();
+//        $data['users'] = User::orderBy('id', 'DESC')->limit(15)->get();
 
         $data['data'] = Transaction::where([['name', 'like', '%data%'], ['status', '=', 'delivered'], ['date', 'LIKE', $today . '%']])->count();
         $data['airtime'] = Transaction::where([['name', 'like', '%airtime%'], ['status', '=', 'delivered'], ['date', 'LIKE', $today . '%']])->count();
@@ -59,9 +56,9 @@ class HomeController extends Controller
         $data['withdraw'] = Withdraw::where([['created_at', 'LIKE', $today . '%']])->count();
         $data['giveaway'] = GiveAway::where([['created_at', 'LIKE', $today . '%']])->count();
 
-        $data['p_nd_l'] = PndL::where([['type', '=', 'income'], ['date', 'LIKE', '%' . $today . '%']])->count();
-        $data['allsettings'] = DB::table('tbl_allsettings')->limit(14)->get();
-        $data['general_market'] = DB::table('tbl_allsettings')->where("name", "=", "general_market")->first();
+//        $data['p_nd_l'] = PndL::where([['type', '=', 'income'], ['date', 'LIKE', '%' . $today . '%']])->count();
+//        $data['allsettings'] = DB::table('tbl_allsettings')->limit(14)->get();
+//        $data['general_market'] = DB::table('tbl_allsettings')->where("name", "=", "general_market")->first();
 
         return view('home', $data);
     }
