@@ -273,17 +273,17 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-body">
-                    <div class="btn-group btn-group-toggle float-right" data-toggle="buttons"><label
-                            class="btn btn-primary btn-sm active"><input type="radio" name="options" id="option1"
-                                                                         checked=""> This Week</label> <label
-                            class="btn btn-primary btn-sm"><input type="radio" name="options" id="option2"> Last
-                            Month</label></div>
-                    <h5 class="header-title mb-4 mt-0">Weekly Record</h5>
-                    <canvas id="lineChar" height="82"></canvas>
-                </div>
-            </div>
+            {{--            <div class="card">--}}
+            {{--                <div class="card-body">--}}
+            {{--                    <div class="btn-group btn-group-toggle float-right" data-toggle="buttons"><label--}}
+            {{--                            class="btn btn-primary btn-sm active"><input type="radio" name="options" id="option1"--}}
+            {{--                                                                         checked=""> This Week</label> <label--}}
+            {{--                            class="btn btn-primary btn-sm"><input type="radio" name="options" id="option2"> Last--}}
+            {{--                            Month</label></div>--}}
+            {{--                    <h5 class="header-title mb-4 mt-0">Weekly Record</h5>--}}
+            {{--                    <canvas id="lineChar" height="82"></canvas>--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
         </div>
 
     </div>
@@ -292,8 +292,12 @@
             <div class="card">
                 <div class="card-body">
                     <div class="dropdown d-inline-block float-right">
-                        <a class="nav-link dropdown-toggle arrow-none" id="dLabel5" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"><i class="fas fa-ellipsis-v font-20 text-muted"></i></a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel5"><a class="dropdown-item" href="#">New Messages</a> <a class="dropdown-item" href="#">Open Messages</a></div>
+                        <a class="nav-link dropdown-toggle arrow-none" id="dLabel5" data-toggle="dropdown" href="#"
+                           role="button" aria-haspopup="false" aria-expanded="false"><i
+                                class="fas fa-ellipsis-v font-20 text-muted"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel5"><a
+                                class="dropdown-item" href="#">New Messages</a> <a class="dropdown-item" href="#">Open
+                                Messages</a></div>
                     </div>
                     <h5 class="header-title pb-3 mt-0">New Clients</h5>
                     <div class="table-responsive boxscroll" style="overflow: hidden; outline: none;">
@@ -386,64 +390,64 @@
 @stop
 
 @section('before-scripts')
-    <script>
-        (gradientStroke1 = (ctx = document.getElementById("lineChar").getContext("2d")).createLinearGradient(0, 0, 0, 300)).addColorStop(0, "#008cff"), gradientStroke1.addColorStop(1, "rgba(22, 195, 233, 0.1)"), gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300), gradientStroke2.addColorStop(0, "#ec536c"), gradientStroke2.addColorStop(1, "rgba(222, 15, 23, 0.1)");
-        var myChart = new Chart(ctx, {
-            type: "line",
-            data: {
-                labels: ["6days Ago", "5days Ago", "4days Ago", "3days Ago", "2days Ago", "Yesterday", "Today"],
-                datasets: [{
-                    label: "Transactions",
-                    data: [{{$d6_transaction}}, {{$d5_transaction}}, {{$d4_transaction}}, {{$d3_transaction}}, {{$d2_transaction}}, {{$yesterday_transaction}}, {{$today_transaction}}],
-                    pointBorderWidth: 0,
-                    pointHoverBackgroundColor: gradientStroke1,
-                    backgroundColor: gradientStroke1,
-                    borderColor: "transparent",
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                legend: {
-                    position: "bottom",
-                    display: 1
-                },
-                tooltips: {
-                    displayColors: 1,
-                    intersect: 1
-                },
-                elements: {
-                    point: {
-                        radius: 0
-                    }
-                },
-                scales: {
-                    xAxes: [{
-                        ticks: {
-                            max: 100,
-                            min: 20,
-                            stepSize: 10
-                        },
-                        gridLines: {
-                            display: 1,
-                            color: "#FFFFFF"
-                        },
-                        ticks: {
-                            display: 1,
-                            fontFamily: "'Rubik', sans-serif"
-                        }
-                    }],
-                    yAxes: [{
-                        gridLines: {
-                            color: "#fff",
-                            display: 1
-                        },
-                        ticks: {
-                            display: 1,
-                            fontFamily: "'Rubik', sans-serif"
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
+    {{--    <script>--}}
+    {{--        (gradientStroke1 = (ctx = document.getElementById("lineChar").getContext("2d")).createLinearGradient(0, 0, 0, 300)).addColorStop(0, "#008cff"), gradientStroke1.addColorStop(1, "rgba(22, 195, 233, 0.1)"), gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300), gradientStroke2.addColorStop(0, "#ec536c"), gradientStroke2.addColorStop(1, "rgba(222, 15, 23, 0.1)");--}}
+    {{--        var myChart = new Chart(ctx, {--}}
+    {{--            type: "line",--}}
+    {{--            data: {--}}
+    {{--                labels: ["6days Ago", "5days Ago", "4days Ago", "3days Ago", "2days Ago", "Yesterday", "Today"],--}}
+    {{--                datasets: [{--}}
+    {{--                    label: "Transactions",--}}
+    {{--                    data: [{{$d6_transaction}}, {{$d5_transaction}}, {{$d4_transaction}}, {{$d3_transaction}}, {{$d2_transaction}}, {{$yesterday_transaction}}, {{$today_transaction}}],--}}
+    {{--                    pointBorderWidth: 0,--}}
+    {{--                    pointHoverBackgroundColor: gradientStroke1,--}}
+    {{--                    backgroundColor: gradientStroke1,--}}
+    {{--                    borderColor: "transparent",--}}
+    {{--                    borderWidth: 1--}}
+    {{--                }]--}}
+    {{--            },--}}
+    {{--            options: {--}}
+    {{--                legend: {--}}
+    {{--                    position: "bottom",--}}
+    {{--                    display: 1--}}
+    {{--                },--}}
+    {{--                tooltips: {--}}
+    {{--                    displayColors: 1,--}}
+    {{--                    intersect: 1--}}
+    {{--                },--}}
+    {{--                elements: {--}}
+    {{--                    point: {--}}
+    {{--                        radius: 0--}}
+    {{--                    }--}}
+    {{--                },--}}
+    {{--                scales: {--}}
+    {{--                    xAxes: [{--}}
+    {{--                        ticks: {--}}
+    {{--                            max: 100,--}}
+    {{--                            min: 20,--}}
+    {{--                            stepSize: 10--}}
+    {{--                        },--}}
+    {{--                        gridLines: {--}}
+    {{--                            display: 1,--}}
+    {{--                            color: "#FFFFFF"--}}
+    {{--                        },--}}
+    {{--                        ticks: {--}}
+    {{--                            display: 1,--}}
+    {{--                            fontFamily: "'Rubik', sans-serif"--}}
+    {{--                        }--}}
+    {{--                    }],--}}
+    {{--                    yAxes: [{--}}
+    {{--                        gridLines: {--}}
+    {{--                            color: "#fff",--}}
+    {{--                            display: 1--}}
+    {{--                        },--}}
+    {{--                        ticks: {--}}
+    {{--                            display: 1,--}}
+    {{--                            fontFamily: "'Rubik', sans-serif"--}}
+    {{--                        }--}}
+    {{--                    }]--}}
+    {{--                }--}}
+    {{--            }--}}
+    {{--        });--}}
+    {{--    </script>--}}
 @stop

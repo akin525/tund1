@@ -35,13 +35,13 @@ class HomeController extends Controller
 
         $data['today_deposits'] = Transaction::where([['name', '=', 'wallet funding'], ['date', 'LIKE', '%' . $today . '%']])->sum('amount');
 
-        $data['today_transaction'] = Transaction::where('date', 'LIKE', '%' . $today . '%')->count();
-        $data['yesterday_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDay()->format('Y-m-d') . '%')->count();
-        $data['d2_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(2)->format('Y-m-d') . '%')->count();
-        $data['d3_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(3)->format('Y-m-d') . '%')->count();
-        $data['d4_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(4)->format('Y-m-d') . '%')->count();
-        $data['d5_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(5)->format('Y-m-d') . '%')->count();
-        $data['d6_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(6)->format('Y-m-d') . '%')->count();
+//        $data['today_transaction'] = Transaction::where('date', 'LIKE', '%' . $today . '%')->count();
+//        $data['yesterday_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDay()->format('Y-m-d') . '%')->count();
+//        $data['d2_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(2)->format('Y-m-d') . '%')->count();
+//        $data['d3_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(3)->format('Y-m-d') . '%')->count();
+//        $data['d4_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(4)->format('Y-m-d') . '%')->count();
+//        $data['d5_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(5)->format('Y-m-d') . '%')->count();
+//        $data['d6_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(6)->format('Y-m-d') . '%')->count();
 
         $data['users'] = User::orderBy('id', 'DESC')->limit(15)->get();
 
