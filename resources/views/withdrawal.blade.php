@@ -54,6 +54,8 @@
                                             <span class="badge badge-success">Completed</span>
                                         @elseif($dat->status == 2)
                                             <span class="badge badge-info">Processing</span>
+                                        @elseif($dat->status == 4)
+                                            <span class="badge badge-info">Rejected</span>
                                         @else
                                             <span class="badge badge-danger">Pending</span>
                                         @endif
@@ -69,6 +71,14 @@
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{$dat->id}}"/>
                                                 <button type="submit" class="btn btn-primary">Approve</button>
+                                            </form>
+                                        @endif
+
+                                        @if($dat->status == 0)
+                                            <form method="post" action="{{route('withdrawal_reject')}}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$dat->id}}"/>
+                                                <button type="submit" class="btn btn-danger">Rejeect</button>
                                             </form>
                                         @endif
                                     </td>

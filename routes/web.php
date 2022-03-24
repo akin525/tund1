@@ -15,6 +15,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\WalletController;
 use App\Jobs\Airtime2CashNotificationJob;
 use App\Jobs\NewAccountGiveaway;
 use Illuminate\Support\Facades\Auth;
@@ -67,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/withdrawal', 'WalletController@withdrawal_list')->name('withdrawal_list');
     Route::post('/withdrawal', 'WalletController@withdrawal_submit')->name('withdrawal_submit');
+    Route::post('/reject-withdrawal', [WalletController::class, 'withdrawal_reject'])->name('withdrawal_reject');
 
     Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction');
     Route::get('/transaction_server8', [TransactionController::class, 'server8'])->name('transaction8');

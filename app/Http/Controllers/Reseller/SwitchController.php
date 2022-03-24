@@ -174,11 +174,11 @@ class SwitchController extends Controller
             return response()->json(['success' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
         }
 
-        $valid_wallets = ['Commission', 'Wallet'];
+        $valid_wallets = ['commission', 'wallet'];
         $valid = false;
 
         foreach ($valid_wallets as $valid) {
-            if ($input['wallet'] == $valid) {
+            if (strtolower($input['wallet']) == $valid) {
                 $valid = true;
             }
         }
@@ -196,7 +196,7 @@ class SwitchController extends Controller
 
         $wallet_bal = 0;
 
-        if ($input['wallet'] == "Commission") {
+        if (strtolower($input['wallet']) == "commission") {
             if ($user->agent_commision < $total) {
                 return response()->json(['success' => 0, 'message' => 'Low commission balance']);
             }
@@ -204,7 +204,7 @@ class SwitchController extends Controller
             $user->agent_commision -= $total;
         }
 
-        if ($input['wallet'] == "Wallet") {
+        if (strtolower($input['wallet']) == "wallet") {
             if ($user->wallet < $total) {
                 return response()->json(['success' => 0, 'message' => 'Low wallet balance']);
             }

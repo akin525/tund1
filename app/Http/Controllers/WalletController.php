@@ -179,4 +179,32 @@ class WalletController extends Controller
 
         return back()->with('success', 'Withdrawal process has been initiated in background');
     }
+
+    public function withdrawal_reject(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'id' => 'required|int');
+
+        $validator = Validator::make($input, $rules);
+
+        if (!$validator->passes()) {
+            return back()->with('error', 'Missing required key');
+        }
+
+        $with = Withdraw::find($input['id']);
+
+        if (!$with) {
+            return back()->with('error', 'Kindly provide a valid data');
+        }
+
+        if ($with->status == 1) {
+            return back()->with('error', 'Transaction has been completed earlier');
+        }
+
+        $with->status = 4;
+        $with->save();
+
+        return back()->with('success', 'Withdrawal has been rejected');
+    }
 }
