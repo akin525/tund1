@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\GiveAway;
+use App\Models\PndL;
 use App\Models\Transaction;
 use App\Models\VirtualAccountClient;
 use App\Models\Withdraw;
@@ -35,7 +36,7 @@ class HomeController extends Controller
 
         $data['today_deposits'] = Transaction::where([['name', '=', 'wallet funding'], ['date', 'LIKE', '%' . $today . '%']])->sum('amount');
 
-//        $data['today_transaction'] = Transaction::where('date', 'LIKE', '%' . $today . '%')->count();
+        $data['today_transaction'] = Transaction::where('date', 'LIKE', '%' . $today . '%')->count();
 //        $data['yesterday_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDay()->format('Y-m-d') . '%')->count();
 //        $data['d2_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(2)->format('Y-m-d') . '%')->count();
 //        $data['d3_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDays(3)->format('Y-m-d') . '%')->count();
@@ -58,7 +59,7 @@ class HomeController extends Controller
         $data['withdraw'] = Withdraw::where([['created_at', 'LIKE', $today . '%']])->count();
         $data['giveaway'] = GiveAway::where([['created_at', 'LIKE', $today . '%']])->count();
 
-        $data['p_nd_l'] = DB::table('tbl_p_nd_l')->where([['type', '=', 'income'], ['date', 'LIKE', '%' . $today . '%']])->get()->count();
+        $data['p_nd_l'] = PndL::where([['type', '=', 'income'], ['date', 'LIKE', '%' . $today . '%']])->count();
         $data['allsettings'] = DB::table('tbl_allsettings')->limit(14)->get();
         $data['general_market'] = DB::table('tbl_allsettings')->where("name", "=", "general_market")->first();
 
