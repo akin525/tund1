@@ -11,8 +11,10 @@ use App\Models\Serverlog;
 use App\Models\VirtualAccountClient;
 use App\Models\Wallet;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class PaystackHookController extends Controller
 {
@@ -24,7 +26,11 @@ class PaystackHookController extends Controller
 
         echo "52.31.139.75, 52.49.173.169, 52.214.14.220<br/>";
 
-        DB::table('tbl_webhook_paystack')->insert(['payment_reference' => $input['data']['reference'], 'payment_id' => $input['data']['id'], 'status' => $input['data']['status'], 'amount' => $input['data']['amount'], 'fees' => $input['data']['fees'] ?? '', 'customer_code' => isset($input['data']['customer']) ? $input['data']['customer']['customer_code'] : " ", 'email' => isset($input['data']['customer']) ? $input['data']['customer']['email'] : " ", 'paystack_signature' => $request->header('X-Paystack-Signature'), 'paid_at' => $input['data']['paidAt'], 'channel' => $input['data']['channel'], 'remote_address' => $_SERVER['REMOTE_ADDR'], 'extra' => $data2]);
+        try {
+            DB::table('tbl_webhook_paystack')->insert(['payment_reference' => $input['data']['reference'], 'payment_id' => $input['data']['id'], 'status' => $input['data']['status'], 'amount' => $input['data']['amount'], 'fees' => $input['data']['fees'] ?? '', 'customer_code' => isset($input['data']['customer']) ? $input['data']['customer']['customer_code'] : " ", 'email' => isset($input['data']['customer']) ? $input['data']['customer']['email'] : " ", 'paystack_signature' => $request->header('X-Paystack-Signature'), 'paid_at' => $input['data']['paidAt'], 'channel' => $input['data']['channel'], 'remote_address' => $_SERVER['REMOTE_ADDR'], 'extra' => $data2]);
+        } catch (Exception $e) {
+            Log::info("Paystack crashed. - " . $data2);
+        }
 
 //         only a post with paystack signature header gets our attention
         if (!$request->headers->has('X-Paystack-Signature')) {

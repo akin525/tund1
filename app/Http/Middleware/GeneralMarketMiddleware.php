@@ -23,6 +23,7 @@ class GeneralMarketMiddleware
         $input = $request->all();
 
         $input['user_name'] = Auth::user()->user_name;
+        $input['phone'] = $input['number'];
 
         if ($input['payment'] == "general_market") {
 
