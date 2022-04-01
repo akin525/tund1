@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\V2;
 
+use App\Events\NewDeviceEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\CreateProvidusAccountJob;
 use App\Jobs\LoginAttemptApiFinderJob;
-use App\Mail\NewDeviceLoginMail;
 use App\Mail\PasswordResetMail;
 use App\Models\LoginAttempt;
 use App\Models\NewDevice;
@@ -72,7 +72,7 @@ class AuthenticationController extends Controller
                 ->delay(Carbon::now()->addSeconds(10));
             dispatch($job);
 
-            return response()->json(['success' => 1, 'message' => 'Client Successfully Added']);
+            return response()->json(['success' => 1, 'message' => 'Account created successfully']);
         } else {
 
             return response()->json(['success' => 0, 'message' => 'Oops! An error occurred.']);
@@ -119,17 +119,7 @@ class AuthenticationController extends Controller
         }
 
         if ($user->devices != $input['device']) {
-            $tr['code'] = str_shuffle(substr(date('sydmM') . rand() . $user->user_name, 0, 4));
-            $tr['email'] = $user->email;
-            $tr['user_name'] = $user->user_name;
-            $tr['expired'] = Carbon::now()->addHour();
-            $tr['device'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
-
-            NewDevice::create($tr);
-
-            if (env('APP_ENV') != "local") {
-                Mail::to($user->email)->send(new NewDeviceLoginMail($tr));
-            }
+            NewDeviceEvent::dispatch($user, $input['device']);
 
             $la->status = "new_device";
             $la->save();

@@ -28,8 +28,10 @@
   <component name="ChangeListManager">
     <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="push changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/GeneralMarketMiddleware.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/GeneralMarketMiddleware.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/AuthenticationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/AuthenticationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Mail/PasswordResetMail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Mail/PasswordResetMail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/mail/newdevicelogin.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/mail/newdevicelogin.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -555,14 +557,8 @@
       <workItem from="1648449234811" duration="108000" />
       <workItem from="1648580383753" duration="1106000" />
       <workItem from="1648582800981" duration="20000" />
-      <workItem from="1648656489936" duration="1495000" />
-    </task>
-    <task id="LOCAL-00117" summary="Commit Changes">
-      <created>1641577278841</created>
-      <option name="number" value="00117" />
-      <option name="presentableId" value="LOCAL-00117" />
-      <option name="project" value="LOCAL" />
-      <updated>1641577278843</updated>
+      <workItem from="1648656489936" duration="2304000" />
+      <workItem from="1648746885190" duration="1753000" />
     </task>
     <task id="LOCAL-00118" summary="Commit Changes">
       <created>1641578124301</created>
@@ -900,7 +896,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648581597145</updated>
     </task>
-    <option name="localTasksCounter" value="166" />
+    <task id="LOCAL-00166" summary="push changes">
+      <created>1648658759351</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1648658759352</updated>
+    </task>
+    <option name="localTasksCounter" value="167" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -963,17 +966,17 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="446" y="161" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.720@0.0.1366.720" timestamp="1643839585702" />
-    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1647030657185">
+    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1648771490462">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1647030657185" />
+    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1648771490462" />
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1643533786293" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1648581595070">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1648658758224">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1647077980241" />
     <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.800.552@0.0.1366.720" timestamp="1643188869714" />
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1648581595070" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1648658758224" />
     <state x="129" y="53" width="1092" height="605" key="DiffContextDialog" timestamp="1648110854666">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
@@ -983,12 +986,12 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="463" y="114" key="FileChooserDialogImpl/0.0.1366.720@0.0.1366.720" timestamp="1642058928501" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1648581599206">
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1648658761214">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1647077983141" />
     <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.800.552@0.0.1366.720" timestamp="1643188872987" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1648581599206" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1648658761214" />
     <state x="492" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1648130095490">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
