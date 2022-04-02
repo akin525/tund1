@@ -85,7 +85,7 @@ class ValidateController extends Controller
             if ($requester == "offline") {
                 return $of->returnSuccess('Validated successfully ' . $rep['content']['Customer_Name'], $sender);
             } else {
-                return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name']]);
+                return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name'], 'details' => $rep['content']]);
             }
         } else {
             if ($requester == "offline") {
