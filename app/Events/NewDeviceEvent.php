@@ -19,12 +19,12 @@ class NewDeviceEvent
      * @return void
      */
     public $user;
-    public $device;
+    public $datas;
 
-    public function __construct(User $user, $device)
+    public function __construct(User $user, $datas)
     {
         $this->user = $user;
-        $this->device = $device;
+        $this->datas = $datas;
     }
 
     /**

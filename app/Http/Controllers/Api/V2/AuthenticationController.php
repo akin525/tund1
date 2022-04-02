@@ -119,7 +119,9 @@ class AuthenticationController extends Controller
         }
 
         if ($user->devices != $input['device']) {
-            NewDeviceEvent::dispatch($user, $input['device']);
+            $datas['device'] = $input['device'];
+            $datas['ip'] = $_SERVER['REMOTE_ADDR'];
+            NewDeviceEvent::dispatch($user, $datas);
 
             $la->status = "new_device";
             $la->save();

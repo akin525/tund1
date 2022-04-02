@@ -30,13 +30,14 @@ class NewDeviceListener implements ShouldQueue
     public function handle(NewDeviceEvent $event)
     {
         $user = $event->user;
-        $device = $event->user;
+        $datas = $event->datas;
 
         $tr['code'] = str_shuffle(substr(date('sydmM') . rand() . $user->user_name, 0, 4));
         $tr['email'] = $user->email;
         $tr['user_name'] = $user->user_name;
         $tr['expired'] = Carbon::now()->addHour();
-        $tr['device'] = $device;
+        $tr['device'] = $datas['device'];
+        $tr['ip'] = $datas['ip'];
 
         NewDevice::create($tr);
 
