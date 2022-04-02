@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\Airtime2CashNotificationJob;
 use App\Models\Airtime2Cash;
+use App\Models\PndL;
 use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
@@ -445,6 +446,14 @@ class TransactionController extends Controller
             if ($tran->name == "data") {
                 $amount = $tran->amount + 20;
                 $nBalance = $user->wallet + $amount;
+
+                $input["type"] = "expenses";
+                $input["gl"] = "Data";
+                $input["amount"] = 20;
+                $input['date'] = Carbon::now();
+                $input["narration"] = "Being data reversal of " . $tran->ref;
+
+                PndL::create($input);
             } else {
                 $nBalance = $user->wallet + $tran->amount;
             }
