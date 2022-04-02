@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
 use DB;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -431,26 +432,43 @@ class TransactionController extends Controller
         $input = $request->all();
 
         $tran = Transaction::find($id);
-        $tran->status="reversed";
+        $tran->status = "reversed";
         $tran->save();
 
+        $amount = $tran->amount;
 
-        $user=User::where("user_name", "=", $tran->user_name)->first();
-        $input["description"]="Being reversal of " . $tran->description;
-        $input["name"]="Reversal";
-        $input["status"]="successful";
-        $input["code"]="reversal";
-        $input["amount"]=$tran->amount;
-        $input["user_name"]=$tran->user_name;
-        $input["i_wallet"]=$user->wallet;
-        $input["f_wallet"]=$user->wallet + $tran->amount;
-        $input["extra"]='Initiated by ' . Auth::user()->full_name;
+        $user = User::where("user_name", "=", $tran->user_name)->first();
 
-        $user->update(["wallet"=> $user->wallet + $tran->amount]);
+        if ($tran->code == "tcommission") {
+            $nBalance = $user->wallet - $tran->amount;
+        } else {
+            if ($tran->name == "data") {
+                $amount = $tran->amount + 20;
+                $nBalance = $user->wallet + $amount;
+            } else {
+                $nBalance = $user->wallet + $tran->amount;
+            }
+        }
+
+        $input["description"] = "Being reversal of " . $tran->description;
+        $input["name"] = "Reversal";
+        $input["status"] = "successful";
+        $input["code"] = "reversal";
+        $input["amount"] = $amount;
+        $input["user_name"] = $tran->user_name;
+        $input["i_wallet"] = $user->wallet;
+        $input["f_wallet"] = $nBalance;
+        $input["extra"] = 'Initiated by ' . Auth::user()->full_name;
+
+        $user->update(["wallet" => $nBalance]);
         Transaction::create($input);
 
-        $at=new PushNotificationController();
-        $at->PushNoti($input['user_name'], $input["description"], "Reversal" );
+        try {
+            $at = new PushNotificationController();
+            $at->PushNoti($input['user_name'], $input["description"], "Reversal");
+        } catch (Exception $e) {
+            echo "error while sending notification";
+        }
 
         return redirect('/reversal')->with('success', 'Transaction reversed successfully!');
 
