@@ -441,7 +441,20 @@ class TransactionController extends Controller
         $user = User::where("user_name", "=", $tran->user_name)->first();
 
         if ($tran->code == "tcommission") {
-            $nBalance = $user->wallet - $tran->amount;
+            $nBalance = $user->agent_commision - $tran->amount;
+
+            $input["description"] = "Being reversal of " . $tran->description;
+            $input["name"] = "Reversal";
+            $input["status"] = "successful";
+            $input["code"] = "reversal";
+            $input["amount"] = $amount;
+            $input["user_name"] = $tran->user_name;
+            $input["i_wallet"] = $user->agent_commision;
+            $input["f_wallet"] = $nBalance;
+            $input["extra"] = 'Initiated by ' . Auth::user()->full_name;
+
+            $user->update(["agent_commision" => $nBalance]);
+            Transaction::create($input);
         } else {
             if ($tran->name == "data") {
                 $amount = $tran->amount + 20;
@@ -457,26 +470,27 @@ class TransactionController extends Controller
             } else {
                 $nBalance = $user->wallet + $tran->amount;
             }
-        }
 
-        $input["description"] = "Being reversal of " . $tran->description;
-        $input["name"] = "Reversal";
-        $input["status"] = "successful";
-        $input["code"] = "reversal";
-        $input["amount"] = $amount;
-        $input["user_name"] = $tran->user_name;
-        $input["i_wallet"] = $user->wallet;
-        $input["f_wallet"] = $nBalance;
-        $input["extra"] = 'Initiated by ' . Auth::user()->full_name;
+            $input["description"] = "Being reversal of " . $tran->description;
+            $input["name"] = "Reversal";
+            $input["status"] = "successful";
+            $input["code"] = "reversal";
+            $input["amount"] = $amount;
+            $input["user_name"] = $tran->user_name;
+            $input["i_wallet"] = $user->wallet;
+            $input["f_wallet"] = $nBalance;
+            $input["extra"] = 'Initiated by ' . Auth::user()->full_name;
 
-        $user->update(["wallet" => $nBalance]);
-        Transaction::create($input);
+            $user->update(["wallet" => $nBalance]);
+            Transaction::create($input);
 
-        try {
-            $at = new PushNotificationController();
-            $at->PushNoti($input['user_name'], $input["description"], "Reversal");
-        } catch (Exception $e) {
-            echo "error while sending notification";
+            try {
+                $at = new PushNotificationController();
+                $at->PushNoti($input['user_name'], $input["description"], "Reversal");
+            } catch (Exception $e) {
+                echo "error while sending notification";
+            }
+
         }
 
         return redirect('/reversal')->with('success', 'Transaction reversed successfully!');
