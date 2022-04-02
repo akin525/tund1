@@ -285,6 +285,8 @@ class AuthenticationController extends Controller
         $tr['password'] = $pass;
         $tr['email'] = $user->email;
         $tr['user_name'] = $user->user_name;
+        $tr['device'] = $_SERVER['HTTP_USER_AGENT'];
+        $tr['ip'] = $_SERVER['REMOTE_ADDR'];
 
         if (env('APP_ENV') != "local") {
             Mail::to($user->email)->send(new PasswordResetMail($tr));

@@ -27,12 +27,14 @@
                                 <tr>
                                     <td>
                                         <div>
-                                            <p>Device Details: {{$_SERVER['HTTP_USER_AGENT']}}</p>
-                                            <p>IP address: {{$_SERVER['REMOTE_ADDR']}}</p>
-                                           <p>Date & Time: {{\Carbon\Carbon::now()->format('D, M d, Y  H:i:s a T')}}</p>
+                                            <p>Device Details: {{$data['device']}}</p>
+                                            <p>IP address: {{$data['ip']}}</p>
+                                            <p>Date &
+                                                Time: {{\Carbon\Carbon::now()->format('D, M d, Y  H:i:s a T')}}</p>
                                         </div>
                                         <p>
-                                            If this wasn't you, your account has been compromised. Please follow these steps: <br/>
+                                            If this wasn't you, your account has been compromised. Please follow these
+                                            steps: <br/>
                                             1. Reset your password.<br/>
                                             2. Review your security info.<br/>
                                             3. Learn how to make your account more secure.
