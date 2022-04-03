@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\AppCableTVControl;
 use App\Models\ResellerCableTV;
 use App\Models\ResellerDataPlans;
+use App\Models\ResellerElecticity;
 use Illuminate\Console\Command;
 
 class GenerateVTPlans extends Command
@@ -13,7 +15,7 @@ class GenerateVTPlans extends Command
      *
      * @var string
      */
-    protected $signature = 'samji:vtpass';
+    protected $signature = 'samji:vtpass {--command= : <tv|data|electricity> command to execute}';
 
     /**
      * The console command description.
@@ -39,60 +41,31 @@ class GenerateVTPlans extends Command
      */
     public function handle()
     {
-//        $this->info("Add electricity");
-//
-//        ResellerElecticity::create([
-//            'name' => 'IKEDC',
-//            'code' => 'ikeja-electric',
-//            'discount' => '0.5%',
-//        ]);
-//
-//        ResellerElecticity::create([
-//            'name' => 'EKEDC',
-//            'code' => 'eko-electric',
-//            'discount' => '0.5%',
-//        ]);
-//
-//        ResellerElecticity::create([
-//            'name' => 'KEDCO',
-//            'code' => 'kano-electric',
-//            'discount' => '0.5%',
-//        ]);
-//
-//        ResellerElecticity::create([
-//            'name' => 'PHED',
-//            'code' => 'portharcourt-electric',
-//            'discount' => '0.5%',
-//        ]);
-//
-//        ResellerElecticity::create([
-//            'name' => 'JED',
-//            'code' => 'jos-electric',
-//            'discount' => '0.5%',
-//        ]);
-//
-//        ResellerElecticity::create([
-//            'name' => 'IBEDC',
-//            'code' => 'ibadan-electric',
-//            'discount' => '0.5%',
-//        ]);
-//
-//        ResellerElecticity::create([
-//            'name' => 'KAEDCO',
-//            'code' => 'kaduna-electric',
-//            'discount' => '0.5%',
-//        ]);
-//
-//        ResellerElecticity::create([
-//            'name' => 'AEDC',
-//            'code' => 'abuja-electric',
-//            'discount' => '0.5%',
-//        ]);
+        switch ($this->option('command')) {
+            case 'tv':
+                $this->tvPlans();
+                break;
 
-//
+            case 'data':
+                $this->dataPlans();
+                break;
+
+            case 'electricity':
+                $this->electricityPlans();
+                break;
+
+            default:
+                $this->error("Invalid Option !!");
+                break;
+        }
+
+    }
+
+    private function tvPlans()
+    {
         $this->info("Fetching tv plans");
 
-        $inters = ['dstv', 'gotv', 'startimes'];
+        $inters = ['dstv', 'gotv', 'startimes', 'showmax'];
 
         foreach ($inters as $inte) {
 
@@ -130,11 +103,26 @@ class GenerateVTPlans extends Command
                     'type' => $inte,
                     'discount' => '1%',
                     'status' => 1,
+                    'server' => 6,
+                ]);
+
+                AppCableTVControl::create([
+                    'name' => $plans['name'],
+                    'coded' => $plans['variation_code'],
+                    'code' => $plans['variation_code'],
+                    'price' => $plans['variation_amount'],
+                    'type' => $inte,
+                    'discount' => '1%',
+                    'status' => 1,
+                    'server' => 6,
                 ]);
             }
         }
 
+    }
 
+    private function dataPlans()
+    {
         $this->info("Fetching data plans");
         $inters = ['mtn-data', 'airtel-data', 'glo-data', 'etisalat-data', 'smile-direct'];
         $vds = ['mtn', 'airtel', 'glo', '9mobile', "smile"];
@@ -207,5 +195,59 @@ class GenerateVTPlans extends Command
                 ]);
             }
         }
+    }
+
+    private function electricityPlans()
+    {
+        $this->info("Add electricity");
+
+        ResellerElecticity::create([
+            'name' => 'IKEDC',
+            'code' => 'ikeja-electric',
+            'discount' => '0.5%',
+        ]);
+
+        ResellerElecticity::create([
+            'name' => 'EKEDC',
+            'code' => 'eko-electric',
+            'discount' => '0.5%',
+        ]);
+
+        ResellerElecticity::create([
+            'name' => 'KEDCO',
+            'code' => 'kano-electric',
+            'discount' => '0.5%',
+        ]);
+
+        ResellerElecticity::create([
+            'name' => 'PHED',
+            'code' => 'portharcourt-electric',
+            'discount' => '0.5%',
+        ]);
+
+        ResellerElecticity::create([
+            'name' => 'JED',
+            'code' => 'jos-electric',
+            'discount' => '0.5%',
+        ]);
+
+        ResellerElecticity::create([
+            'name' => 'IBEDC',
+            'code' => 'ibadan-electric',
+            'discount' => '0.5%',
+        ]);
+
+        ResellerElecticity::create([
+            'name' => 'KAEDCO',
+            'code' => 'kaduna-electric',
+            'discount' => '0.5%',
+        ]);
+
+        ResellerElecticity::create([
+            'name' => 'AEDC',
+            'code' => 'abuja-electric',
+            'discount' => '0.5%',
+        ]);
+
     }
 }
