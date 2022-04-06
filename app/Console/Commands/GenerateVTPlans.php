@@ -69,6 +69,8 @@ class GenerateVTPlans extends Command
 
         foreach ($inters as $inte) {
 
+            $this->info("Fetching " . $inte . " plans");
+
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
@@ -96,6 +98,8 @@ class GenerateVTPlans extends Command
             $rep = json_decode($response, true);
 
             foreach ($rep['content']['varations'] as $plans) {
+                $this->info("Inserting record for " . $plans['name']);
+
                 ResellerCableTV::create([
                     'name' => $plans['name'],
                     'code' => $plans['variation_code'],
