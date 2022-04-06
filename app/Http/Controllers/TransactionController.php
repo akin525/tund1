@@ -434,6 +434,9 @@ class TransactionController extends Controller
 
         $tran = Transaction::find($id);
 
+        $desc = "Being reversal of " . $tran->description;
+        $user_name = $tran->user_name;
+
         $rtran = Transaction::where('ref', '=', $tran->ref)->get();
 
         foreach ($rtran as $tran) {
@@ -492,8 +495,6 @@ class TransactionController extends Controller
         }
 
         try {
-            $desc = "Being reversal of " . $tran->description;
-            $user_name = $tran->user_name;
             $at = new PushNotificationController();
             $at->PushNoti($user_name, $desc, "Reversal");
         } catch (Exception $e) {
