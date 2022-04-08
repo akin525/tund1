@@ -391,4 +391,80 @@ class SellDataController extends Controller
             }
         }
     }
+
+    public function server10($request, $code, $phone, $transid, $net, $input, $dada, $requester)
+    {
+
+        if ($requester == "reseller") {
+            $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
+        } else {
+            $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
+        }
+
+        if (env('FAKE_TRANSACTION', 1) == 0) {
+
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://www.datahouse.com.ng/api/data/',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => '{
+    "network": 1,
+    "mobile_number": "' . $phone . '",
+    "plan": ' . $rac->data_house_id . ',
+    "Ported_number": false
+}',
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Token ab7e7de7502063b0aa0db440855021350562d354',
+                    'Content-Type: application/json'
+                ),
+            ));
+
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+
+        } else {
+            $response = '{ "id": 286287, "ident": "5183418becb1cb", "network": 1, "balance_before": "3015.0", "balance_after": "2760.0", "mobile_number": "08064002132", "plan": 106, "Status": "successful", "plan_network": "MTN", "plan_name": "1.0GB", "plan_amount": "255.0", "create_date": "2022-04-08T13:33:52.355660", "Ported_number": false }';
+        }
+
+        try {
+            $rep = json_decode($response, true);
+        } catch (Exception $e) {
+            $response = '{"error":["SME Data not available on this network currently"]}';
+        }
+
+
+        $tran = new ServeRequestController();
+        $rs = new PayController();
+        $ms = new V2\PayController();
+
+        $dada['server_response'] = $response;
+
+        if (isset($rep['ident'])) {
+            $dada['server_ref'] = $rep['id'];
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 1, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 1, $dada);
+//                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
+            }
+        } else {
+            if ($requester == "reseller") {
+                return $rs->outputResponse($request, $transid, 0, $dada);
+            } else {
+                return $ms->outputResp($request, $transid, 0, $dada);
+//                $tran->addtrans("server6",$response,$amnt,1,$transid,$input);
+            }
+        }
+    }
 }
