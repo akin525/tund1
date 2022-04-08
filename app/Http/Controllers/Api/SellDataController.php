@@ -419,7 +419,7 @@ class SellDataController extends Controller
     "network": 1,
     "mobile_number": "' . $phone . '",
     "plan": ' . $rac->data_house_id . ',
-    "Ported_number": false
+    "Ported_number": true
 }',
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Token ab7e7de7502063b0aa0db440855021350562d354',
