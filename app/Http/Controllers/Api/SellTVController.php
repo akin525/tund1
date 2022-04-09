@@ -163,7 +163,7 @@ class SellTVController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "' . $net . '","variation_code": "' . $rac->code . '","phone": "' . $phone . '","billersCode": "' . $phone . '"}',
+                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "' . $rac->type . '","variation_code": "' . $rac->code . '","phone": "' . $phone . '","billersCode": "' . $phone . '"}',
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Basic ' . env('SERVER6_AUTH'),
                     'Content-Type: application/json'
