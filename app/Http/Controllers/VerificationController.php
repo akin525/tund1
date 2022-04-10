@@ -316,4 +316,53 @@ class VerificationController extends Controller
 
         return view('verification_s6', ['status' => $status, 'description' => $d, 'response' => true]);
     }
+
+    public function server10(Request $request)
+    {
+        $input = $request->all();
+        $ref = $input['ref'];
+
+        $trans = Transaction::where('ref', $ref)->latest()->first();
+
+        if (!$trans) {
+            return back()->with('error', 'Transaction reference not found');
+        }
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://www.datahouse.com.ng/api/data/' . $trans->server_ref,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POSTFIELDS => array('request_id' => $ref),
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Token ab7e7de7502063b0aa0db440855021350562d354',
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        // Convert JSON string to Array
+        $res = json_decode($response, true);
+
+        if (isset($res["id"])) {
+            $status = $res["Status"];
+            $d = $res['plan_network'] . " " . $res['plan_name'] . " " . $res['mobile_number'];
+        } else {
+            $status = "Error";
+            $d = "Invalid reference number";
+        }
+
+        return view('verification_s10', ['status' => $status, 'description' => $d, 'response' => true]);
+    }
 }

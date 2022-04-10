@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('backup:mysql --command=delete')
             ->withoutOverlapping()
-            ->dailyAt('01:35');
+            ->weekly();
 
 //        $schedule->command('backup:mysql --command=local')
 //            ->withoutOverlapping()

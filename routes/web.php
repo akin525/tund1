@@ -15,6 +15,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WalletController;
 use App\Jobs\Airtime2CashNotificationJob;
 use App\Jobs\NewAccountGiveaway;
@@ -96,6 +97,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/agentpayment-confirm', 'UsersController@agent_confirm')->name('agent.payment.confirmation');
     Route::post('/agentpayment', 'UsersController@agent_payment')->name('agent.payment');
 
+    Route::view('/verification_server10', 'verification_s10')->name('verification_s10');
     Route::view('/verification_server6', 'verification_s6')->name('verification_s6');
     Route::view('/verification_server5', 'verification_s5');
     Route::view('/verification_server4', 'verification_s4');
@@ -112,6 +114,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/verification_server4', 'VerificationController@server4')->name('verification_server4');
     Route::post('/verification_server5', 'VerificationController@server5')->name('verification_server5');
     Route::post('/verification_server6', 'VerificationController@server6')->name('verification_server6');
+    Route::post('/verification_server10', [VerificationController::class, 'server10'])->name('verification_server10');
 
     Route::middleware(['authCheck'])->group(function () {
         Route::POST('/referral_upgrade', 'UsersController@referral_upgrade')->name('referral.upgrade');
