@@ -338,19 +338,19 @@ class SellDataController extends Controller
 
         switch ($rac->network) {
             case "MTN":
-                $service_id = '5';
+                $service_id = 5;
                 break;
 
             case "9MOBILE":
-                $service_id = '9';
+                $service_id = 9;
                 break;
 
             case "GLO":
-                $service_id = '7';
+                $service_id = 7;
                 break;
 
             case "AIRTEL":
-                $service_id = '8';
+                $service_id = 8;
                 break;
 
             default:
