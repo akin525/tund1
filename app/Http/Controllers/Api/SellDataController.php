@@ -179,21 +179,27 @@ class SellDataController extends Controller
             $code = $rac->coded;
         }
 
-        if ($net == "9MOBILE") {
-            $net = "etisalat-data";
+        switch ($rac->network) {
+            case "MTN":
+                $service_id = "mtn-data";
+                break;
+
+            case "9MOBILE":
+                $service_id = "etisalat-data";
+                break;
+
+            case "GLO":
+                $service_id = "glo-data";
+                break;
+
+            case "AIRTEL":
+                $service_id = "airtel-data";
+                break;
+
+            default:
+                return response()->json(['success' => 0, 'message' => 'Invalid Network. Available are m for MTN, 9 for 9MOBILE, g for GLO, a for AIRTEL.']);
         }
 
-        if ($net == "GLO") {
-            $net = "glo-data";
-        }
-
-        if ($net == "MTN") {
-            $net = "mtn-data";
-        }
-
-        if ($net == "AIRTEL") {
-            $net = "airtel-data";
-        }
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
             $curl = curl_init();
@@ -207,7 +213,7 @@ class SellDataController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "' . $net . '","variation_code": "' . $code . '","phone": "' . $phone . '","billersCode": "' . $phone . '"}',
+                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "' . $service_id . '","variation_code": "' . $code . '","phone": "' . $phone . '","billersCode": "' . $phone . '"}',
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Basic ' . env('SERVER6_AUTH'),
                     'Content-Type: application/json'
@@ -330,7 +336,7 @@ class SellDataController extends Controller
             $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
         }
 
-        switch ($net) {
+        switch ($rac->network) {
             case "MTN":
                 $service_id = '5';
                 break;
@@ -422,7 +428,7 @@ class SellDataController extends Controller
             $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
         }
 
-        switch ($net) {
+        switch ($rac->network) {
             case "MTN":
                 $service_id = 1;
                 break;
