@@ -27,14 +27,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="push changes">
-      <change afterPath="$PROJECT_DIR$/resources/views/verification_s10.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/VerificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/VerificationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellDataController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellDataController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -573,14 +567,10 @@
       <workItem from="1649455012812" duration="1189000" />
       <workItem from="1649488291505" duration="1264000" />
       <workItem from="1649489612909" duration="1549000" />
-      <workItem from="1649625455299" duration="2093000" />
-    </task>
-    <task id="LOCAL-00133" summary="Commit Changes">
-      <created>1643537880239</created>
-      <option name="number" value="00133" />
-      <option name="presentableId" value="LOCAL-00133" />
-      <option name="project" value="LOCAL" />
-      <updated>1643537880242</updated>
+      <workItem from="1649625455299" duration="2400000" />
+      <workItem from="1649867023190" duration="615000" />
+      <workItem from="1649943681703" duration="1128000" />
+      <workItem from="1650089491821" duration="1113000" />
     </task>
     <task id="LOCAL-00134" summary="Commit Changes">
       <created>1643560652261</created>
@@ -918,7 +908,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649489525469</updated>
     </task>
-    <option name="localTasksCounter" value="182" />
+    <task id="LOCAL-00182" summary="push changes">
+      <created>1649627669700</created>
+      <option name="number" value="00182" />
+      <option name="presentableId" value="LOCAL-00182" />
+      <option name="project" value="LOCAL" />
+      <updated>1649627669700</updated>
+    </task>
+    <option name="localTasksCounter" value="183" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -986,10 +983,10 @@
     </state>
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1648771490462" />
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1648929190398" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1649489799519">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1649627668293">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1649488596338" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1649627668293" />
     <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.800.552@0.0.1366.720" timestamp="1643188869714" />
     <state x="310" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1649489799519" />
     <state x="129" y="53" width="1092" height="605" key="DiffContextDialog" timestamp="1649266154529">
@@ -1001,10 +998,10 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="463" y="114" key="FileChooserDialogImpl/0.0.1366.720@0.0.1366.720" timestamp="1642058928501" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1649489528336">
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1649627697181">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1649488565260" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1649627697181" />
     <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.800.552@0.0.1366.720" timestamp="1643188872987" />
     <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1649489528336" />
     <state x="492" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1648130095490">

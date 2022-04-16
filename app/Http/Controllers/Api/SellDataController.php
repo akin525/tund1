@@ -330,6 +330,27 @@ class SellDataController extends Controller
             $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
         }
 
+        switch ($net) {
+            case "MTN":
+                $service_id = '5';
+                break;
+
+            case "9MOBILE":
+                $service_id = '9';
+                break;
+
+            case "GLO":
+                $service_id = '7';
+                break;
+
+            case "AIRTEL":
+                $service_id = '8';
+                break;
+
+            default:
+                return response()->json(['success' => 0, 'message' => 'Invalid Network. Available are m for MTN, 9 for 9MOBILE, g for GLO, a for AIRTEL.']);
+        }
+
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
 
@@ -344,7 +365,7 @@ class SellDataController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => array('action' => 'data-topup', 'category_id' => '5', 'plan_id' => $rac->plan_id, 'contact_opt' => '2', 'contact_id' => '', 'phone_num' => $phone),
+                CURLOPT_POSTFIELDS => array('action' => 'data-topup', 'category_id' => $service_id, 'plan_id' => $rac->plan_id, 'contact_opt' => '2', 'contact_id' => '', 'phone_num' => $phone),
                 CURLOPT_HTTPHEADER => array(
                     env('SERVER8_AUTH'),
                     'referer: https://honourworld.ng/products/data-top-up',
@@ -401,6 +422,28 @@ class SellDataController extends Controller
             $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
         }
 
+        switch ($net) {
+            case "MTN":
+                $service_id = 1;
+                break;
+
+            case "9MOBILE":
+                $service_id = 3;
+                break;
+
+            case "GLO":
+                $service_id = 2;
+                break;
+
+            case "AIRTEL":
+                $service_id = 4;
+                break;
+
+            default:
+                return response()->json(['success' => 0, 'message' => 'Invalid Network. Available are m for MTN, 9 for 9MOBILE, g for GLO, a for AIRTEL.']);
+        }
+
+
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
 
@@ -416,7 +459,7 @@ class SellDataController extends Controller
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => '{
-    "network": 1,
+    "network": ' . $service_id . ',
     "mobile_number": "' . $phone . '",
     "plan": ' . $rac->data_house_id . ',
     "Ported_number": true
