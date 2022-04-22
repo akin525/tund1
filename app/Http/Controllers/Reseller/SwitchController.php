@@ -30,6 +30,10 @@ class SwitchController extends Controller
                 return $this->myBalance($request);
             case "withdraw_commission":
                 return $this->withdrawCommision($request);
+            case "transactions":
+                return $this->myTransactions($request);
+            case "withdrawals":
+                return $this->myWithdrawals($request);
             default:
                 return response()->json(['success' => 0, 'message' => 'Invalid service provided']);
         }
@@ -147,6 +151,36 @@ class SwitchController extends Controller
         }
 
         return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['wallet' => $user->wallet, 'commission' => $user->bonus]]);
+    }
+
+    public function myTransactions(Request $request)
+    {
+
+        $key = $request->header('Authorization');
+
+        $user = User::where("api_key", $key)->first();
+        if (!$user) {
+            return response()->json(['success' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
+        }
+
+        $transaction = Transaction::where("user_name", $user->user_name)->latest()->get();
+
+        return response()->json(['success' => 1, 'message' => 'Transactions Fetched successfully', 'data' => $transaction->makeHidden(['server_response', 'server_ref'])]);
+    }
+
+    public function myWithdrawals(Request $request)
+    {
+
+        $key = $request->header('Authorization');
+
+        $user = User::where("api_key", $key)->first();
+        if (!$user) {
+            return response()->json(['success' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
+        }
+
+        $transaction = Withdraw::where("user_name", $user->user_name)->latest()->get();
+
+        return response()->json(['success' => 1, 'message' => 'Withdrawals Fetched successfully', 'data' => $transaction->makeHidden(['server_response', 'server_ref'])]);
     }
 
     public function withdrawCommision(Request $request)
