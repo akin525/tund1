@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Reseller\PayController;
+use Carbon\Carbon;
 
 class SellElectricityController extends Controller
 {
     public function server6($request, $code, $phone, $transid, $net, $input, $dada, $requester)
     {
+
+        $reqid = Carbon::now()->format('YmdHi') . $transid;
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
             $curl = curl_init();
@@ -22,7 +25,7 @@ class SellElectricityController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "' . $code . '","variation_code": "prepaid","phone": "' . $phone . '","billersCode": "' . $phone . '","amount": "' . $request->get('amount') . '"}',
+                CURLOPT_POSTFIELDS => '{"request_id": "' . $reqid . '", "serviceID": "' . $code . '","variation_code": "prepaid","phone": "' . $phone . '","billersCode": "' . $phone . '","amount": "' . $request->get('amount') . '"}',
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Basic ' . env('SERVER6_AUTH'),
                     'Content-Type: application/json'

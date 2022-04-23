@@ -63,6 +63,7 @@ class SellEducationalController extends Controller
 
     public function server6_utme($request, $code, $phone, $transid, $input, $dada, $requester)
     {
+        $reqid = Carbon::now()->format('YmdHi') . $transid;
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
             $curl = curl_init();
@@ -76,7 +77,7 @@ class SellEducationalController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "jamb","variation_code": "' . $code . '","phone": "08166939205","billersCode": "' . $phone . '","amount": "' . $request->get('amount') . '"}',
+                CURLOPT_POSTFIELDS => '{"request_id": "' . $reqid . '", "serviceID": "jamb","variation_code": "' . $code . '","phone": "08166939205","billersCode": "' . $phone . '","amount": "' . $request->get('amount') . '"}',
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Basic ' . env('SERVER6_AUTH'),
                     'Content-Type: application/json'

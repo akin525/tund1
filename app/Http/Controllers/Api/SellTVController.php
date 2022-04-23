@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Reseller\PayController;
 use App\Models\AppCableTVControl;
 use App\Models\ResellerCableTV;
+use Carbon\Carbon;
 
 class SellTVController extends Controller
 {
@@ -150,6 +151,8 @@ class SellTVController extends Controller
             $rac = AppCableTVControl::where("coded", strtolower($input['coded']))->first();
         }
 
+        $reqid = Carbon::now()->format('YmdHi') . $transid;
+
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
             $curl = curl_init();
@@ -163,7 +166,7 @@ class SellTVController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "' . $rac->type . '","variation_code": "' . $rac->code . '","phone": "' . $phone . '","billersCode": "' . $phone . '"}',
+                CURLOPT_POSTFIELDS => '{"request_id": "' . $reqid . '", "serviceID": "' . $rac->type . '","variation_code": "' . $rac->code . '","phone": "' . $phone . '","billersCode": "' . $phone . '"}',
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Basic ' . env('SERVER6_AUTH'),
                     'Content-Type: application/json'

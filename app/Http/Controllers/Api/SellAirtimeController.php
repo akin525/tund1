@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
 use App\Http\Controllers\Reseller\PayController;
+use Carbon\Carbon;
 
 class SellAirtimeController extends Controller
 {
@@ -424,6 +425,7 @@ class SellAirtimeController extends Controller
                 $netcode = strtolower($net);
         }
 
+        $reqid = Carbon::now()->format('YmdHi') . $transid;
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
             $curl = curl_init();
@@ -437,7 +439,7 @@ class SellAirtimeController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{"request_id": "' . $transid . '", "serviceID": "' . $netcode . '","amount": "' . $amnt . '","phone": "' . $phone . '"}',
+                CURLOPT_POSTFIELDS => '{"request_id": "' . $reqid . '", "serviceID": "' . $netcode . '","amount": "' . $amnt . '","phone": "' . $phone . '"}',
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Basic ' . env('SERVER6_AUTH'),
                     'Content-Type: application/json'
