@@ -464,7 +464,8 @@ class SellAirtimeController extends Controller
         $dada['server_response'] = $response;
 
         if ($rep['code'] == '000') {
-            $dada['server_ref'] = $rep['content']['transactions']['transactionId'];
+//            $dada['server_ref'] = $rep['content']['transactions']['transactionId'];
+            $dada['server_ref'] = $reqid;
             if ($requester == "reseller") {
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {

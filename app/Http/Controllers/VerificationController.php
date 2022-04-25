@@ -293,7 +293,7 @@ class VerificationController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_POSTFIELDS => array('request_id' => $ref),
+            CURLOPT_POSTFIELDS => array('request_id' => $trans->server_ref),
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Basic ' . env('SERVER6_AUTH'),
             ),

@@ -102,7 +102,8 @@ class SellEducationalController extends Controller
 
         if ($rep['code'] == '000') {
             $dada['token'] = $rep['purchased_code'];
-            $dada['server_ref'] = $rep['content']['transactions']['transactionId'];
+//            $dada['server_ref'] = $rep['content']['transactions']['transactionId'];
+            $dada['server_ref'] = $reqid;
 
             if ($requester == "reseller") {
                 $dada['server_ref'] = $rep['content']['transactions']['transactionId'];
