@@ -64,7 +64,7 @@
                                     <td>{{$dat->server}}</td>
                                     <td>{{$dat->server_ref}}</td>
                                     <td>
-                                        @if($dat->server == "server10")
+                                        @if($dat->server == "server10" || $dat->server == "server1" )
                                             <form method="post" action="{{route('trans_resubmit')}}">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{$dat->id}}"/>
