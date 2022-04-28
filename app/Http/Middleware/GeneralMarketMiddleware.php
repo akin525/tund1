@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Serverlog;
 use App\Models\Settings;
+use App\Models\Transaction;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +39,12 @@ class GeneralMarketMiddleware
                 $input['status'] = 'general market is lower than threshold';
                 Serverlog::create($input);
                 return response()->json(['success' => 0, 'message' => 'General market balance is lower than threshold']);
+            }
+
+            $dataTrans = Transaction::where([['name', 'data'], ['status', '=', 'delivered'], ['date', 'LIKE', '%' . date("Y-m-d") . '%']])->count();
+
+            if ($dataTrans < 1) {
+                return response()->json(['success' => 0, 'message' => 'You have to contribute to General Market today, before you can use it.']);
             }
 
             $bugm = DB::table("tbl_generalmarket_blocked user")->get();
