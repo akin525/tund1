@@ -95,6 +95,7 @@
                         </a>
                         <ul class="list-unstyled">
                             <li><a href="/transaction">Transaction History</a></li>
+                            <li><a href="{{route('trans_pending')}}">Pending Transactions</a></li>
                             <li><a href="/generalmarket">General Market</a></li>
                             <li><a href="{{route('findtransaction')}}">Find Transaction</a></li>
 

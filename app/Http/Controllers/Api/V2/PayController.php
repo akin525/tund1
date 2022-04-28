@@ -868,6 +868,7 @@ class PayController extends Controller
         }
 
         $t = Transaction::find($dada['tid']);
+        $t->status = "pending";
         $t->server_response = $dada['server_response'];
         $t->save();
 

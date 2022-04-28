@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\Airtime2CashNotificationJob;
+use App\Jobs\ATMtransactionserveJob;
 use App\Models\Airtime2Cash;
 use App\Models\PndL;
+use App\Models\Serverlog;
 use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
@@ -52,6 +54,35 @@ class TransactionController extends Controller
 //        }
 
         return view('transactions', ['data' => $data, 'tt' => $tt, 'ft' => $ft, 'st' => $st, 'rt' => $rt]);
+
+    }
+
+    public function pending(Request $request)
+    {
+
+        $data = Transaction::where('status', 'pending')->orderBy('id', 'desc')->paginate(25);
+
+        return view('transactions_pending', ['data' => $data]);
+    }
+
+    public function trans_resubmit(Request $request)
+    {
+        $input = $request->all();
+
+        $tran = Transaction::where('id', '=', $input["id"])->orwhere('ref', '=', $input["id"])->orderby('id', 'desc')->first();
+
+        if (!$tran) {
+            return back()->with('error', 'Transaction doesnt exist!');
+        }
+
+        $s = Serverlog::where("transid", $tran->ref)->first();
+
+        ATMtransactionserveJob::dispatch($s->id, "reprocess");
+
+        $tran->status = "inprogress";
+        $tran->save();
+
+        return back()->with('success', 'Transaction has been reprocess in background');
 
     }
 

@@ -32,9 +32,12 @@ class ATMtransactionserveJob implements ShouldQueue
      */
 
     public $id;
-    public function __construct($id)
+    public $from;
+
+    public function __construct($id, $from = "atm")
     {
-        $this->id=$id;
+        $this->id = $id;
+        $this->from = $from;
     }
 
     /**
@@ -61,38 +64,43 @@ class ATMtransactionserveJob implements ShouldQueue
         $discount = 0;
         $server = 0;
 
-        $user = User::where("user_name", $input['user_name'])->first();
+        if ($this->from == "atm") {
 
-        if ($input['service'] == "airtime") {
-            $tr['name'] = strtoupper($input['network']) . " " . $input['service'];
-            $tr['description'] = $user->user_name . " purchase " . $input['network'] . " " . $input['amount'] . " airtime on " . $input['phone'] . " using " . $input['payment_method'];
-            $tr['code'] = $input['service'];
-        } elseif ($input['service'] == "electricity" || $input['service'] == "betting") {
-            $tr['name'] = strtoupper($input['service']);
-            $tr['description'] = $user->user_name . " pay " . $input['amount'] . " on " . $input['phone'] . " using " . $input['payment_method'];
-            $tr['code'] = $input['service'];
-        } else {
-            $tr['name'] = $input['service'];
-            $tr['description'] = $user->user_name . " purchase " . " " . $input['coded'] . " on " . $input['phone'] . " using " . $input['payment_method'];
+            $user = User::where("user_name", $input['user_name'])->first();
+
+            if ($input['service'] == "airtime") {
+                $tr['name'] = strtoupper($input['network']) . " " . $input['service'];
+                $tr['description'] = $user->user_name . " purchase " . $input['network'] . " " . $input['amount'] . " airtime on " . $input['phone'] . " using " . $input['payment_method'];
+                $tr['code'] = $input['service'];
+            } elseif ($input['service'] == "electricity" || $input['service'] == "betting") {
+                $tr['name'] = strtoupper($input['service']);
+                $tr['description'] = $user->user_name . " pay " . $input['amount'] . " on " . $input['phone'] . " using " . $input['payment_method'];
+                $tr['code'] = $input['service'];
+            } else {
+                $tr['name'] = $input['service'];
+                $tr['description'] = $user->user_name . " purchase " . " " . $input['coded'] . " on " . $input['phone'] . " using " . $input['payment_method'];
+                $tr['code'] = $input['service'] . "_" . $input['coded'];
+            }
+
+
+            $tr['amount'] = $input['amount'];
+            $tr['date'] = Carbon::now();
+            $tr['device_details'] = "api";
+            $tr['ip_address'] = $input['ip_address'];
+            $tr['i_wallet'] = $user->wallet;
+            $tr['f_wallet'] = $tr['i_wallet'];
+            $tr['user_name'] = $user->user_name;
+            $tr['ref'] = $input['transid'];
             $tr['code'] = $input['service'] . "_" . $input['coded'];
+            $tr['server'] = "server" . $server;
+            $tr['server_response'] = "";
+            $tr['payment_method'] = $input['payment_method'];
+            $tr['status'] = "pending";
+            $tr['extra'] = $discount;
+            $t = Transaction::create($tr);
+        } else {
+            $t = Transaction::where('ref', $s->transid)->first();
         }
-
-
-        $tr['amount'] = $input['amount'];
-        $tr['date'] = Carbon::now();
-        $tr['device_details'] = "api";
-        $tr['ip_address'] = $input['ip_address'];
-        $tr['i_wallet'] = $user->wallet;
-        $tr['f_wallet'] = $tr['i_wallet'];
-        $tr['user_name'] = $user->user_name;
-        $tr['ref'] = $input['transid'];
-        $tr['code'] = $input['service'] . "_" . $input['coded'];
-        $tr['server'] = "server" . $server;
-        $tr['server_response'] = "";
-        $tr['payment_method'] = $input['payment_method'];
-        $tr['status'] = "pending";
-        $tr['extra'] = $discount;
-        $t = Transaction::create($tr);
 
         $dada['tid'] = $t->id;
         $dada['amount'] = $input['amount'];

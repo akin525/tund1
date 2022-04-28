@@ -74,6 +74,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction');
     Route::get('/transaction_server8', [TransactionController::class, 'server8'])->name('transaction8');
 
+    Route::get('/transactions-pending', [TransactionController::class, 'pending'])->name('trans_pending');
+    Route::post('/trans-resubmit', [TransactionController::class, 'trans_resubmit'])->name('trans_resubmit');
+
     Route::get('/generalmarket', 'TransactionController@gmhistory')->name('generalmarket');
     Route::get('/plcharges', 'TransactionController@plcharges')->name('plcharges');
     Route::post('/rechargecard', 'TransactionController@rechargecard')->name('rechargecard');
