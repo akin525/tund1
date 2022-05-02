@@ -108,13 +108,7 @@ class WithdrawalPayoutJob implements ShouldQueue
 
 
         $input["type"] = "expenses";
-        $input["gl"] = "Withdrawal";
-        $input["amount"] = $sf->amount;
         $input['date'] = Carbon::now();
-        $input["narration"] = "Being $sf->wallet withdrawal payout on $sf->ref";
-
-        PndL::create($input);
-
         $input["gl"] = "Withdrawal Fee";
         $input["amount"] = env('WITHDRAWAL_FEE');
         $input["narration"] = "Being withdrawal payout fee on $sf->ref";
