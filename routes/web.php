@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\GatewayControl;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\TransactionController;
@@ -62,6 +63,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pending_request', 'UsersController@pending')->name('pendingrequest');
     Route::post('/request_approve', 'UsersController@approve')->name('user approval');
     Route::get('/profile/{id}', 'UsersController@profile')->name('profile');
+    Route::get('/switch/{id}', 'GatewayControl@updategateway')->name('switch');
+    Route::get('/editpayment/{id}', 'GatewayControl@editgateway')->name('editpayment');
     Route::get('/wallet', 'WalletController@index')->name('wallet');
 
     Route::get('/virtual-accounts', [UsersController::class, 'vaccounts'])->name('virtual-accounts');
@@ -75,6 +78,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/transaction_server8', [TransactionController::class, 'server8'])->name('transaction8');
 
     Route::get('/transactions-pending', [TransactionController::class, 'pending'])->name('trans_pending');
+    Route::get('/gateway', [GatewayControl::class, 'gateway'])->name('gateway');
+    Route::post('/updategate', [GatewayControl::class, 'updatepayment'])->name('updategate');
     Route::post('/trans-resubmit', [TransactionController::class, 'trans_resubmit'])->name('trans_resubmit');
 
     Route::get('/generalmarket', 'TransactionController@gmhistory')->name('generalmarket');

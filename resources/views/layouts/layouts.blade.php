@@ -156,6 +156,11 @@
                             {{--                            <li><a href="icons-typicons.html">Typicons Icons</a></li>--}}
                         </ul>
                     </li>
+                    @if(\Illuminate\Support\Facades\Auth::user()->status == "superadmin")
+                        <li><a href="/gateway" class="waves-effect"><i class="dripicons-card"></i> <span>Payment Gateway
+{{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
+                            </span></a></li>
+                    @endif
                     <li class="has_sub">
                         <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Verification </span><span
                                 class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>

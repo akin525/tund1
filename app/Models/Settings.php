@@ -9,6 +9,6 @@ class Settings extends Model
     protected $table='tbl_allsettings';
 
     protected $fillable = [
-        'name', 'value'
+        'name', 'value', 'status'
     ];
 }
