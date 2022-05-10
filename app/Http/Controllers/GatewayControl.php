@@ -11,7 +11,6 @@ class GatewayControl
     {
         $payment = settings::get();
         $status = 1 || 0;
-//    $status=0;
 
         return view('gateway', compact('payment', 'status'));
 

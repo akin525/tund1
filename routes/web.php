@@ -14,6 +14,7 @@
 use App\Http\Controllers\GatewayControl;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\Reseller\BlockReseller;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VerificationController;
@@ -69,6 +70,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/virtual-accounts', [UsersController::class, 'vaccounts'])->name('virtual-accounts');
     Route::get('/payment-links', [UsersController::class, 'paymentLinks'])->name('payment-links');
+    Route::get('/seller', [BlockReseller::class, 'listreseller'])->name('seller');
 
     Route::get('/withdrawal', 'WalletController@withdrawal_list')->name('withdrawal_list');
     Route::post('/withdrawal', 'WalletController@withdrawal_submit')->name('withdrawal_submit');

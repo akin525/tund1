@@ -160,6 +160,9 @@
                         <li><a href="/gateway" class="waves-effect"><i class="dripicons-card"></i> <span>Payment Gateway
 {{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
                             </span></a></li>
+                        <li><a href="/seller" class="waves-effect"><i class="dripicons-user"></i> <span>Reseller
+{{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
+                            </span></a></li>
                     @endif
                     <li class="has_sub">
                         <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Verification </span><span
