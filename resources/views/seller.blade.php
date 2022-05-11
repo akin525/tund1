@@ -8,15 +8,19 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <p class="text-muted mb-4 font-13">Payment Gateway Controller</p>
+                    @if(isset($status))
+                        <h6 class="alert alert-danger">{{$status}}</h6>
+                    @endif
+                    <p class="text-muted mb-4 font-13">Reseller/Agent Controller</p>
                     <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
                             <th>Name</th>
                             <th>Api-Key</th>
-                            <th>Status</th>
+                            <th>Api-Status</th>
                             <th>Switch</th>
+                            <th>Generate Api</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -38,19 +42,25 @@
                                         <input type="checkbox" name="status" value="0" id="myCheckBox"
                                                {{$seller->fraud ==NULL?'checked':''}}
                                                {{--                                            @if($pay->status==1?'checked':'')--}}
-                                               onclick="window.location='{{route('switch', $seller->id)}}'"/>
+                                               onclick="window.location='{{route('block', $seller->id)}}'"/>
                                         <!--                                            <button  type="submit" class="btn-info col-lg">Update</button>-->
                                         <span>
-                                                <span>Block</span>
+                                                <span>Non</span>
+                                                <span>Active</span>
                                              </span>
 
                                         <a></a>
                                     </label>
                                 </td>
+                                <td>
+                                    <a href="{{route('apikey', $seller->id)}}" class="btn btn-outline-primary">Generate
+                                        Api-key</a>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
+                    {{$reseller->links()}}
 
                 </div>
             </div>

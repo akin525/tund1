@@ -69,6 +69,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/wallet', 'WalletController@index')->name('wallet');
 
     Route::get('/virtual-accounts', [UsersController::class, 'vaccounts'])->name('virtual-accounts');
+    Route::get('/block/{id}', [BlockReseller::class, 'updatereseller'])->name('block');
+    Route::get('/apikey/{id}', [BlockReseller::class, 'apireseller'])->name('apikey');
     Route::get('/payment-links', [UsersController::class, 'paymentLinks'])->name('payment-links');
     Route::get('/seller', [BlockReseller::class, 'listreseller'])->name('seller');
 

@@ -9,9 +9,45 @@ class BlockReseller
 {
     public function listreseller(Request $request)
     {
-        $reseller = user::where('status', 'client')->get();
+        $reseller = user::where('status', 'client')->orderBy('id', 'desc')->paginate(10);
 
         return view('seller', compact('reseller'));
+
+
+    }
+
+    public function updatereseller(Request $request)
+    {
+
+        $reseller = user::where('id', $request->id)->first();
+
+        $reseller->fraud = "fraud";
+        $reseller->save();
+
+        return redirect('/seller')->with('success', 'reseller updated ');
+
+
+    }
+
+    public function apireseller(Request $request)
+    {
+
+
+        $reseller = user::where('id', $request->id)->first();
+
+        if ($reseller->fraud != NULL) {
+            $reseller = user::where('status', 'client')->orderBy('id', 'desc')->paginate(10);
+
+            $status = "Kindly Enable the Api-key before generating key";
+            return view('/seller', compact('status', 'reseller'));
+
+        }
+        $key = uniqid('mcd_key', true);
+
+        $reseller->api_key = $key;
+        $reseller->save();
+
+        return redirect('/seller')->with('success', 'reseller updated ');
 
 
     }
