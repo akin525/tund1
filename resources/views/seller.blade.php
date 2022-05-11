@@ -34,13 +34,13 @@
                                 {{--                                <td><a href="{{route('editpayment', $pay->id)}}"--}}
                                 {{--                                       {{$pay->value}}class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>--}}
                                 {{--                                </td>--}}
-                                <td>@if($seller->fraud==Null)<h6 class="btn-success">Active</h6>@else<h6
+                                <td>@if($seller->fraud=="")<h6 class="btn-success">Active</h6>@else<h6
                                         class="btn-warning">
                                         Block</h6> @endif</td>
                                 <td>
                                     <label class="toggleSwitch nolabel">
                                         <input type="checkbox" name="status" value="0" id="myCheckBox"
-                                               {{$seller->fraud ==NULL?'checked':''}}
+                                               {{$seller->fraud ==""?'checked':''}}
                                                {{--                                            @if($pay->status==1?'checked':'')--}}
                                                onclick="window.location='{{route('block', $seller->id)}}'"/>
                                         <!--                                            <button  type="submit" class="btn-info col-lg">Update</button>-->

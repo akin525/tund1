@@ -9,7 +9,7 @@ class BlockReseller
 {
     public function listreseller(Request $request)
     {
-        $reseller = user::where('status', 'client')->orderBy('id', 'desc')->paginate(10);
+        $reseller = user::where('status', 'client')->paginate(10);
 
         return view('seller', compact('reseller'));
 
@@ -21,7 +21,7 @@ class BlockReseller
 
         $reseller = user::where('id', $request->id)->first();
 
-        if ($reseller->fraud = Null) {
+        if ($reseller->fraud == "") {
             $give = "fraud";
         } else {
             $give = "";
@@ -40,7 +40,7 @@ class BlockReseller
 
         $reseller = user::where('id', $request->id)->first();
 
-        if ($reseller->fraud != NULL) {
+        if ($reseller->fraud != "") {
             $reseller = user::where('status', 'client')->orderBy('id', 'desc')->paginate(10);
 
             $status = "Kindly Enable the Api-key before generating key";
