@@ -21,7 +21,12 @@ class BlockReseller
 
         $reseller = user::where('id', $request->id)->first();
 
-        $reseller->fraud = "fraud";
+        if ($reseller->fraud = Null) {
+            $give = "fraud";
+        } else {
+            $give = "";
+        }
+        $reseller->fraud = $give;
         $reseller->save();
 
         return redirect('/seller')->with('success', 'reseller updated ');

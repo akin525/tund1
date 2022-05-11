@@ -26,11 +26,9 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="push changes">
+    <list default="true" id="b58d07e3-fe5b-47a6-b38b-a567cd057ce7" name="Changes" comment="11/05/2022">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Reseller/BlockReseller.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Reseller/BlockReseller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/seller.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/seller.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -591,14 +589,7 @@
       <workItem from="1652195993618" duration="86000" />
       <workItem from="1652199935184" duration="3044000" />
       <workItem from="1652215709003" duration="5262000" />
-      <workItem from="1652253624175" duration="8859000" />
-    </task>
-    <task id="LOCAL-00145" summary="Work on Vnuban from flat to percent">
-      <created>1643839805518</created>
-      <option name="number" value="00145" />
-      <option name="presentableId" value="LOCAL-00145" />
-      <option name="project" value="LOCAL" />
-      <updated>1643839805518</updated>
+      <workItem from="1652253624175" duration="9667000" />
     </task>
     <task id="LOCAL-00146" summary="worked on referral bonus">
       <created>1644493519427</created>
@@ -936,7 +927,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652201666205</updated>
     </task>
-    <option name="localTasksCounter" value="194" />
+    <task id="LOCAL-00194" summary="11/05/2022">
+      <created>1652282788242</created>
+      <option name="number" value="00194" />
+      <option name="presentableId" value="LOCAL-00194" />
+      <option name="project" value="LOCAL" />
+      <updated>1652282788320</updated>
+    </task>
+    <option name="localTasksCounter" value="195" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -990,7 +988,8 @@
     <MESSAGE value="resolved referral upgrade not debiting" />
     <MESSAGE value="fixing referral" />
     <MESSAGE value="push changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="push changes" />
+    <MESSAGE value="11/05/2022" />
+    <option name="LAST_COMMIT_MESSAGE" value="11/05/2022" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
