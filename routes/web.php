@@ -15,6 +15,7 @@ use App\Http\Controllers\GatewayControl;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\Reseller\BlockReseller;
+use App\Http\Controllers\ServerController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VerificationController;
@@ -95,6 +96,7 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/profile', 'email_agent');
     Route::view('/cc', 'mail.passwordreset');
     Route::view('/finduser', 'find_user');
+    Route::view('/slider', 'slider');
     Route::POST('/finduser', 'UsersController@finduser')->name('finduser');
 
     Route::view('/findtransaction', 'find_transaction')->name('findtransaction');
@@ -136,6 +138,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/airtime2cash', 'TransactionController@airtime2cashpayment')->name('transaction.airtime2cash.payment');
 
         Route::view('/addfund', 'addfund');
+        Route::view('/servercontrol', 'servercontrol');
         Route::view('/rechargecard', 'rechargecard');
         Route::post('/addfund', 'WalletController@addfund')->name('addfund')->middleware('authCheck');
         Route::view('/addtransaction', 'addtransaction');
@@ -144,6 +147,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/adddatatransaction', 'TransactionController@addtransaction_data')->name('adddatatransaction');
         Route::view('/reversal', 'reversal')->name('reversal');
         Route::post('/reversal-confirm', [TransactionController::class, 'reversal_confirm'])->name('reversal.confirm');
+        Route::post('/updateairtimeserver', [ServerController::class, 'changeserver'])->name('updateairtimeserver');
         Route::get('/reverse-transaction/{id}', 'TransactionController@reverse')->name('reverse');
         Route::any('/report_pnl', [ReportsController::class, 'pnl'])->name('report_pnl');
         Route::get('/cryptorequest', 'TransactionController@cryptos')->name('cryptos');

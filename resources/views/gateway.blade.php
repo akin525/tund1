@@ -20,6 +20,7 @@
                         </tr>
                         </thead>
                         <tbody>
+
                         @foreach($payment as $pay)
                             <tr>
                                 <link rel="stylesheet" href="{{asset('style.css')}}">

@@ -16,7 +16,7 @@
                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Username</th>
                             <th>Api-Key</th>
                             <th>Api-Status</th>
                             <th>Switch</th>
@@ -29,7 +29,7 @@
                                 <link rel="stylesheet" href="{{asset('style.css')}}">
                                 <!--Only for demo purpose - no need to add.-->
                                 <link rel="stylesheet" href="{{asset('demo.css')}}"/>
-                                <td> {{$seller->full_name}} </td>
+                                <td> {{$seller->user_name}} </td>
                                 <td> {{$seller->api_key}}</td>
                                 {{--                                <td><a href="{{route('editpayment', $pay->id)}}"--}}
                                 {{--                                       {{$pay->value}}class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>--}}

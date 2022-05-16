@@ -163,6 +163,17 @@
                         <li><a href="/seller" class="waves-effect"><i class="dripicons-user"></i> <span>Reseller
 {{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
                             </span></a></li>
+                        <li><a href="/slider" class="waves-effect"><i class="dripicons-bookmark"></i> <span>Slider
+{{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
+                            </span></a></li>
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Switch Server</span><span
+                                    class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="/servercontrol">Airtime Server</a></li>
+                                <li><a href="/servercontrol">Data Server</a></li>
+                            </ul>
+                        </li>
                     @endif
                     <li class="has_sub">
                         <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Verification </span><span
