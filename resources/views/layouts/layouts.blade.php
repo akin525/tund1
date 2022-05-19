@@ -171,7 +171,7 @@
                                     class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                             <ul class="list-unstyled">
                                 <li><a href="/servercontrol">Airtime Server</a></li>
-                                <li><a href="/servercontrol">Data Server</a></li>
+                                <li><a href="/datacontrol">Data Server</a></li>
                             </ul>
                         </li>
                     @endif

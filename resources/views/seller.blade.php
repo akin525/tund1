@@ -12,19 +12,20 @@
                         <h6 class="alert alert-danger">{{$status}}</h6>
                     @endif
                     <p class="text-muted mb-4 font-13">Reseller/Agent Controller</p>
-                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
-                           style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                        <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Api-Key</th>
-                            <th>Api-Status</th>
-                            <th>Switch</th>
-                            <th>Generate Api</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($reseller as $seller)
+                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                               style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Api-Key</th>
+                                <th>Api-Status</th>
+                                <th>Switch</th>
+                                <th>Generate Api</th>
+                            </tr>
+                            dbteijfi
+                            </thead>
+                            <tbody>
+                            @foreach($reseller as $seller)
                             <tr>
                                 <link rel="stylesheet" href="{{asset('style.css')}}">
                                 <!--Only for demo purpose - no need to add.-->

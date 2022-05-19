@@ -47,9 +47,9 @@ class ServerController
 
     }
 
-    public function dataserve(Request $request)
+    public function dataserve2()
     {
-        $data = dataserver::get();
+        $data = dataserver::paginate(10);
 
         return view('datacontrol', compact('data'));
     }
