@@ -19,7 +19,8 @@ class ServerController
     public function changeserver(Request $request)
     {
         $airtime = airtimeserver::where('name', 'airtime')->first();
-//return $airtime;
+
+
         if ($request->network == "mtn") {
 
             $airtime->mtn = $request->number;
@@ -60,7 +61,7 @@ class ServerController
         $data->server = $request->number;
         $data->save();
 
-        return redirect('/datacontrol')->with('success', $data->name . ' server change successful');
+        return redirect('/datacontrol')->with('success', $data->name . ' server has been change successful to server' . $request->number);
 
 
     }
