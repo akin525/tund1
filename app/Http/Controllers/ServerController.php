@@ -60,5 +60,8 @@ class ServerController
         $data->server = $request->number;
         $data->save();
 
+        return redirect('/datacontrol')->with('success', $data->name . ' server change successful');
+
+
     }
 }
