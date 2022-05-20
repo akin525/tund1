@@ -136,6 +136,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/airtime2cash', [TransactionController::class, 'airtime2cash'])->name('transaction.airtime2cash');
         Route::get('/datacontrol', [ServerController::class, 'dataserve2'])->name('datacontrol');
+        Route::get('/role', [ServerController::class, 'userole'])->name('role');
+        Route::post('/updaterole', [ServerController::class, 'updateuserole'])->name('updaterole');
         Route::post('/datacontrol1', [ServerController::class, 'updatedataserve'])->name('datacontrol1');
         Route::post('/airtime2cash', 'TransactionController@airtime2cashpayment')->name('transaction.airtime2cash.payment');
 

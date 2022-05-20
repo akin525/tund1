@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\airtimeserver;
 use App\Models\dataserver;
+use App\User;
 use Illuminate\Http\Request;
 
 class ServerController
@@ -62,6 +63,27 @@ class ServerController
         $data->save();
 
         return redirect('/datacontrol')->with('success', $data->name . ' server has been change successful to server' . $request->number);
+
+
+    }
+
+    public function userole(Request $request)
+    {
+        $user = user::paginate(50);
+
+        return view('role', compact('user'));
+
+    }
+
+    public function updateuserole(Request $request)
+    {
+
+        $role = user::where('id', $request->id)->first();
+
+        $role->status = $request->status;
+        $role->save();
+
+        return redirect('/role')->with('success', $role->user_name . " role has been change to " . $request->status);
 
 
     }

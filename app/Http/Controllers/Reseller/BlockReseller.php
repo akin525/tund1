@@ -41,7 +41,7 @@ class BlockReseller
         $reseller = user::where('id', $request->id)->first();
 
         if ($reseller->fraud != "") {
-            $reseller = user::where('status', 'client')->orderBy('id', 'desc')->paginate(10);
+            $reseller = user::where('status', 'client')->paginate(10);
 
             $status = "Kindly Enable the Api-key before generating key";
             return view('/seller', compact('status', 'reseller'));

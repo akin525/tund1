@@ -157,6 +157,9 @@
                         </ul>
                     </li>
                     @if(\Illuminate\Support\Facades\Auth::user()->status == "superadmin")
+                        <li><a href="/role" class="waves-effect"><i class="dripicons-user"></i> <span>Assigned Role
+{{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
+                            </span></a></li>
                         <li><a href="/gateway" class="waves-effect"><i class="dripicons-card"></i> <span>Payment Gateway
 {{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
                             </span></a></li>
