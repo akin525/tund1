@@ -64,21 +64,12 @@
                                     <td>{{$dat->server}}</td>
                                     <td>{{$dat->server_ref}}</td>
                                     <td>
-                                        @if($dat->server == "server10" || $dat->server == "server1" || $dat->server == "server6" )
-                                            <form method="post" action="{{route('trans_resubmit')}}">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{$dat->id}}"/>
-                                                <button type="submit" class="btn btn-primary">Re-process</button>
-                                            </form>
-                                        @endif
-
-                                        {{--                                        @if($dat->status == 0)--}}
-                                        {{--                                            <form method="post" action="{{route('withdrawal_reject')}}">--}}
-                                        {{--                                                @csrf--}}
-                                        {{--                                                <input type="hidden" name="id" value="{{$dat->id}}"/>--}}
-                                        {{--                                                <button type="submit" class="btn btn-danger">Rejeect</button>--}}
-                                        {{--                                            </form>--}}
-                                        {{--                                        @endif--}}
+                                        <form method="post" action="{{route('trans_resubmit')}}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{$dat->id}}"/>
+                                            <button type="submit" class="btn btn-primary">Re-process</button>
+                                        </form>
+                                        <a href="{{route('trans_delivered', $dat->id)}}" class="btn btn-primary">Mark Delivered</a>
                                     </td>
                                 </tr>
                             @endforeach

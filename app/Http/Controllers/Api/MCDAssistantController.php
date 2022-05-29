@@ -107,7 +107,7 @@ class MCDAssistantController extends Controller
                                     $job = (new MCDAIServeTransJob($s->id))
                                         ->delay(Carbon::now()->addSeconds(1));
                                     dispatch($job);
-                                    $rep = $user_name . ", your transaction is successful. Thanks for using Mega Cheap Data";
+                                    $rep = $user_name . ", your transaction is successful. Thanks for using PLANETF";
                                 } else {
                                     if ($u->account_number != 0) {
                                         $rep = $user_name . ", insufficient amount. You can fund your wallet by transferring to " . $u->account_number . " Providus Bank. Kindly check and revert back or contact support @ 07011223737";
@@ -169,7 +169,7 @@ class MCDAssistantController extends Controller
                             $job = (new MCDAIServeTransJob($s->id))
                                 ->delay(Carbon::now()->addSeconds(1));
                             dispatch($job);
-                            $rep = $user_name . ", your transaction is successful. Thanks for using Mega Cheap Data";
+                            $rep = $user_name . ", your transaction is successful. Thanks for using PLANETF";
                         } else {
                             if ($u->account_number != 0) {
                                 $rep = $user_name . ", insufficient amount. You can fund your wallet by transferring to " . $u->account_number . " Providus Bank. Kindly check and revert back or contact support @ 07011223737";

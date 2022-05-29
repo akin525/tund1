@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui">
-    <title>Mega Cheap Data | Login</title>
+    <title>PLANETF | Login</title>
     <meta content="Admin Dashboard" name="description">
     <meta content="5Star Company" name="author">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,7 +22,7 @@
 <div class="wrapper-page">
     <div class="card">
         <div class="card-body">
-            <div class="text-center m-b-15"><a href="index.html" class="logo logo-admin"><img src="img/mcd_logo.png" height="50" alt="logo"></a><h3>Welcome to Mega Cheap Data</h3></div>
+            <div class="text-center m-b-15"><a href="{{route('login')}}" class="logo logo-admin"><img src="img/PlanetfLogo.png" height="80" alt="logo"></a><h3>Welcome to PLANETF</h3></div>
             <div class="p-3">
                 @error('email')
                 <span class="invalid-feedback text-danger " role="alert">

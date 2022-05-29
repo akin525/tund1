@@ -86,6 +86,20 @@ class TransactionController extends Controller
 
     }
 
+    public function trans_delivered($id)
+    {
+        $tran = Transaction::where('id', '=', $id)->orwhere('ref', '=', $id)->orderby('id', 'desc')->first();
+
+        if (!$tran) {
+            return back()->with('error', 'Transaction doesnt exist!');
+        }
+
+        $tran->status = "delivered";
+        $tran->save();
+
+        return back()->with('success', 'Transaction has been marked delivered');
+    }
+
     public function server8(Request $request)
     {
 
@@ -353,7 +367,7 @@ class TransactionController extends Controller
                     CURLOPT_FOLLOWLOCATION => true,
                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                     CURLOPT_CUSTOMREQUEST => "POST",
-                    CURLOPT_POSTFIELDS =>"{\n\"to\": \"/topics/".$topi."\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"MCD Notification\",\n\t\"text\":\"". $sms_description."\"\n\t}\n}\n",
+                    CURLOPT_POSTFIELDS =>"{\n\"to\": \"/topics/".$topi."\",\n\"data\": {\n\t\"extra_information\": \"PLANETF\"\n},\n\"notification\":{\n\t\"title\": \"MCD Notification\",\n\t\"text\":\"". $sms_description."\"\n\t}\n}\n",
                     CURLOPT_HTTPHEADER => array(
                         "Authorization: key=AAAAOW0II6E:APA91bHyum5pMhub2JVHcHnQghuWOdktOuhW9e4ZvmMDudjMZk9y1u71Nr7yl_FZLpsjuC6Hz1Fd49OrWfPYNKpAvahAZ5Rjv0y7IW24nqjYrPnMer8IvTkzZFB5W3hrOHAwbq2EOMOE",
                         "Content-Type: application/json",

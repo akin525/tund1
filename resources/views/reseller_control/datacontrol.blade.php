@@ -1,5 +1,5 @@
 @extends('layouts.layouts')
-@section('title', 'Data Plans')
+@section('title', 'Reseller Data Plans')
 @section('parentPageTitle', 'Services')
 
 @section('content')
@@ -26,10 +26,9 @@
                         <thead>
                         <tr>
                             <th>id</th>
-                            <th>Network</th>
+                            <th>Type</th>
                             <th>Product Name</th>
-                            <th>Provider Price</th>
-                            <th>Your Price</th>
+                            <th>Price</th>
                             <th>Server</th>
                             <th>Status</th>
                             <th>Date Modified</th>
@@ -40,11 +39,10 @@
                         <tr class="gradeX">
                             @foreach($data as $da)
                                 <td>{{$da['id']}}</td>
-                                <td class="center">{{$da['network']}}</td>
+                                <td class="center">{{$da['type']}}</td>
 
                                 <td>{{$da['name']}}</td>
                                 <td class="center">{{$da['price']}}</td>
-                                <td class="center">{{$da['pricing']}}</td>
                                 <td>
 
                                     {{$da['server']}}</option>
@@ -66,7 +64,7 @@
 
 
                                 <td class="center">
-                                    <a href="{{route('datacontrolEdit',$da->id )}}"  class="btn btn-secondary">Modify</a>
+                                    <a href="{{route('reseller.datacontrolEdit',$da->id )}}"  class="btn btn-secondary">Modify</a>
                                 </td>
 
                         </tr>

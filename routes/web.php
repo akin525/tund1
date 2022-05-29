@@ -15,7 +15,9 @@ use App\Http\Controllers\GatewayControl;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\Reseller\BlockReseller;
+use App\Http\Controllers\ResellerServiceController;
 use App\Http\Controllers\ServerController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VerificationController;
@@ -65,8 +67,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pending_request', 'UsersController@pending')->name('pendingrequest');
     Route::post('/request_approve', 'UsersController@approve')->name('user approval');
     Route::get('/profile/{id}', 'UsersController@profile')->name('profile');
-    Route::get('/switch/{id}', 'GatewayControl@updategateway')->name('switch');
-    Route::get('/editpayment/{id}', 'GatewayControl@editgateway')->name('editpayment');
     Route::get('/wallet', 'WalletController@index')->name('wallet');
 
     Route::get('/virtual-accounts', [UsersController::class, 'vaccounts'])->name('virtual-accounts');
@@ -83,9 +83,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/transaction_server8', [TransactionController::class, 'server8'])->name('transaction8');
 
     Route::get('/transactions-pending', [TransactionController::class, 'pending'])->name('trans_pending');
-    Route::get('/gateway', [GatewayControl::class, 'gateway'])->name('gateway');
-    Route::post('/updategate', [GatewayControl::class, 'updatepayment'])->name('updategate');
     Route::post('/trans-resubmit', [TransactionController::class, 'trans_resubmit'])->name('trans_resubmit');
+    Route::get('/trans_delivered/{id}', [TransactionController::class, 'trans_delivered'])->name('trans_delivered');
+
+    Route::get('/payment-gateway', [GatewayControl::class, 'gateway'])->name('paymentgateway');
+    Route::get('/editpayment/{id}', [GatewayControl::class, 'editgateway'])->name('paymentgateway_edit');
+    Route::post('/payment-gateway', [GatewayControl::class, 'updategateway'])->name('paymentgateway_update');
+
 
     Route::get('/generalmarket', 'TransactionController@gmhistory')->name('generalmarket');
     Route::get('/plcharges', 'TransactionController@plcharges')->name('plcharges');
@@ -96,7 +100,6 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/profile', 'email_agent');
     Route::view('/cc', 'mail.passwordreset');
     Route::view('/finduser', 'find_user');
-    Route::view('/slider', 'slider');
     Route::POST('/finduser', 'UsersController@finduser')->name('finduser');
 
     Route::view('/findtransaction', 'find_transaction')->name('findtransaction');
@@ -135,16 +138,52 @@ Route::middleware(['auth'])->group(function () {
         Route::view('/referral_upgrade', 'referral_upgrade');
 
         Route::get('/airtime2cash', [TransactionController::class, 'airtime2cash'])->name('transaction.airtime2cash');
-        Route::get('/datacontrol', [ServerController::class, 'dataserve2'])->name('datacontrol');
+
+        Route::get('/datacontrol', [ServerController::class, 'dataserve2'])->name('dataplans');
+        Route::get('/datacontrol/{id}', [ServerController::class, 'dataserveedit'])->name('datacontrolEdit');
+        Route::post('/datacontrol', [ServerController::class, 'dataserveUpdate'])->name('datacontrolUpdate');
+
+        Route::get('/airtimecontrol', [ServerController::class, 'airtime'])->name('airtimecontrol');
+        Route::get('/airtimecontrol/{id}', [ServerController::class, 'airtimeEdit'])->name('airtimecontrolEdit');
+        Route::post('/airtimecontrol', [ServerController::class, 'airtimeUpdate'])->name('airtimecontrolUpdate');
+
+        Route::get('/tvcontrol', [ServerController::class, 'tvserver'])->name('tvcontrol');
+        Route::get('/tvcontrol/{id}', [ServerController::class, 'tvEdit'])->name('tvcontrolEdit');
+        Route::post('/tvcontrol', [ServerController::class, 'tvUpdate'])->name('tvcontrolUpdate');
+
+        Route::get('/electricitycontrol', [ServerController::class, 'electricityserver'])->name('electricitycontrol');
+        Route::get('/electricitycontrol/{id}', [ServerController::class, 'electricityEdit'])->name('electricitycontrolEdit');
+        Route::post('/electricitycontrol', [ServerController::class, 'electricityUpdate'])->name('electricitycontrolUpdate');
+
+        Route::prefix('reseller')->name('reseller.')->group(function () {
+            Route::get('/datacontrol', [ResellerServiceController::class, 'dataserve2'])->name('dataplans');
+            Route::get('/datacontrol/{id}', [ResellerServiceController::class, 'dataserveedit'])->name('datacontrolEdit');
+            Route::post('/datacontrol', [ResellerServiceController::class, 'dataserveUpdate'])->name('datacontrolUpdate');
+
+            Route::get('/airtimecontrol', [ResellerServiceController::class, 'airtime'])->name('airtimecontrol');
+            Route::get('/airtimecontrol/{id}', [ResellerServiceController::class, 'airtimeEdit'])->name('airtimecontrolEdit');
+            Route::post('/airtimecontrol', [ResellerServiceController::class, 'airtimeUpdate'])->name('airtimecontrolUpdate');
+
+            Route::get('/tvcontrol', [ResellerServiceController::class, 'tvserver'])->name('tvcontrol');
+            Route::get('/tvcontrol/{id}', [ResellerServiceController::class, 'tvEdit'])->name('tvcontrolEdit');
+            Route::post('/tvcontrol', [ResellerServiceController::class, 'tvUpdate'])->name('tvcontrolUpdate');
+
+            Route::get('/electricitycontrol', [ResellerServiceController::class, 'electricityserver'])->name('electricitycontrol');
+            Route::get('/electricitycontrol/{id}', [ResellerServiceController::class, 'electricityEdit'])->name('electricitycontrolEdit');
+            Route::post('/electricitycontrol', [ResellerServiceController::class, 'electricityUpdate'])->name('electricitycontrolUpdate');
+        });
+
+        Route::get('sliders', [SliderController::class, 'index'])->name('sliders.index');
+
         Route::get('/role', [ServerController::class, 'userole'])->name('role');
         Route::post('/updaterole', [ServerController::class, 'updateuserole'])->name('updaterole');
         Route::post('/datacontrol1', [ServerController::class, 'updatedataserve'])->name('datacontrol1');
         Route::post('/airtime2cash', 'TransactionController@airtime2cashpayment')->name('transaction.airtime2cash.payment');
 
-        Route::view('/addfund', 'addfund');
+        Route::view('/addfund', 'addfund')->name("addfund");
+        Route::post('/addfund', 'WalletController@addfund')->name('addfund')->middleware('authCheck');
         Route::view('/servercontrol', 'servercontrol');
         Route::view('/rechargecard', 'rechargecard');
-        Route::post('/addfund', 'WalletController@addfund')->name('addfund')->middleware('authCheck');
         Route::view('/addtransaction', 'addtransaction');
         Route::post('/addtransaction', 'TransactionController@addtransaction')->name('addtransaction');
         Route::view('/adddatatransaction', 'addtransaction_data');

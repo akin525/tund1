@@ -1,6 +1,6 @@
 @extends('layouts.layouts')
-@section('title', 'Data Plans')
-@section('parentPageTitle', 'Services')
+@section('title', 'Payment Gateway')
+@section('parentPageTitle', 'Settings')
 
 @section('content')
     <div class="row">
@@ -21,17 +21,13 @@
                             toastr.success('{{ session('success') }}', 'Success');
                         </script>
                     @endif
-                    <p class="text-muted mb-4 font-13">Data Plans</p>
+                    <p class="text-muted mb-4 font-13">Gateway List</p>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
                             <th>id</th>
-                            <th>Network</th>
-                            <th>Product Name</th>
-                            <th>Provider Price</th>
-                            <th>Your Price</th>
-                            <th>Server</th>
-                            <th>Status</th>
+                            <th>Name</th>
+                            <th>Value</th>
                             <th>Date Modified</th>
                             <th>Action</th>
                         </tr>
@@ -39,25 +35,9 @@
                         <tbody>
                         <tr class="gradeX">
                             @foreach($data as $da)
-                                <td>{{$da['id']}}</td>
-                                <td class="center">{{$da['network']}}</td>
-
-                                <td>{{$da['name']}}</td>
-                                <td class="center">{{$da['price']}}</td>
-                                <td class="center">{{$da['pricing']}}</td>
-                                <td>
-
-                                    {{$da['server']}}</option>
-
-                                </td>
-                                <td class="center">
-                                    @if($da->status=="1")
-                                        <span class="badge badge-success">Active</span>
-                                    @else
-                                        <span class="badge badge-warning">Inactive</span>
-                                    @endif
-                                </td>
-
+                                <td>{{$i++}}</td>
+                                <td class="center">{{$da['name']}}</td>
+                                <td>{{$da['value']}}</td>
                                 <td>
 
                                     {{$da['updated_at']}}</option>
@@ -66,14 +46,13 @@
 
 
                                 <td class="center">
-                                    <a href="{{route('datacontrolEdit',$da->id )}}"  class="btn btn-secondary">Modify</a>
+                                    <a href="{{route('paymentgateway_edit',$da->id )}}"  class="btn btn-secondary">Modify</a>
                                 </td>
 
                         </tr>
                         @endforeach
                         </tbody>
                     </table>
-                    {{$data->links()}}
 
                 </div>
             </div>

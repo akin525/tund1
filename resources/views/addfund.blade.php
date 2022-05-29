@@ -1,5 +1,5 @@
 @extends('layouts.layouts')
-@section('title', 'Credit User')
+@section('title', 'Credit/Debit User')
 @section('parentPageTitle', 'Wallet')
 
 @section('content')
@@ -44,14 +44,9 @@
                                 </div>
 
                                 <div class="input-group mt-2">
-                                    <select class="custom-select form-control" name="payment_channel">
-                                        <option selected="selected">Bank Transfer</option>
-                                        <option>Payant</option>
-                                        <option>Monnify</option>
-                                        <option>Rave</option>
-                                        <option>Paystack</option>
-                                        <option>Carbon</option>
-                                        <option>Opay</option>
+                                    <select class="custom-select form-control" name="type">
+                                        <option selected="selected">credit</option>
+                                        <option>debit</option>
                                     </select>
                                 </div>
 

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui">
-    <title>Mega Cheap Data | Dashboard</title>
+    <title>PLANETF | Dashboard</title>
     <meta content="Admin Dashboard" name="description">
     <meta content="5Star Company" name="author">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,7 +35,7 @@
         <button type="button" class="button-menu-mobile button-menu-mobile-topbar open-left waves-effect"><i class="ion-close"></i></button><!-- LOGO -->
         <div class="topbar-left">
             <div class="text-center bg-logo">
-                <a href="#" class="logo"><i class="mdi mdi-bowling text-success"></i> MCD Dashboard</a><!-- <a href="index.html" class="logo"><img src="assets/images/logo.png" height="24" alt="logo"></a> -->
+                <a href="#" class="logo"><i class="mdi mdi-bowling text-success"></i> PLANETF</a><!-- <a href="index.html" class="logo"><img src="assets/images/logo.png" height="24" alt="logo"></a> -->
             </div>
         </div>
         <div class="sidebar-user">
@@ -57,9 +57,8 @@
             <div id="sidebar-menu">
                 <ul>
                     <li class="menu-title">Main</li>
-                    <li><a href="/home" class="waves-effect"><i class="dripicons-device-desktop"></i> <span>Dashboard
-{{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
-                            </span></a></li>
+                    <li><a href="/home" class="waves-effect"><i class="dripicons-device-desktop"></i> <span>Dashboard</span></a></li>
+                    <li><a href="{{route('addgnews')}}" class="waves-effect"><i class="dripicons-bell"></i> <span>Announcement</span></a></li>
 {{--                    <li><a href="calendar.html" class="waves-effect"><i class="dripicons-to-do"></i><span> Calendar</span></a></li>--}}
 {{--                    <li class="menu-title">Components</li>--}}
 {{--                    <li class="has_sub">--}}
@@ -121,7 +120,7 @@
                         </a>
                         <ul class="list-unstyled">
                             @if(\Illuminate\Support\Facades\Auth::user()->status == "superadmin")
-                                <li><a href="/addfund">Credit User</a></li>
+                                <li><a href="{{route('addfund')}}">Credit/Debit User</a></li>
                             @endif
                             <li><a href="/wallet">Wallet</a></li>
                             <li><a href="{{route('withdrawal_list')}}">Withdrawal</a></li>
@@ -160,21 +159,32 @@
                         <li><a href="/role" class="waves-effect"><i class="dripicons-user"></i> <span>Assigned Role
 {{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
                             </span></a></li>
-                        <li><a href="/gateway" class="waves-effect"><i class="dripicons-card"></i> <span>Payment Gateway
-{{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
+                        <li><a href="{{route('paymentgateway')}}" class="waves-effect"><i class="dripicons-card"></i> <span>Payment Gateway
                             </span></a></li>
                         <li><a href="/seller" class="waves-effect"><i class="dripicons-user"></i> <span>Reseller
 {{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
                             </span></a></li>
-                        <li><a href="/slider" class="waves-effect"><i class="dripicons-bookmark"></i> <span>Slider
+                        <li><a href="{{route('sliders.index')}}" class="waves-effect"><i class="dripicons-bookmark"></i> <span>Slider
 {{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
                             </span></a></li>
                         <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Switch Server</span><span
+                            <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-gear"></i><span> Services Control</span><span
                                     class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                             <ul class="list-unstyled">
-                                <li><a href="/servercontrol">Airtime Server</a></li>
-                                <li><a href="/datacontrol">Data Server</a></li>
+                                <li><a href="{{route('airtimecontrol')}}">Airtime Control</a></li>
+                                <li><a href="{{route('dataplans')}}">Data Plans</a></li>
+                                <li><a href="{{route('tvcontrol')}}">TV Plans</a></li>
+                                <li><a href="{{route('electricitycontrol')}}">Electricity Control</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-gear"></i><span> Reseller Control</span><span
+                                    class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="{{route('reseller.airtimecontrol')}}">Airtime Control</a></li>
+                                <li><a href="{{route('reseller.dataplans')}}">Data Plans</a></li>
+                                <li><a href="{{route('reseller.tvcontrol')}}">TV Plans</a></li>
                             </ul>
                         </li>
                     @endif
@@ -354,7 +364,7 @@
             </div>
             <!-- content -->
             <footer class="footer">
-                © 2020 Mega Cheap Data <strong>by</strong> 5Star Inn Company.
+                © 2020 PLANETF <strong>by</strong> 5Star Inn Company.
             </footer>
         </div>
         <!-- End Right content here -->

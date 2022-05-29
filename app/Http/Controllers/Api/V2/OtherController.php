@@ -333,7 +333,7 @@ class OtherController extends Controller
       "name":"' . Auth::user()->user_name . ' MegaCheapData"
    },
    "customizations":{
-      "title":"Mega Cheap Data",
+      "title":"PLANETF",
       "description":"...the cheapest you can always get",
       "logo":"https://app.mcd.5starcompany.com.ng/img/mcd_logo.png"
    }

@@ -23,7 +23,7 @@ class PushNotificationController extends Controller
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/" . $user_name_tr . "\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"" . $title . "\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
+            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/" . $user_name_tr . "\",\n\"data\": {\n\t\"extra_information\": \"PLANETF\"\n},\n\"notification\":{\n\t\"title\": \"" . $title . "\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
             CURLOPT_HTTPHEADER => array(
                 "Authorization: key=" . env('PUSH_NOTIFICATION_KEY'),
                 "Content-Type: application/json",
@@ -56,7 +56,7 @@ class PushNotificationController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/" . $user_name_tr . "\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"" . $title . "\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
+            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/" . $user_name_tr . "\",\n\"data\": {\n\t\"extra_information\": \"PLANETF\"\n},\n\"notification\":{\n\t\"title\": \"" . $title . "\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
             CURLOPT_HTTPHEADER => array(
                 "Authorization: key=" . env('PUSH_NOTIFICATION_KEY'),
                 "Content-Type: application/json",
@@ -74,7 +74,7 @@ class PushNotificationController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/samji\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"" . $title . "\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
+            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/samji\",\n\"data\": {\n\t\"extra_information\": \"PLANETF\"\n},\n\"notification\":{\n\t\"title\": \"" . $title . "\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
             CURLOPT_HTTPHEADER => array(
                 "Authorization: key=" . env('PUSH_NOTIFICATION_KEY'),
                 "Content-Type: application/json",
@@ -92,7 +92,7 @@ class PushNotificationController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/videx\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"MCD Data Purchase Notification\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
+            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/videx\",\n\"data\": {\n\t\"extra_information\": \"PLANETF\"\n},\n\"notification\":{\n\t\"title\": \"MCD Data Purchase Notification\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
             CURLOPT_HTTPHEADER => array(
                 "Authorization: key=" . env('PUSH_NOTIFICATION_KEY'),
                 "Content-Type: application/json",
@@ -127,7 +127,7 @@ class PushNotificationController extends Controller
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/" . $topic . "\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"" . $title . "\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
+            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/" . $topic . "\",\n\"data\": {\n\t\"extra_information\": \"PLANETF\"\n},\n\"notification\":{\n\t\"title\": \"" . $title . "\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
             CURLOPT_HTTPHEADER => array(
                 "Authorization: key=" . env('PUSH_NOTIFICATION_KEY'),
                 "Content-Type: application/json",
@@ -153,7 +153,7 @@ class PushNotificationController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/samji\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"" . $title . "\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
+            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/samji\",\n\"data\": {\n\t\"extra_information\": \"PLANETF\"\n},\n\"notification\":{\n\t\"title\": \"" . $title . "\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
             CURLOPT_HTTPHEADER => array(
                 "Authorization: key=" . env('PUSH_NOTIFICATION_KEY'),
                 "Content-Type: application/json",
@@ -171,7 +171,7 @@ class PushNotificationController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/videx\",\n\"data\": {\n\t\"extra_information\": \"Mega Cheap Data\"\n},\n\"notification\":{\n\t\"title\": \"MCD Data Purchase Notification\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
+            CURLOPT_POSTFIELDS => "{\n\"to\": \"/topics/videx\",\n\"data\": {\n\t\"extra_information\": \"PLANETF\"\n},\n\"notification\":{\n\t\"title\": \"MCD Data Purchase Notification\",\n\t\"body\":\"" . $message . "\"\n\t}\n}\n",
             CURLOPT_HTTPHEADER => array(
                 "Authorization: key=" . env('PUSH_NOTIFICATION_KEY'),
                 "Content-Type: application/json",

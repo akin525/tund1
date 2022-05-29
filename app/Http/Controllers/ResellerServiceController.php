@@ -7,29 +7,31 @@ use App\Models\AppAirtimeControl;
 use App\Models\AppCableTVControl;
 use App\Models\AppDataControl;
 use App\Models\dataserver;
+use App\Models\ResellerAirtimeControl;
+use App\Models\ResellerCableTV;
+use App\Models\ResellerDataPlans;
 use App\Models\ResellerElecticity;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class ServerController
+class ResellerServiceController extends Controller
 {
     public function airtime(Request $request)
     {
-        $data = AppAirtimeControl::get();
+        $data = ResellerAirtimeControl::get();
 
-        return view('airtimecontrol', compact('data'));
+        return view('reseller_control.airtimecontrol', compact('data'));
     }
 
     public function airtimeEdit($id)
     {
-        $data = AppAirtimeControl::find($id);
+        $data = ResellerAirtimeControl::find($id);
 
         if(!$data){
-            return redirect()->route('airtimecontrol')->with('error', 'Network does not exist');
+            return redirect()->route('reseller.airtimecontrol')->with('error', 'Network does not exist');
         }
 
-        return view('airtimecontrol_edit', compact('data'));
+        return view('reseller_control.airtimecontrol_edit', compact('data'));
     }
 
     public function airtimeUpdate(Request $request)
@@ -50,7 +52,7 @@ class ServerController
         }
 
 
-        $data = AppDataControl::where('id', $request->id)->first();
+        $data = ResellerAirtimeControl::where('id', $request->id)->first();
         if(!$data){
             return back()->with('error', 'Kindly choose correct plan. Kindly check and try again');
         }
@@ -59,57 +61,25 @@ class ServerController
         $data->server = $input['server'];
         $data->save();
 
-        return redirect()->route('airtimecontrol')->with('success', $data->network . ' has been updated successfully');
-    }
-
-    public function changeserver(Request $request)
-    {
-        $airtime = airtimeserver::where('name', 'airtime')->first();
-
-
-        if ($request->network == "mtn") {
-
-            $airtime->mtn = $request->number;
-            $airtime->save();
-        }
-        if ($request->network == "glo") {
-
-            $airtime->glo = $request->number;
-            $airtime->save();
-        }
-        if ($request->network == "airtel") {
-
-            $airtime->airtel = $request->number;
-            $airtime->save();
-        }
-        if ($request->network == "etisalat") {
-
-            $airtime->etisalat = $request->number;
-            $airtime->save();
-        }
-        $success = $request->network . " Server Change To Server " . $request->number;
-
-        return view('servercontrol', compact('airtime', 'success'));
-
-
+        return redirect()->route('reseller.airtimecontrol')->with('success', $data->network . ' has been updated successfully');
     }
 
     public function dataserve2()
     {
-        $data = dataserver::paginate(10);
+        $data = ResellerDataPlans::paginate(10);
 
-        return view('datacontrol', compact('data'));
+        return view('reseller_control.datacontrol', compact('data'));
     }
 
     public function dataserveedit($id)
     {
-        $data = dataserver::find($id);
+        $data = ResellerDataPlans::find($id);
 
         if(!$data){
-            return redirect()->route('datacontrol')->with('error', 'Plan does not exist');
+            return redirect()->route('reseller.datacontrol')->with('error', 'Plan does not exist');
         }
 
-        return view('datacontrol_edit', compact('data'));
+        return view('reseller_control.datacontrol_edit', compact('data'));
     }
 
     public function dataserveUpdate(Request $request)
@@ -133,7 +103,7 @@ class ServerController
         }
 
 
-        $data = AppDataControl::where('id', $request->id)->first();
+        $data = ResellerDataPlans::where('id', $request->id)->first();
         if(!$data){
             return back()->with('error', 'Kindly choose correct plan. Kindly check and try again');
         }
@@ -145,26 +115,26 @@ class ServerController
         $data->note = $input['note'];
         $data->save();
 
-        return redirect()->route('dataplans')->with('success', $data->name . ' has been updated successfully');
+        return redirect()->route('reseller.dataplans')->with('success', $data->name . ' has been updated successfully');
     }
 
 
     public function tvserver()
     {
-        $data = AppCableTVControl::paginate(10);
+        $data = ResellerCableTV::paginate(10);
 
         return view('tvcontrol', compact('data'));
     }
 
     public function tvEdit($id)
     {
-        $data = AppCableTVControl::find($id);
+        $data = ResellerCableTV::find($id);
 
         if(!$data){
-            return redirect()->route('tvcontrol')->with('error', 'Network does not exist');
+            return redirect()->route('reseller.tvcontrol')->with('error', 'Network does not exist');
         }
 
-        return view('tvcontrol_edit', compact('data'));
+        return view('reseller_control.tvcontrol_edit', compact('data'));
     }
 
     public function tvUpdate(Request $request)
@@ -187,7 +157,7 @@ class ServerController
         }
 
 
-        $data = AppCableTVControl::where('id', $request->id)->first();
+        $data = ResellerCableTV::where('id', $request->id)->first();
         if(!$data){
             return back()->with('error', 'Kindly choose correct plan. Kindly check and try again');
         }
@@ -198,7 +168,7 @@ class ServerController
         $data->discount = $input['discount'];
         $data->save();
 
-        return redirect()->route('tvcontrol')->with('success', $data->name . ' has been updated successfully');
+        return redirect()->route('reseller.tvcontrol')->with('success', $data->name . ' has been updated successfully');
     }
 
 
@@ -251,24 +221,4 @@ class ServerController
         return redirect()->route('electricitycontrol')->with('success', $data->name . ' has been updated successfully');
     }
 
-    public function userole(Request $request)
-    {
-        $user = user::paginate(50);
-
-        return view('role', compact('user'));
-
-    }
-
-    public function updateuserole(Request $request)
-    {
-
-        $role = user::where('id', $request->id)->first();
-
-        $role->status = $request->status;
-        $role->save();
-
-        return redirect('/role')->with('success', $role->user_name . " role has been change to " . $request->status);
-
-
-    }
 }

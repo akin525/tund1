@@ -1,5 +1,5 @@
 @extends('layouts.layouts')
-@section('title', 'Data Plans')
+@section('title', 'Sliders List')
 @section('parentPageTitle', 'Services')
 
 @section('content')
@@ -21,18 +21,16 @@
                             toastr.success('{{ session('success') }}', 'Success');
                         </script>
                     @endif
-                    <p class="text-muted mb-4 font-13">Data Plans</p>
+                    <p class="text-muted mb-4 font-13">Find List below</p>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
                             <th>id</th>
-                            <th>Network</th>
-                            <th>Product Name</th>
-                            <th>Provider Price</th>
-                            <th>Your Price</th>
-                            <th>Server</th>
+                            <th>Name</th>
+                            <th>Image</th>
+                            <th>Action</th>
                             <th>Status</th>
-                            <th>Date Modified</th>
+                            <th>Date Created</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -41,15 +39,8 @@
                             @foreach($data as $da)
                                 <td>{{$da['id']}}</td>
                                 <td class="center">{{$da['network']}}</td>
-
-                                <td>{{$da['name']}}</td>
-                                <td class="center">{{$da['price']}}</td>
-                                <td class="center">{{$da['pricing']}}</td>
-                                <td>
-
-                                    {{$da['server']}}</option>
-
-                                </td>
+                                <td>{{$da['discount']}}</td>
+                                <td class="center">{{$da['server']}}</td>
                                 <td class="center">
                                     @if($da->status=="1")
                                         <span class="badge badge-success">Active</span>
@@ -66,14 +57,13 @@
 
 
                                 <td class="center">
-                                    <a href="{{route('datacontrolEdit',$da->id )}}"  class="btn btn-secondary">Modify</a>
+                                    <a href="{{route('airtimecontrolEdit',$da->id )}}"  class="btn btn-secondary">Modify</a>
                                 </td>
 
                         </tr>
                         @endforeach
                         </tbody>
                     </table>
-                    {{$data->links()}}
 
                 </div>
             </div>

@@ -80,7 +80,7 @@
     <div class="wrapper wrapper-content animated fadeInRight">
 
         <div class="text-right">
-            <span style="color: white">Powered by Mega Cheap Data</span>
+            <span style="color: white">Powered by PLANETF</span>
         </div>
 
         <div class="text-left">

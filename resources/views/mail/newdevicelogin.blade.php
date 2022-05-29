@@ -56,9 +56,9 @@
         <tr>
             <td align="center">
                 <br/>
-                This mail was sent with ❤ from Mega Cheap Data to {{$data['email']}}
+                This mail was sent with ❤ from PLANETF to {{$data['email']}}
                 <br/>
-                <p>Copyright&copy;&nbsp;2020 Mega Cheap Data, 5Star Inn Company</p>
+                <p>Copyright&copy;&nbsp;2020 PLANETF, 5Star Inn Company</p>
             </td>
         </tr>
         </tbody>

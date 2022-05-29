@@ -706,7 +706,7 @@ class UltilityController extends Controller
     "settlementAmount": "1686.29",
     "paidOn": "06/06/2020 08:29:17 PM",
     "paymentStatus": "PAID",
-    "paymentDescription": "Mega Cheap Data",
+    "paymentDescription": "PLANETF",
     "transactionHash": "ea4017c38add1cf770a15ec6977267051751531694058339e1b14e4977a1daeb0dcecbbef846fb045c841ca5e3edeaf1f44e06ec9db3f0b24aab79870c6ef96d",
     "currency": "NGN",
     "paymentMethod": "ACCOUNT_TRANSFER",

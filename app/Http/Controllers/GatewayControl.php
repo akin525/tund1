@@ -4,62 +4,53 @@ namespace App\Http\Controllers;
 
 use App\Models\Settings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class GatewayControl
 {
     public function gateway(Request $request)
     {
-        $payment = settings::get();
-        $status = 1 || 0;
+        $data = Settings::where('name','LIKE', 'fund_%' )->get();
+        $i=1;
 
-        return view('gateway', compact('payment', 'status'));
+        return view('payment_gateway', compact('data', 'i'));
+    }
 
+    public function editgateway(Request $request)
+    {
+        $data = Settings::find($request->id);
+
+        if(!$data){
+            return back()->with('error', 'Kindly choose correct plan. Kindly check and try again');
+        }
+
+        return view('paymentgateway_edit', compact('data'));
     }
 
     public function updategateway(Request $request)
     {
         $input = $request->all();
+        $rules = array(
+            'id'      => 'required',
+            'value'      => 'required'
+        );
 
-        $payment1 = settings::where('id', $request->id)->first();
-        $status = "";
-        if ($payment1->status == "1") {
-            $status = "0";
-        } else {
-            $status = "1";
+        $validator = Validator::make($input, $rules);
+
+        if (!$validator->passes()) {
+            return back()->with('error', 'Incomplete request. Kindly check and try again');
         }
 
-        $payment1->status = $status;
-        $payment1->save();
-        $msg = "Gatepayment Update Successfully";
-        $payment = settings::get();
+        $data = Settings::find($input['id']);
 
-        return view('gateway', compact('msg', 'payment'));
-
-    }
-
-    public function editgateway(Request $request)
-    {
-
-        $payment = settings::where('id', $request->id)->first();
+        if(!$data){
+            return back()->with('error', 'Kindly choose correct plan. Kindly check and try again');
+        }
 
 
-        return view('editgateway', compact('payment'));
+        $data->value = $input['value'];
+        $data->save();
 
-    }
-
-    public function updatepayment(Request $request)
-    {
-        $input = $request->all();
-
-
-        $payment = settings::where('id', $input['id'])->first();
-
-        $payment->value = $input['va'];
-        $payment->name = $input['name'];
-        $payment->save();
-        $mes = "Gatepayment Update Successfully";
-
-        return view('editgateway', compact('payment', 'mes'));
-
+        return redirect()->route('paymentgateway')->with('Value has been updated successfully');
     }
 }
