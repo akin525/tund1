@@ -55,7 +55,7 @@
         </div>
         <div class="sidebar-inner slimscrollleft">
             <div id="sidebar-menu">
-                <>
+                <ul>
                     <li class="menu-title">Main</li>
                     <li><a href="/home" class="waves-effect"><i class="dripicons-device-desktop"></i> <span>Dashboard</span></a></li>
                     <li><a href="{{route('addgnews')}}" class="waves-effect"><i class="dripicons-bell"></i> <span>Announcement</span></a></li>
@@ -103,7 +103,7 @@
                             <li><a href="/adddatatransaction">Add Data Transaction</a></li>
                             <li><a href="/airtime2cash">Airtime Converter</a></li>
                             <li><a href="/reversal">Reverse Transaction</a></li>
-                            <li><a href="/plcharges">P Charges</a></li>
+{{--                            <li><a href="/plcharges">P Charges</a></li>--}}
 
                             {{--                            <li><a href="form-uploads.html">Form File Upload</a></li>--}}
                             {{--                            <li><a href="form-mask.html">Form Mask</a></li>--}}
@@ -190,11 +190,10 @@
                         <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Reports </span><span
                                 class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                         <ul class="list-unstyled">
-                            <li><a href="{{route('verification_s6')}}">Server 6</a></li>
-                            <li><a href="{{route('transaction8')}}">Server 8 Transactions</a></li>
-                            <li><a href="{{route('verification_s10')}}">Server 10</a></li>
+{{--                            <li><a href="{{route('verification_s6')}}">Server 6</a></li>--}}
+{{--                            <li><a href="{{route('transaction8')}}">Server 8 Transactions</a></li>--}}
+{{--                            <li><a href="{{route('verification_s10')}}">Server 10</a></li>--}}
                         </ul>
-                    </li>
 
                     {{--                    </li>--}}
                     {{--                    <li class="menu-title">Extra</li>--}}
@@ -227,6 +226,7 @@
 {{--                            <span>Payment Links--}}
 {{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
 {{--                            </span></a></li>--}}
+                </ul>
             </div>
             <div class="clearfix"></div>
         </div>
