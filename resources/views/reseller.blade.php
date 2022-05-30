@@ -8,6 +8,20 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     <p class="text-muted mb-4 font-13">The list of approved resellers.</p>
                     <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
@@ -32,7 +46,10 @@
                             <td>{{$user->company_name }}</td>
                             <td>{{$user->dob }}</td>
                             <td>{{$user->phoneno}}</td>
-                            <td><a href="profile/{{ $user->user_name }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a></td>
+                            <td>
+                                <a href="profile/{{ $user->user_name }}" class="btn btn-sm btn-success"><i class="fas fa-eye"></i> View</a>
+                                <a href="{{route('regenerateKey', $user->id)}}" class="btn btn-sm btn-danger"><i class="fas fa-recycle"></i> Regenerate Key</a>
+                            </td>
                         </tr>
                         @endforeach
                         </tbody>

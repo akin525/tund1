@@ -21,7 +21,7 @@
                             toastr.success('{{ session('success') }}', 'Success');
                         </script>
                     @endif
-                    <p class="text-muted mb-4 font-13">Find List below</p>
+                    <a href="{{route('sliders.create')}}" class="btn btn-primary mb-3 text-white">Add New Slider</a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
@@ -38,9 +38,9 @@
                         <tr class="gradeX">
                             @foreach($data as $da)
                                 <td>{{$da['id']}}</td>
-                                <td class="center">{{$da['network']}}</td>
-                                <td>{{$da['discount']}}</td>
-                                <td class="center">{{$da['server']}}</td>
+                                <td class="center">{{$da['name']}}</td>
+                                <td><img src="{{route('show.sliders',$da['image'])}}" class="img img-thumbnail" /></td>
+                                <td class="center">{{$da['action']}}</td>
                                 <td class="center">
                                     @if($da->status=="1")
                                         <span class="badge badge-success">Active</span>
@@ -50,14 +50,17 @@
                                 </td>
 
                                 <td>
-
-                                    {{$da['updated_at']}}</option>
-
+                                    {{$da['created_at']}}</option>
                                 </td>
 
-
                                 <td class="center">
-                                    <a href="{{route('airtimecontrolEdit',$da->id )}}"  class="btn btn-secondary">Modify</a>
+                                    @if($da->status == 1)
+                                        <a href="{{route('sliders.update',$da->id )}}" class="btn btn-warning">Disable</a>
+                                    @else
+                                        <a href="{{route('sliders.update',$da->id )}}" class="btn btn-success">Enable</a>
+                                    @endif
+
+                                    <a href="{{route('sliders.delete',$da->id )}}" class="btn btn-danger">Remove</a>
                                 </td>
 
                         </tr>

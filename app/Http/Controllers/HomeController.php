@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\GiveAway;
+use App\Models\Settings;
 use App\Models\Transaction;
 use App\Models\VirtualAccountClient;
 use App\Models\Withdraw;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -61,5 +64,37 @@ class HomeController extends Controller
 //        $data['general_market'] = DB::table('tbl_allsettings')->where("name", "=", "general_market")->first();
 
         return view('home', $data);
+    }
+
+    public function allsettings(){
+        $data=Settings::where('name','min_funding')->orWhere('name','max_funding')->orWhere('name','bithday_message')->orWhere('name','disable_resellers')->get();
+
+        return view('allsettings', ['data' => $data]);
+    }
+
+    public function allsettingsEdit($id){
+        $data=Settings::find($id);
+
+        return view('allsettings_edit', ['data' => $data]);
+    }
+
+    public function allsettingsUpdate(Request $request){
+        $input = $request->all();
+        $rules = array(
+            'id'      => 'required',
+            'value'      => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        if (!$validator->passes()) {
+            return back()->with('error', 'Incomplete request. Kindly check and try again');
+        }
+
+        $data=Settings::find($input['id']);
+        $data->value=$input['value'];
+        $data->save();
+
+        return redirect()->route('allsettings')->with('success', $data->name . ' updated successfully');
     }
 }

@@ -30,16 +30,8 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['register' => false]);
 
 Route::get('/', function () {
-    return redirect('login');
-});
-
-Route::get('/testgi', function () {
-    NewAccountGiveaway::dispatchNow('samji');
-});
-
-Route::get('/a2cn', function () {
-    Airtime2CashNotificationJob::dispatch("mcd_ewquweqd")->delay(now()->addSeconds());
-});
+    return view('welcome');
+})->name('welcome');
 
 
 Route::middleware(['auth'])->group(function () {
@@ -60,7 +52,10 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::get('/users', 'UsersController@index')->name('users');
     Route::get('/agents', 'UsersController@agents')->name('agents');
-    Route::get('/resellers', 'UsersController@resellers')->name('agents');
+    Route::get('/resellers', 'UsersController@resellers')->name('resellers');
+
+    Route::get('/regenerateKey/{id}', [UsersController::class, 'regenerateKey'])->name('regenerateKey');
+
     Route::get('/gmblocked', 'UsersController@gmblocked')->name('gmblocked');
     Route::get('/dormantusers', 'UsersController@dormant')->name('dormant');
     Route::get('/loginattempts', 'UsersController@loginattempt')->name('loginattempt');
@@ -174,6 +169,14 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::get('sliders', [SliderController::class, 'index'])->name('sliders.index');
+        Route::get('addsliders', [SliderController::class, 'create'])->name('sliders.create');
+        Route::post('addsliders', [SliderController::class, 'store'])->name('sliders.store');
+        Route::get('modify-slider/{id}', [SliderController::class, 'update'])->name('sliders.update');
+        Route::get('remove-slider/{id}', [SliderController::class, 'destroy'])->name('sliders.delete');
+
+        Route::get('allsettings', [HomeController::class, 'allsettings'])->name('allsettings');
+        Route::get('allsettings-edit/{id}', [HomeController::class, 'allsettingsEdit'])->name('allsettingsEdit');
+        Route::post('allsettings-update', [HomeController::class, 'allsettingsUpdate'])->name('allsettingsUpdate');
 
         Route::get('/role', [ServerController::class, 'userole'])->name('role');
         Route::post('/updaterole', [ServerController::class, 'updateuserole'])->name('updaterole');

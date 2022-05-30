@@ -24,8 +24,8 @@
 <!-- Loader -->
 <div id="preloader">
     <div id="status">
-        <lottie-player src="/assets/cheapprogress.json" background="transparent"  speed="0.5"  style="width: 150px; height: 150px;" loop autoplay></lottie-player>
-{{--        <div class="spinner"></div>--}}
+{{--        <lottie-player src="/assets/cheapprogress.json" background="transparent"  speed="0.5"  style="width: 150px; height: 150px;" loop autoplay></lottie-player>--}}
+        <div class="spinner"></div>
     </div>
 </div>
 <!-- Begin page -->
@@ -49,13 +49,13 @@
             <p class="online-icon text-dark"><i class="mdi mdi-record text-success"></i>online</p>
             <ul class="list-unstyled list-inline mb-0 mt-2">
                 <li class="list-inline-item"><a href="/profile/{{\Illuminate\Support\Facades\Auth::user()->user_name}}" class="" data-toggle="tooltip" data-placement="top" title="Profile"><i class="dripicons-user text-purple"></i></a></li>
-                <li class="list-inline-item"><a href="#" class="" data-toggle="tooltip" data-placement="top" title="Settings"><i class="dripicons-gear text-dark"></i></a></li>
+                <li class="list-inline-item"><a href="{{route('allsettings')}}" class="" data-toggle="tooltip" data-placement="top" title="Settings"><i class="dripicons-gear text-dark"></i></a></li>
                 <li class="list-inline-item"><a href="/logout" class="" data-toggle="tooltip" data-placement="top" title="Log out"><i class="dripicons-power text-danger"></i></a></li>
             </ul>
         </div>
         <div class="sidebar-inner slimscrollleft">
             <div id="sidebar-menu">
-                <ul>
+                <>
                     <li class="menu-title">Main</li>
                     <li><a href="/home" class="waves-effect"><i class="dripicons-device-desktop"></i> <span>Dashboard</span></a></li>
                     <li><a href="{{route('addgnews')}}" class="waves-effect"><i class="dripicons-bell"></i> <span>Announcement</span></a></li>
@@ -161,9 +161,7 @@
                             </span></a></li>
                         <li><a href="{{route('paymentgateway')}}" class="waves-effect"><i class="dripicons-card"></i> <span>Payment Gateway
                             </span></a></li>
-                        <li><a href="/seller" class="waves-effect"><i class="dripicons-user"></i> <span>Reseller
-{{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
-                            </span></a></li>
+
                         <li><a href="{{route('sliders.index')}}" class="waves-effect"><i class="dripicons-bookmark"></i> <span>Slider
 {{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
                             </span></a></li>
@@ -189,20 +187,15 @@
                         </li>
                     @endif
                     <li class="has_sub">
-                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Verification </span><span
+                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Reports </span><span
                                 class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                         <ul class="list-unstyled">
-                            <li><a href="/verification_server1">Server 1 Airtime</a></li>
-                            <li><a href="/verification_server1b">Server 1b Airtime</a></li>
-                            <li><a href="/verification_server1dt">Server 1 Data</a></li>
-                            <li><a href="/verification_server2">Server 2</a></li>
-                            <li><a href="/verification_server3">Server 3</a></li>
-                            <li><a href="/verification_server4">Server 4</a></li>
-                            <li><a href="/verification_server5">Server 5</a></li>
                             <li><a href="{{route('verification_s6')}}">Server 6</a></li>
                             <li><a href="{{route('transaction8')}}">Server 8 Transactions</a></li>
                             <li><a href="{{route('verification_s10')}}">Server 10</a></li>
                         </ul>
+                    </li>
+
                     {{--                    </li>--}}
                     {{--                    <li class="menu-title">Extra</li>--}}
                     {{--                    <li class="has_sub">--}}
@@ -225,16 +218,15 @@
                     {{--                        </ul>--}}
                     {{--                    </li>--}}
 
-                    <li><a href="{{route('virtual-accounts')}}" class="waves-effect"><i class="dripicons-archive"></i>
-                            <span>Virtual Accounts
+{{--                    <li><a href="{{route('virtual-accounts')}}" class="waves-effect"><i class="dripicons-archive"></i>--}}
+{{--                            <span>Virtual Accounts--}}
 {{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
-                            </span></a></li>
+{{--                            </span></a></li>--}}
 
-                    <li><a href="{{route('payment-links')}}" class="waves-effect"><i class="dripicons-archive"></i>
-                            <span>Payment Links
+{{--                    <li><a href="{{route('payment-links')}}" class="waves-effect"><i class="dripicons-archive"></i>--}}
+{{--                            <span>Payment Links--}}
 {{--                                <span class="badge badge-pill badge-primary float-right">7</span>--}}
-                            </span></a></li>
-                </ul>
+{{--                            </span></a></li>--}}
             </div>
             <div class="clearfix"></div>
         </div>

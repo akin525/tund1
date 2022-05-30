@@ -54,10 +54,19 @@ class UsersController extends Controller
 
     public function resellers(Request $request)
     {
-
-        $users = DB::table('tbl_agents')->where('status', 'reseller')->orderBy('id', 'desc')->get();
+        $users = User::where('status', 'reseller')->orderBy('id', 'desc')->get();
 
         return view('reseller', ['users' => $users]);
+    }
+
+    public function regenerateKey($id)
+    {
+        $u = User::find($id);
+        $key="key_".uniqid().rand().Carbon::now();
+        $u->api_key=$key;
+        $u->save();
+
+        return redirect()->route('resellers')->with('success', $u->user_name." API Key regenerated successful");
     }
 
     public function gmblocked(Request $request)

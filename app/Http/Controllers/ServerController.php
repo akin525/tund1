@@ -237,7 +237,6 @@ class ServerController
             return back()->with('error', 'Incomplete request. Kindly check and try again');
         }
 
-
         $data = AppCableTVControl::where('id', $request->id)->first();
         if(!$data){
             return back()->with('error', 'Kindly choose correct plan. Kindly check and try again');
@@ -253,22 +252,20 @@ class ServerController
 
     public function userole(Request $request)
     {
-        $user = user::paginate(50);
+        $userlist = User::latest()->select('id', 'user_name')->paginate(50);
+        $admins=User::where('status', 'admin')->orWhere('status', 'superadmin')->get();
+        $i=1;
 
-        return view('role', compact('user'));
-
+        return view('role', compact('userlist', 'admins', 'i'));
     }
 
     public function updateuserole(Request $request)
     {
-
         $role = user::where('id', $request->id)->first();
 
         $role->status = $request->status;
         $role->save();
 
         return redirect('/role')->with('success', $role->user_name . " role has been change to " . $request->status);
-
-
     }
 }
