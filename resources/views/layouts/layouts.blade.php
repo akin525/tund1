@@ -356,7 +356,7 @@
             </div>
             <!-- content -->
             <footer class="footer">
-                © 2020 PLANETF <strong>by</strong> 5Star Inn Company.
+                © 2020 PLANETF
             </footer>
         </div>
         <!-- End Right content here -->

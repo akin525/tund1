@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\OthersController;
 use App\Http\Controllers\Api\V2\AuthenticationController;
 use App\Http\Controllers\Api\V2\GiveAwayController;
 use App\Http\Controllers\Api\V2\ListController;
@@ -92,6 +93,7 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::get('fetch-giveaways', [GiveAwayController::class, 'fetchs']);
         Route::get('fetch-giveaway/{id}', [GiveAwayController::class, 'fetch']);
         Route::post('request-giveaway', [GiveAwayController::class, 'request']);
+        Route::get('sliders', [OthersController::class, 'sliders']);
     });
 
 });
