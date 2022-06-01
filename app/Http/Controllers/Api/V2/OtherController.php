@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
 use App\Models\AirtimeCountry;
+use App\Models\FAQs;
 use App\Models\GeneralMarket;
 use App\Models\ReferralPlans;
 use App\Models\Settings;
@@ -374,6 +375,13 @@ class OtherController extends Controller
         }
 
         return response()->json(['success' => 1, 'message' => 'Payment link generated successfully', 'data' => ['link' => $rep['data']['link']]]);
+    }
+
+    public function getFAQs(Request $request)
+    {
+        $faqs=FAQs::where('status', 1)->get();
+
+        return response()->json(['success' => 1, 'message' => 'FAQ fetched successfully', 'data' => $faqs]);
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,7 @@ class WalletTransferController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function validate(Request $request)
+    public function validateUsername(Request $request)
     {
         $input = $request->all();
         $rules = array(
@@ -39,14 +40,14 @@ class WalletTransferController extends Controller
             return response()->json(['success' => 0, 'message' => 'Required field(s) is missing']);
         }
 
-        $user=User::where("user_name",$input['user_name'])->orwhere("email",$input['user_name'])->first();
+        $user=User::where("user_name",$input['user_name'])->orwhere("email",$input['user_name'])->orwhere("phoneno",$input['user_name'])->first();
 
         if(!$user){
             return response()->json(['success' => 0, 'message' => 'Invalid username']);
         }
 
 
-        return response()->json(['success' => 1, 'message' => 'Validated Successfully']);
+        return response()->json(['success' => 1, 'message' => 'Validated Successfully', 'data'=>$user->user_name]);
     }
 
     /**
@@ -60,7 +61,8 @@ class WalletTransferController extends Controller
         $input = $request->all();
         $rules = array(
             'user_name' => 'required',
-            'amount' => 'required'
+            'amount' => 'required',
+            'reference' => 'required'
         );
 
         $validator = Validator::make($input, $rules);
@@ -69,10 +71,17 @@ class WalletTransferController extends Controller
             return response()->json(['success' => 0, 'message' => 'Required field(s) is missing']);
         }
 
-        $user=User::where("user_name",$input['user_name'])->orwhere("email",$input['user_name'])->first();
 
-        if(!$user){
+        $user=User::find(Auth::id());
+
+        $r_user=User::where("user_name",$input['user_name'])->orwhere("email",$input['user_name'])->orwhere("phoneno",$input['user_name'])->first();
+
+        if(!$r_user){
             return response()->json(['success' => 0, 'message' => 'Invalid username']);
+        }
+
+        if($r_user->user_name == $user->user_name){
+            return response()->json(['success' => 0, 'message' => 'You can not transfer to yourself']);
         }
 
         if($user->wallet < 1){
@@ -89,11 +98,41 @@ class WalletTransferController extends Controller
             return response()->json(['success' => 0, 'message' => 'Insufficient fund ']);
         }
 
-        $user=User::find(Auth::id());
+        $reference=$input['reference'];
+
+        $check=Transaction::where("reference", $reference)->first();
+
+        if($check){
+            return response()->json(['success' => 0, 'message' => 'Reference already exist']);
+        }
+
+        $input['name']="wallet transfer";
+        $input['amount']=$amount;
+        $input['status']='successful';
+        $input['description']='Wallet Transfer from '. $user->user_name .' to '.$r_user->user_name.' with the sum of #'.$amount;
+        $input['code']='w2wtransfer';
+        $input['user_name']=$user->user_name;
+        $input['i_wallet']=$user->wallet;
+        $input['f_wallet']=$user->wallet - $amount;
+        $input['ref']=$reference;
+        $input["ip_address"]=$_SERVER['REMOTE_ADDR'];
+        $input["date"]=date("y-m-d H:i:s");
+
+        Transaction::create($input);
+
+        $input['user_name']=$r_user->user_name;
+        $input['i_wallet']=$r_user->wallet;
+        $input['f_wallet']=$r_user->wallet + $amount;
+
+        Transaction::create($input);
+
         $user->wallet-=$amount;
+        $user->save();
 
+        $r_user->wallet+=$amount;
+        $r_user->save();
 
-        return response()->json(['success' => 1, 'message' => 'Validated Successfully']);
+        return response()->json(['success' => 1, 'message' => 'Transfer Successful']);
     }
 
 

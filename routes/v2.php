@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V2\OtherController;
 use App\Http\Controllers\Api\V2\PayController;
 use App\Http\Controllers\Api\V2\UserController;
 use App\Http\Controllers\Api\V2\ValidationController;
+use App\Http\Controllers\Api\V2\WalletTransferController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -94,6 +95,12 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::get('fetch-giveaway/{id}', [GiveAwayController::class, 'fetch']);
         Route::post('request-giveaway', [GiveAwayController::class, 'request']);
         Route::get('sliders', [OthersController::class, 'sliders']);
+
+        Route::post('username/validate', [WalletTransferController::class, 'validateUsername']);
+        Route::post('w2w/transfer', [WalletTransferController::class, 'transfer']);
+
+        Route::get('apikey/regenerate', [UserController::class, 'requestAPIkey']);
+        Route::get('getfaqs', [OtherController::class, 'getFAQs']);
     });
 
 });

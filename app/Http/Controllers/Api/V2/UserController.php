@@ -554,6 +554,21 @@ class UserController extends Controller
         return response()->json(['success' => 1, 'message' => $u->user_name . ' has been upgraded to ' . $plan->name . ' successfully!']);
     }
 
+    public function requestAPIkey(Request $request)
+    {
+        $user = User::find(Auth::id());
+
+        if(!$user){
+            return response()->json(['success' => 0, 'message' => 'Error, User not found']);
+        }
+
+        $key="key_".uniqid().rand().Carbon::now();
+        $user->api_key=$key;
+        $user->save();
+
+        return response()->json(['success' => 1, 'message' => 'Key has been regenerated successfully. Kindly copy now, it wont be shown to you again.', 'data'=>$key]);
+    }
+
 
     public function index(Request $request)
     {

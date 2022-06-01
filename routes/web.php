@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\FAQsController;
 use App\Http\Controllers\GatewayControl;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReportsController;
@@ -173,6 +174,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('addsliders', [SliderController::class, 'store'])->name('sliders.store');
         Route::get('modify-slider/{id}', [SliderController::class, 'update'])->name('sliders.update');
         Route::get('remove-slider/{id}', [SliderController::class, 'destroy'])->name('sliders.delete');
+
+        Route::get('faqs', [FAQsController::class, 'index'])->name('faqs.index');
 
         Route::get('allsettings', [HomeController::class, 'allsettings'])->name('allsettings');
         Route::get('allsettings-edit/{id}', [HomeController::class, 'allsettingsEdit'])->name('allsettingsEdit');
