@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
 use App\Jobs\AgentPdfGeneratorJob;
+use App\Models\AppAirtimeControl;
 use App\Models\PndL;
 use App\Models\PromoCode;
 use App\Models\ReferralPlans;
@@ -45,16 +46,15 @@ class UserController extends Controller
         $uinfo['last_login'] = $user->last_login;
         $uinfo['points'] = $user->points;
 
-        $uinfo["total_fund"] = Transaction::where([['user_name', $user->user_name], ['name', 'wallet funding'], ['status', 'successful']])->count();
-        $uinfo["total_trans"] = Transaction::where([['user_name', $user->user_name], ['status', 'delivered']])->count();
-        // get user transactions report from transactions table
-
         //get airtime discounts
-        $airsets = DB::table("tbl_serverconfig_airtime")->where('name', '=', 'discount')->first();
-        $uinfo['airtime_discount_mtn'] = $airsets->mtn;
-        $uinfo['airtime_discount_glo'] = $airsets->glo;
-        $uinfo['airtime_discount_etisalat'] = $airsets->etisalat;
-        $uinfo['airtime_discount_airtel'] = $airsets->airtel;
+        $mtnairsets = AppAirtimeControl::where('network', 'mtn')->first();
+        $gloairsets = AppAirtimeControl::where('network', 'glo')->first();
+        $airtelairsets = AppAirtimeControl::where('network', 'airtel')->first();
+        $etisalatairsets = AppAirtimeControl::where('network', 'etisalat')->first();
+        $uinfo['airtime_discount_mtn'] = $mtnairsets->discount;
+        $uinfo['airtime_discount_glo'] = $gloairsets->discount;
+        $uinfo['airtime_discount_etisalat'] = $etisalatairsets->discount;
+        $uinfo['airtime_discount_airtel'] = $airtelairsets->discount;
 
         $settings = Settings::all();
         foreach ($settings as $setting) {
@@ -90,15 +90,11 @@ class UserController extends Controller
         $services['foreign_airtime'] = $sett['foreign_airtime'];
 
 
-        $advts['unity_testmode'] = $sett['unity_testmode'];
-        $advts['unity_gameid'] = $sett['unity_gameid'];
+        $others['min_funding'] = $sett['min_funding'];
+        $others['max_funding'] = $sett['max_funding'];
+        $others['live_chat'] = $sett['live_chat'];
 
-        $others['mcd_agent_phoneno'] = $sett['mcda_phoneno'];
-        $others['leaderboard_banner'] = $sett['leaderboard_banner'];
-        $others['leaderboard'] = $sett['leaderboard'];
-        $others['giveaway'] = $sett['giveaway'];
-
-        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['user' => $me, 'balances' => $balances, 'services' => $services, 'news' => $user->gnews, 'adverts' => $advts, 'others' => $others]]);
+        return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['user' => $me, 'balances' => $balances, 'services' => $services, 'news' => $user->gnews, 'others' => $others]]);
     }
 
     public function change_password(Request $request)

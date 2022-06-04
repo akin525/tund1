@@ -59,34 +59,6 @@
                     <li class="menu-title">Main</li>
                     <li><a href="/home" class="waves-effect"><i class="dripicons-device-desktop"></i> <span>Dashboard</span></a></li>
                     <li><a href="{{route('addgnews')}}" class="waves-effect"><i class="dripicons-bell"></i> <span>Announcement</span></a></li>
-{{--                    <li><a href="calendar.html" class="waves-effect"><i class="dripicons-to-do"></i><span> Calendar</span></a></li>--}}
-{{--                    <li class="menu-title">Components</li>--}}
-{{--                    <li class="has_sub">--}}
-{{--                        <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-jewel"></i> <span>UI Elements </span><span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>--}}
-{{--                        <ul class="list-unstyled">--}}
-{{--                            <li><a href="ui-alerts.html">Alerts</a></li>--}}
-{{--                            <li><a href="ui-alertify.html">Alertify</a></li>--}}
-{{--                            <li><a href="ui-badge.html">Badge</a></li>--}}
-{{--                            <li><a href="ui-buttons.html">Buttons</a></li>--}}
-{{--                            <li><a href="ui-carousel.html">Carousel</a></li>--}}
-{{--                            <li><a href="ui-cards.html">Cards</a></li>--}}
-{{--                            <li><a href="ui-dropdowns.html">Dropdowns</a></li>--}}
-{{--                            <li><a href="ui-grid.html">Grid</a></li>--}}
-{{--                            <li><a href="ui-images.html">Images</a></li>--}}
-{{--                            <li><a href="ui-lightbox.html">Lightbox</a></li>--}}
-{{--                            <li><a href="ui-modals.html">Modals</a></li>--}}
-{{--                            <li><a href="ui-navs.html">Navs</a></li>--}}
-{{--                            <li><a href="ui-progressbars.html">Progress Bars</a></li>--}}
-{{--                            <li><a href="ui-pagination.html">Pagination</a></li>--}}
-{{--                            <li><a href="ui-popover-tooltips.html">Popover & Tooltips</a></li>--}}
-{{--                            <li><a href="ui-rating.html">Rating</a></li>--}}
-{{--                            <li><a href="ui-rangeslider.html">Range Slider</a></li>--}}
-{{--                            <li><a href="ui-sweet-alert.html">Sweet-Alert</a></li>--}}
-{{--                            <li><a href="ui-typography.html">Typography</a></li>--}}
-{{--                            <li><a href="ui-tabs-accordions.html">Tabs &amp; Accordions</a></li>--}}
-{{--                            <li><a href="ui-video.html">Video</a></li>--}}
-                    {{--                        </ul>--}}
-                    {{--                    </li>--}}
                     <li class="has_sub">
                         <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-blog"></i><span> Transactions </span>
                             {{--                            <span class="badge badge-pill badge-info float-right">8</span>--}}
@@ -95,7 +67,7 @@
                         <ul class="list-unstyled">
                             <li><a href="/transaction">Transaction History</a></li>
                             <li><a href="{{route('trans_pending')}}">Pending Transactions</a></li>
-                            <li><a href="/generalmarket">General Market</a></li>
+{{--                            <li><a href="/generalmarket">General Market</a></li>--}}
                             <li><a href="{{route('findtransaction')}}">Find Transaction</a></li>
 
                             {{--                                <li><a href="/cryptorequest">Crypto Request</a></li>--}}
@@ -103,13 +75,6 @@
                             <li><a href="/adddatatransaction">Add Data Transaction</a></li>
                             <li><a href="/airtime2cash">Airtime Converter</a></li>
                             <li><a href="/reversal">Reverse Transaction</a></li>
-{{--                            <li><a href="/plcharges">P Charges</a></li>--}}
-
-                            {{--                            <li><a href="form-uploads.html">Form File Upload</a></li>--}}
-                            {{--                            <li><a href="form-mask.html">Form Mask</a></li>--}}
-                            {{--                            <li><a href="form-summernote.html">Summernote</a></li>--}}
-                            {{--                            <li><a href="form-validation.html">Form Validation</a></li>--}}
-                            {{--                            <li><a href="form-xeditable.html">Form Xeditable</a></li>--}}
                         </ul>
                     </li>
                     <li class="has_sub">
@@ -123,12 +88,7 @@
                                 <li><a href="{{route('addfund')}}">Credit/Debit User</a></li>
                             @endif
                             <li><a href="/wallet">Wallet</a></li>
-                            <li><a href="{{route('withdrawal_list')}}">Withdrawal</a></li>
-                            {{--                            <li><a href="charts-chartjs.html">Chartjs Chart</a></li>--}}
-                            {{--                            <li><a href="charts-c3.html">C3 Chart</a></li>--}}
-                            {{--                            <li><a href="charts-flot.html">Flot Chart</a></li>--}}
-                            {{--                            <li><a href="charts-other.html">Jquery Knob Chart</a></li>--}}
-                            {{--                            <li><a href="charts-morris.html">Morris Chart</a></li>--}}
+{{--                            <li><a href="{{route('withdrawal_list')}}">Withdrawal</a></li>--}}
                         </ul>
                     </li>
                     <li class="has_sub">
@@ -137,22 +97,17 @@
                         <ul class="list-unstyled">
                             <li><a href="/users">Users</a></li>
                             <li><a href="/finduser">Search User(s)</a></li>
-                            <li><a href="/agentpayment">Agent Payment</a></li>
+{{--                            <li><a href="/agentpayment">Agent Payment</a></li>--}}
                             <li><a href="/loginattempts">Login Attempts</a></li>
-                            <li><a href="/agents">Agents</a></li>
+{{--                            <li><a href="/agents">Agents</a></li>--}}
                             <li><a href="/resellers">Resellers</a></li>
-                            <li><a href="/pending_request">Pending Request</a></li>
-                            <li><a href="/gmblocked">GM Blocked</a></li>
+{{--                            <li><a href="/pending_request">Pending Request</a></li>--}}
+{{--                            <li><a href="/gmblocked">GM Blocked</a></li>--}}
                             <li><a href="/dormantusers">Dormant Users</a></li>
 
-                            @if(\Illuminate\Support\Facades\Auth::user()->status == "superadmin")
-                                <li><a href="/referral_upgrade">Referral Upgrade</a></li>
-                            @endif
-                            {{--                            <li><a href="icons-fontawesome.html">Font Awesome</a></li>--}}
-                            {{--                            <li><a href="icons-ion.html">Ion Icons</a></li>--}}
-                            {{--                            <li><a href="icons-material.html">Material Design</a></li>--}}
-                            {{--                            <li><a href="icons-themify.html">Themify Icons</a></li>--}}
-                            {{--                            <li><a href="icons-typicons.html">Typicons Icons</a></li>--}}
+{{--                            @if(\Illuminate\Support\Facades\Auth::user()->status == "superadmin")--}}
+{{--                                <li><a href="/referral_upgrade">Referral Upgrade</a></li>--}}
+{{--                            @endif--}}
                         </ul>
                     </li>
                     @if(\Illuminate\Support\Facades\Auth::user()->status == "superadmin")
@@ -190,9 +145,9 @@
                         <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i><span> Reports </span><span
                                 class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                         <ul class="list-unstyled">
-{{--                            <li><a href="{{route('verification_s6')}}">Server 6</a></li>--}}
-{{--                            <li><a href="{{route('transaction8')}}">Server 8 Transactions</a></li>--}}
-{{--                            <li><a href="{{route('verification_s10')}}">Server 10</a></li>--}}
+                            <li><a href="{{route('report_yearly')}}">Yearly Report</a></li>
+                            <li><a href="{{route('report_monthly')}}">Monthly Report</a></li>
+                            <li><a href="{{route('report_daily')}}">Daily Report</a></li>
                         </ul>
 
                     {{--                    </li>--}}
@@ -307,8 +262,8 @@
                                     <h5>Welcome</h5>
                                 </div>
                                 <a class="dropdown-item" href="/profile/{{\Illuminate\Support\Facades\Auth::user()->user_name}}"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a>
-                                <a class="dropdown-item" href="#"><span class="badge badge-success float-right">5</span><i class="mdi mdi-settings m-r-5 text-muted"></i> Settings</a>
-                                <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline m-r-5 text-muted"></i> Lock screen</a>
+                                <a class="dropdown-item" href="{{route('allsettings')}}"><span class="badge badge-success float-right">5</span><i class="mdi mdi-settings m-r-5 text-muted"></i> Settings</a>
+{{--                                <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline m-r-5 text-muted"></i> Lock screen</a>--}}
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/logout"><i class="mdi mdi-logout m-r-5 text-muted"></i> Logout</a>
                             </div>

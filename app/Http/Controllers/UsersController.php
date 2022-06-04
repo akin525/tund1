@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Jobs\PushNotificationJob;
 use App\Mail\Notification;
 use App\Models\PndL;
 use App\Models\ResellerPaymentLink;
@@ -357,6 +358,10 @@ class UsersController extends Controller
             }
 
             User::where('user_name','=',$input["user_name"])->update(['gnews'=>$input["message"]]);
+        }
+
+        if(isset($input['push_notification'])){
+            PushNotificationJob::dispatch('general_notification', $input['message'], "General Notification");
         }
 
         return redirect('/gnews')->with('success', 'Message sent successfully!');

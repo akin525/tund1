@@ -3,19 +3,22 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\PushNotificationController;
 use App\Jobs\ATMtransactionserveJob;
 use App\Jobs\NewAccountGiveaway;
+use App\Jobs\PushNotificationJob;
+use App\Mail\TransactionNotificationMail;
 use App\Models\PndL;
+use App\Models\Settings;
 use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class ATMmanagerController extends Controller
 {
     public function atmfundwallet($fun, $amount, $reference, $payment_method, $cfee){
-        $charge_treshold=2000;
-        $charges=50;
+        $data=Settings::where('name','funding_charges')->first();
+        $charges=$data->value;
 
         $u=User::where('user_name', '=', $fun->user_name)->first();
 
@@ -32,17 +35,18 @@ class ATMmanagerController extends Controller
         $input["ip_address"]=$_SERVER['REMOTE_ADDR'].":A";
         $input["date"]=date("y-m-d H:i:s");
 
-        Transaction::create($input);
+        $tr=Transaction::create($input);
 
-        if($amount<$charge_treshold){
+        if($charges > 0){
             $input["type"]="income";
-            $input["gl"]=$payment_method;
+//            $input["gl"]=$payment_method;
+            $input["gl"]="funding_charges";
             $input["amount"]=$charges;
-            $input["narration"]="Being amount charged for funding less than #".$charge_treshold." from ".$u->user_name;
+            $input["narration"]="Being amount charged for funding on ".$reference." from ".$u->user_name;
 
             PndL::create($input);
 
-            $input["description"]="Being amount charged for funding less than #".$charge_treshold;
+            $input["description"]="Being amount charged for funding on ".$reference;
             $input["name"]="Auto Charge";
             $input["code"]="ac50";
             $input['status']='successful';
@@ -66,10 +70,10 @@ class ATMmanagerController extends Controller
         $u->wallet = $wallet;
         $u->save();
 
-        NewAccountGiveaway::dispatch($u->user_name)->delay(now()->addSecond());
+        PushNotificationJob::dispatch($u->user_name, "Hi " . $u->user_name . ", your wallet has been credited with the sum of " . $amount . " via " . $payment_method, "Payment Notification");
 
-        $at = new PushNotificationController();
-        $at->PushNoti($u->user_name, "Hi " . $u->user_name . ", your wallet has been credited with the sum of " . $amount . " via " . $payment_method, "Payment Notification");
+        Mail::to($u->email)->send(new TransactionNotificationMail($tr));
+
     }
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Settings;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -29,9 +30,9 @@ class NewDeviceLoginMail extends Mailable
      */
     public function build()
     {
+        $adminE=Settings::where('name', 'transaction_email_copy')->first();
         return $this->view('mail.newdevicelogin')
-            ->bcc('odejinmisamuel@gmail.com')
-            ->bcc('odejinmiemmanuel@gmail.com')
+            ->bcc(explode(',',$adminE->value))
             ->subject($this->data['user_name'] . "| New Device Login")
             ->with(['data' => $this->data]);
     }

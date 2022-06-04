@@ -43,6 +43,12 @@
                                     <textarea name="message" class="form-control" aria-label="With textarea"></textarea>
                                 </div>
 
+                                <div class="form-group row mt-2">
+                                    <div class="col-12">
+                                        <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" name="push_notification" id="remember"> <label class="custom-control-label" for="remember">Send Push Notification</label></div>
+                                    </div>
+                                </div>
+
                                 <div class="input-group mt-2" style="align-content: center">
                                     <button class="btn btn-primary btn-large" type="submit" style="align-self: center; align-content: center">Broadcast</button>
                                 </div>

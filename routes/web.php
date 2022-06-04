@@ -176,6 +176,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('remove-slider/{id}', [SliderController::class, 'destroy'])->name('sliders.delete');
 
         Route::get('faqs', [FAQsController::class, 'index'])->name('faqs.index');
+        Route::post('faqs', [FAQsController::class, 'store'])->name('faqs.store');
+        Route::view('faq/create', 'faq_add')->name('faqs.create');
+        Route::get('modify-faq/{id}', [FAQsController::class, 'update'])->name('faqs.update');
+        Route::get('remove-faq/{id}', [FAQsController::class, 'destroy'])->name('faqs.delete');
 
         Route::get('allsettings', [HomeController::class, 'allsettings'])->name('allsettings');
         Route::get('allsettings-edit/{id}', [HomeController::class, 'allsettingsEdit'])->name('allsettingsEdit');
@@ -199,6 +203,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/updateairtimeserver', [ServerController::class, 'changeserver'])->name('updateairtimeserver');
         Route::get('/reverse-transaction/{id}', 'TransactionController@reverse')->name('reverse');
         Route::any('/report_pnl', [ReportsController::class, 'pnl'])->name('report_pnl');
+        Route::any('/report_yearly', [ReportsController::class, 'yearly'])->name('report_yearly');
+        Route::any('/report_monthly', [ReportsController::class, 'monthly'])->name('report_monthly');
+        Route::any('/report_daily', [ReportsController::class, 'daily'])->name('report_daily');
         Route::get('/cryptorequest', 'TransactionController@cryptos')->name('cryptos');
     });
 

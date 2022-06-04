@@ -34,7 +34,7 @@
                         <tbody>
                         <tr class="gradeX">
                             @foreach($data as $da)
-                                <td class="center">{{$da['name']}}</td>
+                                <td class="center">{{str_replace("_", " ",$da['name'])}}</td>
                                 <td>{{$da['value']}}</td>
 
                                 <td>

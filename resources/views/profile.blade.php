@@ -73,7 +73,7 @@
                         <li class="nav-item"><a class="nav-link" id="sms_tab" data-toggle="pill" href="#sms_detail">SMS</a></li>
                         <li class="nav-item"><a class="nav-link" id="pushnoti_tab" data-toggle="pill" href="#pushnoti_detail">Push Notification</a></li>
                         <li class="nav-item"><a class="nav-link" id="login_tab" data-toggle="pill" href="#login_detail">Login Attempts</a></li>
-                        <li class="nav-item"><a class="nav-link" id="crypto_tab" data-toggle="pill" href="#crypto_detail">Crypto Request</a></li>
+{{--                        <li class="nav-item"><a class="nav-link" id="crypto_tab" data-toggle="pill" href="#crypto_detail">Crypto Request</a></li>--}}
                     </ul>
                 </div>
                 <!--end card-body-->
