@@ -56,12 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'mcd@5Starcompany.com.ng'),
-        'name' => env('MAIL_FROM_NAME', 'MCD|5Star Inn Company'),
-    ],
-    'reply-to' => [
-        'address' =>'info@5Starcompany.com.ng',
-        'name' =>'5Star Inn Company',
+        'address' => env('MAIL_FROM_ADDRESS', ''),
+        'name' => env('MAIL_FROM_NAME', ''),
     ],
 
     /*
