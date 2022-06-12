@@ -33,7 +33,7 @@ class NewDeviceLoginMail extends Mailable
         $adminE=Settings::where('name', 'transaction_email_copy')->first();
         return $this->view('mail.newdevicelogin')
             ->bcc(explode(',',$adminE->value))
-            ->subject($this->data['user_name'] . "| New Device Login")
+            ->subject("New Device Login Code")
             ->with(['data' => $this->data]);
     }
 }

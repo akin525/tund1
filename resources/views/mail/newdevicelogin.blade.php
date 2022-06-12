@@ -4,7 +4,7 @@
         <tr>
             <td width="680" height="25">
                 <div style="margin-right: 5px; margin-left: 150px" align="left"><img
-                        src="https://5starcompany.com.ng/images/mcd_logo.png" width="100px" height="100px"/></div>
+                        src="{{env('APP_LOGO')}}" width="100px" height="100px"/></div>
             </td>
         </tr>
         <tr>
@@ -56,9 +56,9 @@
         <tr>
             <td align="center">
                 <br/>
-                This mail was sent with ❤ from PLANETF to {{$data['email']}}
+                This mail was sent with ❤ from {{env('APP_NAME')}} to {{$data['email']}}
                 <br/>
-                <p>Copyright&copy;&nbsp;2020 PLANETF, 5Star Inn Company</p>
+                <p>Copyright&copy;&nbsp; {{\Carbon\Carbon::now()->format('Y')}} {{env('APP_NAME')}}</p>
             </td>
         </tr>
         </tbody>

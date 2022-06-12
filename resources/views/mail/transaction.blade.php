@@ -62,7 +62,7 @@
     </div>
     <div>
         <div style="width: 100%; height: 25px; padding-left: 25px; float: left;"><span
-                style="font-family: calibri; font-size: 12px; float: left; color: #f30100;"> This mail was sent with ❤ from PLANETF to
+                style="font-family: calibri; font-size: 12px; float: left; color: #f30100;"> This mail was sent with ❤ from {{env('APP_NAME')}} to
 {{$email}}</span></div>
     </div>
 </div>

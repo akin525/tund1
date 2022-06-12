@@ -83,7 +83,7 @@
                         <div class="col-12"><button class="btn btn-success btn-block waves-effect waves-light" type="submit">{{ __('Login') }}</button></div>
                     </div>
                     <div class="form-group m-t-10 mb-0 row">
-                        <div class="col-sm-7 m-t-20"><p class="m-t"> <small>Powered by 5Star Company &copy; 2019</small> </p></div>
+                        <div class="col-sm-7 m-t-20"><p class="m-t"> <small>&copy; {{\Carbon\Carbon::now()->format('Y')}}</small> </p></div>
                     </div>
                 </form>
             </div>
