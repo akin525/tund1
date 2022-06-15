@@ -107,7 +107,7 @@ class SwitchController extends Controller
             case "electricity":
                 return $s->electricity_server6($number, $plan, "offline", $sender);
             case "tv":
-                return $s->tv_server6($number, $plan, "offline", $sender);
+                return $s->tv_server1($number, $plan, "offline", $sender);
             case "betting":
                 return $s->betting_server7($number, strtoupper($plan), "offline", $sender);
             default:

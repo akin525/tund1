@@ -52,12 +52,12 @@ class ValidateController extends Controller
 
     }
 
-    public function tv_server6($phone, $type, $requester = "nm", $sender = "nm")
+    public function tv_server1($phone, $type, $requester = "nm", $sender = "nm")
     {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SERVER6') . "merchant-verify",
+            CURLOPT_URL => env('HW_BASEURL').'tv/validation',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -65,9 +65,14 @@ class ValidateController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => array('billersCode' => $phone,'serviceID' => $type),
+            CURLOPT_POSTFIELDS => '{
+"type" : "'.$type.'",
+"smartCardNo": "'.$phone.'"
+}',
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Basic ' .env('SERVER6_AUTH'),
+                'Authorization: Bearer ' . env('HW_AUTH'),
+                'Accept: application/json',
+                'Content-Type: application/json'
             ),
         ));
 
@@ -81,11 +86,11 @@ class ValidateController extends Controller
 
         $of = new SwitchController();
 
-        if (isset($rep['content']['Customer_Name'])) {
+        if (isset($rep['customerName'])) {
             if ($requester == "offline") {
-                return $of->returnSuccess('Validated successfully ' . $rep['content']['Customer_Name'], $sender);
+                return $of->returnSuccess('Validated successfully ' . $rep['customerName'], $sender);
             } else {
-                return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name'], 'details' => $rep['content']]);
+                return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['customerName'], 'details' => $rep]);
             }
         } else {
             if ($requester == "offline") {

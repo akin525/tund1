@@ -62,11 +62,11 @@ class SwitchController extends Controller
             case "electricity":
                 return $s->electricity_server6($input['phone'], $input['coded']);
             case "tv":
-                return $s->tv_server6($input['phone'], $input['coded']);
+                return $s->tv_server1($input['phone'], $input['coded']);
             case "betting":
                 return $s->betting_server7($input['phone'], strtoupper($input['coded']));
             case "smile":
-                return $s->tv_server6($input['phone'], strtolower($input['coded']));
+                return $s->tv_server1($input['phone'], strtolower($input['coded']));
             default:
                 return response()->json(['success' => 0, 'message' => 'Invalid service provided']);
         }
