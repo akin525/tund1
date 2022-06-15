@@ -86,7 +86,7 @@ class ValidateController extends Controller
 
         $of = new SwitchController();
 
-        if (isset($rep['customerName'])) {
+        if ($rep['code'] == 200) {
             if ($requester == "offline") {
                 return $of->returnSuccess('Validated successfully ' . $rep['customerName'], $sender);
             } else {
