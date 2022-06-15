@@ -66,8 +66,8 @@ class ValidateController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => '{
-"type" : "'.$type.'",
-"smartCardNo": "'.$phone.'"
+    "type": "'.strtoupper($type).'",
+    "smartCardNo": "'.$phone.'"
 }',
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Bearer ' . env('HW_AUTH'),

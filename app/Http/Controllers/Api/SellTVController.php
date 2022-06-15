@@ -167,9 +167,11 @@ class SellTVController extends Controller
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => '{
-"type" : "' . $rac->type . '",
-"smartCardNo": "' . $phone . '",
-"amount" : ' . $rac->price . '
+    "type": "' . $rac->type . '",
+    "smartCardNo": "' . $phone . '",
+    "packagename": "' . $rac->name . '",
+    "productsCode": "' . $rac->code . '",
+    "amount": "' . $rac->price . '"
 }',
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Bearer ' . env('HW_AUTH'),

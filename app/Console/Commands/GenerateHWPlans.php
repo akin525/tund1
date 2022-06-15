@@ -120,70 +120,58 @@ class GenerateHWPlans extends Command
     {
         $this->info("Fetching tv plans");
 
-        $inters = [
-            "STARTIMES",
-            "GOTV",
-            "DSTV"
-        ];
+        $curl = curl_init();
 
-        foreach ($inters as $inte) {
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('HW_BASEURL') . "fetch/packages",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Basic ' . env('HW_AUTH'),
+                'Content-Type: application/json'
+            ),
+        ));
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
-            $this->info("Fetching " . $inte . " plans");
+        $response = curl_exec($curl);
 
-            $curl = curl_init();
+        echo $response;
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => env('HW_BASEURL') . "fetch/packages",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-                CURLOPT_HTTPHEADER => array(
-                    'Authorization: Basic ' . env('HW_AUTH'),
-                    'Content-Type: application/json'
-                ),
-            ));
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_close($curl);
 
-            $response = curl_exec($curl);
+        $rep = json_decode($response, true);
 
-            echo $response;
+        foreach ($rep as $rep1) {
+            foreach ($rep1 as $plans) {
+                $this->info("Inserting record for " . $plans['name']);
 
-            curl_close($curl);
+                ResellerCableTV::create([
+                    'name' => $plans['name'],
+                    'code' => $plans['code'],
+                    'amount' => $plans['price'],
+                    'type' =>  strtolower(explode(" ",$plans['name'])[0]),
+                    'discount' => '1%',
+                    'status' => 1,
+                    'server' => 1,
+                ]);
 
-            $rep = json_decode($response, true);
-
-            foreach ($rep as $rep1) {
-                foreach ($rep1 as $plans) {
-                    $this->info("Inserting record for " . $plans['name']);
-
-                    ResellerCableTV::create([
-                        'name' => $plans['name'],
-                        'code' => $plans['code'],
-                        'amount' => $plans['price'],
-                        'type' => $inte,
-                        'discount' => '1%',
-                        'status' => 1,
-                        'server' => 6,
-                    ]);
-
-                    AppCableTVControl::create([
-                        'name' => $plans['name'],
-                        'coded' => $plans['code'],
-                        'code' => $plans['code'],
-                        'price' => $plans['price'],
-                        'type' => $inte,
-                        'discount' => '1%',
-                        'status' => 1,
-                        'server' => 1,
-                    ]);
-                }
+                AppCableTVControl::create([
+                    'name' => $plans['name'],
+                    'coded' => $plans['code'],
+                    'code' => $plans['code'],
+                    'price' => $plans['price'],
+                    'type' => strtolower(explode(" ",$plans['name'])[0]),
+                    'discount' => '1%',
+                    'status' => 1,
+                    'server' => 1,
+                ]);
             }
         }
-
     }
 }
 
