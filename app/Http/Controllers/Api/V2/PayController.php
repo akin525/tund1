@@ -12,7 +12,9 @@ use App\Http\Controllers\Controller;
 use App\Jobs\ServeRequestJob;
 use App\Models\Airtime2Cash;
 use App\Models\Airtime2CashSettings;
+use App\Models\AppAirtimeControl;
 use App\Models\AppCableTVControl;
+use App\Models\AppDataControl;
 use App\Models\GeneralMarket;
 use App\Models\PndL;
 use App\Models\PromoCode;
@@ -56,41 +58,10 @@ class PayController extends Controller
 
 
         if (strtoupper($input['country']) == "NG" || strtoupper($input['country']) == "NIGERIA") {
-            $sys = DB::table("tbl_serverconfig_airtime")->where('name', '=', 'airtime')->first();
+            $airtime=AppAirtimeControl::where("network", $input['provider'])->first();
 
-            $sysD = DB::table("tbl_serverconfig_airtime")->where('name', '=', 'discount')->first();
-
-            switch ($input['provider']) {
-                case "MTN":
-                    $server = $sys->mtn;
-                    $discount = $sysD->mtn;
-                    break;
-
-                case "9MOBILE":
-                    $server = $sys->etisalat;
-                    $discount = $sysD->etisalat;
-                    break;
-
-                case "ETISALAT":
-                    $server = $sys->etisalat;
-                    $discount = $sysD->etisalat;
-                    break;
-
-                case "GLO":
-                    $server = $sys->glo;
-                    $discount = $sysD->glo;
-                    break;
-
-                case "AIRTEL":
-                    $server = $sys->airtel;
-                    $discount = $sysD->airtel;
-                    break;
-
-                default:
-                    // required field is missing
-                    return response()->json(['success' => 0, 'message' => 'Invalid Network. Available are  MTN, 9MOBILE, GLO, AIRTEL.']);
-            }
-
+            $server = $airtime->server;
+            $discount = $airtime->discount;
 
             if ($input['amount'] < 100) {
                 return response()->json(['success' => 0, 'message' => 'Minimum amount is #100']);
@@ -146,7 +117,7 @@ class PayController extends Controller
         $input['device'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
 
 
-        $rac = DB::table("tbl_serverconfig_data")->where("coded", strtolower($input['coded']))->first();
+        $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
 
         if ($rac == "") {
             return response()->json(['success' => 0, 'message' => 'Invalid coded supplied']);
@@ -484,29 +455,15 @@ class PayController extends Controller
 
         $air = new SellAirtimeController();
 
-        if ($input['country'] == 'NG' || $input['country'] == 'Nigeria') {
-            switch (strtolower($server)) {
-                case "9":
-                    return $air->server9($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-                case "6":
-                    return $air->server6($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-                case "5":
-                    return $air->server5($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-                case "4":
-                    return $air->server4($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-                case "3":
-                    return $air->server3($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-                case "2":
-                    return $air->server2($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-                case "1b":
-                    return $air->server1b($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-                case "1":
-                    return $air->server1($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
-                default:
-                    return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
-            }
-        } else {
-            return $air->server9($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
+        switch (strtolower($server)) {
+            case "3":
+                return $air->server3($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
+            case "2":
+                return $air->server2($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
+            case "1":
+                return $air->server1($request, $input['amount'], $input['number'], $ref, $net, $request, $dada, "mcd");
+            default:
+                return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
         }
     }
 
@@ -517,16 +474,6 @@ class PayController extends Controller
         $air = new SellDataController();
 
         switch (strtolower($server)) {
-            case "10":
-                return $air->server10($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
-            case "8":
-                return $air->server8($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
-            case "7":
-                return $air->server7($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
-            case "6":
-                return $air->server6($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
-            case "3":
-                return $air->server3($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
             case "2":
                 return $air->server2($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
             case "1":
@@ -674,38 +621,7 @@ class PayController extends Controller
             $user->wallet = $tr['f_wallet'];
             $user->save();
 
-            if ($requester == "data") {
-                if ($input['coded'] != "m1") {
-                    $set = Settings::where('name', 'general_market')->first();
-                    $tr['version'] = $input['version'];
-                    $tr['o_wallet'] = $set->value;
-                    $tr['n_wallet'] = $tr['o_wallet'] + 5;
-                    $tr['type'] = 'credit';
-                    GeneralMarket::create($tr);
-                    $set->value = $tr['n_wallet'];
-                    $set->save();
-                }
-            }
-
-        } elseif ($input['payment'] == "general_market") {
-            $set = Settings::where('name', 'general_market')->first();
-            $tr['transid'] = $ref;
-            $tr['version'] = $input['version'];
-            $tr['i_wallet'] = $set->value;
-            $tr['f_wallet'] = $tr['i_wallet'] - $amount;
-            $tr['type'] = 'debit';
-            GeneralMarket::create($tr);
-            $set->value -= $amount;
-            $set->save();
-
-            $input["type"] = "expenses";
-            $input["gl"] = "General Market";
-            $input["amount"] = $amount;
-            $input['date'] = Carbon::now();
-            $input["narration"] = "Being general market used by " . $input['user_name'] . " on " . $ref;
-
-            PndL::create($input);
-        } else {
+        }  else {
             $tr['i_wallet'] = $user->wallet;
             $tr['f_wallet'] = $tr['i_wallet'];
         }
@@ -790,25 +706,6 @@ class PayController extends Controller
             return response()->json(['success' => 0, 'message' => 'Error, invalid user name']);
         }
 
-        if ($input['payment'] == "general_market") {
-            $set = Settings::where('name', 'general_market')->first();
-
-            if ($set->value >= $input['amount']) {
-
-                if ($input['amount'] > env("GMARKET_SINGLE_USAGE_LIMIT")) {
-                    $input['status'] = 'Excessive usage';
-                    Serverlog::create($input);
-                    return response()->json(['success' => 0, 'message' => 'Excessive usage detected, kindly reduce purchase to ' . env("GMARKET_SINGLE_USAGE_LIMIT")]);
-                }
-
-                Serverlog::create($input);
-                return $this->debitUser($request, $proceed['1'], $proceed['2'], $proceed['3'], $proceed['4'], $proceed['5'], $input['ref']);
-            }
-
-            $input['status'] = 'general market is low';
-            Serverlog::create($input);
-            return response()->json(['success' => 0, 'message' => 'General market balance is low']);
-        }
 
         if ($input['payment'] != "wallet" && $input['payment'] != "general_market") {
             $input['status'] = 'pending';
@@ -846,7 +743,6 @@ class PayController extends Controller
 
         Serverlog::create($input);
         return $this->debitUser($request, $proceed['1'], $proceed['2'], $proceed['3'], $proceed['4'], $proceed['5'], $input['ref']);
-//        return $next($request);
     }
 
     public function outputResp(Request $request, $ref, $status, $dada)

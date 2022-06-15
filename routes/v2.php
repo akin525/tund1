@@ -53,14 +53,12 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::get('tv/{network}', [ListController::class, 'cabletv']);
         Route::get('jamb', [ListController::class, 'jamb']);
 
-        Route::middleware(["promocode", "gmarket"])->group(function () {
-            Route::post('airtime', [PayController::class, 'buyairtime']);
-            Route::post('data', [PayController::class, 'buydata']);
-            Route::post('tv', [PayController::class, 'buytv']);
-            Route::post('electricity', [PayController::class, 'buyelectricity']);
-            Route::post('betting', [PayController::class, 'buybetting']);
-            Route::post('jamb', [PayController::class, 'buyJamb']);
-        });
+        Route::post('airtime', [PayController::class, 'buyairtime']);
+        Route::post('data', [PayController::class, 'buydata']);
+        Route::post('tv', [PayController::class, 'buytv']);
+        Route::post('electricity', [PayController::class, 'buyelectricity']);
+        Route::post('betting', [PayController::class, 'buybetting']);
+        Route::post('jamb', [PayController::class, 'buyJamb']);
 
         Route::post('bulkairtime', [UserController::class, 'bulkAirtime']);
 

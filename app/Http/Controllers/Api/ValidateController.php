@@ -36,11 +36,11 @@ class ValidateController extends Controller
 
         $of = new SwitchController();
 
-        if (isset($rep['content']['Customer_Name'])) {
+        if ($rep['code'] == 200) {
             if ($requester == "offline") {
-                return $of->returnSuccess('Validated successfully ' . $rep['content']['Customer_Name'], $sender);
+                return $of->returnSuccess('Validated successfully ' . $rep['customerName'], $sender);
             } else {
-                return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['content']['Customer_Name']]);
+                return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['customerName']]);
             }
         } else {
             if ($requester == "offline") {
