@@ -15,12 +15,6 @@ class SellAirtimeController extends Controller
     public function server1($request, $amnt, $phone, $transid, $net, $input, $dada, $requester)
     {
 
-        if ($requester == "reseller") {
-            $rac = ResellerDataPlans::where("code", strtolower($input['coded']))->first();
-        } else {
-            $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
-        }
-
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
             $curl = curl_init();
@@ -35,7 +29,7 @@ class SellAirtimeController extends Controller
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => '{
-  "network" : "' . $rac->network . '",
+  "network" : "' . $net . '",
    "amount" : ' . $amnt. ',
   "phone" : "' . $phone . '"
 
