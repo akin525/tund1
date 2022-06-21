@@ -23,11 +23,12 @@ class ValidateController extends Controller
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => '{
     "type": "PREPAID",
-    "disco" : "'.$type.'",
-    "meterNo" : "'.$phone.'"
+    "disco": "'.strtoupper($type).'",
+    "meterNo": "'.$phone.'"
 }',
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Bearer ' .env('HW_AUTH'),
+                'Content-Type: application/json'
             ),
         ));
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);

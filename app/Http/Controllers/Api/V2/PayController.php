@@ -15,6 +15,7 @@ use App\Models\Airtime2CashSettings;
 use App\Models\AppAirtimeControl;
 use App\Models\AppCableTVControl;
 use App\Models\AppDataControl;
+use App\Models\CGWallets;
 use App\Models\GeneralMarket;
 use App\Models\PndL;
 use App\Models\PromoCode;
@@ -622,6 +623,18 @@ class PayController extends Controller
             $user->save();
 
         }  else {
+            $cg=CGWallets::where([["user_id", Auth::id()], ['name', $input['payment']]])->first();
+
+            if(!$cg){
+                return response()->json(['success' => 0, 'message' => 'Invalid payment selected']);
+            }
+
+            if($cg->balance == "0"){
+                return response()->json(['success' => 0, 'message' => 'Insufficient balance to handle request']);
+            }
+
+            $cdata=$this->convertCG();
+
             $tr['i_wallet'] = $user->wallet;
             $tr['f_wallet'] = $tr['i_wallet'];
         }
@@ -773,6 +786,10 @@ class PayController extends Controller
         }
 
         return response()->json(['success' => 1, 'message' => 'Your transaction is in progress', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+    }
+
+    function convertCG($plan){
+        return 100;
     }
 
 
