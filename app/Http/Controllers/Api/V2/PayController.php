@@ -398,7 +398,7 @@ class PayController extends Controller
         $input["user_name"] = Auth::user()->user_name;
         $net = $input['type'];
 
-        if ($net == "WAEC") {
+        if (strtoupper($net)== "WAEC") {
             $input['price'] = 1900;
         } else {
             $input['price'] = 800;
@@ -425,9 +425,9 @@ class PayController extends Controller
 
         $input['date'] = Carbon::now();
         $input['ip_address'] = $_SERVER['REMOTE_ADDR'];
-        $input['description'] = $uid . " order " . $net . " result checker of " . $qty . " quantity with ref " . $ref;
+        $input['description'] = $uid . " order " . $net . " Education (".strtoupper($net).") of " . $qty . " quantity with ref " . $ref;
         $input['extra'] = "qty-" . $qty . ", net-" . $net . ", ref-" . $ref;
-        $input['name'] = 'Result Checker';
+        $input['name'] = 'Education ('.strtoupper($net).')';
         $input['status'] = 'submitted';
         $input['code'] = 'rch';
 
