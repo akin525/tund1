@@ -399,7 +399,7 @@ class PayController extends Controller
         $net = $input['type'];
 
         if ($net == "WAEC") {
-            $input['price'] = 1700;
+            $input['price'] = 1900;
         } else {
             $input['price'] = 800;
         }

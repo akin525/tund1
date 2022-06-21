@@ -13,25 +13,43 @@ class SellEducationalController extends Controller
     public function server1($transid, $input, $requester)
     {
 
-        $rac = Educational::where([["exam", strtoupper($input['type'])], ['qty', $input['quantity']]])->first();
+//        $rac = Educational::where([["exam", strtoupper($input['type'])], ['qty', $input['quantity']]])->first();
+//
+//        if (!$rac) {
+//            return null;
+//        }
 
-        if (!$rac) {
-            return null;
-        }
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
-            $url = env('SERVER1N') . 'bills/' . strtolower($input['type']) . env('SERVER1N_AUTH') . "&product_code=" . $rac->code . "&price=" . $rac->price . "&trans_id=" . $transid;
-            // Perform transaction/initialize on our server to buy
-            $response = file_get_contents($url);
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => env('HW_BASEURL') . "education/pin",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => '{
+    "numberOfPin" : "'.$input['quantity'].'",
+    "amount" : "1900"
+}',
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer ' . env('HW_AUTH'),
+                    'Content-Type: application/json'
+                ),
+            ));
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
 
         } else {
-            if (strtolower($input['type']) == "neco") {
-                $response = '{"trans_id":"1282211217008803","details":{"service":"neco","package":"One piece of neco result checker","tokens":[{"token":"1274927349283"}],"price":"650","status":"SUCCESSFUL","balance":"13816"}}';
-            } else {
-                $response = '{"trans_id":"1282211217008803","details":{"service":"WAEC","package":"One piece of waec result checker","pins":[{"serial_number":"WRC11102189209","pin":"1274927349283"},{"serial_number":"WRC11102189209","pin":"1274927349283"}],"price":"1700","status":"SUCCESSFUL","balance":"13816"}}';
-            }
-
+            $response = '{ "code": 200, "message": "Payment Successful", "reference": "HONOUR|WORLD|11|20220610234440|226156" }';
         }
 
         $rep = json_decode($response, true);
@@ -42,21 +60,21 @@ class SellEducationalController extends Controller
 
         $input['server_response'] = $response;
 
-        if (strtolower($input['type']) == "neco") {
-            $input['token'] = $rep['details']['tokens'];
-        } else {
-            $input['token'] = $rep['details']['pins'];
-        }
+//        if (strtolower($input['type']) == "neco") {
+//            $input['token'] = $rep['details']['tokens'];
+//        } else {
+//            $input['token'] = $rep['details']['pins'];
+//        }
 
-        $input['transid'] = $transid;
+//        $input['transid'] = $transid;
 
-        if (isset($rep['trans_id'])) {
-            if ($requester == "mcd") {
-                $job = (new SendEducationtoEmailJob($input))
-                    ->delay(Carbon::now()->addSeconds(1));
-                dispatch($job);
-            }
-        }
+//        if (isset($rep['trans_id'])) {
+//            if ($requester == "mcd") {
+//                $job = (new SendEducationtoEmailJob($input))
+//                    ->delay(Carbon::now()->addSeconds(1));
+//                dispatch($job);
+//            }
+//        }
 
         return null;
     }
