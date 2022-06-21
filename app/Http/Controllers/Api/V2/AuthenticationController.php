@@ -133,7 +133,9 @@ class AuthenticationController extends Controller
         $la->status = "authorized";
         $la->save();
 
-        CreateCGWalletsJob::dispatch($user->id);
+        $job = (new CreateCGWalletsJob($user->id))
+            ->delay(Carbon::now()->addSecond());
+        dispatch($job);
 
         // Revoke all tokens...
         $user->tokens()->delete();
@@ -250,7 +252,9 @@ class AuthenticationController extends Controller
             return response()->json(['success' => 0, 'message' => 'User does not exist']);
         }
 
-        CreateCGWalletsJob::dispatch($user->id);
+        $job = (new CreateCGWalletsJob($user->id))
+            ->delay(Carbon::now()->addSecond());
+        dispatch($job);
 
         // Revoke all tokens...
         $user->tokens()->delete();
