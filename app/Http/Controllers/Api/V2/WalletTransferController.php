@@ -62,7 +62,8 @@ class WalletTransferController extends Controller
         $rules = array(
             'user_name' => 'required',
             'amount' => 'required',
-            'reference' => 'required'
+            'reference' => 'required',
+            'narration' => 'required'
         );
 
         $validator = Validator::make($input, $rules);
@@ -110,6 +111,9 @@ class WalletTransferController extends Controller
         $input['amount']=$amount;
         $input['status']='successful';
         $input['description']='Wallet Transfer from '. $user->user_name .' to '.$r_user->user_name.' with the sum of #'.$amount;
+        if(isset($input['narration'])){
+            $input['description'].=". ".$input['narration'];
+        }
         $input['code']='w2wtransfer';
         $input['user_name']=$user->user_name;
         $input['i_wallet']=$user->wallet;

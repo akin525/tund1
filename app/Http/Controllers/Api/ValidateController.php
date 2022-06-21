@@ -7,13 +7,13 @@ use App\Http\Controllers\Offline\SwitchController;
 
 class ValidateController extends Controller
 {
-    public function electricity_server6($phone, $type, $requester = "nm", $sender = "nm")
+    public function electricity_server1($phone, $type, $requester = "nm", $sender = "nm")
     {
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SERVER6') . "merchant-verify",
+            CURLOPT_URL => env('HW_BASEURL') . "disco/validation",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -21,9 +21,13 @@ class ValidateController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => array('billersCode' => $phone,'serviceID' => $type,'type' => 'prepaid'),
+            CURLOPT_POSTFIELDS => '{
+    "type": "PREPAID",
+    "disco" : "'.$type.'",
+    "meterNo" : "'.$phone.'"
+}',
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Basic ' .env('SERVER6_AUTH'),
+                'Authorization: Bearer ' .env('HW_AUTH'),
             ),
         ));
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -40,7 +44,7 @@ class ValidateController extends Controller
             if ($requester == "offline") {
                 return $of->returnSuccess('Validated successfully ' . $rep['customerName'], $sender);
             } else {
-                return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['customerName']]);
+                return response()->json(['success' => 1, 'message' => 'Validated successfully', 'data' => $rep['customerName'], 'others'=>$rep]);
             }
         } else {
             if ($requester == "offline") {

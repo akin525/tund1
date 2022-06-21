@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
 use App\Jobs\AgentPdfGeneratorJob;
 use App\Models\AppAirtimeControl;
+use App\Models\CGWallets;
 use App\Models\PndL;
 use App\Models\PromoCode;
 use App\Models\ReferralPlans;
@@ -564,6 +565,14 @@ class UserController extends Controller
         $user->save();
 
         return response()->json(['success' => 1, 'message' => 'Key has been regenerated successfully. Kindly copy now, it wont be shown to you again.', 'data'=>$key]);
+    }
+
+
+    public function cgWallets(Request $request)
+    {
+        $cgs=CGWallets::where('user_id', Auth::id())->get();
+
+        return response()->json(['success' => 1, 'message' => 'Wallets fetched successfully', 'data'=>$cgs]);
     }
 
 

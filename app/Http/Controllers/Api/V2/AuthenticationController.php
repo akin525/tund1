@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Events\NewDeviceEvent;
 use App\Http\Controllers\Controller;
+use App\Jobs\CreateCGWalletsJob;
 use App\Jobs\CreateProvidusAccountJob;
 use App\Jobs\LoginAttemptApiFinderJob;
 use App\Mail\PasswordResetMail;
@@ -131,6 +132,8 @@ class AuthenticationController extends Controller
 
         $la->status = "authorized";
         $la->save();
+
+        CreateCGWalletsJob::dispatch($user->id);
 
         // Revoke all tokens...
         $user->tokens()->delete();

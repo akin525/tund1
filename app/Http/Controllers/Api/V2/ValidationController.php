@@ -28,7 +28,7 @@ class ValidationController extends Controller
 
         switch ($input['service']) {
             case "electricity":
-                return $s->electricity_server6($input['number'], strtolower($input['provider']));
+                return $s->electricity_server1($input['number'], strtolower($input['provider']));
             case "tv":
                 return $s->tv_server1($input['number'], strtolower($input['provider']));
             case "betting":

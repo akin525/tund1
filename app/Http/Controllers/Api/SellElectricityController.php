@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class SellElectricityController extends Controller
 {
-    public function server6($request, $code, $phone, $transid, $net, $input, $dada, $requester)
+    public function server1($request, $code, $phone, $transid, $net, $input, $dada, $requester)
     {
 
         $reqid = Carbon::now()->format('YmdHi') . $transid;
@@ -17,7 +17,7 @@ class SellElectricityController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => env('SERVER6') . "pay",
+                CURLOPT_URL => env('HW_BASEURL') . "purchase/disco",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -25,9 +25,9 @@ class SellElectricityController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{"request_id": "' . $reqid . '", "serviceID": "' . $code . '","variation_code": "prepaid","phone": "' . $phone . '","billersCode": "' . $phone . '","amount": "' . $request->get('amount') . '"}',
+                CURLOPT_POSTFIELDS => '',
                 CURLOPT_HTTPHEADER => array(
-                    'Authorization: Basic ' . env('SERVER6_AUTH'),
+                    'Authorization: Bearer ' . env('HW_AUTH'),
                     'Content-Type: application/json'
                 ),
             ));
@@ -38,7 +38,7 @@ class SellElectricityController extends Controller
             curl_close($curl);
 
         } else {
-            $response = '{ "code": "000", "content": { "transactions": { "amount": 1000, "convinience_fee": 0, "status": "delivered", "name": null, "phone": "07061933309", "email": "sandbox@vtpass.com", "type": "Electricity Bill", "created_at": "2019-08-17 02:27:26", "discount": null, "giftcard_id": null, "total_amount": 992, "commission": 8, "channel": "api", "platform": "api", "service_verification": null, "quantity": 1, "unit_price": 1000, "unique_element": "1010101010101", "product_name": "Eko Electric Payment - EKEDC" } }, "response_description": "TRANSACTION SUCCESSFUL", "requestId": "hg3hgh3gdiud4w2wb33", "amount": "1000.00", "transaction_date": { "date": "2019-08-17 02:27:27.000000", "timezone_type": 3, "timezone": "Africa/Lagos" }, "purchased_code": "Token : 42167939781206619049 Bonus Token : 62881559799402440206", "mainToken": "42167939781206619049", "mainTokenDescription": "Normal Sale", "mainTokenUnits": 16666.666, "mainTokenTax": 442.11, "mainsTokenAmount": 3157.89, "bonusToken": "62881559799402440206", "bonusTokenDescription": "FBE Token", "bonusTokenUnits": 50, "bonusTokenTax": null, "bonusTokenAmount": null, "tariffIndex": "52", "debtDescription": "1122" }';
+            $response = '{ "code": "200", "message": "Purchase Successful", "reference": "HONOUR|WORLD|62|20220611021605|347694", "token": "1498-2330-4576-0458-1880", "unit": 2.95, "taxAmount": null, "bonusUnit": null, "bonusToken": null, "amount": 100, "status": "200", "customerName": null, "customerAddress": "232", "date": "2022-06-11 02:16:18", "disco": "IBEDC_PREPAID" }';
         }
 
         $rep = json_decode($response, true);
@@ -48,8 +48,8 @@ class SellElectricityController extends Controller
 
         $dada['server_response'] = $response;
 
-        if ($rep['code'] == '000') {
-            $dada['token'] = $rep['purchased_code'];
+        if ($rep['code'] == '200') {
+            $dada['token'] = $rep['token'];
 
             if ($requester == "reseller") {
 //                $dada['server_ref'] = $rep['content']['transactions']['transactionId'];

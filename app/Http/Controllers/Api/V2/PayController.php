@@ -490,8 +490,8 @@ class PayController extends Controller
         $air = new SellTVController();
 
         switch (strtolower($server)) {
-            case "6":
-                return $air->server6($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
+            case "1":
+                return $air->server1($request, $input['coded'], $input['number'], $ref, $net, $request, $dada, "mcd");
             default:
                 return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
         }

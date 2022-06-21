@@ -99,6 +99,8 @@ Route::prefix('v2')->middleware("version")->group(function () {
 
         Route::get('apikey/regenerate', [UserController::class, 'requestAPIkey']);
         Route::get('getfaqs', [OtherController::class, 'getFAQs']);
+
+        Route::get('cg-wallets', [UserController::class, 'cgWallets']);
     });
 
 });
