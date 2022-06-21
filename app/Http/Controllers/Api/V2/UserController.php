@@ -568,9 +568,9 @@ class UserController extends Controller
     }
 
 
-    public function cgWallets(Request $request)
+    public function cgWallets()
     {
-        $cgs=CGWallets::where('user_id', Auth::id())->get();
+        $cgs=CGWallets::where([['user_id', Auth::id()], ['status', 1]])->get();
 
         return response()->json(['success' => 1, 'message' => 'Wallets fetched successfully', 'data'=>$cgs]);
     }

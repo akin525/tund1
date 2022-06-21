@@ -101,7 +101,7 @@ class WalletTransferController extends Controller
 
         $reference=$input['reference'];
 
-        $check=Transaction::where("reference", $reference)->first();
+        $check=Transaction::where("ref", $reference)->first();
 
         if($check){
             return response()->json(['success' => 0, 'message' => 'Reference already exist']);
