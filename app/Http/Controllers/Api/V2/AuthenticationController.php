@@ -250,6 +250,8 @@ class AuthenticationController extends Controller
             return response()->json(['success' => 0, 'message' => 'User does not exist']);
         }
 
+        CreateCGWalletsJob::dispatch($user->id);
+
         // Revoke all tokens...
         $user->tokens()->delete();
 
