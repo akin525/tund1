@@ -47,7 +47,7 @@ class BlockReseller
             return view('/seller', compact('status', 'reseller'));
 
         }
-        $key = uniqid('mcd_key', true);
+        $key = uniqid('falson_key', true);
 
         $reseller->api_key = $key;
         $reseller->save();

@@ -135,8 +135,15 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/airtime2cash', [TransactionController::class, 'airtime2cash'])->name('transaction.airtime2cash');
 
+        Route::get('/otherservices', [ServerController::class, 'others'])->name('otherservices');
+        Route::get('/otherservices_add', [ServerController::class, 'others_add'])->name('otherservices_add');
+        Route::post('/otherservices_add', [ServerController::class, 'others_addPost'])->name('otherservices_add');
+        Route::get('/otherservices/{id}', [ServerController::class, 'othersedit'])->name('otherservicesEdit');
+        Route::get('/otherservices-delete/{id}', [ServerController::class, 'Servicedestroy'])->name('otherservicesDelete');
+        Route::post('/otherservices-update', [ServerController::class, 'othersUpdate'])->name('otherservicesUpdate');
+
         Route::get('/datacontrol', [ServerController::class, 'dataserve2'])->name('dataplans');
-        Route::get('/datacontrol/{id}', [ServerController::class, 'dataserveedit'])->name('datacontrolEdit');
+        Route::get('/datacontrol/{id}', [ServerController::class, 'othersedit'])->name('datacontrolEdit');
         Route::post('/datacontrol', [ServerController::class, 'dataserveUpdate'])->name('datacontrolUpdate');
 
         Route::get('/airtimecontrol', [ServerController::class, 'airtime'])->name('airtimecontrol');

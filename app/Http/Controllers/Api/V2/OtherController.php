@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
 use App\Models\AirtimeCountry;
+use App\Models\AppOtherServices;
 use App\Models\FAQs;
 use App\Models\GeneralMarket;
 use App\Models\ReferralPlans;
@@ -382,6 +383,13 @@ class OtherController extends Controller
         $faqs=FAQs::where('status', 1)->get();
 
         return response()->json(['success' => 1, 'message' => 'FAQ fetched successfully', 'data' => $faqs]);
+    }
+
+    public function getOtherService(Request $request)
+    {
+        $faqs=AppOtherServices::where('status', 1)->get();
+
+        return response()->json(['success' => 1, 'message' => 'Other service fetched successfully', 'data' => $faqs]);
     }
 
 }

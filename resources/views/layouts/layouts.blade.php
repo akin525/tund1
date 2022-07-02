@@ -128,6 +128,7 @@
                                 <li><a href="{{route('dataplans')}}">Data Plans</a></li>
                                 <li><a href="{{route('tvcontrol')}}">TV Plans</a></li>
                                 <li><a href="{{route('electricitycontrol')}}">Electricity Control</a></li>
+                                <li><a href="{{route('otherservices')}}">Other Services</a></li>
                             </ul>
                         </li>
 

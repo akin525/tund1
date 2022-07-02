@@ -95,6 +95,7 @@ class UserController extends Controller
         $others['min_funding'] = $sett['min_funding'];
         $others['max_funding'] = $sett['max_funding'];
         $others['live_chat'] = $sett['live_chat'];
+        $others['reseller_fee'] = $sett['reseller_fee'];
 
         return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['user' => $me, 'balances' => $balances, 'services' => $services, 'news' => $user->gnews, 'others' => $others]]);
     }
@@ -255,6 +256,61 @@ class UserController extends Controller
         AgentPdfGeneratorJob::dispatch($input, $user);
 
         return response()->json(['success' => 1, 'message' => 'Data submitted successfully, kindly check your mail for progress']);
+    }
+
+    public function requestReseller(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'full_name' => 'required',
+            'company_name' => 'required',
+            'bvn' => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        $input = $request->all();
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'message' => 'Some forms are left out', 'error' => $validator->errors()]);
+        }
+
+        $user = User::where('user_name', Auth::user()->user_name)->first();
+        if (!$user) {
+            return response()->json(['success' => 0, 'message' => 'User not found']);
+        }
+
+        $set=Settings::where('name', 'reseller_fee')->first();
+
+        $charges = $set->value;
+
+        if($charges > $user->wallet){
+            return response()->json(['success' => 0, 'message' => 'Insufficient fund. Kindly fund wallet and try again']);
+        }
+
+        if ($user->bvn != "") {
+            return response()->json(['success' => 0, 'message' => 'Data can only be submitted once']);
+        }
+
+        $key="key_".uniqid().rand().Carbon::now();
+
+        $user->full_name = $input['full_name'];
+        $user->company_name = $input['company_name'];
+        $user->bvn = $input['bvn'];
+        $user->target = "";
+        $user->api_key=$key;
+        $user->status = "reseller";
+        $user->wallet -= $set->value;
+        $user->save();
+
+        $inputa["type"]="income";
+        $inputa["gl"]="reseller_upgrade";
+        $inputa["amount"]=$charges;
+        $inputa["narration"]="Being amount charged for reseller upgrade from ".$user->user_name;
+
+        PndL::create($inputa);
+
+        return response()->json(['success' => 1, 'message' => 'Data submitted successfully, you can start integrating now.']);
     }
 
     public function requestAgentDocument()

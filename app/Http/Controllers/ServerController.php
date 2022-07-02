@@ -6,10 +6,12 @@ use App\Models\airtimeserver;
 use App\Models\AppAirtimeControl;
 use App\Models\AppCableTVControl;
 use App\Models\AppDataControl;
+use App\Models\AppOtherServices;
 use App\Models\dataserver;
 use App\Models\ResellerElecticity;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ServerController
@@ -268,4 +270,99 @@ class ServerController
 
         return redirect('/role')->with('success', $role->user_name . " role has been change to " . $request->status);
     }
+
+    public function others()
+    {
+        $data = AppOtherServices::paginate(10);
+
+        return view('other_services', compact('data'));
+    }
+
+    public function others_add()
+    {
+        return view('other_services_add');
+    }
+
+    public function othersedit($id)
+    {
+        $data = AppOtherServices::find($id);
+
+        if(!$data){
+            return redirect()->route('otherservices')->with('error', 'Service does not exist');
+        }
+
+        return view('other_services_edit', compact('data'));
+    }
+
+    public function others_addPost(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'name' => 'required',
+            'action' => 'required',
+            'image' => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+
+        if (!$validator->passes()) {
+            return back()->with('error', 'Incomplete request. Kindly check and try again');
+        }
+
+
+        $storage=Storage::put('public/sliders', $input['image']);
+        $link=Storage::url($storage);
+        $input['image']=explode("/", $link)[3];
+
+        AppOtherServices::create($input );
+
+        return redirect()->route('otherservices')->with('success', $input['name'] . ' has been created successfully');
+    }
+
+    public function Servicedestroy($id)
+    {
+        $slider=AppOtherServices::find($id);
+
+        if (!$slider) {
+            return back()->with('error', 'Invalid ID provided');
+        }
+
+        $slider->delete();
+
+        return redirect()->route('otherservices')->with('success', 'Service removed successfully');
+    }
+
+    public function othersUpdate(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'id'      => 'required',
+            'name' => 'required',
+            'status' => 'required',
+            'action' => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+
+        if (!$validator->passes()) {
+            return back()->with('error', 'Incomplete request. Kindly check and try again');
+        }
+
+        $data = AppOtherServices::where('id', $request->id)->first();
+        if(!$data){
+            return back()->with('error', 'Kindly choose correct plan. Kindly check and try again');
+        }
+
+        $data->name = $input['name'];
+        $data->action = $input['action'];
+        $data->status = $input['status'];
+        $data->save();
+
+        return redirect()->route('otherservices')->with('success', $data->name . ' has been updated successfully');
+    }
+
+
+
 }

@@ -68,11 +68,14 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::get('profile', [UserController::class, 'profile']);
         Route::get('agentstatus', [UserController::class, 'agentStatus']);
         Route::post('agent', [UserController::class, 'requestAgent']);
+        Route::post('requestReseller', [UserController::class, 'requestReseller']);
         Route::get('request-agentdoc', [UserController::class, 'requestAgentDocument']);
         Route::post('agentdocument', [UserController::class, 'agentDocumentation']);
         Route::post('uploaddp', [UserController::class, 'uploaddp']);
 
         Route::post('user-upgrade', [UserController::class, 'referral_upgrade']);
+
+        Route::get('get-other-service', [OtherController::class, 'getOtherService']);
 
         Route::get('banklist', [OtherController::class, 'banklist']);
         Route::post('verifyBank', [OtherController::class, 'verifyBank']);

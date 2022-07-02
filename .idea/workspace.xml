@@ -20,9 +20,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41dc791e-619a-48fd-95ed-769a0575df70" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Models/AppOtherServices.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/other_services.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/other_services_add.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/other_services_edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/ValidateController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ValidateController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/OtherController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/OtherController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ServerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ServerController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/v2.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/v2.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,6 +198,7 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\odeji\PhpstormProjects\tund1\resources\views" />
+      <recent name="C:\Users\odeji\PhpstormProjects\tund1\app\Models" />
       <recent name="C:\Users\odeji\PhpstormProjects\tund1\resources\views\reseller_control" />
       <recent name="C:\Users\odeji\PhpstormProjects\tund1" />
     </key>
@@ -222,7 +231,8 @@
       <workItem from="1655139797754" duration="23649000" />
       <workItem from="1655356910109" duration="2504000" />
       <workItem from="1655502775906" duration="590000" />
-      <workItem from="1655506692824" duration="17995000" />
+      <workItem from="1655506692824" duration="18857000" />
+      <workItem from="1656725633925" duration="13218000" />
     </task>
     <task id="LOCAL-00001" summary="commit changes">
       <created>1653862904507</created>
@@ -364,7 +374,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655817328212</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="commit changes">
+      <created>1655848236473</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1655848236473</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -391,26 +408,26 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="413" y="106" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1653682821217" />
-    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1655314971340">
+    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1656770208888">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1655314971340" />
+    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1656770208888" />
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1655144278162" />
-    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1655817327226">
+    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1655848235863">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1655329541624" />
-    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1655817327226" />
+    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1655848235863" />
     <state x="92" y="92" width="1182" height="536" key="DiffContextDialog" timestamp="1655790717110">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="92" y="92" width="1182" height="536" key="DiffContextDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1653907584390" />
     <state x="92" y="92" key="DiffContextDialog/0.0.1366.720@0.0.1366.720" timestamp="1655790717110" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1655817332461">
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1655848238628">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1655328729495" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1655817332461" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1655848238628" />
     <state x="389" y="64" width="587" height="592" key="find.popup" timestamp="1655076096121">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
@@ -431,7 +448,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php</url>
-          <line>128</line>
+          <line>129</line>
           <properties>
             <option name="className" value="\App\Http\Controllers\Api\V2\UserController" />
             <option name="methodName" value="change_pin" />
