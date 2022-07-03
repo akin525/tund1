@@ -69,7 +69,7 @@ class UserController extends Controller
         $me['photo'] = $user->photo;
         $me['email'] = $user->email;
         $me['phoneno'] = $user->phoneno;
-        $me['target'] = $user->target;
+        $me['target'] = $user->target ?? " ";
         $me['level'] = $user->level;
         $me['referral_plan'] = $user->referral_plan;
         $me['pin'] = $user->pin;
