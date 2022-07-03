@@ -622,7 +622,7 @@ class UserController extends Controller
         $user->api_key=$key;
         $user->save();
 
-        return response()->json(['success' => 1, 'message' => 'Key has been regenerated successfully. Kindly copy now, it wont be shown to you again.', 'data'=>$key]);
+        return response()->json(['success' => 1, 'message' => 'Key has been regenerated successfully. Kindly copy now and change it on your platform.', 'data'=>$key]);
     }
 
 

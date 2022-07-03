@@ -67,7 +67,7 @@ class HomeController extends Controller
     }
 
     public function allsettings(){
-        $data=Settings::where('name','min_funding')->orWhere('name','max_funding')->orWhere('name','funding_charges')->orWhere('name','bithday_message')->orWhere('name','disable_resellers')->orWhere('name','live_chat')->orWhere('name','email_note')->orWhere('name','support_email')->orWhere('name','transaction_email_copy')->get();
+        $data=Settings::where('name','min_funding')->orWhere('name','max_funding')->orWhere('name','funding_charges')->orWhere('name','bithday_message')->orWhere('name','disable_resellers')->orWhere('name','live_chat')->orWhere('name','email_note')->orWhere('name','support_email')->orWhere('name','transaction_email_copy')->orWhere('name','reseller_fee')->get();
 
         return view('allsettings', ['data' => $data]);
     }
