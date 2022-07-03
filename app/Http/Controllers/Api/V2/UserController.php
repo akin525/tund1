@@ -293,7 +293,7 @@ class UserController extends Controller
             return response()->json(['success' => 0, 'message' => 'You can only request once']);
         }
 
-        $key="key_".uniqid().rand().Carbon::now();
+        $key="key_".uniqid().rand().Carbon::now()->timestamp;
 
         $user->full_name = $input['full_name'];
         $user->company_name = $input['company_name'];

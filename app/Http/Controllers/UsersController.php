@@ -63,7 +63,7 @@ class UsersController extends Controller
     public function regenerateKey($id)
     {
         $u = User::find($id);
-        $key="key_".uniqid().rand().Carbon::now();
+        $key="key_".uniqid().rand().Carbon::now()->timestamp;
         $u->api_key=$key;
         $u->save();
 
