@@ -73,6 +73,8 @@ class UserController extends Controller
         $me['level'] = $user->level;
         $me['referral_plan'] = $user->referral_plan;
         $me['pin'] = $user->pin;
+        $me['status'] = $user->status;
+        $me['api_key'] = $user->api_key ?? " ";
 
         $balances['wallet'] = "$user->wallet";
         $balances['bonus'] = "$user->bonus";
@@ -89,7 +91,6 @@ class UserController extends Controller
         $services['electricity'] = $sett['electricity'];
         $services['betting'] = $sett['betting'];
         $services['airtimeconverter'] = $sett['airtimeconverter'];
-        $services['foreign_airtime'] = $sett['foreign_airtime'];
 
 
         $others['min_funding'] = $sett['min_funding'];

@@ -355,7 +355,18 @@ class PayController extends Controller
         if (!$validator->passes()) {
             return response()->json(['status' => 0, 'message' => 'Some forms are left out', 'error' => $validator->errors()]);
         }
+
         try {
+            $number = Airtime2CashSettings::where('network', '=', $input['network'])->first();
+
+            if(!$number){
+                return response()->json(['success' => 0, 'message' => 'Selected network is currently unavailable']);
+            }
+
+            if(!$number){
+                return response()->json(['success' => 0, 'message' => 'Selected network is currently unavailable']);
+            }
+
             $input['ip'] = $_SERVER['REMOTE_ADDR'];
 
             $input['version'] = $request->header('version');
@@ -367,8 +378,6 @@ class PayController extends Controller
             $input['user_name'] = Auth::user()->user_name;
 
             Airtime2Cash::create($input);
-
-            $number = Airtime2CashSettings::where('network', '=', $input['network'])->first();
 
             return response()->json(['success' => 1, 'message' => 'Transfer #' . $input['amount'] . ' to ' . $number->number . ' and get your value instantly. Reference: ' . $input['ref'] . '. By doing so, you acknowledge that you are the legitimate owner of this airtime and you have permission to send it to us and to take possession of the airtime.']);
         } catch (Exception $e) {
