@@ -289,8 +289,8 @@ class UserController extends Controller
             return response()->json(['success' => 0, 'message' => 'Insufficient fund. Kindly fund wallet and try again']);
         }
 
-        if ($user->bvn != "") {
-            return response()->json(['success' => 0, 'message' => 'Data can only be submitted once']);
+        if ($user->statsu == "reseller") {
+            return response()->json(['success' => 0, 'message' => 'You can only request once']);
         }
 
         $key="key_".uniqid().rand().Carbon::now();
@@ -311,7 +311,7 @@ class UserController extends Controller
 
         PndL::create($inputa);
 
-        return response()->json(['success' => 1, 'message' => 'Data submitted successfully, you can start integrating now.']);
+        return response()->json(['success' => 1, 'message' => 'Data submitted successfully, you can start integrating now.', 'data'=>$key]);
     }
 
     public function requestAgentDocument()
