@@ -289,7 +289,7 @@ class UserController extends Controller
             return response()->json(['success' => 0, 'message' => 'Insufficient fund. Kindly fund wallet and try again']);
         }
 
-        if ($user->statsu == "reseller") {
+        if ($user->status == "reseller") {
             return response()->json(['success' => 0, 'message' => 'You can only request once']);
         }
 
