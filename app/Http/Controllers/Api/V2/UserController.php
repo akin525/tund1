@@ -97,6 +97,7 @@ class UserController extends Controller
         $others['max_funding'] = $sett['max_funding'];
         $others['live_chat'] = $sett['live_chat'];
         $others['reseller_fee'] = $sett['reseller_fee'];
+        $others['support_email'] = $sett['support_email'];
 
         return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['user' => $me, 'balances' => $balances, 'services' => $services, 'news' => $user->gnews, 'others' => $others]]);
     }
