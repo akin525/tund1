@@ -308,6 +308,7 @@ class UserController extends Controller
         $inputa["gl"]="reseller_upgrade";
         $inputa["amount"]=$charges;
         $inputa["narration"]="Being amount charged for reseller upgrade from ".$user->user_name;
+        $inputa['date']=Carbon::now();
 
         PndL::create($inputa);
 
