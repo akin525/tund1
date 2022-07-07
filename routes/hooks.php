@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\MCDAssistantController;
 use App\Http\Controllers\Api\UltilityController;
+use App\Http\Controllers\HW_WebhookController;
 use App\Http\Controllers\Payment\KorapayHookController;
 use App\Http\Controllers\Payment\MonnifyHookController;
 use App\Http\Controllers\Payment\PayantHookController;
@@ -27,8 +28,6 @@ Route::prefix('hook')->group(function () {
     Route::post('rave', [RaveHookController::class, 'index']);
     Route::post('payant', [PayantHookController::class, 'index']);
     Route::get('payant', [PayantHookController::class, 'verify']);
+    Route::post('hw', [HW_WebhookController::class, 'index']);
 
-    Route::post('mcdassistant', [MCDAssistantController::class, 'index']);
-
-    Route::post('smsinbox', [UltilityController::class, 'smsinbox']);
 });
