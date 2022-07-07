@@ -769,7 +769,7 @@ class PayController extends Controller
             }
         }
 
-        $number_count=isset(explode(";", $input['number'])[1]);
+        $number_count=isset(explode(",", $input['number'])[1]);
 
         if($number_count){
             return $this->processMultiplePhones($request, $proceed);
@@ -822,7 +822,7 @@ class PayController extends Controller
         }
 
         $user = User::where('user_name', $input['user_name'])->first();
-        $numbers = explode(";",$input['number']);
+        $numbers = explode(",",$input['number']);
 
         $count=count($numbers);
 
