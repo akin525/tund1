@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\SellEducationalController;
 use App\Http\Controllers\Api\SellElectricityController;
 use App\Http\Controllers\Api\SellTVController;
 use App\Http\Controllers\Controller;
+use App\Jobs\ATMtransactionserveJob;
 use App\Jobs\ServeRequestJob;
 use App\Models\Airtime2Cash;
 use App\Models\Airtime2CashSettings;
@@ -60,6 +61,11 @@ class PayController extends Controller
 
         if (strtoupper($input['country']) == "NG" || strtoupper($input['country']) == "NIGERIA") {
             $airtime=AppAirtimeControl::where("network", $input['provider'])->first();
+
+            if(!$airtime){
+                return response()->json(['success' => 0, 'message' => 'Invalid Network. Available are  MTN, 9MOBILE, GLO, AIRTEL.']);
+            }
+
 
             $server = $airtime->server;
             $discount = $airtime->discount;
@@ -514,8 +520,8 @@ class PayController extends Controller
         $air = new SellElectricityController();
 
         switch (strtolower($server)) {
-            case "6":
-                return $air->server6($request, $input['provider'], $input['number'], $ref, $net, $request, $dada, "mcd");
+            case "1":
+                return $air->server1($request, $input['provider'], $input['number'], $ref, $net, $request, $dada, "mcd");
             default:
                 return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
         }
@@ -763,6 +769,12 @@ class PayController extends Controller
             }
         }
 
+        $number_count=isset(explode(";", $input['number'])[1]);
+
+        if($number_count){
+            return $this->processMultiplePhones($request, $proceed);
+        }
+
         Serverlog::create($input);
         return $this->debitUser($request, $proceed['1'], $proceed['2'], $proceed['3'], $proceed['4'], $proceed['5'], $input['ref']);
     }
@@ -799,6 +811,55 @@ class PayController extends Controller
 
     function convertCG($plan){
         return 100;
+    }
+
+    function processMultiplePhones($request, $proceed){
+        $input = $request->all();
+
+        $input['user_name'] = Auth::user()->user_name;
+        if (isset($input['provider'])) {
+            $input['network'] = $input['provider'];
+        }
+
+        $user = User::where('user_name', $input['user_name'])->first();
+        $numbers = explode(";",$input['number']);
+
+        $count=count($numbers);
+
+        $charge=$count * $proceed[2];
+
+        if ($charge > $user->wallet) {
+            return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low to process for all the numbers']);
+        }
+
+        $w_bal=$user->wallet;
+        $tr=1;
+
+        $user->wallet -= $charge;
+        $user->save();
+
+        foreach ($numbers as $num){
+            $input['ip_address'] = $_SERVER['REMOTE_ADDR'];
+            $input['date'] = Carbon::now();
+            $input['phone'] = trim($num);
+            $input['user_name'] = Auth::user()->user_name;
+            $input['payment_method'] = $input['payment'];
+            $input['transid'] = $input['ref']."_$tr";
+            $input['version'] = $request->header('version');
+            $input['device_details'] = $request->header('device') ?? $_SERVER['HTTP_USER_AGENT'];
+            $input['wallet'] = $w_bal;
+            $input['amount'] = $proceed['2'];
+            $input["service"] = $proceed['5'];
+            $sl=Serverlog::create($input);
+
+            $job = (new ATMtransactionserveJob($sl->id))
+                ->delay(Carbon::now()->addSeconds(2));
+            dispatch($job);
+
+            $tr++;
+        }
+
+        return response()->json(['success' => 1, 'message' => 'Transactions processed successfully. You will receive them within 2 minutes', 'ref' => $input['ref'], 'debitAmount' => $charge, 'discountAmount' => 0]);
     }
 
 

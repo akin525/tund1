@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\SellAirtimeController;
 use App\Http\Controllers\Api\SellDataController;
 use App\Http\Controllers\Api\SellElectricityController;
 use App\Http\Controllers\Api\SellTVController;
+use App\Models\AppAirtimeControl;
 use App\Models\AppCableTVControl;
 use App\Models\ResellerElecticity;
 use App\Models\Serverlog;
@@ -109,33 +110,15 @@ class ATMtransactionserveJob implements ShouldQueue
         $r = new Request($input);
         if ($s->service == "airtime") {
 
-            $sys = DB::table("tbl_serverconfig_airtime")->where('name', '=', 'airtime')->first();
+            $airtime=AppAirtimeControl::where("network", $input['network'])->first();
 
-            switch ($input['network']) {
-                case "MTN":
-                    $server = $sys->mtn;
-                    break;
-
-                case "9MOBILE":
-                    $server = $sys->etisalat;
-                    break;
-
-                case "ETISALAT":
-                    $server = $sys->etisalat;
-                    break;
-
-                case "GLO":
-                    $server = $sys->glo;
-                    break;
-
-                case "AIRTEL":
-                    $server = $sys->airtel;
-                    break;
-
-                default:
-                    // required field is missing
-                    return response()->json(['success' => 0, 'message' => 'Invalid Network. Available are  MTN, 9MOBILE, GLO, AIRTEL.']);
+            if(!$airtime){
+                return response()->json(['success' => 0, 'message' => 'Invalid Network. Available are  MTN, 9MOBILE, GLO, AIRTEL.']);
             }
+
+            $server = $airtime->server;
+            $discount = $airtime->discount;
+
 
             $t->server = "server" . $server;
             $t->save();
@@ -144,20 +127,10 @@ class ATMtransactionserveJob implements ShouldQueue
             $air = new SellAirtimeController();
 
             switch (strtolower($server)) {
-                case "9":
-                    return $air->server9($r, $input['amount'], $input['phone'], $input['transid'], $input['network'], $input, $dada, "mcd");
-                case "6":
-                    return $air->server6($r, $input['amount'], $input['phone'], $input['transid'], $input['network'], $input, $dada, "mcd");
-                case "5":
-                    return $air->server5($r, $input['amount'], $input['phone'], $input['transid'], $input['network'], $input, $dada, "mcd");
-                case "4":
-                    return $air->server4($r, $input['amount'], $input['phone'], $input['transid'], $input['network'], $input, $dada, "mcd");
                 case "3":
                     return $air->server3($r, $input['amount'], $input['phone'], $input['transid'], $input['network'], $input, $dada, "mcd");
                 case "2":
                     return $air->server2($r, $input['amount'], $input['phone'], $input['transid'], $input['network'], $input, $dada, "mcd");
-                case "1b":
-                    return $air->server1b($r, $input['amount'], $input['phone'], $input['transid'], $input['network'], $input, $dada, "mcd");
                 case "1":
                     return $air->server1($r, $input['amount'], $input['phone'], $input['transid'], $input['network'], $input, $dada, "mcd");
                 default:
@@ -179,16 +152,6 @@ class ATMtransactionserveJob implements ShouldQueue
             $air = new SellDataController();
 
             switch (strtolower($rac->server)) {
-                case "10":
-                    return $air->server10($r, $input['coded'], $input['phone'], $input['transid'], $rac->network, $input, $dada, "mcd");
-                case "8":
-                    return $air->server8($r, $input['coded'], $input['phone'], $input['transid'], $rac->network, $input, $dada, "mcd");
-                case "7":
-                    return $air->server7($r, $input['coded'], $input['phone'], $input['transid'], $rac->network, $input, $dada, "mcd");
-                case "6":
-                    return $air->server6($r, $input['coded'], $input['phone'], $input['transid'], $rac->network, $input, $dada, "mcd");
-                case "3":
-                    return $air->server3($r, $input['coded'], $input['phone'], $input['transid'], $rac->network, $input, $dada, "mcd");
                 case "2":
                     return $air->server2($r, $input['coded'], $input['phone'], $input['transid'], $rac->network, $input, $dada, "mcd");
                 case "1":
@@ -212,8 +175,8 @@ class ATMtransactionserveJob implements ShouldQueue
             $air = new SellTVController();
 
             switch (strtolower($rac->server)) {
-                case "6":
-                    return $air->server6($r, $input['coded'], $input['phone'], $input['transid'], $rac->network, $input, $dada, "mcd");
+                case "1":
+                    return $air->server1($r, $input['coded'], $input['phone'], $input['transid'], $rac->network, $input, $dada, "mcd");
                 default:
                     return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
             }
@@ -234,8 +197,8 @@ class ATMtransactionserveJob implements ShouldQueue
             $air = new SellElectricityController();
 
             switch (strtolower($rac->server)) {
-                case "6":
-                    return $air->server6($r, $input['network'], $input['phone'], $input['transid'], $input['network'], $input, $dada, "mcd");
+                case "1":
+                    return $air->server1($r, $input['network'], $input['phone'], $input['transid'], $input['network'], $input, $dada, "mcd");
                 default:
                     return response()->json(['success' => 0, 'message' => 'Kindly contact system admin']);
             }
