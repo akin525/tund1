@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class HW_WebhookController extends Controller
@@ -17,6 +18,9 @@ class HW_WebhookController extends Controller
 //  "type": "airtime"
 //}
         $input=$request->all();
+
+        DB::table('tbl_webhook_hw')->insert(['code'=> $input['code'], 'message'=> $input['message'], 'reference'=>$input['reference'], 'type'=> $input['type'], 'ip'=>$_SERVER['REMOTE_ADDR'], 'extra'=> json_encode($input)]);
+
 
         $rules = array(
             'reference' => 'required',

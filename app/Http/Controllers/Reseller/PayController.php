@@ -320,7 +320,7 @@ class PayController extends Controller
 
         if ($discount > 0) {
             $tr['name'] = "Commission";
-            $tr['description'] = "MCD Commission on " . $ref;
+            $tr['description'] = "Commission on " . $ref;
             $tr['code'] = "tcommission";
             $tr['amount'] = $discount;
             $tr['status'] = "successful";
