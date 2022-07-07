@@ -142,6 +142,7 @@ class PayController extends Controller
         $proceed['3'] = $discount;
         $proceed['4'] = $rac->server;
         $proceed['5'] = "data";
+        $proceed['6'] = $rac->name;
 
         return $this->handlePassage($request, $proceed);
 
@@ -556,7 +557,7 @@ class PayController extends Controller
     }
 
 
-    public function debitUser(Request $request, $provider, $amount, $discount, $server, $requester, $ref)
+    public function debitUser(Request $request, $provider, $amount, $discount, $server, $requester, $codedName, $ref)
     {
         $input = $request->all();
 
@@ -581,6 +582,10 @@ class PayController extends Controller
             $tr['name'] = strtoupper($provider);
             $tr['description'] = $user->user_name . " pay " . $input['amount'] . " on " . $input['number'] . " using " . $input['payment'];
             $tr['code'] = $requester;
+        } elseif($requester == "data") {
+            $tr['name'] = $requester;
+            $tr['description'] = $user->user_name . " purchase " . " " . $codedName . " on " . $input['number'] . " using " . $input['payment'];
+            $tr['code'] = $requester . "_" . $input['coded'];
         } else {
             $tr['name'] = $requester;
             $tr['description'] = $user->user_name . " purchase " . " " . $input['coded'] . " on " . $input['number'] . " using " . $input['payment'];
@@ -776,7 +781,7 @@ class PayController extends Controller
         }
 
         Serverlog::create($input);
-        return $this->debitUser($request, $proceed['1'], $proceed['2'], $proceed['3'], $proceed['4'], $proceed['5'], $input['ref']);
+        return $this->debitUser($request, $proceed['1'], $proceed['2'], $proceed['3'], $proceed['4'], $proceed['5'], $proceed['6'] ?? '', $input['ref']);
     }
 
     public function outputResp(Request $request, $ref, $status, $dada)

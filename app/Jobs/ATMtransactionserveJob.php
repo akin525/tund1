@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\SellElectricityController;
 use App\Http\Controllers\Api\SellTVController;
 use App\Models\AppAirtimeControl;
 use App\Models\AppCableTVControl;
+use App\Models\AppDataControl;
 use App\Models\ResellerElecticity;
 use App\Models\Serverlog;
 use App\Models\Transaction;
@@ -77,7 +78,14 @@ class ATMtransactionserveJob implements ShouldQueue
                 $tr['name'] = strtoupper($input['service']);
                 $tr['description'] = $user->user_name . " pay " . $input['amount'] . " on " . $input['phone'] . " using " . $input['payment_method'];
                 $tr['code'] = $input['service'];
-            } else {
+            } elseif($input['service'] == "data") {
+                $rac = AppDataControl::where("coded", strtolower($input['coded']))->first();
+
+                $tr['name'] = $input['service'];
+                $tr['description'] = $user->user_name . " purchase " . " " . $rac->name . " on " . $input['phone'] . " using " . $input['payment_method'];
+                $tr['code'] = $input['service'] . "_" . $input['coded'];
+            }
+            else {
                 $tr['name'] = $input['service'];
                 $tr['description'] = $user->user_name . " purchase " . " " . $input['coded'] . " on " . $input['phone'] . " using " . $input['payment_method'];
                 $tr['code'] = $input['service'] . "_" . $input['coded'];
