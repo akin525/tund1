@@ -144,7 +144,7 @@ class AuthenticationController extends Controller
         $token = $user->createToken($input['device'])->plainTextToken;
 
 
-        return response()->json(['success' => 1, 'message' => 'Login successfully', 'token' => $token]);
+        return response()->json(['success' => 1, 'message' => 'Login successfully', 'token' => $token, 'balance' => $user->wallet]);
     }
 
     public function newdeviceLogin(Request $request)
@@ -196,7 +196,7 @@ class AuthenticationController extends Controller
 
         $token = $user->createToken($device)->plainTextToken;
 
-        return response()->json(['success' => 1, 'message' => 'Device Verified Successfully', 'data' => $token]);
+        return response()->json(['success' => 1, 'message' => 'Device Verified Successfully', 'data' => $token, 'balance' => $user->wallet]);
     }
 
     public function socialLogin(Request $request)
