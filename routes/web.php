@@ -142,7 +142,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/otherservices-delete/{id}', [ServerController::class, 'Servicedestroy'])->name('otherservicesDelete');
         Route::post('/otherservices-update', [ServerController::class, 'othersUpdate'])->name('otherservicesUpdate');
 
-        Route::get('/datacontrol', [ServerController::class, 'dataserve2'])->name('dataplans');
+        Route::get('/datalist/{network}', [ServerController::class, 'dataserve2'])->name('dataplans');
         Route::get('/datacontrol/{id}', [ServerController::class, 'othersedit'])->name('datacontrolEdit');
         Route::post('/datacontrol', [ServerController::class, 'dataserveUpdate'])->name('datacontrolUpdate');
 

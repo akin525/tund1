@@ -125,7 +125,10 @@
                                     class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                             <ul class="list-unstyled">
                                 <li><a href="{{route('airtimecontrol')}}">Airtime Control</a></li>
-                                <li><a href="{{route('dataplans')}}">Data Plans</a></li>
+                                <li><a href="{{route('dataplans', 'MTN')}}">MTN Data Plans</a></li>
+                                <li><a href="{{route('dataplans', 'AIRTEL')}}">AIRTEL Data Plans</a></li>
+                                <li><a href="{{route('dataplans', 'GLO')}}">GLO Data Plans</a></li>
+                                <li><a href="{{route('dataplans', '9MOBILE')}}">9MOBILE Data Plans</a></li>
                                 <li><a href="{{route('tvcontrol')}}">TV Plans</a></li>
                                 <li><a href="{{route('electricitycontrol')}}">Electricity Control</a></li>
                                 <li><a href="{{route('otherservices')}}">Other Services</a></li>
@@ -271,10 +274,10 @@
                         </li>
                     </ul>
                     <ul class="list-inline menu-left mb-0">
-                        <li class="float-left"><button class="button-menu-mobile open-left waves-light waves-effect"><i class="mdi mdi-menu"></i></button></li>
-                        <li class="hide-phone app-search">
-                            <form role="search" class=""><input type="text" placeholder="Search..." class="form-control"> <a href="#"><i class="fas fa-search"></i></a></form>
-                        </li>
+{{--                        <li class="float-left"><button class="button-menu-mobile open-left waves-light waves-effect"><i class="mdi mdi-menu"></i></button></li>--}}
+{{--                        <li class="hide-phone app-search">--}}
+{{--                            <form role="search" class=""><input type="text" placeholder="Search..." class="form-control"> <a href="#"><i class="fas fa-search"></i></a></form>--}}
+{{--                        </li>--}}
                     </ul>
                     <div class="clearfix"></div>
                 </nav>

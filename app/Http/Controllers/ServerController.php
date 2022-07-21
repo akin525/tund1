@@ -96,9 +96,9 @@ class ServerController
 
     }
 
-    public function dataserve2()
+    public function dataserve2($network)
     {
-        $data = dataserver::paginate(10);
+        $data = dataserver::where('network','LIKE',strtoupper($network).'%')->paginate(10);
 
         return view('datacontrol', compact('data'));
     }

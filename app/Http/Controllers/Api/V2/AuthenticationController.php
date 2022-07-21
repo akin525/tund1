@@ -15,6 +15,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -60,7 +61,7 @@ class AuthenticationController extends Controller
         $create["user_name"] = $user_name;
         $create["email"] = $input["email"];
         $create["phoneno"] = $input["phoneno"];
-        $create["mcdpassword"] = $input["password"];
+        $create["mcdpassword"] = Hash::make($input["password"]);
         $create["password"] = "";
         $create["referral"] = $input["referral"];
         $create["gnews"] = 'Are you looking forward to spending less money on data subscriptions? Or Pay Electricity bills, and even top up your betting platforms conveniently without moving a finger, you just arrived at the right place';
@@ -115,7 +116,7 @@ class AuthenticationController extends Controller
             return response()->json(['success' => 0, 'message' => 'User does not exist']);
         }
 
-        if ($user->mcdpassword != $input['password']) {
+        if (Hash::check($input['password'], $user->mcdpassword)) {
             return response()->json(['success' => 0, 'message' => 'Incorrect password attempt']);
         }
 
@@ -290,7 +291,7 @@ class AuthenticationController extends Controller
 
         $pass = str_shuffle(substr(date('sydmM') . rand() . $input['user_name'], 0, 8));
 
-        $user->mcdpassword = $pass;
+        $user->mcdpassword = Hash::make($pass);
         $user->save();
 
         $tr['password'] = $pass;
