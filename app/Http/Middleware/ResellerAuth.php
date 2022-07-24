@@ -19,12 +19,12 @@ class ResellerAuth
         $key=$request->header('Authorization');
 
         if($key==null){
-            return response()->json(['status' => 0, 'message' => 'Kindly add the APIKey you obtain in your header request. Kindly contact us on whatsapp@07011223737']);
+            return response()->json(['status' => 0, 'message' => 'Kindly add the APIKey you obtain in your header request. Kindly contact support']);
         }
 
         $us=User::where("api_key", $key)->first();
         if(!$us){
-            return response()->json(['status' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
+            return response()->json(['status' => 0, 'message' => 'Invalid API key. Kindly contact support']);
         }
         return $next($request);
     }

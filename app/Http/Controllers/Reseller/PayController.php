@@ -73,18 +73,10 @@ class PayController extends Controller
         $air=new SellAirtimeController();
 
         switch (strtolower($server)) {
-            case "6":
-                return $air->server6($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
-            case "5":
-                return $air->server5($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
-            case "4":
-                return $air->server4($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
             case "3":
                 return $air->server3($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
             case "2":
                 return $air->server2($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
-            case "1b":
-                return $air->server1b($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
             case "1":
                 return $air->server1($request, $input['amount'], $input['phone'], $ref, $net, $request, $dada, "reseller");
             default:
@@ -120,16 +112,8 @@ class PayController extends Controller
         $air=new SellDataController();
 
         switch (strtolower($server)) {
-            case "10":
-                return $air->server10($request, $input['coded'], $input['phone'], $ref, $net, $request, $dada, "reseller");
-            case "8":
-                return $air->server8($request, $input['coded'], $input['phone'], $ref, $net, $request, $dada, "reseller");
-            case "7":
-                return $air->server7($request, $input['coded'], $input['phone'], $ref, $net, $request, $dada, "reseller");
-            case "6":
-                return $air->server6($request, $input['coded'], $input['phone'], $ref, $net, $request, $dada, "reseller");
-            case "3":
-                return $air->server3($request, $input['coded'], $input['phone'], $ref, $net, $request, $dada, "reseller");
+            case "2":
+                return $air->server2($request, $input['coded'], $input['phone'], $ref, $net, $request, $dada, "reseller");
             case "1":
                 return $air->server1($request, $input['coded'], $input['phone'], $ref, $net, $request, $dada, "reseller");
             default:
@@ -276,7 +260,7 @@ class PayController extends Controller
 
         $user = User::where("api_key", $key)->first();
         if (!$user) {
-            return response()->json(['success' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
+            return response()->json(['success' => 0, 'message' => 'Invalid API key. Kindly contact support']);
         }
 
         if ($amount > $user->wallet) {

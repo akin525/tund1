@@ -566,7 +566,7 @@ class PayController extends Controller
 
         $user = Auth::user();
         if (!$user) {
-            return response()->json(['success' => 0, 'message' => 'Invalid API key. Kindly contact us on whatsapp@07011223737']);
+            return response()->json(['success' => 0, 'message' => 'Invalid API key. Kindly contact support']);
         }
 
         if ($amount > $user->wallet) {

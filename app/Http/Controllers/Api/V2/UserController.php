@@ -18,6 +18,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -119,11 +120,11 @@ class UserController extends Controller
 
         $user = Auth::user();
 
-        if ($user->mcdpassword != $input['o_password']) {
+        if (!Hash::check($input['o_password'], $user->mcdpassword)) {
             return response()->json(['success' => 0, 'message' => 'Wrong Old Password']);
         }
 
-        $user->mcdpassword = $input['n_password'];
+        $user->mcdpassword = Hash::make($input['n_password']);
         $user->save();
 
         return response()->json(['success' => 1, 'message' => 'Password changed successfully']);
