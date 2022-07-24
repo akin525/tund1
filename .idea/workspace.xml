@@ -21,12 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="41dc791e-619a-48fd-95ed-769a0575df70" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Reseller/OthersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Reseller/OthersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Reseller/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Reseller/PayController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Reseller/SwitchController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Reseller/SwitchController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/ResellerAuth.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/ResellerAuth.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/AuthenticationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/AuthenticationController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,6 +185,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../wamp64/www/main" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -239,7 +235,7 @@
       <workItem from="1658391224952" duration="124000" />
       <workItem from="1658419404229" duration="2421000" />
       <workItem from="1658473681430" duration="217000" />
-      <workItem from="1658628143753" duration="1880000" />
+      <workItem from="1658628143753" duration="4736000" />
     </task>
     <task id="LOCAL-00001" summary="commit changes">
       <created>1653862904507</created>
@@ -514,7 +510,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658422802987</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="commit changes">
+      <created>1658630477510</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1658630477510</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -550,11 +553,11 @@
     </state>
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1656770208888" />
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1657207388664" />
-    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1658422801679">
+    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1658630476141">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1655329541624" />
-    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1658422801679" />
+    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1658630476141" />
     <state x="92" y="92" width="1092" height="605" key="DiffContextDialog" timestamp="1656886154209">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
@@ -564,11 +567,15 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="463" y="114" key="FileChooserDialogImpl/0.0.1366.720@0.0.1366.720" timestamp="1658268058391" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1658422852997">
+    <state x="184" y="4" key="SettingsEditor" timestamp="1658631091044">
+      <screen x="0" y="0" width="1366" height="720" />
+    </state>
+    <state x="184" y="4" key="SettingsEditor/0.0.1366.720@0.0.1366.720" timestamp="1658631091044" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1658631097683">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1655328729495" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1658422852997" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1658631097683" />
     <state x="492" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1657208036624">
       <screen x="0" y="0" width="1366" height="720" />
     </state>

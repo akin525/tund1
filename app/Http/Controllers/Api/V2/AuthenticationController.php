@@ -116,7 +116,7 @@ class AuthenticationController extends Controller
             return response()->json(['success' => 0, 'message' => 'User does not exist']);
         }
 
-        if (Hash::check($input['password'], $user->mcdpassword)) {
+        if (!Hash::check($input['password'], $user->mcdpassword)) {
             return response()->json(['success' => 0, 'message' => 'Incorrect password attempt']);
         }
 
