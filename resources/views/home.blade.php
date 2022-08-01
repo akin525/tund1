@@ -163,7 +163,7 @@
                                     </div>
                                     <div class="col-10 text-right">
                                         <h5 class="mt-0 mb-1">{{ $rch ?? 'rch' }}</h5>
-                                        <p class="mb-0 font-12 text-muted">Today's Result Checker</p>
+                                        <p class="mb-0 font-12 text-muted">Today's Exam</p>
                                     </div>
                                 </div>
                             </div>
