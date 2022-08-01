@@ -31,14 +31,6 @@ class ValidationController extends Controller
                 return $s->electricity_server1($input['number'], strtolower($input['provider']));
             case "tv":
                 return $s->tv_server1($input['number'], strtolower($input['provider']));
-            case "betting":
-                return $s->betting_server7($input['number'], strtoupper($input['provider']));
-            case "smile":
-                return $s->tv_server1($input['number'], strtolower($input['provider']));
-            case "airtime":
-                return $s->airtime_server9($input['number'], strtolower($input['provider']));
-            case "jamb":
-                return $s->utme_server6($input['number'], strtolower($input['provider']));
             default:
                 return response()->json(['success' => 0, 'message' => 'Invalid service provided']);
         }
