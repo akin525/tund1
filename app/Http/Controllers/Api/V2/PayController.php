@@ -633,11 +633,7 @@ class PayController extends Controller
 
             $tr['i_wallet'] = $user->wallet;
 
-            if ($requester == "data") {
-                $tr['f_wallet'] = $tr['i_wallet'] - $amount - 20;
-            } else {
-                $tr['f_wallet'] = $tr['i_wallet'] - $amount;
-            }
+            $tr['f_wallet'] = $tr['i_wallet'] - $amount;
 
             $user->wallet = $tr['f_wallet'];
             $user->save();
@@ -761,18 +757,18 @@ class PayController extends Controller
 
         $lasttime = Serverlog::where('user_name', $input['user_name'])->orderBy('id', 'desc')->first();
 
-        if ($lasttime) {
-            $t = Carbon::parse($lasttime->date)->diffInSeconds(Carbon::now(), false);
-
-            if ($t <= 15 && !($t < 0)) {
-                $input['status'] = 'Suspect Fraud';
-                Serverlog::create($input);
-                $user = User::where('user_name', $input['user_name'])->first();
-                $user->wallet -= $input['amount'];
-                $user->save();
-                return response()->json(['success' => 0, 'message' => 'Suspect Fraud']);
-            }
-        }
+//        if ($lasttime) {
+//            $t = Carbon::parse($lasttime->date)->diffInSeconds(Carbon::now(), false);
+//
+//            if ($t <= 15 && !($t < 0)) {
+//                $input['status'] = 'Suspect Fraud';
+//                Serverlog::create($input);
+//                $user = User::where('user_name', $input['user_name'])->first();
+//                $user->wallet -= $input['amount'];
+//                $user->save();
+//                return response()->json(['success' => 0, 'message' => 'Suspect Fraud']);
+//            }
+//        }
 
         $number_count=isset(explode(",", $input['number'])[1]);
 

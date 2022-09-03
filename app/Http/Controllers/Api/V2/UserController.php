@@ -28,41 +28,10 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        $uinfo['full_name'] = $user->full_name;
-        $uinfo['company_name'] = $user->company_name;
-        $uinfo['dob'] = $user->dob;
-        $uinfo['status'] = $user->status;
-        $uinfo['level'] = $user->level;
-        $uinfo['photo'] = $user->photo;
-        $uinfo['reg_date'] = $user->reg_date;
-        $uinfo['target'] = $user->target;
-        $uinfo['user_name'] = $user->user_name;
-        $uinfo['email'] = $user->email;
-        $uinfo['phoneno'] = $user->phoneno;
-        $uinfo['gnews'] = $user->gnews;
-        $uinfo['fraud'] = $user->fraud;
-        $uinfo['referral'] = $user->referral;
-        $uinfo['referral_plan'] = $user->referral_plan;
-        $uinfo['account_number'] = $user->account_number;
-        $uinfo['account_number2'] = $user->account_number2;
-        $uinfo['last_login'] = $user->last_login;
-        $uinfo['points'] = $user->points;
-
-        //get airtime discounts
-        $mtnairsets = AppAirtimeControl::where('network', 'mtn')->first();
-        $gloairsets = AppAirtimeControl::where('network', 'glo')->first();
-        $airtelairsets = AppAirtimeControl::where('network', 'airtel')->first();
-        $etisalatairsets = AppAirtimeControl::where('network', 'etisalat')->first();
-        $uinfo['airtime_discount_mtn'] = $mtnairsets->discount;
-        $uinfo['airtime_discount_glo'] = $gloairsets->discount;
-        $uinfo['airtime_discount_etisalat'] = $etisalatairsets->discount;
-        $uinfo['airtime_discount_airtel'] = $airtelairsets->discount;
-
         $settings = Settings::all();
         foreach ($settings as $setting) {
             $sett[$setting->name] = $setting->value;
         }
-        $d = array_merge($uinfo, $sett);
 
         $me['user_name'] = $user->user_name;
         $me['account_details'] = $user->account_number;
