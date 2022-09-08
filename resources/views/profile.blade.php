@@ -114,7 +114,7 @@
                                         </div>
                                         <div>
                                             <h4 class="mb-1 font-weight-semibold text-white">{{$user->points}}</h4>
-                                            <p class="text-white mb-0">Mega Points</p>
+                                            <p class="text-white mb-0">Points</p>
                                         </div>
                                     </div>
                                 </div>
