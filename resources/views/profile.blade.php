@@ -50,10 +50,7 @@
                                     <li class="mt-2"><i class="dripicons-calendar text-info font-18 mt-2 mr-2"></i> <b>DOB</b> : {{$user->dob}}</li>
                                     <li class="mt-2"><i class="dripicons-calendar text-info font-18 mt-2 mr-2"></i> <b>Reg. Date</b> : {{$user->reg_date}}</li>
                                     <li class="mt-2"><i class="dripicons-calendar text-info font-18 mt-2 mr-2"></i> <b>Last Login</b> : {{$user->last_login}}</li>
-                                    <li class="mt-2"><i class="dripicons-wallet text-info font-18 mt-2 mr-2"></i> <b>Providus Account</b> : {{$user->account_number}}</li>
-                                    <li class="mt-2"><i class="dripicons-device-mobile text-info font-18 mt-2 mr-2"></i> <b>Installed Version</b> : v{{$version[0]->version ?? "-"}}</li>
-                                    <li class="mt-2"><i class="dripicons-brush text-info font-18 mt-2 mr-2"></i> <b>Referral Plan</b> : {{$user->referral_plan}}</li>
-                                    <li class="mt-2"><i class="dripicons-brush text-info font-18 mt-2 mr-2"></i> <b>Level</b> : {{$user->level}}</li>
+                                    <li class="mt-2"><i class="dripicons-wallet text-info font-18 mt-2 mr-2"></i> <b>Virtual Account</b> : {{$user->account_number}}</li>
                                 </ul>
                             </div>
                             <!--end col-->
@@ -113,7 +110,7 @@
                                     <div class="d-flex justify-content-between bg-purple p-3 mt-3 rounded">
                                         <div>
                                             <h4 class="mb-1 font-weight-semibold text-white">&#8358;{{number_format($user->agent_commision)}}</h4>
-                                            <p class="text-white mb-0">Agent Comm</p>
+                                            <p class="text-white mb-0">Commission</p>
                                         </div>
                                         <div>
                                             <h4 class="mb-1 font-weight-semibold text-white">{{$user->points}}</h4>
@@ -155,33 +152,28 @@
 
                             <div class="card">
                                 <div class="card-body dash-info-carousel">
-                                        <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/mega-cheap-data.appspot.com/o/doc%2F{{$user->user_name}}.pdf?alt=media&token=b912aad8-f041-4d4e-8d4e-6aaa2e9c0068" class="btn btn-gradient-info btn-sm btn-block">View Document</a>
-
-                                    <div class="progress bg-warning mb-3" style="height:5px;">
-                                        <div class="progress-bar bg-secondary" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
 
                                     <div class="d-flex justify-content-between">
-                                        @if(strpos($user->target, "Agent in progress") !== false)
-                                            <div class="col-md-6">
+{{--                                        @if(strpos($user->target, "Agent in progress") !== false)--}}
+{{--                                            <div class="col-md-6">--}}
 
-                                                <form method="POST" action="/request_approve">
-                                                    @csrf
-                                                    <input type="hidden" name="type" value="agent" />
-                                                    <input type="hidden" name="user_name" value="{{$user->user_name}}" />
-                                                    <button type="submit" class="btn btn-gradient-primary btn-sm">Approve Agent</button>
-                                                </form>
-                                            </div>
-                                        @elseif(strpos($user->target, "Reseller in progress") !== false)
-                                            <div class="col-md-6">
-                                                <form method="POST" action="/request_approve">
-                                                    @csrf
-                                                    <input type="hidden" name="type" value="reseller" />
-                                                    <input type="hidden" name="user_name" value="{{$user->user_name}}" />
-                                                    <button type="button" class="btn btn-gradient-primary btn-sm">Approve Reseller</button>
-                                                </form>
-                                            </div>
-                                        @endif
+{{--                                                <form method="POST" action="/request_approve">--}}
+{{--                                                    @csrf--}}
+{{--                                                    <input type="hidden" name="type" value="agent" />--}}
+{{--                                                    <input type="hidden" name="user_name" value="{{$user->user_name}}" />--}}
+{{--                                                    <button type="submit" class="btn btn-gradient-primary btn-sm">Approve Agent</button>--}}
+{{--                                                </form>--}}
+{{--                                            </div>--}}
+{{--                                        @elseif(strpos($user->target, "Reseller in progress") !== false)--}}
+{{--                                            <div class="col-md-6">--}}
+{{--                                                <form method="POST" action="/request_approve">--}}
+{{--                                                    @csrf--}}
+{{--                                                    <input type="hidden" name="type" value="reseller" />--}}
+{{--                                                    <input type="hidden" name="user_name" value="{{$user->user_name}}" />--}}
+{{--                                                    <button type="button" class="btn btn-gradient-primary btn-sm">Approve Reseller</button>--}}
+{{--                                                </form>--}}
+{{--                                            </div>--}}
+{{--                                        @endif--}}
                                         <button type="button" class="btn btn-gradient-danger btn-sm">Suspect Fraud</button>
                                     </div>
                                 </div>
