@@ -190,6 +190,9 @@ class SellTVController extends Controller
 
         $rep = json_decode($response, true);
 
+        Log::info("HW Transaction. - " . $transid);
+        Log::info($response);
+
         $tran = new ServeRequestController();
         $rs = new PayController();
         $ms = new V2\PayController();

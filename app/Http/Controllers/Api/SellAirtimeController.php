@@ -56,6 +56,9 @@ class SellAirtimeController extends Controller
         $rs = new PayController();
         $ms = new V2\PayController();
 
+        Log::info("HW Transaction. - " . $transid);
+        Log::info($response);
+
         $dada['server_response'] = $response;
 
         if ($rep['code'] == 200) {
