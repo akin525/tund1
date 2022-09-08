@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Reseller\PayController;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class SellElectricityController extends Controller
 {
