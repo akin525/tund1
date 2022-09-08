@@ -23,6 +23,12 @@ class SellDataController extends Controller
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
+            $payload='{
+  "network" : "' . $rac->network . '",
+   "planId" : "' . $rac->plan_id . '",
+  "phone" : "' . $phone . '"
+}';
+
 
             $curl = curl_init();
 
@@ -35,12 +41,7 @@ class SellDataController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{
-  "network" : "' . $rac->network . '",
-   "planId" : "' . $rac->plan_id . '",
-  "phone" : "' . $phone . '"
-
-}',
+                CURLOPT_POSTFIELDS => $payload,
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Bearer ' . env('HW_AUTH'),
                     'Accept: application/json',
@@ -53,6 +54,8 @@ class SellDataController extends Controller
             $response = curl_exec($curl);
 
             curl_close($curl);
+
+            Log::info("HW Payload. - " . $payload);
 
         } else {
             $response = '{ "code": 200, "message": "Dear Customer, You have successfully shared 5000MB Data to 2348168867154. Your SME data balance is 3.203GB expires 02/08/2022. Thankyou", "reference": "1651625097421" }';

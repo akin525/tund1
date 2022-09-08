@@ -156,6 +156,14 @@ class SellTVController extends Controller
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
+            $payload='{
+    "type": "' . $rac->type . '",
+    "smartCardNo": "' . $phone . '",
+    "packagename": "' . $rac->name . '",
+    "productsCode": "' . $rac->code . '",
+    "amount": "' . $rac->price . '"
+}';
+
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
@@ -167,13 +175,7 @@ class SellTVController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{
-    "type": "' . $rac->type . '",
-    "smartCardNo": "' . $phone . '",
-    "packagename": "' . $rac->name . '",
-    "productsCode": "' . $rac->code . '",
-    "amount": "' . $rac->price . '"
-}',
+                CURLOPT_POSTFIELDS => $payload,
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Bearer ' . env('HW_AUTH'),
                     'Content-Type: application/json'
@@ -184,6 +186,8 @@ class SellTVController extends Controller
             $response = curl_exec($curl);
 
             curl_close($curl);
+
+            Log::info("HW Payload. - " . $payload);
 
         } else {
             $response = '{ "code": 200, "message": "Payment Successful", "reference": "HONOUR|WORLD|11|20220610234440|226156" }';

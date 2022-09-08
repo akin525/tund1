@@ -37,7 +37,7 @@
                                 <th>Date</th>
                                 <th>I.P</th>
                                 <th>Server</th>
-                                <th>Note</th>
+                                <th>Server Response</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -62,14 +62,14 @@
                                     <td>{{$dat->date}}</td>
                                     <td>{{$dat->ip_address}}</td>
                                     <td>{{$dat->server}}</td>
-                                    <td>{{$dat->server_ref}}</td>
+                                    <td>{{$dat->server_response}}</td>
                                     <td>
                                         <form method="post" action="{{route('trans_resubmit')}}">
                                             @csrf
                                             <input type="hidden" name="id" value="{{$dat->id}}"/>
                                             <button type="submit" class="btn btn-primary">Re-process</button>
                                         </form>
-                                        <a href="{{route('trans_delivered', $dat->id)}}" class="btn btn-primary">Mark Delivered</a>
+                                        <a href="{{route('trans_delivered', $dat->id)}}" class="btn btn-success mt-2">Mark Delivered</a>
                                     </td>
                                 </tr>
                             @endforeach

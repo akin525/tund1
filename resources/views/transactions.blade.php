@@ -96,15 +96,15 @@
                                 <th>Server</th>
                                 <th>Ref</th>
                                 <th>Date</th>
-                                <th>Note</th>
-                                <th>Action</th>
+                                <th>Server Response</th>
+{{--                                <th>Action</th>--}}
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($data as $dat)
                                 <tr>
                                     <td>{{$dat->id}}</td>
-                                    <td>{{$dat->user_name}}
+                                    <td><a href="profile/{{ $dat->user_name }}" class="btn btn-sm btn-success">{{$dat->user_name}}</a>
                                     </td>
                                     <td>{{$dat->amount}}</td>
                                     <td>{{$dat->description}}</td>
@@ -125,8 +125,8 @@
                                     <td>{{$dat->server}}</td>
                                     <td>{{$dat->ref}}</td>
                                     <td>{{$dat->date}}</td>
-                                    <td>{{$dat->extra}}</td>
-                                    <td><a href="profile/{{ $dat->ref }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a></td>
+                                    <td>{{$dat->server_response}}</td>
+{{--                                    <td><a href="profile/{{ $dat->ref }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a></td>--}}
                                 </tr>
                             @endforeach
                             </tbody>

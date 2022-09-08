@@ -24,6 +24,7 @@
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellDataController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellDataController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellElectricityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellElectricityController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellTVController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellTVController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/transactions_pending.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/transactions_pending.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -245,7 +246,7 @@
       <workItem from="1660039870419" duration="4053000" />
       <workItem from="1660978095869" duration="4840000" />
       <workItem from="1662140206830" duration="2880000" />
-      <workItem from="1662606517020" duration="974000" />
+      <workItem from="1662606517020" duration="1711000" />
     </task>
     <task id="LOCAL-00001" summary="commit changes">
       <created>1653862904507</created>
@@ -583,7 +584,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662607242920</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="commit changes">
+      <created>1662607505823</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1662607505823</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -615,11 +623,11 @@
     </state>
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1656770208888" />
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1657207388664" />
-    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1662607242274">
+    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1662607505221">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1655329541624" />
-    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1662607242274" />
+    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1662607505221" />
     <state x="92" y="92" width="1092" height="605" key="DiffContextDialog" timestamp="1660053264937">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
@@ -632,11 +640,11 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="184" y="4" key="SettingsEditor/0.0.1366.720@0.0.1366.720" timestamp="1659337918087" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1662607244505">
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1662607507385">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1655328729495" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1662607244505" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1662607507385" />
     <state x="492" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1657208036624">
       <screen x="0" y="0" width="1366" height="720" />
     </state>

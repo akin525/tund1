@@ -18,6 +18,12 @@ class SellAirtimeController extends Controller
 
         if (env('FAKE_TRANSACTION', 1) == 0) {
 
+            $payload='{
+  "network" : "' . $net . '",
+   "amount" : ' . $amnt. ',
+  "phone" : "' . $phone . '"
+}';
+
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
@@ -29,12 +35,7 @@ class SellAirtimeController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{
-  "network" : "' . $net . '",
-   "amount" : ' . $amnt. ',
-  "phone" : "' . $phone . '"
-
-}',
+                CURLOPT_POSTFIELDS => $payload,
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Bearer ' . env('HW_AUTH'),
                     'Accept: application/json',
@@ -47,6 +48,8 @@ class SellAirtimeController extends Controller
             $response = curl_exec($curl);
 
             curl_close($curl);
+
+            Log::info("HW Payload. - " . $payload);
 
         } else {
             $response = '{ "code": 200, "message": "SUCCESSFUL", "reference": "HONOUR|WORLD|31|20220611013326|323222" }';

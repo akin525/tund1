@@ -38,6 +38,8 @@ class SellElectricityController extends Controller
 
             curl_close($curl);
 
+//            Log::info("HW Payload. - " . $payload);
+
         } else {
             $response = '{ "code": "200", "message": "Purchase Successful", "reference": "HONOUR|WORLD|62|20220611021605|347694", "token": "1498-2330-4576-0458-1880", "unit": 2.95, "taxAmount": null, "bonusUnit": null, "bonusToken": null, "amount": 100, "status": "200", "customerName": null, "customerAddress": "232", "date": "2022-06-11 02:16:18", "disco": "IBEDC_PREPAID" }';
         }
@@ -56,7 +58,6 @@ class SellElectricityController extends Controller
             $dada['token'] = $rep['token'];
 
             if ($requester == "reseller") {
-//                $dada['server_ref'] = $rep['content']['transactions']['transactionId'];
                 $dada['server_ref'] = $reqid;
                 return $rs->outputResponse($request, $transid, 1, $dada);
             } else {
