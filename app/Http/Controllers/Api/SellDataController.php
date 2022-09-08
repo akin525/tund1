@@ -59,6 +59,9 @@ class SellDataController extends Controller
 
         $rep = json_decode($response, true);
 
+        Log::info("HW Transaction. - " . $transid);
+        Log::info($response);
+
         $rs = new PayController();
         $ms = new V2\PayController();
 
