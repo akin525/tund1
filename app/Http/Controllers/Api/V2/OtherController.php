@@ -34,6 +34,7 @@ class OtherController extends Controller
         $data['monnify'] = $sett['fund_monnify'];
         $data['korapay'] = $sett['fund_korapay'];
         $data['wallet'] = $sett['fund_bank'];
+        $data['budpay'] = $sett['fund_budpay'];
 
         $d['paystack_public'] = $sett['fund_paystack_details'];
         $d['paystack_secret'] = $sett['secret_paystack_details'];

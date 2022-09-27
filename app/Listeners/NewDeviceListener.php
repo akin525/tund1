@@ -35,7 +35,7 @@ class NewDeviceListener implements ShouldQueue
         $tr['code'] = str_shuffle(substr(date('sydmM') . rand() . $user->user_name, 0, 4));
         $tr['email'] = $user->email;
         $tr['user_name'] = $user->user_name;
-        $tr['expired'] = Carbon::now()->addHour();
+        $tr['expired'] = Carbon::now()->addMinutes(30);
         $tr['device'] = $datas['device'];
         $tr['ip'] = $datas['ip'];
 
