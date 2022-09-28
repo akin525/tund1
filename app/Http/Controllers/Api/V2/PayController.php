@@ -31,6 +31,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class PayController extends Controller
@@ -395,12 +396,6 @@ class PayController extends Controller
         $input['status'] = 'delivered';
         $input['code'] = 'bizv';
 
-        // mysql inserting a new row
-        Transaction::create($input);
-
-        $user->wallet = $input['f_wallet'];
-        $user->save();
-
             $curl = curl_init();
 
             $payload='{
@@ -430,7 +425,22 @@ class PayController extends Controller
 
             curl_close($curl);
 
+        Log::info("MCD Business Verification - ");
+        Log::info($payload);
+        Log::info($response);
+
+
         $rep = json_decode($response, true);
+
+        if($rep['success'] != 1){
+            return response()->json(['success' => 0, 'message' => 'Temporary unable to validate business. Check back later']);
+        }
+
+        // mysql inserting a new row
+        Transaction::create($input);
+
+        $user->wallet = $input['f_wallet'];
+        $user->save();
 
 
         $input["type"] = "income";
