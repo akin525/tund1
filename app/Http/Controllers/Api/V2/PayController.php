@@ -416,7 +416,8 @@ class PayController extends Controller
                 CURLOPT_POSTFIELDS => $payload,
                 CURLOPT_HTTPHEADER => array(
                     'Authorization:' . env('MCD_KEY'),
-                    'Accept: application/json'
+                    'Accept: application/json',
+                    'Content-Type: application/json'
                 ),
             ));
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
