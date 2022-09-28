@@ -66,6 +66,8 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::post('airtimeconverter', [PayController::class, 'a2ca2b']);
         Route::post('resultchecker', [PayController::class, 'resultchecker']);
 
+        Route::post('epins', [OtherController::class, 'insertRechargecard']);
+
         Route::get('profile', [UserController::class, 'profile']);
         Route::get('agentstatus', [UserController::class, 'agentStatus']);
         Route::post('agent', [UserController::class, 'requestAgent']);

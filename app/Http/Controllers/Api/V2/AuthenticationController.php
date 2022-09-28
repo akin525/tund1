@@ -185,7 +185,7 @@ class AuthenticationController extends Controller
         }
 
 
-        if (Carbon::parse($nl->created_at)->diffInMinutes(Carbon::now()) < 30) {
+        if (Carbon::parse($nl->created_at)->diffInMinutes(Carbon::now()) > 30) {
             return response()->json(['success' => 3, 'message' => 'OTP expired. Kindly login again']);
         }
 

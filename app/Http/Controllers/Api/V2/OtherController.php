@@ -10,12 +10,14 @@ use App\Models\FAQs;
 use App\Models\GeneralMarket;
 use App\Models\ReferralPlans;
 use App\Models\Settings;
+use App\Models\Transaction;
 use App\Models\Wallet;
 use App\Models\Withdraw;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class OtherController extends Controller
@@ -391,6 +393,69 @@ class OtherController extends Controller
         $faqs=AppOtherServices::where('status', 1)->get();
 
         return response()->json(['success' => 1, 'message' => 'Other service fetched successfully', 'data' => $faqs]);
+    }
+
+    public function insertRechargecard(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'network' => 'required',
+            'amount' => 'required',
+            'quantity' => 'required',
+            'ref' => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        $input = $request->all();
+
+        if ($validator->passes()) {
+
+            $user=Auth::user();
+            $input["user_name"] = $user->user_name;
+
+            $uid = $input['user_name'];
+            $net = $input['network'];
+            $qty = $input['quantity'];
+            $price = $input['amount'];
+            $p = $price * $qty;
+            $ref = $input["ref"];
+
+            if ($p > $user->wallet) {
+                return response()->json(['success' => 0, 'message' => 'Insufficient Balance']);
+            }
+
+            $input["i_wallet"] = $user->wallet;
+            $GLOBALS['email'] = $user->email;
+            $input['f_wallet'] = $input["i_wallet"] - $p;
+            $input['amount'] = $p;
+
+            $input['description'] = $uid . " order " . $net . "(#" . $price . ") recharge card of " . $qty . " quantity";
+            $input['extra'] = "qty-" . $qty . ", net-" . $net . ", amount-" . $price . ", ref-" . $ref;
+            $input['ip_address'] = $_SERVER['REMOTE_ADDR'];
+            $input['date'] = Carbon::now();
+            $input['name'] = 'Recharge Card';
+            $input['status'] = 'pending';
+            $input['code'] = 'rcc';
+
+            Transaction::create($input);
+
+            $user->wallet = $input['f_wallet'];
+            $user->save();
+
+//            $data = array('name' => $user->user_name, 'date' => date("D, d M Y"));
+//            Mail::send('email_rechargecard_notice', $data, function ($message) {
+//                $message->to($GLOBALS['email'], 'MCD Customer')->subject('MCD Rechargecard');
+//                $message->from('info@5starcompany.com.ng', '5Star Inn Company');
+//            });
+
+            return response()->json(['success' => 1, 'message' => 'Transactions submitted Successfully']);
+
+        } else {
+            // required field is missing
+            // echoing JSON response
+            return response()->json(['success' => 0, 'message' => implode(",", $validator->errors()->all())]);
+        }
     }
 
 }
