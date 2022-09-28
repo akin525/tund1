@@ -430,15 +430,21 @@ class UserController extends Controller
         }
 
         $name = Auth::user()->user_name . "_" . time() . ".jpg";
-        $folder = "avatar";
 
-        if ($this->upload2FBS($input["dp"], $folder, $name) == "success") {
-            $user->photo = $name;
+        $image=$input['dp'];
+        $localfolder = storage_path('app/public/avatar') . '/';
+        $base64 = base64_decode($image);
+        $file = $name . '.png';
+
+        if (file_put_contents($localfolder . $file, $base64)) {
+            $user=User::find(Auth::id());
+            $user->photo=$name;
             $user->save();
             return response()->json(['success' => 1, 'message' => 'Image uploaded successfully', 'data' => $name]);
         } else {
             return response()->json(['success' => 0, 'message' => 'Upload failed. Try again later']);
         }
+
     }
 
     public function add_referral(Request $request)
@@ -633,46 +639,5 @@ class UserController extends Controller
         }
     }
 
-
-    public function upload2FBS($base64IMG, $folder, $filename)
-    {
-        $image = $base64IMG;
-        $student = app('firebase.firestore')->database()->collection($folder)->document($filename);
-        $firebase_storage_path = $folder . '/';
-        $name = $student->id();
-        $localfolder = storage_path('firebase-temp-uploads') . '/';
-        if (!file_exists($localfolder)) {
-            mkdir($localfolder, 0777, true);
-        }
-
-        $base64 = base64_decode($image);
-        $file = $name . '.png';
-        if (file_put_contents($localfolder . $file, $base64)) {
-            $uploadedfile = fopen($localfolder . $file, 'r');
-            app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path . $name]);
-            //will remove from local laravel folder
-            unlink($localfolder . $file);
-            return 'success';
-        } else {
-            return 'error';
-        }
-    }
-
-    public function uploadFile2FBS($filepath, $folder, $filename)
-    {
-        $student = app('firebase.firestore')->database()->collection($folder)->document($filename);
-        $firebase_storage_path = $folder . '/';
-        $name = $student->id();
-        $localfolder = storage_path('firebase-temp-uploads') . '/';
-        if (!file_exists($localfolder)) {
-            mkdir($localfolder, 0777, true);
-        }
-
-        $uploadedfile = fopen($filepath, 'r');
-        app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path . $name]);
-        //will remove from local laravel folder
-        unlink($filepath);
-        return 'success';
-    }
 
 }
