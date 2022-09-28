@@ -434,9 +434,8 @@ class UserController extends Controller
         $image=$input['dp'];
         $localfolder = storage_path('app/public/avatar') . '/';
         $base64 = base64_decode($image);
-        $file = $name . '.png';
 
-        if (file_put_contents($localfolder . $file, $base64)) {
+        if (file_put_contents($localfolder . $name, $base64)) {
             $user=User::find(Auth::id());
             $user->photo=$name;
             $user->save();

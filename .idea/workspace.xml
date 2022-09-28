@@ -22,7 +22,6 @@
     <list default="true" id="41dc791e-619a-48fd-95ed-769a0575df70" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/storages.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/storages.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,6 +185,9 @@
     <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\odeji\PhpstormProjects\tund1\storage\app\public" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\odeji\PhpstormProjects\tund1\resources\views" />
       <recent name="C:\Users\odeji\PhpstormProjects\tund1\app\Models" />
@@ -244,14 +246,7 @@
       <workItem from="1662606517020" duration="2503000" />
       <workItem from="1662995802266" duration="843000" />
       <workItem from="1663411328938" duration="5302000" />
-      <workItem from="1664255782973" duration="27751000" />
-    </task>
-    <task id="LOCAL-00011" summary="commit changes">
-      <created>1655321512463</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1655321512464</updated>
+      <workItem from="1664255782973" duration="29138000" />
     </task>
     <task id="LOCAL-00012" summary="commit changes">
       <created>1655325040119</created>
@@ -589,7 +584,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664369799109</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="avatar upload to local storage">
+      <created>1664371767646</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1664371767646</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -609,7 +611,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="commit changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit changes" />
+    <MESSAGE value="avatar upload to local storage" />
+    <option name="LAST_COMMIT_MESSAGE" value="avatar upload to local storage" />
   </component>
   <component name="WindowStateProjectService">
     <state x="403" y="161" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1658373421693">
@@ -621,10 +624,10 @@
     </state>
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1656770208888" />
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1664363079129" />
-    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1664369798311">
+    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1664371766536">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1664369798311" />
+    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1664371766536" />
     <state x="92" y="92" width="1092" height="605" key="DiffContextDialog" timestamp="1664369791936">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
@@ -637,10 +640,10 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="184" y="4" key="SettingsEditor/0.0.1366.720@0.0.1366.720" timestamp="1659337918087" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1664369800626">
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1664371770074">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1664369800626" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1664371770074" />
     <state x="492" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1657208036624">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
