@@ -392,7 +392,7 @@ class PayController extends Controller
 
         $input['date'] = Carbon::now();
         $input['ip_address'] = $_SERVER['REMOTE_ADDR'];
-        $input['description'] = $uid . " order biz verification on " . $input['biz'];
+        $input['description'] = "biz verification on " . $input['biz'];
         $input['extra'] = "";
         $input['name'] = $net;
         $input['status'] = 'delivered';
