@@ -59,7 +59,7 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::post('electricity', [PayController::class, 'buyelectricity']);
         Route::post('betting', [PayController::class, 'buybetting']);
         Route::post('jamb', [PayController::class, 'buyJamb']);
-        Route::post('bizvalidation', [PayController::class, 'bizvalidation']);
+        Route::post('bizverification', [PayController::class, 'bizverification']);
 
         Route::post('bulkairtime', [UserController::class, 'bulkAirtime']);
 

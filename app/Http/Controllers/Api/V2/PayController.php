@@ -345,7 +345,7 @@ class PayController extends Controller
         return $this->handlePassage($request, $proceed);
     }
 
-    public function bizvalidation(Request $request)
+    public function bizverification(Request $request)
     {
         $input = $request->all();
         $rules = array(

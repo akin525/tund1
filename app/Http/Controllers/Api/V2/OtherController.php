@@ -44,6 +44,8 @@ class OtherController extends Controller
         $d['rave_enckey'] = $sett['fund_rave_key'];
         $d['monnify_apikey'] = $sett['fund_monnify_apikey'];
         $d['monnify_contractcode'] = $sett['fund_monnify_contractcode'];
+        $d['budpay_secret'] = $sett['fund_budpay_secret'];
+        $d['budpay_public'] = $sett['fund_budpay_public'];
 
         return response()->json(['success' => 1, 'message' => 'Fetched successful', 'data' => ['status' => $data, 'details' => $d]]);
     }
