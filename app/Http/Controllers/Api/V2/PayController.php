@@ -366,7 +366,9 @@ class PayController extends Controller
         $input["user_name"] = Auth::user()->user_name;
         $net = "BIZVERIFICATION";
 
-        $input['amount'] = 100;
+        $set=Settings::where('name', 'biz_verification_price_customer')->first();
+
+        $input['amount'] = $set->value ;
 
         $user = User::where('user_name', $input["user_name"])->first();
 

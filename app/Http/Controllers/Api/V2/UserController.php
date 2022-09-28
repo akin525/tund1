@@ -70,6 +70,7 @@ class UserController extends Controller
         $others['live_chat'] = $sett['live_chat'];
         $others['reseller_fee'] = $sett['reseller_fee'];
         $others['support_email'] = $sett['support_email'];
+        $others['biz_verification_price_customer'] = $sett['biz_verification_price_customer'];
 
         return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['user' => $me, 'balances' => $balances, 'services' => $services, 'news' => $user->gnews, 'others' => $others]]);
     }
