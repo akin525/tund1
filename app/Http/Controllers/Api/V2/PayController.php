@@ -398,10 +398,7 @@ class PayController extends Controller
 
             $curl = curl_init();
 
-            $payload='{
-  "biz" : "' . $input['biz'] . '",
-   "ref" : "' . $input['ref'] . '"
-}';
+            $payload=array('ref' => $input['ref'],'biz' => $input['biz']);
 
 
             curl_setopt_array($curl, array(
@@ -415,9 +412,7 @@ class PayController extends Controller
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => $payload,
                 CURLOPT_HTTPHEADER => array(
-                    'Authorization:' . env('MCD_KEY'),
-                    'Accept: application/json',
-                    'Content-Type: application/json'
+                    'Authorization:' . env('MCD_KEY')
                 ),
             ));
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -427,7 +422,7 @@ class PayController extends Controller
             curl_close($curl);
 
         Log::info("MCD Business Verification - ");
-        Log::info($payload);
+        Log::info(json_encode($payload));
         Log::info($response);
 
 
