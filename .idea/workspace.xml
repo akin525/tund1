@@ -21,8 +21,23 @@
   <component name="ChangeListManager">
     <list default="true" id="41dc791e-619a-48fd-95ed-769a0575df70" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ResellerServiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ResellerServiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ServerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ServerController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/CreateProvidusAccountJob.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/CreateProvidusAccountJob.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/airtimecontrol.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/airtimecontrol.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/airtimecontrol_edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/airtimecontrol_edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/datacontrol.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/datacontrol.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/datacontrol_edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/datacontrol_edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/electricitycontrol.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/electricitycontrol.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/electricitycontrol_edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/electricitycontrol_edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reseller_control/airtimecontrol.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller_control/airtimecontrol.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reseller_control/airtimecontrol_edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller_control/airtimecontrol_edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reseller_control/datacontrol.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller_control/datacontrol.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reseller_control/datacontrol_edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller_control/datacontrol_edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reseller_control/tvcontrol.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller_control/tvcontrol.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reseller_control/tvcontrol_edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller_control/tvcontrol_edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/tvcontrol.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/tvcontrol.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -247,14 +262,8 @@
       <workItem from="1662606517020" duration="2503000" />
       <workItem from="1662995802266" duration="843000" />
       <workItem from="1663411328938" duration="5302000" />
-      <workItem from="1664255782973" duration="31155000" />
-    </task>
-    <task id="LOCAL-00014" summary="commit changes">
-      <created>1655328725753</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1655328725754</updated>
+      <workItem from="1664255782973" duration="37987000" />
+      <workItem from="1664581561505" duration="30655000" />
     </task>
     <task id="LOCAL-00015" summary="commit changes">
       <created>1655785595719</created>
@@ -592,7 +601,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664374322845</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="push changes">
+      <created>1664375184477</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1664375184477</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -621,15 +637,15 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="403" y="161" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.720@0.0.1366.720" timestamp="1658373421693" />
-    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1664363079129">
+    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1664663867368">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1656770208888" />
-    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1664363079129" />
-    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1664374321825">
+    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1664663867368" />
+    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1664375183350">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1664374321825" />
+    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1664375183350" />
     <state x="92" y="92" width="1092" height="605" key="DiffContextDialog" timestamp="1664369791936">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
@@ -642,10 +658,10 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="184" y="4" key="SettingsEditor/0.0.1366.720@0.0.1366.720" timestamp="1659337918087" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1664374329254">
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1664375186042">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1664374329254" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1664375186042" />
     <state x="492" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1657208036624">
       <screen x="0" y="0" width="1366" height="720" />
     </state>

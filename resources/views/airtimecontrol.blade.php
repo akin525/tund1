@@ -57,7 +57,10 @@
 
 
                                 <td class="center">
-                                    <a href="{{route('airtimecontrolEdit',$da->id )}}"  class="btn btn-secondary">Modify</a>
+                                    <a class="btn {{$da->status =="1"? "btn-gradient-danger" : "btn-success" }}" href="{{route('airtimecontrolED',$da->id)}}">
+                                        {{$da->status =="1"? "Disable" : "Enable" }}
+                                    </a>
+                                    <a href="{{route('airtimecontrolEdit',$da->id )}}" class="btn btn-secondary">Modify</a>
                                 </td>
 
                         </tr>

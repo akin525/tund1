@@ -143,32 +143,39 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/otherservices-update', [ServerController::class, 'othersUpdate'])->name('otherservicesUpdate');
 
         Route::get('/datalist/{network}', [ServerController::class, 'dataserve2'])->name('dataplans');
-        Route::get('/datacontrol/{id}', [ServerController::class, 'othersedit'])->name('datacontrolEdit');
+        Route::get('/datacontrol/{id}', [ServerController::class, 'dataserveedit'])->name('datacontrolEdit');
+        Route::get('/dataserveED/{id}', [ServerController::class, 'dataserveED'])->name('dataserveED');
         Route::post('/datacontrol', [ServerController::class, 'dataserveUpdate'])->name('datacontrolUpdate');
 
         Route::get('/airtimecontrol', [ServerController::class, 'airtime'])->name('airtimecontrol');
         Route::get('/airtimecontrol/{id}', [ServerController::class, 'airtimeEdit'])->name('airtimecontrolEdit');
+        Route::get('/airtimecontrolED/{id}', [ServerController::class, 'airtimecontrolED'])->name('airtimecontrolED');
         Route::post('/airtimecontrol', [ServerController::class, 'airtimeUpdate'])->name('airtimecontrolUpdate');
 
         Route::get('/tvcontrol', [ServerController::class, 'tvserver'])->name('tvcontrol');
         Route::get('/tvcontrol/{id}', [ServerController::class, 'tvEdit'])->name('tvcontrolEdit');
+        Route::get('/tvcontrolED/{id}', [ServerController::class, 'tvcontrolED'])->name('tvcontrolED');
         Route::post('/tvcontrol', [ServerController::class, 'tvUpdate'])->name('tvcontrolUpdate');
 
         Route::get('/electricitycontrol', [ServerController::class, 'electricityserver'])->name('electricitycontrol');
         Route::get('/electricitycontrol/{id}', [ServerController::class, 'electricityEdit'])->name('electricitycontrolEdit');
+        Route::get('/electricitycontrolED/{id}', [ServerController::class, 'electricityED'])->name('electricitycontrolED');
         Route::post('/electricitycontrol', [ServerController::class, 'electricityUpdate'])->name('electricitycontrolUpdate');
 
         Route::prefix('reseller')->name('reseller.')->group(function () {
             Route::get('/datacontrol', [ResellerServiceController::class, 'dataserve2'])->name('dataplans');
             Route::get('/datacontrol/{id}', [ResellerServiceController::class, 'dataserveedit'])->name('datacontrolEdit');
+            Route::get('/datacontrolED/{id}', [ResellerServiceController::class, 'datacontrolED'])->name('datacontrolED');
             Route::post('/datacontrol', [ResellerServiceController::class, 'dataserveUpdate'])->name('datacontrolUpdate');
 
             Route::get('/airtimecontrol', [ResellerServiceController::class, 'airtime'])->name('airtimecontrol');
             Route::get('/airtimecontrol/{id}', [ResellerServiceController::class, 'airtimeEdit'])->name('airtimecontrolEdit');
+            Route::get('/airtimecontrolED/{id}', [ResellerServiceController::class, 'airtimecontrolED'])->name('airtimecontrolED');
             Route::post('/airtimecontrol', [ResellerServiceController::class, 'airtimeUpdate'])->name('airtimecontrolUpdate');
 
             Route::get('/tvcontrol', [ResellerServiceController::class, 'tvserver'])->name('tvcontrol');
             Route::get('/tvcontrol/{id}', [ResellerServiceController::class, 'tvEdit'])->name('tvcontrolEdit');
+            Route::get('/tvcontrolED/{id}', [ResellerServiceController::class, 'tvcontrolED'])->name('tvcontrolED');
             Route::post('/tvcontrol', [ResellerServiceController::class, 'tvUpdate'])->name('tvcontrolUpdate');
 
             Route::get('/electricitycontrol', [ResellerServiceController::class, 'electricityserver'])->name('electricitycontrol');

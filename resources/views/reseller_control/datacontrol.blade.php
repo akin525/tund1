@@ -29,6 +29,11 @@
                             <th>Type</th>
                             <th>Product Name</th>
                             <th>Price</th>
+                            <th>Level1</th>
+                            <th>Level2</th>
+                            <th>Level3</th>
+                            <th>Level4</th>
+                            <th>Level5</th>
                             <th>Server</th>
                             <th>Status</th>
                             <th>Date Modified</th>
@@ -43,6 +48,11 @@
 
                                 <td>{{$da['name']}}</td>
                                 <td class="center">{{$da['price']}}</td>
+                                <td class="center">{{$da['level1']}}</td>
+                                <td class="center">{{$da['level2']}}</td>
+                                <td class="center">{{$da['level3']}}</td>
+                                <td class="center">{{$da['level4']}}</td>
+                                <td class="center">{{$da['level5']}}</td>
                                 <td>
 
                                     {{$da['server']}}</option>
@@ -64,6 +74,10 @@
 
 
                                 <td class="center">
+                                    <a class="btn {{$da->status =="1"? "btn-gradient-danger" : "btn-success" }}" href="{{route('reseller.datacontrolED',$da->id)}}">
+                                        {{$da->status =="1"? "Disable" : "Enable" }}
+                                    </a>
+
                                     <a href="{{route('reseller.datacontrolEdit',$da->id )}}"  class="btn btn-secondary">Modify</a>
                                 </td>
 

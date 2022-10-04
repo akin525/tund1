@@ -66,6 +66,9 @@
 
 
                                 <td class="center">
+                                    <a class="btn {{$da->status =="1"? "btn-gradient-danger" : "btn-success" }}" href="{{route('tvcontrolED',$da->id)}}">
+                                        {{$da->status =="1"? "Disable" : "Enable" }}
+                                    </a>
                                     <a href="{{route('tvcontrolEdit',$da->id )}}"  class="btn btn-secondary">Modify</a>
                                 </td>
 

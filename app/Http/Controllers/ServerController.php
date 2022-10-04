@@ -34,13 +34,28 @@ class ServerController
         return view('airtimecontrol_edit', compact('data'));
     }
 
+
+    public function airtimecontrolED($id)
+    {
+        $data = AppAirtimeControl::find($id);
+
+        if(!$data){
+            return redirect()->route('airtimecontrol')->with('error', 'Plan does not exist');
+        }
+
+        $data->status=$data->status == 1 ? 0 : 1;
+        $data->save();
+
+        return back()->with("success", "Status Modified successfully");
+    }
+
+
     public function airtimeUpdate(Request $request)
     {
         $input = $request->all();
         $rules = array(
             'id'      => 'required',
             'discount'      => 'required',
-            'status' => 'required',
             'server' => 'required'
         );
 
@@ -52,12 +67,12 @@ class ServerController
         }
 
 
-        $data = AppDataControl::where('id', $request->id)->first();
+        $data = AppAirtimeControl::where('id', $request->id)->first();
         if(!$data){
             return back()->with('error', 'Kindly choose correct plan. Kindly check and try again');
         }
         $data->discount = $input['discount'];
-        $data->status = $input['status'];
+//        $data->status = $input['status'];
         $data->server = $input['server'];
         $data->save();
 
@@ -112,6 +127,20 @@ class ServerController
         }
 
         return view('datacontrol_edit', compact('data'));
+    }
+
+    public function dataserveED($id)
+    {
+        $data = dataserver::find($id);
+
+        if(!$data){
+            return redirect()->route('datacontrol')->with('error', 'Plan does not exist');
+        }
+
+        $data->status=$data->status == 1 ? 0 : 1;
+        $data->save();
+
+        return back()->with("success", "Status Modified successfully");
     }
 
     public function dataserveUpdate(Request $request)
@@ -169,6 +198,21 @@ class ServerController
         return view('tvcontrol_edit', compact('data'));
     }
 
+
+    public function tvcontrolED($id)
+    {
+        $data = AppCableTVControl::find($id);
+
+        if(!$data){
+            return redirect()->route('tvcontrol')->with('error', 'Plan does not exist');
+        }
+
+        $data->status=$data->status == 1 ? 0 : 1;
+        $data->save();
+
+        return back()->with("success", "Status Modified successfully");
+    }
+
     public function tvUpdate(Request $request)
     {
         $input = $request->all();
@@ -222,6 +266,22 @@ class ServerController
         return view('electricitycontrol_edit', compact('data'));
     }
 
+
+    public function electricityED($id)
+    {
+        $data = ResellerElecticity::find($id);
+
+        if(!$data){
+            return redirect()->route('electricitycontrol')->with('error', 'Plan does not exist');
+        }
+
+        $data->status=$data->status == 1 ? 0 : 1;
+        $data->save();
+
+        return back()->with("success", "Status Modified successfully");
+    }
+
+
     public function electricityUpdate(Request $request)
     {
         $input = $request->all();
@@ -239,7 +299,7 @@ class ServerController
             return back()->with('error', 'Incomplete request. Kindly check and try again');
         }
 
-        $data = AppCableTVControl::where('id', $request->id)->first();
+        $data = ResellerElecticity::where('id', $request->id)->first();
         if(!$data){
             return back()->with('error', 'Kindly choose correct plan. Kindly check and try again');
         }

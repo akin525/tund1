@@ -23,7 +23,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" method="POST" action="{{ route('tvcontrolUpdate') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('reseller.tvcontrolUpdate') }}">
                         @csrf
                         <div class="form-group row">
                             <div class="col-md-12">
@@ -40,31 +40,44 @@
 
                                 <div class="input-group mt-2">
                                     <div class="input-group-prepend"><span class="input-group-text">Price </span></div>
-                                    <input type="number" name="price" class="form-control" placeholder="Enter Price" value="{{$data->price}}">
+                                    <input type="number" name="price" class="form-control" placeholder="Enter provider Price" value="{{$data->amount}}">
                                 </div>
 
                                 <div class="input-group mt-2">
-                                    <div class="input-group-prepend"><span class="input-group-text">Discount </span></div>
-                                    <input type="text" name="discount" class="form-control" placeholder="Enter Price" value="{{$data->discount}}">
+                                    <div class="input-group-prepend"><span class="input-group-text">Level1 Discount </span></div>
+                                    <input type="text" name="level1" class="form-control" placeholder="Enter Price" value="{{$data->level1}}">
                                 </div>
 
                                 <div class="input-group mt-2">
-                                    <select class="custom-select form-control" name="status">
-                                        <option value="1" selected="{{$data->status == '1'}}">Activate</option>
-                                        <option value="0" selected="{{$data->status == '0'}}">Deactivate</option>
-                                    </select>
+                                    <div class="input-group-prepend"><span class="input-group-text">Level2 Discount</span></div>
+                                    <input type="text" name="level2" class="form-control" placeholder="Enter Price" value="{{$data->level2}}">
+                                </div>
+
+                                <div class="input-group mt-2">
+                                    <div class="input-group-prepend"><span class="input-group-text">Level3 Discount</span></div>
+                                    <input type="text" name="level3" class="form-control" placeholder="Enter Price" value="{{$data->level3}}">
+                                </div>
+
+                                <div class="input-group mt-2">
+                                    <div class="input-group-prepend"><span class="input-group-text">Level4 Discount</span></div>
+                                    <input type="text" name="level4" class="form-control" placeholder="Enter Price" value="{{$data->level4}}">
+                                </div>
+
+                                <div class="input-group mt-2">
+                                    <div class="input-group-prepend"><span class="input-group-text">Level5 Discount</span></div>
+                                    <input type="text" name="level5" class="form-control" placeholder="Enter Price" value="{{$data->level5}}">
                                 </div>
 
                                 <div class="input-group mt-2">
                                     <select class="custom-select form-control" name="server">
-                                        <option value="1" selected="{{$data->status == 1 ? 'selected' : ''}}">1</option>
-                                        <option value="2" selected="{{$data->status == 2 ? 'selected' : ''}}">2</option>
-                                        <option value="3" selected="{{$data->status == 3 ? 'selected' : ''}}">3</option>
-                                        <option value="4" selected="{{$data->status == 4 ? 'selected' : ''}}">4</option>
-                                        <option value="5" selected="{{$data->status == 5 ? 'selected' : ''}}">5</option>
-                                        <option value="6" selected="{{$data->status == 6 ? 'selected' : ''}}">6</option>
-                                        <option value="7" selected="{{$data->status == 7 ? 'selected' : ''}}">7</option>
-                                        <option value="8" selected="{{$data->status == 8 ? 'selected' : ''}}">8</option>
+                                        <option value="1" {{$data->server == 1 ? "selected" : ''}}>1</option>
+                                        <option value="2" {{$data->server == 2 ? "selected" : ''}}>2</option>
+                                        <option value="3" {{$data->server == 3 ? "selected" : ''}}>3</option>
+                                        <option value="4" {{$data->server == 4 ? "selected" : ''}}>4</option>
+                                        <option value="5" {{$data->server == 5 ? "selected" : ''}}>5</option>
+                                        <option value="6" {{$data->server == 6 ? "selected" : ''}}>6</option>
+                                        <option value="7" {{$data->server == 7 ? "selected" : ''}}>7</option>
+                                        <option value="8" {{$data->server == 8 ? "selected" : ''}}>8</option>
                                     </select>
                                 </div>
 

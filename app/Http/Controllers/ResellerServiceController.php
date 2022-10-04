@@ -34,13 +34,32 @@ class ResellerServiceController extends Controller
         return view('reseller_control.airtimecontrol_edit', compact('data'));
     }
 
+
+    public function airtimecontrolED($id)
+    {
+        $data = ResellerAirtimeControl::find($id);
+
+        if(!$data){
+            return redirect()->route('reseller.airtimecontrol')->with('error', 'Plan does not exist');
+        }
+
+        $data->status=$data->status == 1 ? 0 : 1;
+        $data->save();
+
+        return back()->with("success", "Status Modified successfully");
+    }
+
+
     public function airtimeUpdate(Request $request)
     {
         $input = $request->all();
         $rules = array(
             'id'      => 'required',
-            'discount'      => 'required',
-            'status' => 'required',
+            'level1'      => 'required',
+            'level2'      => 'required',
+            'level3'      => 'required',
+            'level4'      => 'required',
+            'level5'      => 'required',
             'server' => 'required'
         );
 
@@ -56,8 +75,11 @@ class ResellerServiceController extends Controller
         if(!$data){
             return back()->with('error', 'Kindly choose correct plan. Kindly check and try again');
         }
-        $data->discount = $input['discount'];
-        $data->status = $input['status'];
+        $data->level1 = $input['level1'];
+        $data->level2 = $input['level2'];
+        $data->level3 = $input['level3'];
+        $data->level4 = $input['level4'];
+        $data->level5 = $input['level5'];
         $data->server = $input['server'];
         $data->save();
 
@@ -82,15 +104,31 @@ class ResellerServiceController extends Controller
         return view('reseller_control.datacontrol_edit', compact('data'));
     }
 
+    public function datacontrolED($id)
+    {
+        $data = ResellerDataPlans::find($id);
+
+        if(!$data){
+            return redirect()->route('reseller.datacontrol')->with('error', 'Plan does not exist');
+        }
+
+        $data->status=$data->status == 1 ? 0 : 1;
+        $data->save();
+
+        return back()->with("success", "Status Modified successfully");
+    }
+
     public function dataserveUpdate(Request $request)
     {
         $input = $request->all();
         $rules = array(
             'id'      => 'required',
             'product_name'      => 'required',
-            'provider_price' => 'required',
-            'amount' => 'required',
-            'status' => 'required',
+            'level1' => 'required',
+            'level2' => 'required',
+            'level3' => 'required',
+            'level4' => 'required',
+            'level5' => 'required',
             'server' => 'required',
             'note' => 'nullable'
         );
@@ -108,11 +146,13 @@ class ResellerServiceController extends Controller
             return back()->with('error', 'Kindly choose correct plan. Kindly check and try again');
         }
         $data->name = $input['product_name'];
-        $data->price = $input['provider_price'];
-        $data->pricing = $input['amount'];
-        $data->status = $input['status'];
+        $data->level1 = $input['level1'];
+        $data->level2 = $input['level2'];
+        $data->level3 = $input['level3'];
+        $data->level4 = $input['level4'];
+        $data->level5 = $input['level5'];
         $data->server = $input['server'];
-        $data->note = $input['note'];
+//        $data->note = $input['note'];
         $data->save();
 
         return redirect()->route('reseller.dataplans')->with('success', $data->name . ' has been updated successfully');
@@ -123,7 +163,7 @@ class ResellerServiceController extends Controller
     {
         $data = ResellerCableTV::paginate(10);
 
-        return view('tvcontrol', compact('data'));
+        return view('reseller_control.tvcontrol', compact('data'));
     }
 
     public function tvEdit($id)
@@ -137,6 +177,22 @@ class ResellerServiceController extends Controller
         return view('reseller_control.tvcontrol_edit', compact('data'));
     }
 
+
+    public function tvcontrolED($id)
+    {
+        $data = ResellerCableTV::find($id);
+
+        if(!$data){
+            return redirect()->route('reseller.tvcontrol')->with('error', 'Plan does not exist');
+        }
+
+        $data->status=$data->status == 1 ? 0 : 1;
+        $data->save();
+
+        return back()->with("success", "Status Modified successfully");
+    }
+
+
     public function tvUpdate(Request $request)
     {
         $input = $request->all();
@@ -144,8 +200,11 @@ class ResellerServiceController extends Controller
             'id'      => 'required',
             'name'      => 'required',
             'price' => 'required',
-            'discount' => 'required',
-            'status' => 'required',
+            'level1' => 'required',
+            'level2' => 'required',
+            'level3' => 'required',
+            'level4' => 'required',
+            'level5' => 'required',
             'server' => 'required'
         );
 
@@ -162,10 +221,14 @@ class ResellerServiceController extends Controller
             return back()->with('error', 'Kindly choose correct plan. Kindly check and try again');
         }
         $data->name = $input['name'];
-        $data->price = $input['price'];
-        $data->status = $input['status'];
+        $data->amount = $input['price'];
+//        $data->status = $input['status'];
         $data->server = $input['server'];
-        $data->discount = $input['discount'];
+        $data->level1 = $input['level1'];
+        $data->level2 = $input['level2'];
+        $data->level3 = $input['level3'];
+        $data->level4 = $input['level4'];
+        $data->level5 = $input['level5'];
         $data->save();
 
         return redirect()->route('reseller.tvcontrol')->with('success', $data->name . ' has been updated successfully');
