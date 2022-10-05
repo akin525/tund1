@@ -10,6 +10,7 @@ use App\Models\PndL;
 use App\Models\ResellerPaymentLink;
 use App\Models\Settings;
 use App\Models\Transaction;
+use App\Models\VirtualAccount;
 use App\Models\VirtualAccountClient;
 use App\User;
 use Carbon\Carbon;
@@ -162,6 +163,7 @@ class UsersController extends Controller
         $push = DB::table('tbl_pushnotiflog')->where('user_name', $user)->orderBy('id', 'desc')->get();
         $login = DB::table('tbl_login_attempt')->where('user_name', $user)->orderBy('id', 'desc')->get();
         $cypto = DB::table('tbl_luno')->where('user_name', $user)->orderBy('id', 'desc')->get();
+        $vaccounts=VirtualAccount::where('user_id', $ap->id)->orderBy('id', 'desc')->get();
 
         $tat = Transaction::where([['user_name', $user], ['name', 'LIKE', '%airtime']])->count();
         $tdt = Transaction::where([['user_name', $user], ['name', 'LIKE', '%data']])->count();
@@ -169,7 +171,7 @@ class UsersController extends Controller
         $tpt = Transaction::where([['user_name', $user], ['name', 'LIKE', '%paytv']])->count();
         $trt = Transaction::where([['user_name', $user], ['name', '=', 'Result Checker']])->count();
 
-        return view('profile', ['user' => $ap, 'tt' => $tt, 'td' => $td, 'tw' => $tw, 'wd' => $wd, 'tpld' => $tpld, 'pld' => $pld, 'referrals' => $referrals, 'version' => $v, 'sms' => $sms, 'email' => $email, 'push'=>$push, 'tat' =>$tat, 'tdt'=>$tdt, 'tpt'=>$tpt, 'tct'=>$tct, 'trt'=>$trt, 'login'=>$login, 'crypto'=>$cypto]);
+        return view('profile', ['user' => $ap, 'tt' => $tt, 'td' => $td, 'tw' => $tw, 'wd' => $wd, 'tpld' => $tpld, 'pld' => $pld, 'referrals' => $referrals, 'version' => $v, 'sms' => $sms, 'email' => $email, 'push'=>$push, 'tat' =>$tat, 'tdt'=>$tdt, 'tpt'=>$tpt, 'tct'=>$tct, 'trt'=>$trt, 'login'=>$login, 'crypto'=>$cypto, 'vaccounts'=>$vaccounts]);
     }
 
     public function approve(Request $request)

@@ -71,6 +71,7 @@
                         <li class="nav-item"><a class="nav-link" id="pushnoti_tab" data-toggle="pill" href="#pushnoti_detail">Push Notification</a></li>
                         <li class="nav-item"><a class="nav-link" id="login_tab" data-toggle="pill" href="#login_detail">Login Attempts</a></li>
                         <li class="nav-item"><a class="nav-link" id="information_tab" data-toggle="pill" href="#information">Information</a></li>
+                        <li class="nav-item"><a class="nav-link" id="vaccount_tab" data-toggle="pill" href="#vaccount_detail">Virtual Accounts</a></li>
 {{--                        <li class="nav-item"><a class="nav-link" id="crypto_tab" data-toggle="pill" href="#crypto_detail">Crypto Request</a></li>--}}
                     </ul>
                 </div>
@@ -717,6 +718,45 @@
                                                     <td>{{$cryptos->address}}</td>
                                                     <td>{{$cryptos->receive_fee}}</td>
                                                     <td>{{$cryptos->created_at}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+                </div>
+
+                <div class="tab-pane fade" id="vaccount_detail">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="mt-0 header-title">User Virtual Accounts</h4>
+                                    <p class="text-muted mb-4 font-13">Find the list of virtual account below</p>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th>Account Name</th>
+                                                <th>Account Number</th>
+                                                <th>Bank Name</th>
+                                                <th>Provider</th>
+                                                <th>Date</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($vaccounts as $vacct)
+                                                <tr>
+                                                    <td>{{$vacct->account_name}} </td>
+                                                    <td>{{$vacct->account_number}}</td>
+                                                    <td>{{$vacct->bank_name}}</td>
+                                                    <td>{{$vacct->provider}}</td>
+                                                    <td>{{$vacct->created_at}}</td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
