@@ -175,7 +175,12 @@
 {{--                                                </form>--}}
 {{--                                            </div>--}}
 {{--                                        @endif--}}
-                                        <button type="button" class="btn btn-gradient-danger btn-sm">Suspect Fraud</button>
+
+                                        <a href="{{route('adminBannUnbann', $user->id)}}" type="button" class="btn @if($user->fraud == "" || $user->fraud == null) btn-gradient-danger @else btn-gradient-success  @endif  btn-sm">@if($user->fraud == "" || $user->fraud == null)Bann User @else UnBann User  @endif</a>
+
+                                        @if($user->status == "admin" || $user->status == "superadmin")
+                                            <a href="{{route('adminPasswordReset', $user->id)}}" class="btn btn-gradient-danger btn-sm">Reset Admin Password</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -795,13 +800,15 @@
                                                     <input type="text" name="phoneno" class="form-control" placeholder="Enter phone number" value="{{$user->phoneno}}">
                                                 </div>
 
-{{--                                                <div class="input-group mt-2">--}}
-{{--                                                    <div class="input-group-prepend"><span class="input-group-text">Status</span></div>--}}
-{{--                                                    <select class="custom-select form-control" name="status">--}}
-{{--                                                        <option value="client">Client</option>--}}
-{{--                                                        <option value="reseller">Reseller</option>--}}
-{{--                                                    </select>--}}
-{{--                                                </div>--}}
+                                                <div class="input-group mt-2">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Status</span></div>
+                                                    <select class="custom-select form-control" name="status">
+                                                        <option value="client" @if($user->status == "client") selected @endif >Client</option>
+                                                        <option value="reseller" @if($user->status == "reseller") selected @endif>Reseller</option>
+                                                        <option value="superadmin" @if($user->status == "superadmin") selected @endif>Superadmin</option>
+                                                        <option value="admin" @if($user->status == "admin") selected @endif>admin</option>
+                                                    </select>
+                                                </div>
 
                                                 <div class="input-group mt-2">
                                                     <div class="input-group-prepend"><span class="input-group-text">Address</span></div>

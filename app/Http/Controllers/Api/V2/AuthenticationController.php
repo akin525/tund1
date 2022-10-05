@@ -120,6 +120,11 @@ class AuthenticationController extends Controller
             return response()->json(['success' => 0, 'message' => 'Incorrect password attempt']);
         }
 
+        if ($user->fraud != ""  || $user->fraud != null) {
+            return response()->json(['success' => 0, 'message' => $user->fraud ]);
+        }
+
+
         if ($user->devices != $input['device']) {
             $datas['device'] = $input['device'];
             $datas['ip'] = $_SERVER['REMOTE_ADDR'];

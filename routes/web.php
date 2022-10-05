@@ -65,6 +65,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/{id}', 'UsersController@profile')->name('profile');
     Route::post('/update-profile', [UsersController::class, 'updateProfile'])->name('updateProfile');
     Route::post('/user-password-reset', [UsersController::class, 'passwordReset'])->name('userPasswordReset');
+    Route::post('/admin-password-reset/{id}', [UsersController::class, 'passwordResetAdmin'])->name('adminPasswordReset');
+    Route::get('/admin-bann-user/{id}', [UsersController::class, 'bannUnbann'])->name('adminBannUnbann');
     Route::get('/wallet', 'WalletController@index')->name('wallet');
 
     Route::get('/virtual-accounts', [UsersController::class, 'vaccounts'])->name('virtual-accounts');

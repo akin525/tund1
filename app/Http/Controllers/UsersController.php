@@ -8,6 +8,7 @@ use App\Mail\Notification;
 use App\Mail\PasswordResetMail;
 use App\Models\PndL;
 use App\Models\ResellerPaymentLink;
+use App\Models\Settings;
 use App\Models\Transaction;
 use App\Models\VirtualAccountClient;
 use App\User;
@@ -470,6 +471,7 @@ class UsersController extends Controller
         $user->phoneno=$input['phoneno'] ?? "";
         $user->address=$input['address'] ?? "";
         $user->target=$input['target'] ?? "";
+        $user->status=$input['status'] ?? "";
         $user->save();
 
         return redirect()->route('profile', $user->user_name)->with("success", "Profile Updated successfully");
@@ -496,6 +498,68 @@ class UsersController extends Controller
         }
 
         return redirect()->route('profile', $user->user_name)->with("success", "A new password has been sent to the customer mail successfully");
+    }
+
+    public function passwordResetAdmin($id){
+
+        $user=User::find($id);
+
+        $pass = str_shuffle(substr(date('sydmM') . rand() . $user->user_name, 0, 8));
+
+        $user->password = Hash::make($pass);
+        $user->save();
+
+        $tr['password'] = $pass;
+        $tr['email'] = $user->email;
+        $tr['user_name'] = $user->user_name;
+        $tr['device'] = "Admin Password";
+        $tr['ip'] = $_SERVER['REMOTE_ADDR'];
+
+        if (env('APP_ENV') != "local") {
+            Mail::to($user->email)->send(new PasswordResetMail($tr));
+        }
+
+        return redirect()->route('profile', $user->user_name)->with("success", "A new password has been sent to the customer mail successfully");
+    }
+
+    public function bannUnbann($id){
+
+        $user=User::find($id);
+
+        $GLOBALS['email'] = $user->email;
+
+        if($user->fraud == ""  || $user->fraud == null) {
+
+            $user->fraud = "You have been banned by " . Auth::user()->user_name;
+            $user->save();
+
+            $setE=Settings::where('name', 'support_email')->first();
+
+            $message = $user->fraud . ". Kindly send mail to support ($setE->value) if you think it is a mistake.";
+
+            $data = array('name' => $user->full_name, 'messag' => $message);
+            Mail::send('email_notification', $data, function ($message) {
+                $message->to($GLOBALS['email'], 'MCD Client')->subject('Restriction From Admin');
+                $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            });
+
+            $response="User has been banned successfully";
+        }else{
+            $user->fraud = "";
+            $user->save();
+
+            $message = "Your account has been activated. You can now login on the app.";
+
+            $data = array('name' => $user->full_name, 'messag' => $message);
+            Mail::send('email_notification', $data, function ($message) {
+                $message->to($GLOBALS['email'], 'MCD Client')->subject('Your Account is Activated');
+                $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            });
+
+            $response="User has been unbanned successfully";
+        }
+
+        return redirect()->route('profile', $user->user_name)->with("success", $response);
     }
 
     public function loginattempt()
