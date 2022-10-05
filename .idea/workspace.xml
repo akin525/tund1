@@ -21,22 +21,12 @@
   <component name="ChangeListManager">
     <list default="true" id="41dc791e-619a-48fd-95ed-769a0575df70" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ResellerServiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ResellerServiceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ServerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ServerController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/CreateProvidusAccountJob.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/CreateProvidusAccountJob.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/airtimecontrol.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/airtimecontrol.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/airtimecontrol_edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/airtimecontrol_edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/datacontrol.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/datacontrol.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/datacontrol_edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/datacontrol_edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/electricitycontrol.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/electricitycontrol.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/electricitycontrol_edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/electricitycontrol_edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reseller.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/reseller_control/airtimecontrol.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller_control/airtimecontrol.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/reseller_control/airtimecontrol_edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller_control/airtimecontrol_edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/reseller_control/datacontrol.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller_control/datacontrol.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/reseller_control/datacontrol_edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller_control/datacontrol_edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/reseller_control/tvcontrol.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller_control/tvcontrol.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/reseller_control/tvcontrol_edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller_control/tvcontrol_edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/tvcontrol.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/tvcontrol.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/users.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -263,14 +253,7 @@
       <workItem from="1662995802266" duration="843000" />
       <workItem from="1663411328938" duration="5302000" />
       <workItem from="1664255782973" duration="37987000" />
-      <workItem from="1664581561505" duration="30655000" />
-    </task>
-    <task id="LOCAL-00015" summary="commit changes">
-      <created>1655785595719</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1655785595719</updated>
+      <workItem from="1664581561505" duration="35834000" />
     </task>
     <task id="LOCAL-00016" summary="commit changes">
       <created>1655786136761</created>
@@ -608,7 +591,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664375184477</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="push changes">
+      <created>1664901679781</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1664901679781</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -637,15 +627,15 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="403" y="161" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.720@0.0.1366.720" timestamp="1658373421693" />
-    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1664663867368">
+    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1664944860143">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1656770208888" />
-    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1664663867368" />
-    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1664375183350">
+    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1664944860143" />
+    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1664901678209">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1664375183350" />
+    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1664901678209" />
     <state x="92" y="92" width="1092" height="605" key="DiffContextDialog" timestamp="1664369791936">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
@@ -658,18 +648,18 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="184" y="4" key="SettingsEditor/0.0.1366.720@0.0.1366.720" timestamp="1659337918087" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1664375186042">
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1664901681611">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1664375186042" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1664901681611" />
     <state x="492" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1657208036624">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="492" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.720@0.0.1366.720" timestamp="1657208036624" />
-    <state x="389" y="64" width="587" height="592" key="find.popup" timestamp="1664374280884">
+    <state x="389" y="64" width="587" height="592" key="find.popup" timestamp="1664946278510">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="389" y="64" width="587" height="592" key="find.popup/0.0.1366.720@0.0.1366.720" timestamp="1664374280884" />
+    <state x="389" y="64" width="587" height="592" key="find.popup/0.0.1366.720@0.0.1366.720" timestamp="1664946278510" />
     <state x="483" y="261" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1659337987084">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
@@ -678,13 +668,17 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="339" y="160" key="run.anything.popup/0.0.1366.720@0.0.1366.720" timestamp="1657611683535" />
+    <state x="346" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1664903096841">
+      <screen x="0" y="0" width="1366" height="720" />
+    </state>
+    <state x="346" y="41" width="672" height="678" key="search.everywhere.popup/0.0.1366.720@0.0.1366.720" timestamp="1664903096841" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php</url>
-          <line>105</line>
+          <line>106</line>
           <properties>
             <option name="className" value="\App\Http\Controllers\Api\V2\UserController" />
             <option name="methodName" value="change_pin" />

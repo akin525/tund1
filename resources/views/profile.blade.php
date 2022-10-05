@@ -50,7 +50,7 @@
                                     <li class="mt-2"><i class="dripicons-calendar text-info font-18 mt-2 mr-2"></i> <b>DOB</b> : {{$user->dob}}</li>
                                     <li class="mt-2"><i class="dripicons-calendar text-info font-18 mt-2 mr-2"></i> <b>Reg. Date</b> : {{$user->reg_date}}</li>
                                     <li class="mt-2"><i class="dripicons-calendar text-info font-18 mt-2 mr-2"></i> <b>Last Login</b> : {{$user->last_login}}</li>
-                                    <li class="mt-2"><i class="dripicons-wallet text-info font-18 mt-2 mr-2"></i> <b>Virtual Account</b> : {{$user->account_number}}</li>
+{{--                                    <li class="mt-2"><i class="dripicons-wallet text-info font-18 mt-2 mr-2"></i> <b>Virtual Account</b> : {{$user->account_number}}</li>--}}
                                 </ul>
                             </div>
                             <!--end col-->
@@ -70,6 +70,7 @@
                         <li class="nav-item"><a class="nav-link" id="sms_tab" data-toggle="pill" href="#sms_detail">SMS</a></li>
                         <li class="nav-item"><a class="nav-link" id="pushnoti_tab" data-toggle="pill" href="#pushnoti_detail">Push Notification</a></li>
                         <li class="nav-item"><a class="nav-link" id="login_tab" data-toggle="pill" href="#login_detail">Login Attempts</a></li>
+                        <li class="nav-item"><a class="nav-link" id="information_tab" data-toggle="pill" href="#information">Information</a></li>
 {{--                        <li class="nav-item"><a class="nav-link" id="crypto_tab" data-toggle="pill" href="#crypto_detail">Crypto Request</a></li>--}}
                     </ul>
                 </div>
@@ -101,22 +102,22 @@
                                             <h4 class="mb-1 font-weight-semibold text-white">&#8358;{{number_format($user->wallet)}}</h4>
                                             <p class="text-white mb-0">Wallet Balance</p>
                                         </div>
-                                        <div>
-                                            <h4 class="mb-1 font-weight-semibold text-white">&#8358;{{$user->bonus}}</h4>
-                                            <p class="text-white mb-0">Bonus Balance</p>
-                                        </div>
+{{--                                        <div>--}}
+{{--                                            <h4 class="mb-1 font-weight-semibold text-white">&#8358;{{$user->bonus}}</h4>--}}
+{{--                                            <p class="text-white mb-0">Bonus Balance</p>--}}
+{{--                                        </div>--}}
                                     </div>
 
-                                    <div class="d-flex justify-content-between bg-purple p-3 mt-3 rounded">
-                                        <div>
-                                            <h4 class="mb-1 font-weight-semibold text-white">&#8358;{{number_format($user->agent_commision)}}</h4>
-                                            <p class="text-white mb-0">Commission</p>
-                                        </div>
-                                        <div>
-                                            <h4 class="mb-1 font-weight-semibold text-white">{{$user->points}}</h4>
-                                            <p class="text-white mb-0">Points</p>
-                                        </div>
-                                    </div>
+{{--                                    <div class="d-flex justify-content-between bg-purple p-3 mt-3 rounded">--}}
+{{--                                        <div>--}}
+{{--                                            <h4 class="mb-1 font-weight-semibold text-white">&#8358;{{number_format($user->agent_commision)}}</h4>--}}
+{{--                                            <p class="text-white mb-0">Commission</p>--}}
+{{--                                        </div>--}}
+{{--                                        <div>--}}
+{{--                                            <h4 class="mb-1 font-weight-semibold text-white">{{$user->points}}</h4>--}}
+{{--                                            <p class="text-white mb-0">Points</p>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
                                 </div>
                                 <!--end card-body-->
                             </div>
@@ -131,7 +132,7 @@
                                                 <div class="media">
                                                     <div class="media-body align-self-center">
                                                         <h4 class="mt-0 mb-1 title-text text-dark">{{$user->gnews}}</h4>
-                                                        <p class="text-muted mb-0">General News</p>
+                                                        <p class="text-muted mb-0">Annoucement</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -723,7 +724,113 @@
                     </div>
                     <!-- end row -->
                 </div>
-                <!--end login detail-->
+
+                <div class="tab-pane fade" id="information">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <h4 class="mt-0 header-title">User Information</h4>
+                                        </div>
+
+                                        <div class="col-2">
+                                            <form class="form-horizontal" method="POST" action="{{ route('userPasswordReset') }}">
+                                                @csrf
+                                                <input type="hidden" name="id" class="form-control" value="{{$user->id}}">
+                                                <button class="btn btn-gradient-danger btn-large ml-5" type="submit" style="align-self: center; align-content: center">Password Reset</button>
+                                            </form>
+                                        </div>
+
+                                    </div>
+
+
+                                    <p class="text-muted mb-4 font-13">Edit User information <code>below</code>.</p>
+
+                                    @if (session('success'))
+                                        <div class="alert alert-success alert-dismissable">
+                                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                            {{ session('success') }}
+                                        </div>
+                                    @endif
+
+                                    @if (session('error'))
+                                        <div class="alert alert-danger alert-dismissable">
+                                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
+
+                                    <form class="form-horizontal" method="POST" action="{{ route('updateProfile') }}">
+                                        @csrf
+                                        <div class="form-group row">
+                                            <div class="col-md-12">
+                                                <div class="input-group mt-2">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Full Name</span></div>
+                                                    <input type="hidden" name="id" class="form-control" value="{{$user->id}}">
+                                                    <input type="text" name="full_name" placeholder="Enter Full Name" class="form-control" value="{{$user->full_name}}">
+                                                </div>
+
+                                                <div class="input-group mt-2">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Business Name</span></div>
+                                                    <input type="text" name="company_name" class="form-control" placeholder="Enter Business Name" value="{{$user->company_name}}">
+                                                </div>
+
+
+                                                <div class="input-group mt-2">
+                                                    <div class="input-group-prepend"><span class="input-group-text">BVN</span></div>
+                                                    <input type="text" name="bvn" class="form-control" placeholder="Enter BVN" value="{{$user->bvn}}">
+                                                </div>
+
+
+                                                <div class="input-group mt-2">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Email</span></div>
+                                                    <input type="email" name="email" class="form-control" placeholder="Enter Email" value="{{$user->email}}">
+                                                </div>
+
+
+                                                <div class="input-group mt-2">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Phone Number</span></div>
+                                                    <input type="text" name="phoneno" class="form-control" placeholder="Enter phone number" value="{{$user->phoneno}}">
+                                                </div>
+
+{{--                                                <div class="input-group mt-2">--}}
+{{--                                                    <div class="input-group-prepend"><span class="input-group-text">Status</span></div>--}}
+{{--                                                    <select class="custom-select form-control" name="status">--}}
+{{--                                                        <option value="client">Client</option>--}}
+{{--                                                        <option value="reseller">Reseller</option>--}}
+{{--                                                    </select>--}}
+{{--                                                </div>--}}
+
+                                                <div class="input-group mt-2">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Address</span></div>
+                                                    <input type="text" name="address" class="form-control" placeholder="Enter address" value="{{$user->address}}">
+                                                </div>
+
+
+                                                <div class="input-group mt-2">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Target</span></div>
+                                                    <textarea name="target" rows="3" class="form-control" placeholder="Enter target">{{$user->target}}</textarea>
+                                                </div>
+
+                                                <div class="input-group mt-5" style="align-content: center">
+                                                    <button class="btn btn-gradient-primary btn-large mr-4" type="submit" style="align-self: center; align-content: center">Update Profile</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!--end row-->
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+                </div>
+
 
 
             </div>

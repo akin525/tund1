@@ -44,8 +44,8 @@
                                 <div class="row">
                                     <div class="col-2 align-self-center"><i class="fas fa-tasks text-gradient-warning"></i></div>
                                     <div class="col-10 text-right">
-                                        <h5 class="mt-0 mb-1">{{ $a_users ?? 'Total Agent' }}</h5>
-                                        <p class="mb-0 font-12 text-muted">Total Agent</p>
+                                        <h5 class="mt-0 mb-1">{{ $a_users ?? 'Total Resellers' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Total Resellers</p>
                                     </div>
                                 </div>
                             </div>

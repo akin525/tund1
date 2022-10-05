@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Jobs\PushNotificationJob;
 use App\Mail\Notification;
+use App\Mail\PasswordResetMail;
 use App\Models\PndL;
 use App\Models\ResellerPaymentLink;
 use App\Models\Transaction;
@@ -14,6 +15,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
@@ -24,22 +26,17 @@ class UsersController extends Controller
         $users = DB::table('tbl_agents')->orderBy('id', 'desc')->paginate(25);
 
         $t_users = DB::table('tbl_agents')->count();
-        $ac_users = DB::table('tbl_agents')->where([["wallet",">=","50"], ["fraud","=",""]])->count();
-        $iac_users = DB::table('tbl_agents')->where([["wallet","<","50"], ["fraud","=",""]])->count();
-        $f_users = DB::table('tbl_agents')->where("fraud","!=","")->count();
 
         $r_users = DB::table('tbl_agents')->where("referral","!=","")->count();
 
-        $a_users = DB::table('tbl_agents')->where("status","=","agent")->count();
-        $aca_users = DB::table('tbl_agents')->where([["status","=","agent"], ["wallet",">=","50"]])->count();
-        $iaca_users = DB::table('tbl_agents')->where([["status","=","agent"], ["wallet","<","50"]])->count();
+        $a_users = DB::table('tbl_agents')->where("status","=","reseller")->count();
 
         $u_wallet = DB::table('tbl_agents')->where("status","!=","admin")->sum('wallet');
         $fu_wallet = DB::table('tbl_agents')->where([["status","!=","admin"], ["fraud","!=",""] ])->sum('wallet');
         $au_wallet = DB::table('tbl_agents')->where([["status","!=","admin"], ["fraud","=",""], ["wallet",">=","50"] ])->sum('wallet');
         $iau_wallet = DB::table('tbl_agents')->where([["status","!=","admin"], ["fraud","=",""], ["wallet","<","50"] ])->sum('wallet');
 
-        return view('users', ['users' => $users, 't_users'=>$t_users, 'ac_users' =>$ac_users, 'iac_users' => $iac_users, 'f_users'=>$f_users, 'r_users'=>$r_users, 'u_wallet'=>$u_wallet, 'a_users'=>$a_users, 'aca_users'=>$aca_users, 'iaca_users'=>$iaca_users, 'fu_wallet'=>$fu_wallet, 'iau_wallet'=>$iau_wallet, 'au_wallet'=>$au_wallet]);
+        return view('users', ['users' => $users, 't_users'=>$t_users, 'r_users'=>$r_users, 'u_wallet'=>$u_wallet, 'a_users'=>$a_users, 'fu_wallet'=>$fu_wallet, 'iau_wallet'=>$iau_wallet, 'au_wallet'=>$au_wallet]);
 
     }
 
@@ -69,6 +66,18 @@ class UsersController extends Controller
 
         return redirect()->route('resellers')->with('success', $u->user_name." API Key regenerated successful");
     }
+
+
+    public function updateLevel(Request $request)
+    {
+        $role = User::where('id', $request->id)->first();
+
+        $role->level = $request->level;
+        $role->save();
+
+        return redirect('/resellers')->with('success', "Level updated successfully");
+    }
+
 
     public function gmblocked(Request $request)
     {
@@ -270,7 +279,7 @@ class UsersController extends Controller
 //            die('Curl returned error: ' . $err);
 //        }
 
-        Mail::to('odejinmisamuel@gmail.com')->send(new Notification());
+//        Mail::to('odejinmisamuel@gmail.com')->send(new Notification());
 
 //        DB::table('tbl_smslog')->insert(
 //            ['user_name' => $input["user_name"], 'message' => $input['message'], 'phoneno' => $input['phoneno'], 'response' => $response]
@@ -291,8 +300,8 @@ class UsersController extends Controller
 
         $data = array('name' => $ap->full_name, 'messag' => $input['message']);
         Mail::send('email_notification', $data, function ($message) {
-            $message->to($GLOBALS['email'], 'MCD Client')->subject('MCD Notification');
-            $message->from('info@5starcompany.com.ng', '5Star Company');
+            $message->to($GLOBALS['email'], 'MCD Client')->subject('Message from Admin');
+            $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
         });
 
         DB::table('tbl_emaillog')->insert(
@@ -308,37 +317,10 @@ class UsersController extends Controller
 
         $ap = User::where('user_name', $input['user_name'])->first();
 
-        $topic=$ap->user_name;
-
-        $topi=str_replace(" ","", $topic);
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS =>"{\n\"to\": \"/topics/".$topi."\",\n\"data\": {\n\t\"extra_information\": \"PLANETF\"\n},\n\"notification\":{\n\t\"title\": \"MCD Notification\",\n\t\"text\":\"". $input['message']."\"\n\t}\n}\n",
-            CURLOPT_HTTPHEADER => array(
-                "Authorization: key=AAAAOW0II6E:APA91bHyum5pMhub2JVHcHnQghuWOdktOuhW9e4ZvmMDudjMZk9y1u71Nr7yl_FZLpsjuC6Hz1Fd49OrWfPYNKpAvahAZ5Rjv0y7IW24nqjYrPnMer8IvTkzZFB5W3hrOHAwbq2EOMOE",
-                "Content-Type: application/json",
-                "Content-Type: text/plain"
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        $json=json_decode($response, true);
-
+        PushNotificationJob::dispatch($ap->user_name,$input['message'],"Message from Admin");
 
         DB::table('tbl_pushnotiflog')->insert(
-            ['user_name' => $input["user_name"], 'message' => $input['message'], 'response' => $json['message_id']]
+            ['user_name' => $input["user_name"], 'message' => $input['message'], 'response' => "background"]
         );
 
         return redirect('profile/' . $input['user_name']);
@@ -474,6 +456,46 @@ class UsersController extends Controller
         PndL::create($input);
 
         return redirect('/agentpayment')->with('success', 'Agent Payment paid successfully to ' . $user->user_name . ' with the sum of ' . $amount);
+    }
+
+    public function updateProfile(Request $request){
+        $input = $request->all();
+
+        $user=User::find($input['id']);
+
+        $user->full_name=$input['full_name'] ?? "";
+        $user->company_name=$input['company_name'] ?? "";
+        $user->bvn=$input['bvn'] ?? "";
+        $user->email=$input['email'] ?? "";
+        $user->phoneno=$input['phoneno'] ?? "";
+        $user->address=$input['address'] ?? "";
+        $user->target=$input['target'] ?? "";
+        $user->save();
+
+        return redirect()->route('profile', $user->user_name)->with("success", "Profile Updated successfully");
+    }
+
+    public function passwordReset(Request $request){
+        $input = $request->all();
+
+        $user=User::find($input['id']);
+
+        $pass = str_shuffle(substr(date('sydmM') . rand() . $user->user_name, 0, 8));
+
+        $user->mcdpassword = Hash::make($pass);
+        $user->save();
+
+        $tr['password'] = $pass;
+        $tr['email'] = $user->email;
+        $tr['user_name'] = $user->user_name;
+        $tr['device'] = $_SERVER['HTTP_USER_AGENT'];
+        $tr['ip'] = $_SERVER['REMOTE_ADDR'];
+
+        if (env('APP_ENV') != "local") {
+            Mail::to($user->email)->send(new PasswordResetMail($tr));
+        }
+
+        return redirect()->route('profile', $user->user_name)->with("success", "A new password has been sent to the customer mail successfully");
     }
 
     public function loginattempt()

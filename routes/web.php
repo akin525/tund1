@@ -63,6 +63,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pending_request', 'UsersController@pending')->name('pendingrequest');
     Route::post('/request_approve', 'UsersController@approve')->name('user approval');
     Route::get('/profile/{id}', 'UsersController@profile')->name('profile');
+    Route::post('/update-profile', [UsersController::class, 'updateProfile'])->name('updateProfile');
+    Route::post('/user-password-reset', [UsersController::class, 'passwordReset'])->name('userPasswordReset');
     Route::get('/wallet', 'WalletController@index')->name('wallet');
 
     Route::get('/virtual-accounts', [UsersController::class, 'vaccounts'])->name('virtual-accounts');
@@ -201,6 +203,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/role', [ServerController::class, 'userole'])->name('role');
         Route::post('/updaterole', [ServerController::class, 'updateuserole'])->name('updaterole');
+        Route::post('/updateLevel', [UsersController::class, 'updateLevel'])->name('updateLevel');
         Route::post('/datacontrol1', [ServerController::class, 'updatedataserve'])->name('datacontrol1');
         Route::post('/airtime2cash', 'TransactionController@airtime2cashpayment')->name('transaction.airtime2cash.payment');
 

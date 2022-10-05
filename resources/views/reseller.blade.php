@@ -28,8 +28,8 @@
                         <tr>
                             <th>User Name</th>
                             <th>Business Name</th>
-                            <th>DOB</th>
                             <th>Phone Number</th>
+                            <th>Level</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -44,8 +44,23 @@
                                 @endif
                                 {{$user->user_name }}</td>
                             <td>{{$user->company_name }}</td>
-                            <td>{{$user->dob }}</td>
-                            <td>{{$user->phoneno}}</td>
+                            <td>{{$user->phoneno }}</td>
+                            <td class="center">
+                                <form method="post" action="{{route('updateLevel')}}">
+                                    @csrf
+                                    <input type="hidden" value="{{$user->id}}" name="id">
+                                    <select class="custom-select form-control" name="level">
+                                        <option {{$user->level == 1 ? "selected" : ''}}>1</option>
+                                        <option {{$user->level == 2 ? "selected" : ''}}>2</option>
+                                        <option {{$user->level == 3 ? "selected" : ''}}>3</option>
+                                        <option {{$user->level == 4 ? "selected" : ''}}>4</option>
+                                        <option {{$user->level == 5 ? "selected" : ''}}>5</option>
+                                    </select>
+                                    <br/>
+                                    <br/>
+                                    <button type="submit" class="btn btn-outline-primary btn-sm">Update</button>
+                                </form>
+                            </td>
                             <td>
                                 <a href="profile/{{ $user->user_name }}" class="btn btn-sm btn-success"><i class="fas fa-eye"></i> View</a>
                                 <a href="{{route('regenerateKey', $user->id)}}" class="btn btn-sm btn-danger"><i class="fas fa-recycle"></i> Regenerate Key</a>

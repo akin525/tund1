@@ -27,7 +27,11 @@
                         <tr>
                             <th>id</th>
                             <th>Network</th>
-                            <th>Discount</th>
+                            <th>Level1</th>
+                            <th>Level2</th>
+                            <th>Level3</th>
+                            <th>Level4</th>
+                            <th>Level5</th>
                             <th>Server</th>
                             <th>Status</th>
                             <th>Date Modified</th>
@@ -39,7 +43,11 @@
                             @foreach($data as $da)
                                 <td>{{$da['id']}}</td>
                                 <td class="center">{{$da['network']}}</td>
-                                <td>{{$da['discount']}}</td>
+                                <td>{{$da['level1']}}</td>
+                                <td>{{$da['level2']}}</td>
+                                <td>{{$da['level3']}}</td>
+                                <td>{{$da['level4']}}</td>
+                                <td>{{$da['level5']}}</td>
                                 <td class="center">{{$da['server']}}</td>
                                 <td class="center">
                                     @if($da->status=="1")
@@ -57,6 +65,9 @@
 
 
                                 <td class="center">
+                                    <a class="btn {{$da->status =="1"? "btn-gradient-danger" : "btn-success" }}" href="{{route('reseller.airtimecontrolED',$da->id)}}">
+                                        {{$da->status =="1"? "Disable" : "Enable" }}
+                                    </a>
                                     <a href="{{route('reseller.airtimecontrolEdit',$da->id )}}"  class="btn btn-secondary">Modify</a>
                                 </td>
 
