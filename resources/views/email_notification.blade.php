@@ -287,7 +287,7 @@
                             <table  cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td>
-                                        <img class="img-responsive" src="https://admin-mcd.5starcompany.com.ng/img/mcd_logo.png" width="100px" height="100px"/>
+                                        <img class="img-responsive" src="{{env('APP_LOGO')}}" width="100px" height="100px"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -307,9 +307,9 @@
                 </table>
                 <div class="footer">
                     <table width="100%">
-                        <tr>
-                            <td class="aligncenter content-block">Follow <a href="https://5starcompany.com.ng">5Star Company</a> on Facebook.</td>
-                        </tr>
+{{--                        <tr>--}}
+{{--                            <td class="aligncenter content-block">Follow <a href="https://5starcompany.com.ng">5Star Company</a> on Facebook.</td>--}}
+{{--                        </tr>--}}
                         <tr>
                             <td class="aligncenter content-block">This message was sent to {{$name}}</td>
                         </tr>
