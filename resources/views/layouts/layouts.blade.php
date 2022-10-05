@@ -40,7 +40,7 @@
         </div>
         <div class="sidebar-user">
             @if(\Illuminate\Support\Facades\Auth::user()->photo)
-                <img src="https://mcd.5starcompany.com.ng/app/avatar/{{\Illuminate\Support\Facades\Auth::user()->photo}}" alt="user" class="rounded-circle img-thumbnail mb-1">
+                <img src="{{route('show.avatar', \Illuminate\Support\Facades\Auth::user()->photo)}}" alt="user" class="rounded-circle img-thumbnail mb-1">
             @else
                 <img src="/img/mcd_logo.png" alt="user" class="rounded-circle img-thumbnail mb-1">
             @endif
@@ -255,7 +255,7 @@
                         <li class="list-inline-item dropdown notification-list">
                             <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 @if(\Illuminate\Support\Facades\Auth::user()->photo)
-                                    <img src="https://mcd.5starcompany.com.ng/app/avatar/{{\Illuminate\Support\Facades\Auth::user()->photo}}" alt="user" class="rounded-circle">
+                                    <img src="{{route('show.avatar', \Illuminate\Support\Facades\Auth::user()->photo)}}" alt="user" class="rounded-circle">
                                 @else
                                     <img src="img/mcd_logo.png" alt="user" class="rounded-circle">
                                 @endif

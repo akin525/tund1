@@ -94,7 +94,7 @@
                                 <tr>
                                     <td>
                                         @if($user->photo)
-                                            <img src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->photo}}" alt="" class="rounded-circle thumb-sm mr-1"> {{$user->user_name}}
+                                            <img src="{{route('show.avatar', $user->photo}}" alt="" class="rounded-circle thumb-sm mr-1"> {{$user->user_name}}
                                         @else
                                             <img src="img/mcd_logo.png" alt="" class="rounded-circle thumb-sm mr-1"> {{$user->user_name}}
                                         @endif

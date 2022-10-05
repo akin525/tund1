@@ -20,9 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41dc791e-619a-48fd-95ed-769a0575df70" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/public/img/PlanetfLogo.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/PlanetfLogo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/img/mcd_logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/mcd_logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/img/planetF2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/agents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/agents.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/dormant_users.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/dormant_users.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/find_user.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/find_user.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pending_request.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pending_request.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/profile_old.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile_old.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reseller.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reseller.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/users.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -248,14 +255,7 @@
       <workItem from="1662995802266" duration="843000" />
       <workItem from="1663411328938" duration="5302000" />
       <workItem from="1664255782973" duration="37987000" />
-      <workItem from="1664581561505" duration="41961000" />
-    </task>
-    <task id="LOCAL-00019" summary="commit changes">
-      <created>1655816912843</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1655816912843</updated>
+      <workItem from="1664581561505" duration="44219000" />
     </task>
     <task id="LOCAL-00020" summary="commit changes">
       <created>1655817328212</created>
@@ -593,7 +593,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664956237894</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="push changes">
+      <created>1664956579930</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1664956579931</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -627,10 +634,10 @@
     </state>
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1656770208888" />
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1664953205896" />
-    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1664956236555">
+    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1664956578234">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1664956236555" />
+    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1664956578234" />
     <state x="92" y="92" width="1092" height="605" key="DiffContextDialog" timestamp="1664369791936">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
@@ -643,18 +650,18 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="184" y="4" key="SettingsEditor/0.0.1366.720@0.0.1366.720" timestamp="1659337918087" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1664956249222">
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1664956606553">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1664956249222" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1664956606553" />
     <state x="492" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1657208036624">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="492" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.720@0.0.1366.720" timestamp="1657208036624" />
-    <state x="389" y="64" width="587" height="592" key="find.popup" timestamp="1664952987041">
+    <state x="389" y="64" width="587" height="614" key="find.popup" timestamp="1664966369060">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="389" y="64" width="587" height="592" key="find.popup/0.0.1366.720@0.0.1366.720" timestamp="1664952987041" />
+    <state x="389" y="64" width="587" height="614" key="find.popup/0.0.1366.720@0.0.1366.720" timestamp="1664966369060" />
     <state x="483" y="261" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1659337987084">
       <screen x="0" y="0" width="1366" height="720" />
     </state>

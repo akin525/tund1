@@ -30,7 +30,7 @@
                         <div>
                             <div class="ibox-content no-padding border-left-right">
                                 @if($user->photo!=null)
-                                    <img alt="image" class="img-responsive" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
+                                    <img alt="image" class="img-responsive" src="{{route('show.avatar', $user->photo}}">
                                 @else
                                     <img alt="image" class="img-responsive" src="/img/mcd_logo.png">
                                 @endif
@@ -163,7 +163,7 @@
                                             <div class="chat-element">
                                                 <a href="#" class="pull-left">
                                                     @if($user->photo!=null)
-                                                        <img alt="image" class="img-circle" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
+                                                        <img alt="image" class="img-circle" src="{{route('show.avatar', $user->photo}}">
                                                     @else
                                                         <img alt="image" class="img-circle" src="/img/mcd_logo.png">
                                                     @endif
@@ -210,7 +210,7 @@
                                                 <div class="chat-element">
                                                     <a href="#" class="pull-left">
                                                         @if($user->photo!=null)
-                                                            <img alt="image" class="img-circle" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
+                                                            <img alt="image" class="img-circle" src="{{route('show.avatar', $user->photo}}">
                                                         @else
                                                             <img alt="image" class="img-circle" src="/img/mcd_logo.png">
                                                         @endif
@@ -255,7 +255,7 @@
                                                 <div class="chat-element">
                                                     <a href="#" class="pull-left">
                                                         @if($user->photo!=null)
-                                                            <img alt="image" class="img-circle" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
+                                                            <img alt="image" class="img-circle" src="{{route('show.avatar', $user->photo}}">
                                                         @else
                                                             <img alt="image" class="img-circle" src="/img/mcd_logo.png">
                                                         @endif

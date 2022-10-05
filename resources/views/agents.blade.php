@@ -24,7 +24,7 @@
                             <tr>
                                 <td>
                                     @if($user->photo!=null)
-                                        <img alt="image" class="rounded-circle thumb-sm mr-1" src="https://mcd.5starcompany.com.ng/app/avatar/{{$user->user_name }}.JPG">
+                                        <img alt="image" class="rounded-circle thumb-sm mr-1" src="{{route('show.avatar', $user->photo}}">
                                     @else
                                         <img alt="image" class="rounded-circle thumb-sm mr-1" src="/img/mcd_logo.png">
                                     @endif
