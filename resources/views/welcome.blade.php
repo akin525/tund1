@@ -42,7 +42,7 @@
                 <div class="main-menu">
                     <nav class="navbar navbar-expand-lg">
                         <a href="{{route('welcome')}}">
-                            <img src="img/planetF2.png" alt="" width="130px">
+                            <img src="img/PlanetfLogo.png" alt="" width="130px">
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
                             <span class="navbar-icon"></span>
