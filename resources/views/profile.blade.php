@@ -29,7 +29,7 @@
                                 <div class="met-profile-main">
                                     <div class="met-profile-main-pic">
                                         @if($user->photo!=null)
-                                            <img src="{{route('show.avatar', $user->photo}}" alt="img" class="img img-thumbnail">
+                                            <img src="{{route('show.avatar', $user->photo)}}" alt="img" class="img img-thumbnail">
                                         @else
                                             <img alt="image" class="img img-thumbnail" src="/img/mcd_logo.png">
                                         @endif

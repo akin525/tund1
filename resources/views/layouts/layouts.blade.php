@@ -35,7 +35,7 @@
         <button type="button" class="button-menu-mobile button-menu-mobile-topbar open-left waves-effect"><i class="ion-close"></i></button><!-- LOGO -->
         <div class="topbar-left">
             <div class="text-center bg-logo">
-                <a href="#" class="logo"><i class="mdi mdi-bowling text-success"></i> PLANETF</a><!-- <a href="index.html" class="logo"><img src="assets/images/logo.png" height="24" alt="logo"></a> -->
+                <a href="#" class="logo"><img src="/img/mcd_logo.png" height="30px" width="30px" alt="user" class="rounded-circle img-thumbnail mb-1"/> PLANETF</a><!-- <a href="index.html" class="logo"><img src="assets/images/logo.png" height="24" alt="logo"></a> -->
             </div>
         </div>
         <div class="sidebar-user">
