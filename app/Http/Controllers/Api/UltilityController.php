@@ -67,7 +67,7 @@ class UltilityController extends Controller
 
         $data = array('name' => $ap->full_name, 'messag' => $input['message']);
         Mail::send('email_notification', $data, function ($message) {
-            $message->to($GLOBALS['email'], 'MCD Client')->subject('Message Reply');
+            $message->to($GLOBALS['email'], 'Client')->subject('Message Reply');
             $message->from('info@5starcompany.com.ng', '5Star Inn Company');
         });
 

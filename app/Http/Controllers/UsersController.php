@@ -303,7 +303,7 @@ class UsersController extends Controller
 
         $data = array('name' => $ap->full_name, 'messag' => $input['message']);
         Mail::send('email_notification', $data, function ($message) {
-            $message->to($GLOBALS['email'], 'MCD Client')->subject('Message from Admin');
+            $message->to($GLOBALS['email'], 'Client')->subject('Message from Admin');
             $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
         });
 
@@ -541,7 +541,7 @@ class UsersController extends Controller
 
             $data = array('name' => $user->full_name, 'messag' => $message);
             Mail::send('email_notification', $data, function ($message) {
-                $message->to($GLOBALS['email'], 'MCD Client')->subject('Restriction From Admin');
+                $message->to($GLOBALS['email'], 'Client')->subject('Restriction From Admin');
                 $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
             });
 
@@ -554,7 +554,7 @@ class UsersController extends Controller
 
             $data = array('name' => $user->full_name, 'messag' => $message);
             Mail::send('email_notification', $data, function ($message) {
-                $message->to($GLOBALS['email'], 'MCD Client')->subject('Your Account is Activated');
+                $message->to($GLOBALS['email'], 'Client')->subject('Your Account is Activated');
                 $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
             });
 
