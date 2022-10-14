@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\CGBundleController;
 use App\Http\Controllers\FAQsController;
 use App\Http\Controllers\GatewayControl;
 use App\Http\Controllers\HomeController;
@@ -192,6 +193,14 @@ Route::middleware(['auth'])->group(function () {
         Route::post('addsliders', [SliderController::class, 'store'])->name('sliders.store');
         Route::get('modify-slider/{id}', [SliderController::class, 'update'])->name('sliders.update');
         Route::get('remove-slider/{id}', [SliderController::class, 'destroy'])->name('sliders.delete');
+
+        Route::get('cg-bundle', [CGBundleController::class, 'index'])->name('cgbundle.index');
+        Route::post('cg-bundle', [CGBundleController::class, 'create'])->name('cgbundle.create');
+        Route::get('cg-bundle-list', [CGBundleController::class, 'lists'])->name('cgbundle.list');
+        Route::get('cg-bundle-modify/{id}', [CGBundleController::class, 'modify'])->name('cgbundle.modify');
+
+        Route::get('cg-bundle-apply', [CGBundleController::class, 'applyView'])->name('cgbundle.apply');
+        Route::post('cg-bundle-apply', [CGBundleController::class, 'apply'])->name('cgbundle.apply');
 
         Route::get('faqs', [FAQsController::class, 'index'])->name('faqs.index');
         Route::post('faqs', [FAQsController::class, 'store'])->name('faqs.store');

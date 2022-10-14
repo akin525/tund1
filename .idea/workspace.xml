@@ -20,8 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41dc791e-619a-48fd-95ed-769a0575df70" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/views/cg_bundle_add.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/cg_bundle_apply.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/cg_bundles.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/email_notification.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/email_notification.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/BudpayVirtualAccountJob.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/BudpayVirtualAccountJob.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/CreateProvidusAccountJob.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/CreateProvidusAccountJob.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layouts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,7 +187,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../wamp64/www/main" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
   </component>
@@ -247,21 +254,15 @@
       <workItem from="1662995802266" duration="843000" />
       <workItem from="1663411328938" duration="5302000" />
       <workItem from="1664255782973" duration="37987000" />
-      <workItem from="1664581561505" duration="48550000" />
-    </task>
-    <task id="LOCAL-00023" summary="commit changes">
-      <created>1656856853657</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1656856853658</updated>
-    </task>
-    <task id="LOCAL-00024" summary="commit changes">
-      <created>1656857262748</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1656857262748</updated>
+      <workItem from="1664581561505" duration="51003000" />
+      <workItem from="1665127065651" duration="1782000" />
+      <workItem from="1665425876801" duration="8286000" />
+      <workItem from="1665558593185" duration="2983000" />
+      <workItem from="1665598835520" duration="65000" />
+      <workItem from="1665615482053" duration="15176000" />
+      <workItem from="1665692625486" duration="33000" />
+      <workItem from="1665736229375" duration="4171000" />
+      <workItem from="1665764968872" duration="5603000" />
     </task>
     <task id="LOCAL-00025" summary="commit changes">
       <created>1656857593651</created>
@@ -592,7 +593,21 @@
       <option name="project" value="LOCAL" />
       <updated>1664969723988</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="push changes">
+      <created>1664970979206</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1664970979206</updated>
+    </task>
+    <task id="LOCAL-00073" summary="push changes">
+      <created>1664971255166</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1664971255166</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -621,15 +636,14 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="403" y="161" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.720@0.0.1366.720" timestamp="1658373421693" />
-    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1664953205896">
+    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1665768591303">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720/1366.0.1536.816@0.0.1366.720" timestamp="1656770208888" />
-    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1664953205896" />
-    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1664969722317">
+    <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1665768591303" />
+    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1664971254525">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1664969722317" />
+    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1664971254525" />
     <state x="92" y="92" width="1092" height="605" key="DiffContextDialog" timestamp="1664966417059">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
@@ -642,18 +656,18 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="184" y="4" key="SettingsEditor/0.0.1366.720@0.0.1366.720" timestamp="1659337918087" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1664970105760">
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1664971258865">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1664970105760" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1664971258865" />
     <state x="492" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1657208036624">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="492" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.720@0.0.1366.720" timestamp="1657208036624" />
-    <state x="389" y="64" width="587" height="614" key="find.popup" timestamp="1664966369060">
+    <state x="389" y="64" width="587" height="614" key="find.popup" timestamp="1665623546429">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="389" y="64" width="587" height="614" key="find.popup/0.0.1366.720@0.0.1366.720" timestamp="1664966369060" />
+    <state x="389" y="64" width="587" height="614" key="find.popup/0.0.1366.720@0.0.1366.720" timestamp="1665623546429" />
     <state x="483" y="261" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1659337987084">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
@@ -697,6 +711,11 @@
           <url>file://$PROJECT_DIR$/resources/views/layouts/layouts.blade.php</url>
           <line>39</line>
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/Http/Controllers/CGBundleController.php</url>
+          <line>50</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

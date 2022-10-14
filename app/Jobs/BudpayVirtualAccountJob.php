@@ -45,11 +45,12 @@ class BudpayVirtualAccountJob implements ShouldQueue
 
         try {
 
-            $payload='{ "email": "zero@budpay.com",
-      "first_name": "Zero",
-      "last_name": "Sum",
-      "phone": "+2348123456789"
-    }';
+            $payload='{
+    "email": "'.$u->email.'",
+    "first_name": "'.$u->user_name.'",
+    "last_name": "PlatnetF",
+    "phone": "'.$u->phone.'"
+}';
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
@@ -67,7 +68,6 @@ class BudpayVirtualAccountJob implements ShouldQueue
                 ),
             ));
             $response = curl_exec($curl);
-            $respons = $response;
 
             curl_close($curl);
 
@@ -75,7 +75,7 @@ class BudpayVirtualAccountJob implements ShouldQueue
 
             if($response['status']){
 
-                $payload='{ "customer": "'.$response['data']['customer_code'].'"}';
+                $payload2='{ "customer": "'.$response['data']['customer_code'].'"}';
 
                 $curl = curl_init();
 
@@ -88,7 +88,7 @@ class BudpayVirtualAccountJob implements ShouldQueue
                     CURLOPT_FOLLOWLOCATION => true,
                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                     CURLOPT_CUSTOMREQUEST => "POST",
-                    CURLOPT_POSTFIELDS => $payload,
+                    CURLOPT_POSTFIELDS => $payload2,
                     CURLOPT_HTTPHEADER => array(
                         "Authorization: Bearer " . env("BUDPAY_SECRET")
                     ),

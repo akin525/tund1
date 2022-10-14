@@ -320,7 +320,7 @@ class UsersController extends Controller
 
         $ap = User::where('user_name', $input['user_name'])->first();
 
-        PushNotificationJob::dispatch($ap->user_name,$input['message'],"Message from Admin");
+        PushNotificationJob::dispatch($ap->user_name,$input['message'],"PlanetF");
 
         DB::table('tbl_pushnotiflog')->insert(
             ['user_name' => $input["user_name"], 'message' => $input['message'], 'response' => "background"]

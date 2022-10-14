@@ -92,6 +92,20 @@
                         </ul>
                     </li>
                     <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i
+                                class="dripicons-wallet"></i><span>CG Bundle </span>
+                            <span class="float-right"><i class="mdi mdi-chevron-right"></i></span>
+                            {{--                            <span class="float-right"><i class="mdi mdi-chevron-right"></i></span>--}}
+                        </a>
+                        <ul class="list-unstyled">
+                            @if(\Illuminate\Support\Facades\Auth::user()->status == "superadmin")
+                                <li><a href="{{route('cgbundle.index')}}">Create CG Bundle</a></li>
+                            @endif
+                            <li><a href="{{route('cgbundle.list')}}">CG Bundle List</a></li>
+                            <li><a href="{{route('cgbundle.apply')}}">Sell CG Bundle</a></li>
+                        </ul>
+                    </li>
+                    <li class="has_sub">
                         <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-user-group"></i> <span>Users </span>
                             <span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                         <ul class="list-unstyled">
