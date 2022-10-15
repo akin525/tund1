@@ -31,7 +31,7 @@
                             <a href="{{route('datanew')}}" class="btn btn-gradient-success mr-3">Create New Data Plan</a>
                         </div>
 
-                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                    <table class="table table-striped table-bordered table-hover dataTables-example table-responsive">
                         <thead>
                         <tr>
                             <th>id</th>

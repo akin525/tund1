@@ -22,7 +22,7 @@
                         </script>
                     @endif
                     <p class="text-muted mb-4 font-13">Gateway List</p>
-                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                    <table class="table table-striped table-bordered table-hover dataTables-example table-responsive">
                         <thead>
                         <tr>
                             <th>id</th>

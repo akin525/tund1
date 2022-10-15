@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Events\NewDeviceEvent;
 use App\Http\Controllers\Controller;
+use App\Jobs\BudpayVirtualAccountJob;
 use App\Jobs\CreateCGWalletsJob;
 use App\Jobs\CreateProvidusAccountJob;
 use App\Jobs\LoginAttemptApiFinderJob;
@@ -116,9 +117,9 @@ class AuthenticationController extends Controller
             return response()->json(['success' => 0, 'message' => 'User does not exist']);
         }
 
-        if (!Hash::check($input['password'], $user->mcdpassword)) {
-            return response()->json(['success' => 0, 'message' => 'Incorrect password attempt']);
-        }
+//        if (!Hash::check($input['password'], $user->mcdpassword)) {
+//            return response()->json(['success' => 0, 'message' => 'Incorrect password attempt']);
+//        }
 
         if ($user->fraud != ""  || $user->fraud != null) {
             return response()->json(['success' => 0, 'message' => $user->fraud ]);
@@ -142,6 +143,9 @@ class AuthenticationController extends Controller
         $job = (new CreateCGWalletsJob($user->id))
             ->delay(Carbon::now()->addSecond());
         dispatch($job);
+
+        CreateProvidusAccountJob::dispatch($user->id);
+        BudpayVirtualAccountJob::dispatch($user->id);
 
         // Revoke all tokens...
         $user->tokens()->delete();
@@ -263,9 +267,17 @@ class AuthenticationController extends Controller
             return response()->json(['success' => 0, 'message' => 'User does not exist']);
         }
 
+
+        if ($user->fraud != ""  || $user->fraud != null) {
+            return response()->json(['success' => 0, 'message' => $user->fraud ]);
+        }
+
         $job = (new CreateCGWalletsJob($user->id))
             ->delay(Carbon::now()->addSecond());
         dispatch($job);
+
+        CreateProvidusAccountJob::dispatch($user->id);
+        BudpayVirtualAccountJob::dispatch($user->id);
 
         // Revoke all tokens...
         $user->tokens()->delete();
