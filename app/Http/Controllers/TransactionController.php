@@ -559,6 +559,66 @@ class TransactionController extends Controller
         return view('airtime_cash_settings', ['datas' => $datas, 'i' =>1]);
     }
 
+    public function airtime2cashSettingsEdit($id)
+    {
+        $data=Airtime2CashSettings::find($id);
+
+
+        if(!$data){
+            return redirect()->route('transaction.airtime2cashSettings')->with('error', 'Record does not exist');
+        }
+
+
+        return view('airtime_cash_settings_edit', ['data' => $data]);
+    }
+
+    public function airtime2cashSettingsED($id)
+    {
+        $data = Airtime2CashSettings::find($id);
+
+        if(!$data){
+            return redirect()->route('transaction.airtime2cashSettings')->with('error', 'Record does not exist');
+        }
+
+        $data->status=$data->status == 1 ? 0 : 1;
+        $data->save();
+
+        return redirect()->route('transaction.airtime2cashSettings')->with("success", "Status Modified successfully");
+    }
+
+
+    public function airtime2cashSettingsModify(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'number' => 'required',
+            'discount' => 'required',
+            'id' => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+
+        if (!$validator->passes()) {
+            return back()->with('error', 'Incomplete request. Kindly check and try again');
+        }
+
+
+        $data=Airtime2CashSettings::find($input['id']);
+
+
+        if(!$data){
+            return redirect()->route('transaction.airtime2cashSettings')->with('error', 'Record does not exist');
+        }
+
+        $data->number=$input['number'];
+        $data->discount=$input['discount'];
+        $data->save();
+
+        return redirect()->route('transaction.airtime2cashSettings')->with('success', 'Record updated successfully');
+
+    }
+
     public function airtime2cash()
     {
         $datas=Airtime2Cash::where('receiver', '=', 'wallet')->orderBy('id', 'desc')->paginate(25);

@@ -140,8 +140,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/airtime2cash', [TransactionController::class, 'airtime2cash'])->name('transaction.airtime2cash');
         Route::get('/airtime2cash-settings', [TransactionController::class, 'airtime2cashSettings'])->name('transaction.airtime2cashSettings');
-        Route::get('/airtime2cash-settings-edit/{id}', [TransactionController::class, 'airtime2cashSettings'])->name('transaction.airtime2cashSettings.edit');
-        Route::get('/airtime2cash-settings-modify', [TransactionController::class, 'airtime2cashSettings'])->name('transaction.airtime2cashSettings.modify');
+        Route::get('/airtime2cash-settings-edit/{id}', [TransactionController::class, 'airtime2cashSettingsEdit'])->name('transaction.airtime2cashSettings.edit');
+        Route::post('/airtime2cash-settings-modify', [TransactionController::class, 'airtime2cashSettingsModify'])->name('transaction.airtime2cashSettings.modify');
+        Route::get('/airtime2cash-settings-ed/{id}', [TransactionController::class, 'airtime2cashSettingsED'])->name('transaction.airtime2cashSettings.ed');
 
         Route::get('/otherservices', [ServerController::class, 'others'])->name('otherservices');
         Route::get('/otherservices_add', [ServerController::class, 'others_add'])->name('otherservices_add');

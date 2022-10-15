@@ -56,10 +56,10 @@
                                                         </td>
                                                         <td>{{$data->created_at}}</td>
                                                         <td class="center">
-                                                            <a class="btn {{$data->status =="1"? "btn-gradient-danger" : "btn-success" }}" href="">
+                                                            <a class="btn {{$data->status =="1"? "btn-gradient-danger" : "btn-success" }}" href="{{route('transaction.airtime2cashSettings.ed',$data->id)}}">
                                                                 {{$data->status =="1"? "Disable" : "Enable" }}
                                                             </a>
-                                                            <a href="" class="btn btn-secondary">Modify</a>
+                                                            <a href="{{route('transaction.airtime2cashSettings.edit', $data->id)}}" class="btn btn-secondary">Modify</a>
                                                         </td>
                                                     </tr>
                                                 @endforeach
