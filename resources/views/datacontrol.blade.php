@@ -22,6 +22,15 @@
                         </script>
                     @endif
                     <p class="text-muted mb-4 font-13">Data Plans</p>
+
+                        <div class="row ml-3 mb-3">
+                            <a href="{{route('dataserveMultipleedit', [$data[0]->network, 'ALL', $cg == 1 ? 0 : 1 ])}}" class="btn btn-secondary mr-3">@if($all == 1)Disable @else Enable @endif All Data</a>
+                            <a href="{{route('dataserveMultipleedit', [$data[0]->network, 'CG', $cg == 1 ? 0 : 1 ])}}" class="btn btn-secondary mr-3">@if($cg == 1)Disable @else Enable @endif CG Data</a>
+                            <a href="{{route('dataserveMultipleedit', [$data[0]->network, 'SME', $sme == 1 ? 0 : 1])}}" class="btn btn-secondary mr-3">@if($sme == 1)Disable @else Enable @endif SME Data</a>
+                            <a href="{{route('dataserveMultipleedit', [$data[0]->network, 'DG', $dg == 1 ? 0 : 1 ])}}" class="btn btn-secondary mr-3">@if($dg == 1)Disable @else Enable @endif DG Data</a>
+                            <a href="{{route('datanew')}}" class="btn btn-gradient-success mr-3">Create New Data Plan</a>
+                        </div>
+
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>

@@ -1,5 +1,5 @@
 @extends('layouts.layouts')
-@section('title', 'Modify Data Plan')
+@section('title', 'Create Data Plan')
 @section('parentPageTitle', 'Data')
 
 @section('content')
@@ -23,53 +23,65 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" method="POST" action="{{ route('datacontrolUpdate') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('datanew') }}">
                         @csrf
                         <div class="form-group row">
                             <div class="col-md-12">
+
                                 <div class="input-group mt-2">
-                                    <div class="input-group-prepend"><span class="input-group-text">Product Name</span></div>
-                                    <input type="hidden" name="id" class="form-control" value="{{$data->id}}">
-                                    <input type="text" name="product_name" placeholder="Enter product name" class="form-control" value="{{$data->name}}">
+                                    <div class="input-group-prepend"><span class="input-group-text">Network </span></div>
+                                    <select class="custom-select form-control" name="network">
+                                        <option>MTN</option>
+                                        <option>GLO</option>
+                                        <option>AIRTEL</option>
+                                        <option>9MOBILE</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="input-group mt-2">
+                                    <div class="input-group-prepend"><span class="input-group-text">Name</span></div>
+                                    <input type="text" name="name" placeholder="Enter name" class="form-control" >
                                 </div>
 
                                 <div class="input-group mt-2">
                                     <div class="input-group-prepend"><span class="input-group-text">Provider Price </span></div>
-                                    <input type="number" name="provider_price" class="form-control" placeholder="Enter Amount" value="{{$data->price}}">
+                                    <input type="number" name="price" class="form-control" placeholder="Enter Provider price">
                                 </div>
 
                                 <div class="input-group mt-2">
                                     <div class="input-group-prepend"><span class="input-group-text">Your Price </span></div>
-                                    <input type="number" name="amount" class="form-control" placeholder="Enter Amount" value="{{$data->pricing}}">
+                                    <input type="number" name="pricing" class="form-control" placeholder="Enter Amount">
                                 </div>
 
                                 <div class="input-group mt-2">
-                                    <select class="custom-select form-control" name="status">
-                                        <option value="1" {{$data->status == '1' ? 'selected': ''}}>Activate</option>
-                                        <option value="0" {{$data->status == '0' ? 'selected': ''}}>Deactivate</option>
-                                    </select>
+                                    <div class="input-group-prepend"><span class="input-group-text">Coded </span></div>
+                                    <input type="text" name="coded" class="form-control" placeholder="Enter unique code">
                                 </div>
 
+
                                 <div class="input-group mt-2">
+                                    <div class="input-group-prepend"><span class="input-group-text">Server </span></div>
                                     <select class="custom-select form-control" name="server">
-                                        <option value="1" {{$data->server == 1 ? "selected" : ''}}>1</option>
-                                        <option value="2" {{$data->server == 2 ? "selected" : ''}}>2</option>
-                                        <option value="3" {{$data->server == 3 ? "selected" : ''}}>3</option>
-                                        <option value="4" {{$data->server == 4 ? "selected" : ''}}>4</option>
-                                        <option value="5" {{$data->server == 5 ? "selected" : ''}}>5</option>
-                                        <option value="6" {{$data->server == 6 ? "selected" : ''}}>6</option>
-                                        <option value="7" {{$data->server == 7 ? "selected" : ''}}>7</option>
-                                        <option value="8" {{$data->server == 8 ? "selected" : ''}}>8</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
                                     </select>
                                 </div>
+
 
                                 <div class="input-group mt-2">
                                     <div class="input-group-prepend"><span class="input-group-text">Note </span></div>
-                                    <input type="text" name="note" placeholder="Enter Note (Optional)" class="form-control input-lg m-b" value="{{$data->note}}">
+                                    <input type="text" name="note" placeholder="Enter Note (Optional)" class="form-control input-lg m-b">
                                 </div>
 
                                 <div class="input-group mt-2" style="align-content: center">
-                                    <button class="btn btn-gradient-primary btn-large" type="submit" style="align-self: center; align-content: center">Update</button>
+                                    <button class="btn btn-gradient-primary btn-large" type="submit" style="align-self: center; align-content: center">Create</button>
                                 </div>
 
                             </div>

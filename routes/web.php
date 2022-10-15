@@ -149,8 +149,11 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/datalist/{network}', [ServerController::class, 'dataserve2'])->name('dataplans');
         Route::get('/datacontrol/{id}', [ServerController::class, 'dataserveedit'])->name('datacontrolEdit');
+        Route::get('/datacontrol-multiple/{network}/{type}/{status}', [ServerController::class, 'dataserveMultipleedit'])->name('dataserveMultipleedit');
         Route::get('/dataserveED/{id}', [ServerController::class, 'dataserveED'])->name('dataserveED');
         Route::post('/datacontrol', [ServerController::class, 'dataserveUpdate'])->name('datacontrolUpdate');
+        Route::view('/datanew', 'datacontrol_new')->name('datanew');
+        Route::post('/datanew', [ServerController::class, 'datanew'])->name('datanew');
 
         Route::get('/airtimecontrol', [ServerController::class, 'airtime'])->name('airtimecontrol');
         Route::get('/airtimecontrol/{id}', [ServerController::class, 'airtimeEdit'])->name('airtimecontrolEdit');
