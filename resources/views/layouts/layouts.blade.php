@@ -73,7 +73,6 @@
                             {{--                                <li><a href="/cryptorequest">Crypto Request</a></li>--}}
                             <li><a href="/addtransaction">Add Airtime Transaction</a></li>
                             <li><a href="/adddatatransaction">Add Data Transaction</a></li>
-                            <li><a href="/airtime2cash">Airtime Converter</a></li>
                             <li><a href="/reversal">Reverse Transaction</a></li>
                         </ul>
                     </li>
@@ -91,6 +90,20 @@
 {{--                            <li><a href="{{route('withdrawal_list')}}">Withdrawal</a></li>--}}
                         </ul>
                     </li>
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i
+                                class="dripicons-view-list"></i><span>Airtime Converter </span>
+                            <span class="float-right"><i class="mdi mdi-chevron-right"></i></span>
+                            {{--                            <span class="float-right"><i class="mdi mdi-chevron-right"></i></span>--}}
+                        </a>
+                        <ul class="list-unstyled">
+                            @if(\Illuminate\Support\Facades\Auth::user()->status == "superadmin")
+                                <li><a href="{{route('transaction.airtime2cashSettings')}}">Settings</a></li>
+                            @endif
+                            <li><a href="{{route('transaction.airtime2cash')}}">Airtime Converter</a></li>
+                        </ul>
+                    </li>
+
                     <li class="has_sub">
                         <a href="javascript:void(0);" class="waves-effect"><i
                                 class="dripicons-wallet"></i><span>CG Bundle </span>

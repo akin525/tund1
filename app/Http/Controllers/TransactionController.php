@@ -556,7 +556,7 @@ class TransactionController extends Controller
     {
         $datas=Airtime2CashSettings::get();
 
-        return view('airtime_cash_settings', ['datas' => $datas]);
+        return view('airtime_cash_settings', ['datas' => $datas, 'i' =>1]);
     }
 
     public function airtime2cash()

@@ -32,41 +32,39 @@
                                                 <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Reference</th>
-                                                    <th>Amount</th>
                                                     <th>Network</th>
                                                     <th>Phone Number</th>
+                                                    <th>Discount</th>
                                                     <th>Status</th>
-                                                    <th>Username</th>
-                                                    <th>Receiver</th>
                                                     <th>Date</th>
-                                                    <th>App Version</th>
+                                                    <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 @foreach($datas as $data)
                                                     <tr>
-                                                        <td>{{$data->id}}</td>
-                                                        <td>{{$data->ref}}</td>
-                                                        <td>{{$data->amount}}</td>
+                                                        <td>{{$i++}}</td>
                                                         <td>{{$data->network}}</td>
-                                                        <td>{{$data->phoneno}}</td>
+                                                        <td>{{$data->number}}</td>
+                                                        <td>{{$data->discount}}</td>
                                                         <td>
-                                                            @if($data->status=="successful")
-                                                                <span class="badge badge-success">{{$data->status}}</span>
+                                                            @if($data->status=="1")
+                                                                <span class="badge badge-success">Active</span>
                                                             @else
-                                                                <span class="badge badge-warning">{{$data->status}}</span>
+                                                                <span class="badge badge-warning">Inactive</span>
                                                             @endif
                                                         </td>
-                                                        <td>{{$data->user_name}}</td>
-                                                        <td>{{$data->receiver}}</td>
                                                         <td>{{$data->created_at}}</td>
-                                                        <td>{{$data->version}}</td>
+                                                        <td class="center">
+                                                            <a class="btn {{$data->status =="1"? "btn-gradient-danger" : "btn-success" }}" href="">
+                                                                {{$data->status =="1"? "Disable" : "Enable" }}
+                                                            </a>
+                                                            <a href="" class="btn btn-secondary">Modify</a>
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                                 </tbody>
                                             </table>
-                                            {{ $datas->links() }}
                                         </div>
                                     </div>
                                 </div>
