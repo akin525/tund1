@@ -93,6 +93,7 @@
                                 <th>I. Wallet</th>
                                 <th>F. Wallet</th>
                                 <th>I.P</th>
+                                <th>Device</th>
                                 <th>Server</th>
                                 <th>Ref</th>
                                 <th>Date</th>
@@ -122,6 +123,7 @@
                                     <td>{{$dat->i_wallet}}</td>
                                     <td>{{$dat->f_wallet}}</td>
                                     <td>{{$dat->ip_address}}</td>
+                                    <td>{{$dat->device_details}}</td>
                                     <td>{{$dat->server}}</td>
                                     <td>{{$dat->ref}}</td>
                                     <td>{{$dat->date}}</td>
