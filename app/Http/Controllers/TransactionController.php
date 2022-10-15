@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\Airtime2CashNotificationJob;
 use App\Jobs\ATMtransactionserveJob;
 use App\Models\Airtime2Cash;
+use App\Models\Airtime2CashSettings;
 use App\Models\PndL;
 use App\Models\Serverlog;
 use App\Models\Transaction;
@@ -549,6 +550,13 @@ class TransactionController extends Controller
 
         return redirect('/reversal')->with('success', 'Transaction reversed successfully!');
 
+    }
+
+    public function airtime2cashSettings()
+    {
+        $datas=Airtime2CashSettings::get();
+
+        return view('airtime_cash_settings', ['datas' => $datas]);
     }
 
     public function airtime2cash()

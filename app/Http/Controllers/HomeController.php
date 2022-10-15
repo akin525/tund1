@@ -34,7 +34,7 @@ class HomeController extends Controller
         $today = Carbon::now()->format('Y-m-d');
 //        $data['today_user'] = User::where('reg_date', 'LIKE', '%' . $today . '%')->count();
 
-//        $data['today_deposits'] = Transaction::where([['name', '=', 'wallet funding'], ['date', 'LIKE', '%' . $today . '%']])->sum('amount');
+        $data['today_deposits'] = Transaction::where([['name', '=', 'wallet funding'], ['date', 'LIKE', '%' . $today . '%']])->sum('amount');
 
 //        $data['today_transaction'] = Transaction::where('date', 'LIKE', '%' . $today . '%')->count();
 //        $data['yesterday_transaction'] = Transaction::where('date', 'LIKE', '%' . Carbon::now()->subDay()->format('Y-m-d') . '%')->count();

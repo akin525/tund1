@@ -186,6 +186,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="icon-contain">
+                                <div class="row">
+                                    <div class="col-2 align-self-center"><i class="fas fa-wallet text-success"></i>
+                                    </div>
+                                    <div class="col-10 text-right">
+                                        <h5 class="mt-0 mb-1">{{ $today_deposits ?? 'today_deposits' }}</h5>
+                                        <p class="mb-0 font-12 text-muted">Today's Funding</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
