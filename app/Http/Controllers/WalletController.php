@@ -40,8 +40,8 @@ class WalletController extends Controller
 
         if ($validator->passes()) {
             $amount=$input["amount"];
-            $user= User::where('user_name', $input["user_name"])->first();
-            $notify_description="Dear ".$input['user_name'].", your wallet balance has been ".$input['type']."ed with ".$amount.". Thanks for choosing PLANETF.";
+            $user= User::where('user_name', trim($input["user_name"]))->orwhere('email', trim($input["user_name"]))->orwhere('phoneno', trim($input["user_name"]))->first();
+            $notify_description="Dear ".$user->user_name.", your wallet balance has been ".$input['type']."ed with ".$amount.". Thanks for choosing PLANETF.";
 
             if($user){
                 $input["description"]=$input["user_name"] . " wallet ".$input["type"]. " with the sum of #".$input["amount"]." ". $input["odescription"];
