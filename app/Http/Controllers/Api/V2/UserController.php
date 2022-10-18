@@ -7,6 +7,7 @@ use App\Http\Controllers\PushNotificationController;
 use App\Jobs\AgentPdfGeneratorJob;
 use App\Models\AppAirtimeControl;
 use App\Models\CGBundle;
+use App\Models\CGTransaction;
 use App\Models\CGWallets;
 use App\Models\PndL;
 use App\Models\PromoCode;
@@ -621,6 +622,79 @@ class UserController extends Controller
         $cgs=CGBundle::where([['status', 1]])->get();
 
         return response()->json(['success' => 1, 'message' => 'Bundles fetched successfully', 'data'=>$cgs]);
+    }
+
+    public function cgBundleBuy(Request $request){
+        $input = $request->all();
+        $rules = array(
+            'bundle_id' => 'required',
+            'paywith'      => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        if (!$validator->passes()) {
+            return response()->json(['success' => 0, 'message' => implode($validator->errors()->all()), 'error' => $validator->errors()]);
+        }
+
+        $input['charge'] = "yes";
+
+        $data=CGBundle::find($input['bundle_id']);
+        if(!$data){
+            return response()->json(['success' => 0, 'message' => "Bundle not found"]);
+        }
+
+        $user=User::find(Auth::id());
+        if(!$user){
+            return response()->json(['success' => 0, 'message' => "User not found"]);
+        }
+
+        if($input['charge'] == "yes"){
+            $bal=$user->wallet;
+
+            if($data->price > $bal){
+                return response()->json(['success' => 0, 'message' => "Insufficient balance on customer wallet"]);
+            }
+        }
+
+        $cw=$data->network." ".$data->type;
+
+        $cgwallet=CGWallets::where(["name" => $cw])->first();
+
+        if(!$cgwallet){
+            return response()->json(['success' => 0, 'message' => "Customer does not have this data wallet"]);
+        }
+
+        if($input['charge'] == "yes"){
+            $bal=$user->wallet;
+
+            $newBal= $bal + $data->price;
+
+            $tr['name'] = "CG Bundle";
+            $tr['user_name'] = $user->user_name;
+            $tr['description'] =$data->value . "GB NGN".$data->price. " - ".$data->network. " ".$data->type. " by admin";
+            $tr['code'] = "cgbundle";
+            $tr['amount'] = $data->price;
+            $tr['status'] = "successful";
+            $tr['i_wallet'] = $bal;
+            $tr['f_wallet'] = $newBal;
+            $tr['extra'] = Auth::user()->user_name;
+            Transaction::create($tr);
+
+            $user->wallet=$newBal;
+        }
+
+        $cgwallet->balance+=$data->value;
+        $cgwallet->save();
+
+        CGTransaction::create([
+            "bundle_id" => $input['bundle_id'],
+            "user_name" => $user->user_name,
+            "charge" => $input['charge'],
+            "created_by" => Auth::user()->user_name
+        ]);
+
+        return response()->json(['success' => 1, 'message' => "Bundle bought successfully"]);
     }
 
 
