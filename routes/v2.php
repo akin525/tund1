@@ -108,6 +108,7 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::get('getfaqs', [OtherController::class, 'getFAQs']);
 
         Route::get('cg-wallets', [UserController::class, 'cgWallets']);
+        Route::get('cg-bundles', [UserController::class, 'cgBundles']);
     });
 
 });

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\PushNotificationController;
 use App\Jobs\AgentPdfGeneratorJob;
 use App\Models\AppAirtimeControl;
+use App\Models\CGBundle;
 use App\Models\CGWallets;
 use App\Models\PndL;
 use App\Models\PromoCode;
@@ -613,6 +614,13 @@ class UserController extends Controller
         $cgs=CGWallets::where([['user_id', Auth::id()], ['status', 1]])->get();
 
         return response()->json(['success' => 1, 'message' => 'Wallets fetched successfully', 'data'=>$cgs]);
+    }
+
+    public function cgBundles()
+    {
+        $cgs=CGBundle::where([['status', 1]])->get();
+
+        return response()->json(['success' => 1, 'message' => 'Bundles fetched successfully', 'data'=>$cgs]);
     }
 
 
