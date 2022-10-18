@@ -12,6 +12,7 @@ use App\Models\PromoCode;
 use App\Models\ReferralPlans;
 use App\Models\Settings;
 use App\Models\Transaction;
+use App\Models\VirtualAccount;
 use App\User;
 use Carbon\Carbon;
 use Exception;
@@ -612,6 +613,14 @@ class UserController extends Controller
         $cgs=CGWallets::where([['user_id', Auth::id()], ['status', 1]])->get();
 
         return response()->json(['success' => 1, 'message' => 'Wallets fetched successfully', 'data'=>$cgs]);
+    }
+
+
+    public function vaccounts()
+    {
+        $cgs=VirtualAccount::where([['user_id', Auth::id()], ['status', 1]])->get();
+
+        return response()->json(['success' => 1, 'message' => 'Virtual Account fetched successfully', 'data'=>$cgs]);
     }
 
 

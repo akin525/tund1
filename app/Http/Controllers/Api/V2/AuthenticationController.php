@@ -305,7 +305,7 @@ class AuthenticationController extends Controller
 
         $input['version'] = $request->header('version');
 
-        $user = User::where('user_name', $input['user_name'])->orWhere('email', $input['user_name'])->first();
+        $user = User::where('user_name', $input['user_name'])->orWhere('email', $input['user_name'])->orwhere('phoneno', trim($input["user_name"]))->first();
 
         if (!$user) {
             return response()->json(['success' => 0, 'message' => 'User does not exist']);
