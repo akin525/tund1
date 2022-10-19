@@ -70,6 +70,7 @@
                                             <button type="submit" class="btn btn-primary">Re-process</button>
                                         </form>
                                         <a href="{{route('trans_delivered', $dat->id)}}" class="btn btn-success mt-2">Mark Delivered</a>
+                                        <a href="{{route('reverse2', $dat->id)}}" class="btn btn-danger mt-2">Reverse Transaction</a>
                                     </td>
                                 </tr>
                             @endforeach
