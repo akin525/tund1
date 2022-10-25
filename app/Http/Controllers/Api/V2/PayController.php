@@ -913,11 +913,13 @@ class PayController extends Controller
         $t->server_response = $dada['server_response'];
         $t->save();
 
+        $this->reverse($t->ref);
+
         if (isset($dada['token'])) {
-            return response()->json(['success' => 1, 'message' => 'Your transaction was successful', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
+            return response()->json(['success' => 0, 'message' => 'Your transaction failed', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
         }
 
-        return response()->json(['success' => 1, 'message' => 'Your transaction is in progress', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
+        return response()->json(['success' => 0, 'message' => 'Your transaction failed', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
     }
 
     function convertCG($plan){
@@ -971,6 +973,54 @@ class PayController extends Controller
         }
 
         return response()->json(['success' => 1, 'message' => 'Transactions processed successfully. You will receive them within 2 minutes', 'ref' => $input['ref'], 'debitAmount' => $charge, 'discountAmount' => 0]);
+    }
+
+    function reverse($reference){
+
+        $rtran = Transaction::where('ref', '=', $reference)->get();
+
+        foreach ($rtran as $tran) {
+            $tran->status = "reversed";
+            $tran->save();
+
+            $amount = $tran->amount;
+
+            $user = User::where("user_name", "=", $tran->user_name)->first();
+
+            if ($tran->code == "tcommission") {
+                $nBalance = $user->agent_commision - $tran->amount;
+
+                $input["description"] = "Being reversal of " . $tran->description;
+                $input["name"] = "Reversal";
+                $input["status"] = "successful";
+                $input["code"] = "reversal";
+                $input["amount"] = $amount;
+                $input["user_name"] = $tran->user_name;
+                $input["i_wallet"] = $user->agent_commision;
+                $input["f_wallet"] = $nBalance;
+                $input["extra"] = 'Initiated by system';
+
+                $user->update(["agent_commision" => $nBalance]);
+                Transaction::create($input);
+            } else {
+                $nBalance = $user->wallet + $tran->amount;
+
+                $input["description"] = "Being reversal of " . $tran->description;
+                $input["name"] = "Reversal";
+                $input["status"] = "successful";
+                $input["code"] = "reversal";
+                $input["amount"] = $amount;
+                $input["user_name"] = $tran->user_name;
+                $input["i_wallet"] = $user->wallet;
+                $input["f_wallet"] = $nBalance;
+                $input["extra"] = 'Initiated by webhook';
+                $input["server_ref"] = $input['message'];
+
+                $user->update(["wallet" => $nBalance]);
+                Transaction::create($input);
+            }
+        }
+
     }
 
 
