@@ -620,8 +620,9 @@ class UserController extends Controller
     public function cgBundles()
     {
         $cgs=CGBundle::where([['status', 1]])->get();
+        $set=Settings::where('name','cg_wallet_bank_details')->first();
 
-        return response()->json(['success' => 1, 'message' => 'Bundles fetched successfully', 'data'=>$cgs]);
+        return response()->json(['success' => 1, 'message' => 'Bundles fetched successfully', 'data'=>['bundles'=>$cgs, 'bank'=>$set->value]]);
     }
 
     public function cgBundleBuy(Request $request){
