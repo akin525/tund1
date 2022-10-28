@@ -116,6 +116,7 @@
                             @endif
                             <li><a href="{{route('cgbundle.list')}}">CG Bundle List</a></li>
                             <li><a href="{{route('cgbundle.apply')}}">Sell CG Bundle</a></li>
+                            <li><a href="{{route('cgbundle.trans')}}">CG Transactions</a></li>
                         </ul>
                     </li>
                     <li class="has_sub">

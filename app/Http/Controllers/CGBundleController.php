@@ -52,6 +52,11 @@ class CGBundleController extends Controller
         return view('cg_bundles', ['data' => $data]);
     }
 
+    public function cgtrans(){
+        $data=CGTransaction::with('cgbundle')->latest()->get();
+        return view('cg_transactions', ['data' => $data]);
+    }
+
     public function modify($id){
         $data=CGBundle::find($id);
         if(!$data){
@@ -107,7 +112,7 @@ class CGBundleController extends Controller
 
         $cw=$data->network." ".$data->type;
 
-        $cgwallet=CGWallets::where(["name" => $cw])->first();
+        $cgwallet=CGWallets::where(["name" => $cw, "user_id" => $user->id])->first();
 
         if(!$cgwallet){
             return redirect()->route('cgbundle.apply')->with(["error" => "Customer does not have this data wallet"]);
@@ -116,7 +121,7 @@ class CGBundleController extends Controller
         if($input['charge'] == "yes"){
             $bal=$user->wallet;
 
-            $newBal= $bal + $data->price;
+            $newBal= $bal - $data->price;
 
             $tr['name'] = "CG Bundle";
             $tr['user_name'] = $user->user_name;
@@ -130,6 +135,7 @@ class CGBundleController extends Controller
             Transaction::create($tr);
 
             $user->wallet=$newBal;
+            $user->save();
         }
 
 
@@ -144,6 +150,45 @@ class CGBundleController extends Controller
         ]);
 
         return redirect()->route('cgbundle.apply')->with(["success" => "Bundle credited successfully"]);
+    }
+
+    public function apply_credit($id){
+       $cgtran=CGTransaction::find($id);
+
+       if(!$cgtran){
+           return redirect()->route('cgbundle.trans')->with(["error" => "Transaction not found"]);
+       }
+
+       if($cgtran->status == 1){
+           return redirect()->route('cgbundle.trans')->with(["error" => "Transaction processed already"]);
+       }
+
+        $data=CGBundle::find($cgtran->bundle_id);
+        if(!$data){
+            return redirect()->route('cgbundle.trans')->with(["error" => "Bundle not found"]);
+        }
+
+        $user=User::where("user_name", $cgtran->user_name)->orWhere("phoneno", $cgtran->user_name)->orWhere("email", $cgtran->user_name)->first();
+        if(!$user){
+            return redirect()->route('cgbundle.trans')->with(["error" => "User not found"]);
+        }
+
+
+        $cw=$data->network." ".$data->type;
+
+        $cgwallet=CGWallets::where(["name" => $cw, "user_id" => $user->id])->first();
+
+        if(!$cgwallet){
+            return redirect()->route('cgbundle.trans')->with(["error" => "Customer does not have this data wallet"]);
+        }
+
+        $cgwallet->balance+=$data->value;
+        $cgwallet->save();
+
+        $cgtran->status=1;
+        $cgtran->save();
+
+        return redirect()->route('cgbundle.trans')->with(["success" => "Bundle credited successfully"]);
     }
 
 }

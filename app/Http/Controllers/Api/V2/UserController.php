@@ -629,7 +629,8 @@ class UserController extends Controller
         $input = $request->all();
         $rules = array(
             'bundle_id' => 'required',
-            'paywith'      => 'required'
+            'paywith'      => 'required',
+            'receipt'      => 'optional'
         );
 
         $validator = Validator::make($input, $rules);
@@ -638,7 +639,11 @@ class UserController extends Controller
             return response()->json(['success' => 0, 'message' => implode($validator->errors()->all()), 'error' => $validator->errors()]);
         }
 
-        $input['charge'] = "yes";
+        if($input['paywith'] == "wallet") {
+            $input['charge'] = "yes";
+        }else{
+            $input['charge'] = "no";
+        }
 
         $data=CGBundle::find($input['bundle_id']);
         if(!$data){
@@ -666,6 +671,14 @@ class UserController extends Controller
             return response()->json(['success' => 0, 'message' => "Customer does not have this data wallet"]);
         }
 
+        $cgtrans=CGTransaction::create([
+            "bundle_id" => $input['bundle_id'],
+            "user_name" => $user->user_name,
+            "charge" => $input['charge'],
+            "created_by" => Auth::user()->user_name,
+            "status" => $input['charge'] == "yes" ? 1 : 0
+        ]);
+
         if($input['charge'] == "yes"){
             $bal=$user->wallet;
 
@@ -684,19 +697,24 @@ class UserController extends Controller
 
             $user->wallet=$newBal;
             $user->save();
+
+            $cgwallet->balance+=$data->value;
+            $cgwallet->save();
+        }else{
+            $image = $input["receipt"];
+            $photo = $cgtrans->id . ".jpg";
+
+            $decodedImage = base64_decode("$image");
+            file_put_contents(storage_path("app/public/cgtransaction/" . $photo), $decodedImage);
+
+            $input["image"] = "cgtransaction/" . $photo;
         }
 
-        $cgwallet->balance+=$data->value;
-        $cgwallet->save();
-
-        CGTransaction::create([
-            "bundle_id" => $input['bundle_id'],
-            "user_name" => $user->user_name,
-            "charge" => $input['charge'],
-            "created_by" => Auth::user()->user_name
-        ]);
-
-        return response()->json(['success' => 1, 'message' => "Bundle bought successfully"]);
+        if($input['charge'] == "yes") {
+            return response()->json(['success' => 1, 'message' => "Bundle bought successfully"]);
+        }else{
+            return response()->json(['success' => 1, 'message' => "Submitted successfully. Kindly wait for admin approval"]);
+        }
     }
 
 
