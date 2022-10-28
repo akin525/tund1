@@ -21,7 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="41dc791e-619a-48fd-95ed-769a0575df70" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,7 +181,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../newwaves" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
   </component>
@@ -258,14 +259,8 @@
       <workItem from="1665764968872" duration="27654000" />
       <workItem from="1666018427073" duration="14696000" />
       <workItem from="1666186381556" duration="5912000" />
-      <workItem from="1666679788162" duration="792000" />
-    </task>
-    <task id="LOCAL-00038" summary="commit changes">
-      <created>1658420516841</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1658420516841</updated>
+      <workItem from="1666679788162" duration="5980000" />
+      <workItem from="1666953092523" duration="4270000" />
     </task>
     <task id="LOCAL-00039" summary="commit changes">
       <created>1658422802987</created>
@@ -603,7 +598,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666189697340</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="push changes">
+      <created>1666680601232</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1666680601232</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -638,26 +640,26 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1666101195567" />
-    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1666189696432">
+    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1666680600038">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1666189696432" />
+    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1666680600038" />
     <state x="92" y="92" width="1092" height="605" key="DiffContextDialog" timestamp="1666093916741">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="92" y="92" width="1092" height="605" key="DiffContextDialog/0.0.1366.720@0.0.1366.720" timestamp="1666093916741" />
-    <state x="463" y="114" key="FileChooserDialogImpl" timestamp="1658268058391">
+    <state x="463" y="114" key="FileChooserDialogImpl" timestamp="1666768827734">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="463" y="114" key="FileChooserDialogImpl/0.0.1366.720@0.0.1366.720" timestamp="1658268058391" />
+    <state x="463" y="114" key="FileChooserDialogImpl/0.0.1366.720@0.0.1366.720" timestamp="1666768827734" />
     <state x="184" y="4" key="SettingsEditor" timestamp="1659337918087">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="184" y="4" key="SettingsEditor/0.0.1366.720@0.0.1366.720" timestamp="1659337918087" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1666189700856">
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1666680602972">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1666189700856" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1666680602972" />
     <state x="389" y="64" width="587" height="614" key="find.popup" timestamp="1665812665563">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
@@ -666,10 +668,6 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="483" y="261" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1366.720@0.0.1366.720" timestamp="1659337987084" />
-    <state x="339" y="160" key="run.anything.popup" timestamp="1657611683535">
-      <screen x="0" y="0" width="1366" height="720" />
-    </state>
-    <state x="339" y="160" key="run.anything.popup/0.0.1366.720@0.0.1366.720" timestamp="1657611683535" />
     <state x="346" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1664970901654">
       <screen x="0" y="0" width="1366" height="720" />
     </state>

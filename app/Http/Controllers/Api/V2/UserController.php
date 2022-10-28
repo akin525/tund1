@@ -659,7 +659,7 @@ class UserController extends Controller
 
         $cw=$data->network." ".$data->type;
 
-        $cgwallet=CGWallets::where(["name" => $cw])->first();
+        $cgwallet=CGWallets::where(["name" => $cw, "user_id" => Auth::id()])->first();
 
         if(!$cgwallet){
             return response()->json(['success' => 0, 'message' => "Customer does not have this data wallet"]);
@@ -668,11 +668,11 @@ class UserController extends Controller
         if($input['charge'] == "yes"){
             $bal=$user->wallet;
 
-            $newBal= $bal + $data->price;
+            $newBal= $bal - $data->price;
 
             $tr['name'] = "CG Bundle";
             $tr['user_name'] = $user->user_name;
-            $tr['description'] =$data->value . "GB NGN".$data->price. " - ".$data->network. " ".$data->type. " by admin";
+            $tr['description'] =$data->value . "GB NGN".$data->price. " - ".$data->network. " ".$data->type;
             $tr['code'] = "cgbundle";
             $tr['amount'] = $data->price;
             $tr['status'] = "successful";
@@ -682,6 +682,7 @@ class UserController extends Controller
             Transaction::create($tr);
 
             $user->wallet=$newBal;
+            $user->save();
         }
 
         $cgwallet->balance+=$data->value;
