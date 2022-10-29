@@ -74,6 +74,7 @@ class UserController extends Controller
         $others['live_chat'] = $sett['live_chat'];
         $others['reseller_fee'] = $sett['reseller_fee'];
         $others['support_email'] = $sett['support_email'];
+        $others['support_whatsapp'] = $sett['support_whatsapp'];
         $others['biz_verification_price_customer'] = $sett['biz_verification_price_customer'];
         $others['reseller_terms'] = $sett['reseller_terms'];
 
