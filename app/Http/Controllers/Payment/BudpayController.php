@@ -21,8 +21,13 @@ class BudpayController extends Controller
         DB::table('tbl_webhook_budpay')->insert(['payment_reference' => $input['data']['payment_reference'] ?? '', 'payment_id' => $input['data']['reference'], 'status' => $input['data']['status'], 'amount' => $input['data']['amount'], 'fees' => $input['data']['fee'], 'remote_address' => $_SERVER['REMOTE_ADDR'], 'extra' => $data2]);
 
 
-        if ($input['event'] != "charge.success") {
-            return "charge->success expected";
+        if ($input['notify'] != "transaction") {
+            return "transaction expected";
+        }
+
+
+        if ($input['notifyType'] != "successful") {
+            return "successful expected";
         }
 
         if (isset($input['data']['virtual_bank_account_details']['virtual_bank_account']['account_reference'])) {

@@ -45,6 +45,7 @@ class BudpayVirtualAccountJob implements ShouldQueue
         $w = VirtualAccount::where(["user_id" => $u->id, "provider" => "budpay"])->exists();
 
         if (!$w) {
+            Log::info("Running BUDPAY Virtual account generation on ".$u->user_name);
             $sett=Settings::where('name', 'fund_budpay_secret')->first();
 
             try {
@@ -56,6 +57,7 @@ class BudpayVirtualAccountJob implements ShouldQueue
     "phone": "' . $u->phone . '"
 }';
 
+                Log::info($payload);
                 echo $payload;
 
                 $curl = curl_init();
@@ -81,6 +83,8 @@ class BudpayVirtualAccountJob implements ShouldQueue
                 curl_close($curl);
 
                 echo $response;
+
+                Log::info($response);
 
                 $response = json_decode($response, true);
 
@@ -109,6 +113,8 @@ class BudpayVirtualAccountJob implements ShouldQueue
                     $response = curl_exec($curl);
 
                     curl_close($curl);
+
+                    Log::info($response);
 
                     echo $response;
 
