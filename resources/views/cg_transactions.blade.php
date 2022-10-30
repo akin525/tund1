@@ -54,7 +54,7 @@
 
                                 <td>
                                     @if($da['charge'] == "no")
-                                        <a href="{{route('show.cgtransaction',$da['id'].'.jpg')}}"> <img src="{{route('show.cgtransaction', $da['id'].'.jpg')}}" class="img img-thumbnail" height="20px" /></a>
+                                        <a href="{{route('show.cgtransaction',$da['id'].'.jpg')}}"> <img src="{{route('show.cgtransaction', $da['id'].'.jpg')}}" height="50px" /></a>
                                     @else
                                         {{$da['charge']}}
                                     @endif

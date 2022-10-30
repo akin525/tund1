@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use App\Models\Airtime2CashSettings;
 use App\Models\AirtimeCountry;
 use App\Models\AppAirtimeControl;
 use App\Models\AppCableTVControl;
@@ -80,5 +81,12 @@ class ListController extends Controller
 
 
         return response()->json(['success' => 1, 'message' => 'Fetch successfully', 'data' => $rep['content']['varations']]);
+    }
+
+    public function airtimeConverter()
+    {
+        $airsets = Airtime2CashSettings::where('status', 1)->get();
+
+        return response()->json(['success' => 1, 'message' => 'Fetch successfully', 'data' => $airsets]);
     }
 }
