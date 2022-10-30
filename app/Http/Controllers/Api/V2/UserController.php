@@ -631,7 +631,7 @@ class UserController extends Controller
         $rules = array(
             'bundle_id' => 'required',
             'paywith'      => 'required',
-            'receipt'      => 'optional'
+            'receipt'      => 'nullable'
         );
 
         $validator = Validator::make($input, $rules);
