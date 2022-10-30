@@ -496,7 +496,9 @@ class PayController extends Controller
 
             Airtime2Cash::create($input);
 
-            return response()->json(['success' => 1, 'message' => 'Transfer #' . $input['amount'] . ' to ' . $number->number . ' and get your value instantly. Reference: ' . $input['ref'] . '. By doing so, you acknowledge that you are the legitimate owner of this airtime and you have permission to send it to us and to take possession of the airtime.']);
+            $am2r=$input['amount'] - (($number->discount/100)*$input['amount']);
+
+            return response()->json(['success' => 1, 'message' => 'Transfer #' . $input['amount'] . ' to ' . $number->number . ' and get your #'.$am2r.' instantly. Reference: ' . $input['ref'] . '. By doing so, you acknowledge that you are the legitimate owner of this airtime and you have permission to send it to us and to take possession of the airtime.']);
         } catch (Exception $e) {
             return response()->json(['success' => 0, 'message' => 'An error occured', 'error' => $e]);
         }
