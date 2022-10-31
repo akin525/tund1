@@ -34,8 +34,8 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-calendar-check"></i> </span>
                                     </div>
-                                    <input style="margin-right: 20px" name="date" type="date"
-                                           value="{{\Carbon\Carbon::now()->format('Y')}}"
+                                    <input style="margin-right: 20px" name="date" type="month"
+                                           value="{{\Carbon\Carbon::now()->format('Y-m')}}"
                                            placeholder="Search for year"
                                            class="form-control @error('date') is-invalid @enderror">
                                 </div>
@@ -91,32 +91,6 @@
                                 </tbody>
                             </table>
 
-                            <table class="table table-striped mb-0">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Amount</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($expensed as $exp)
-                                    <tr>
-                                        <td>{{$exp->gl}}</td>
-                                        @foreach($expenses as $expen)
-                                            @if($exp->gl==$expen->gl)
-                                                <?php
-                                                $te += $expen->amount;
-                                                ?>
-                                            @endif
-                                        @endforeach
-                                        <td>{{$te}}</td>
-                                        <?php $te=0; ?>
-                                    </tr>
-                                @endforeach
-
-                                Total Expenses: {{$expense_sum}}
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>

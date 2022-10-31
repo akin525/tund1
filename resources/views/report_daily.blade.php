@@ -91,32 +91,6 @@
                                 </tbody>
                             </table>
 
-                            <table class="table table-striped mb-0">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Amount</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($expensed as $exp)
-                                    <tr>
-                                        <td>{{$exp->gl}}</td>
-                                        @foreach($expenses as $expen)
-                                            @if($exp->gl==$expen->gl)
-                                                <?php
-                                                $te += $expen->amount;
-                                                ?>
-                                            @endif
-                                        @endforeach
-                                        <td>{{$te}}</td>
-                                        <?php $te=0; ?>
-                                    </tr>
-                                @endforeach
-
-                                Total Expenses: {{$expense_sum}}
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
