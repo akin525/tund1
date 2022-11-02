@@ -55,9 +55,10 @@
                                     @if($da->status == 1)
                                         <a href="{{route('faqs.update',$da->id )}}" class="btn btn-warning">Disable</a>
                                     @else
-                                        <a href="{{route('faqs.update',$da->id )}}" class="btn btn-success">Enable</a>
+                                        <a href="{{route('faqs.modify',$da->id )}}" class="btn btn-success">Enable</a>
                                     @endif
 
+                                    <a href="{{route('faqs.edit',$da->id )}}" class="btn btn-primary">Edit</a>
                                     <a href="{{route('faqs.delete',$da->id )}}" class="btn btn-danger">Remove</a>
                                 </td>
 

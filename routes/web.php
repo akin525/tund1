@@ -215,7 +215,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('faqs', [FAQsController::class, 'index'])->name('faqs.index');
         Route::post('faqs', [FAQsController::class, 'store'])->name('faqs.store');
         Route::view('faq/create', 'faq_add')->name('faqs.create');
-        Route::get('modify-faq/{id}', [FAQsController::class, 'update'])->name('faqs.update');
+        Route::get('edit-faq/{id}', [FAQsController::class, 'edit'])->name('faqs.edit');
+        Route::post('update-faq', [FAQsController::class, 'update'])->name('faqs.update');
+        Route::get('modify-faq/{id}', [FAQsController::class, 'modify'])->name('faqs.modify');
         Route::get('remove-faq/{id}', [FAQsController::class, 'destroy'])->name('faqs.delete');
 
         Route::get('allsettings', [HomeController::class, 'allsettings'])->name('allsettings');

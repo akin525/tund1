@@ -72,7 +72,13 @@ class FAQsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $faq=FAQs::find($id);
+
+        if (!$faq) {
+            return back()->with('error', 'Invalid ID provided');
+        }
+
+        return view('faq_edit', ['data' => $faq]);
     }
 
     /**
@@ -82,7 +88,23 @@ class FAQsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
+    {
+        $input=$request->all();
+        $faq=FAQs::find($request->id);
+
+        if (!$faq) {
+            return back()->with('error', 'Invalid ID provided');
+        }
+
+        $faq->title=$input['title'];
+        $faq->content=$input['content'];
+        $faq->save();
+
+        return redirect()->route('faqs.index')->with('success', 'FAQ updated successfully');
+    }
+
+    public function modify(Request $request, $id)
     {
         $faq=FAQs::find($id);
 
