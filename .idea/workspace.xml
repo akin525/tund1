@@ -20,11 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41dc791e-619a-48fd-95ed-769a0575df70" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/faq_edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FAQsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FAQsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/faqs.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/faqs.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/GenerateHWPlans.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/GenerateHWPlans.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/SellTVController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/SellTVController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/PayController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ResellerDataPlans.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ResellerDataPlans.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/v2.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/v2.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,14 +267,9 @@
       <workItem from="1666953092523" duration="27174000" />
       <workItem from="1667212645476" duration="10000" />
       <workItem from="1667374284049" duration="1204000" />
-      <workItem from="1667378179130" duration="3741000" />
-    </task>
-    <task id="LOCAL-00053" summary="commit changes">
-      <created>1664304179575</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1664304179575</updated>
+      <workItem from="1667378179130" duration="4934000" />
+      <workItem from="1667402277468" duration="7619000" />
+      <workItem from="1667589323412" duration="5491000" />
     </task>
     <task id="LOCAL-00054" summary="commit changes">
       <created>1664349980977</created>
@@ -610,7 +607,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667197958765</updated>
     </task>
-    <option name="localTasksCounter" value="102" />
+    <task id="LOCAL-00102" summary="push changes">
+      <created>1667383232631</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1667383232632</updated>
+    </task>
+    <option name="localTasksCounter" value="103" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -638,18 +642,14 @@
     <option name="LAST_COMMIT_MESSAGE" value="push changes" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="403" y="161" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1658373421693">
-      <screen x="0" y="0" width="1366" height="720" />
-    </state>
-    <state x="403" y="161" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.720@0.0.1366.720" timestamp="1658373421693" />
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1666101195567">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="413" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.720@0.0.1366.720" timestamp="1666101195567" />
-    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1667197955608">
+    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1667383231539">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1667197955608" />
+    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.720@0.0.1366.720" timestamp="1667383231539" />
     <state x="92" y="92" width="1092" height="605" key="DiffContextDialog" timestamp="1667039892688">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
@@ -662,10 +662,10 @@
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="184" y="4" key="SettingsEditor/0.0.1366.720@0.0.1366.720" timestamp="1659337918087" />
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1667197961032">
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2" timestamp="1667383239179">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1667197961032" />
+    <state x="275" y="92" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1667383239179" />
     <state x="288" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1666981169402">
       <screen x="0" y="0" width="1366" height="720" />
     </state>

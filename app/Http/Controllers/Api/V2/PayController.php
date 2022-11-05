@@ -144,6 +144,7 @@ class PayController extends Controller
         $proceed['4'] = $rac->server;
         $proceed['5'] = "data";
         $proceed['6'] = $rac->name;
+        $proceed['7'] = $rac->dataplan;
 
         return $this->handlePassage($request, $proceed);
 
@@ -669,7 +670,7 @@ class PayController extends Controller
     }
 
 
-    public function debitUser(Request $request, $provider, $amount, $discount, $server, $requester, $codedName, $ref)
+    public function debitUser(Request $request, $proceed, $provider, $amount, $discount, $server, $requester, $codedName, $ref)
     {
         $input = $request->all();
 
@@ -761,7 +762,8 @@ class PayController extends Controller
                 return response()->json(['success' => 0, 'message' => 'Insufficient balance to handle request']);
             }
 
-            $cdata=$this->convertCG();
+            $cg->balance-=$proceed[7];
+            $cg->save();
 
             $tr['i_wallet'] = $user->wallet;
             $tr['f_wallet'] = $tr['i_wallet'];
@@ -840,47 +842,27 @@ class PayController extends Controller
             $input['network'] = $input['provider'];
         }
 
-        $users = User::where("user_name", "=", $input['user_name'])->first();
-        if (!$users) {
+        $user = User::where("user_name", "=", $input['user_name'])->first();
+        if (!$user) {
             $input['status'] = 'Username does not exist';
             Serverlog::create($input);
             return response()->json(['success' => 0, 'message' => 'Error, invalid user name']);
         }
 
 
-        if ($input['payment'] != "wallet" && $input['payment'] != "general_market") {
-            $input['status'] = 'pending';
-            Serverlog::create($input);
-            return response()->json(['success' => 1, 'message' => 'Transaction executed successfully', 'ref' => $input['transid']]);
+        if ($input['payment'] == "wallet") {
+            if ($user->wallet <= 0) {
+                $input['status'] = 'Balance too low';
+                Serverlog::create($input);
+                return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low']);
+            }
+
+            if ($input['amount'] > $user->wallet) {
+                $input['status'] = 'Balance too low';
+                Serverlog::create($input);
+                return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low']);
+            }
         }
-
-        $user = User::where('user_name', $input['user_name'])->first();
-
-        if ($user->wallet <= 0) {
-            $input['status'] = 'Balance too low';
-            Serverlog::create($input);
-            return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low']);
-        }
-        if ($input['amount'] > $user->wallet) {
-            $input['status'] = 'Balance too low';
-            Serverlog::create($input);
-            return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low']);
-        }
-
-        $lasttime = Serverlog::where('user_name', $input['user_name'])->orderBy('id', 'desc')->first();
-
-//        if ($lasttime) {
-//            $t = Carbon::parse($lasttime->date)->diffInSeconds(Carbon::now(), false);
-//
-//            if ($t <= 15 && !($t < 0)) {
-//                $input['status'] = 'Suspect Fraud';
-//                Serverlog::create($input);
-//                $user = User::where('user_name', $input['user_name'])->first();
-//                $user->wallet -= $input['amount'];
-//                $user->save();
-//                return response()->json(['success' => 0, 'message' => 'Suspect Fraud']);
-//            }
-//        }
 
         $number_count=isset(explode(",", $input['number'])[1]);
 
@@ -889,7 +871,7 @@ class PayController extends Controller
         }
 
         Serverlog::create($input);
-        return $this->debitUser($request, $proceed['1'], $proceed['2'], $proceed['3'], $proceed['4'], $proceed['5'], $proceed['6'] ?? '', $input['ref']);
+        return $this->debitUser($request, $proceed, $proceed['1'], $proceed['2'], $proceed['3'], $proceed['4'], $proceed['5'], $proceed['6'] ?? '', $input['ref']);
     }
 
     public function outputResp(Request $request, $ref, $status, $dada)

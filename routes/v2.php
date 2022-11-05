@@ -111,6 +111,7 @@ Route::prefix('v2')->middleware("version")->group(function () {
         Route::get('cg-wallets', [UserController::class, 'cgWallets']);
         Route::get('cg-bundles', [UserController::class, 'cgBundles']);
         Route::post('cg-bundles-buy', [UserController::class, 'cgBundleBuy']);
+        Route::post('cg-bundles-transfer', [UserController::class, 'cgBundleTransfer']);
     });
 
 });

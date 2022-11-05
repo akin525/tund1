@@ -719,6 +719,81 @@ class UserController extends Controller
         }
     }
 
+    public function cgBundleTransfer(Request $request){
+        $input = $request->all();
+        $rules = array(
+            'cgwallet_id' => 'required',
+            'user_name'      => 'required',
+            'amount'      => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        if (!$validator->passes()) {
+            return response()->json(['success' => 0, 'message' => implode($validator->errors()->all()), 'error' => $validator->errors()]);
+        }
+
+        $user=User::find(Auth::id());
+
+        $r_user=User::where("user_name",$input['user_name'])->orwhere("email",$input['user_name'])->orwhere("phoneno",$input['user_name'])->first();
+
+        if(!$r_user){
+            return response()->json(['success' => 0, 'message' => 'Invalid username']);
+        }
+
+        if($r_user->user_name == $user->user_name){
+            return response()->json(['success' => 0, 'message' => 'You can not transfer to yourself']);
+        }
+
+        $oCGwallet=CGWallets::where(['id' =>$input['cgwallet_id'], 'user_id' => Auth::id() ])->first();
+        if(!$oCGwallet){
+            return response()->json(['success' => 0, 'message' => "CGWallet not found"]);
+        }
+
+        $cgwallet=CGWallets::where(["name" => $oCGwallet->name, "user_id" => $r_user->id])->first();
+
+        if(!$cgwallet){
+            return response()->json(['success' => 0, 'message' => "Receiver does not have this data wallet"]);
+        }
+
+        if($oCGwallet->balance < $input['amount']){
+            return response()->json(['success' => 0, 'message' => "Insufficient Balance"]);
+        }
+
+        $obal=$oCGwallet->balance;
+        $bal=$cgwallet->balance;
+
+        $onewBal= $obal - $input['amount'];
+        $newBal= $bal + $input['amount'];
+
+        $tr['name'] = "CG Bundle Transfer";
+        $tr['user_name'] = $user->user_name;
+        $tr['description'] =$cgwallet->name ." ".$input['amount'] . "GB to ".$r_user->user_name;
+        $tr['code'] = "cgbundle_transfer";
+        $tr['amount'] = $input['amount'];
+        $tr['status'] = "successful";
+        $tr['i_wallet'] = $obal;
+        $tr['f_wallet'] = $onewBal;
+        $tr['extra'] = Auth::user()->user_name;
+        Transaction::create($tr);
+
+
+        $tr['user_name'] = $r_user->user_name;
+        $tr['description'] =$cgwallet->name ." ".$input['amount'] . "GB from ".$user->user_name;
+        $tr['i_wallet'] = $bal;
+        $tr['f_wallet'] = $newBal;
+        $tr['extra'] = Auth::user()->user_name;
+        Transaction::create($tr);
+
+        $cgwallet->balance+=$input['amount'];
+        $cgwallet->save();
+
+        $oCGwallet->balance-=$input['amount'];
+        $oCGwallet->save();
+
+        return response()->json(['success' => 1, 'message' => "Bundle transferred successfully"]);
+    }
+
 
     public function vaccounts()
     {
