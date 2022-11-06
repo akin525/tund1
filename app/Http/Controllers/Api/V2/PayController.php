@@ -762,6 +762,11 @@ class PayController extends Controller
                 return response()->json(['success' => 0, 'message' => 'Insufficient balance to handle request']);
             }
 
+
+            if($proceed[7] > $cg->balance){
+                return response()->json(['success' => 0, 'message' => 'Insufficient balance to handle request']);
+            }
+
             $cg->balance-=$proceed[7];
             $cg->save();
 
@@ -906,9 +911,6 @@ class PayController extends Controller
         return response()->json(['success' => 0, 'message' => 'Your transaction failed', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount']]);
     }
 
-    function convertCG($plan){
-        return 100;
-    }
 
     function processMultiplePhones($request, $proceed){
         $input = $request->all();
@@ -923,17 +925,39 @@ class PayController extends Controller
 
         $count=count($numbers);
 
-        $charge=$count * $proceed[2];
+        $w_bal = $user->wallet;
 
-        if ($charge > $user->wallet) {
-            return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low to process for all the numbers']);
+        if ($input['payment'] == "wallet") {
+            $charge = $count * $proceed[2];
+
+            if ($charge > $user->wallet) {
+                return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low to process for all the numbers']);
+            }
+
+            $user->wallet -= $charge;
+            $user->save();
+        }else{
+            $cg=CGWallets::where([["user_id", Auth::id()], ['name', $input['payment']]])->first();
+
+            if(!$cg){
+                return response()->json(['success' => 0, 'message' => 'Invalid payment selected']);
+            }
+
+            if($cg->balance == "0"){
+                return response()->json(['success' => 0, 'message' => 'Insufficient balance to handle request']);
+            }
+
+            $charge = $count * $proceed[7];
+
+            if($charge > $cg->balance){
+                return response()->json(['success' => 0, 'message' => 'Insufficient balance to handle request']);
+            }
+
+            $cg->balance-=$charge;
+            $cg->save();
         }
 
-        $w_bal=$user->wallet;
-        $tr=1;
-
-        $user->wallet -= $charge;
-        $user->save();
+        $tr = 1;
 
         foreach ($numbers as $num){
             $input['ip_address'] = $_SERVER['REMOTE_ADDR'];
