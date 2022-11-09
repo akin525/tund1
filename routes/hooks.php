@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\MCDAssistantController;
 use App\Http\Controllers\Api\UltilityController;
 use App\Http\Controllers\HW_WebhookController;
+use App\Http\Controllers\Payment\BudpayController;
 use App\Http\Controllers\Payment\KorapayHookController;
 use App\Http\Controllers\Payment\MonnifyHookController;
 use App\Http\Controllers\Payment\PayantHookController;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('hook')->group(function () {
+    Route::post('budpay', [BudpayController::class, 'index']);
     Route::post('monnify', [MonnifyHookController::class, 'index']);
     Route::post('paystack', [PaystackHookController::class, 'index']);
     Route::post('korapay', [KorapayHookController::class, 'index']);
