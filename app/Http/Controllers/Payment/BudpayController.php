@@ -25,7 +25,7 @@ class BudpayController extends Controller
 
         $data2 = json_encode($input);
 
-        DB::table('tbl_webhook_budpay')->insert(['payment_reference' => $input['data']['payment_reference'] ?? '', 'payment_id' => $input['data']['reference'], 'status' => $input['data']['status'], 'amount' => $input['data']['amount'], 'fees' => $input['data']['fees'], 'remote_address' => $_SERVER['REMOTE_ADDR'], 'extra' => $data2]);
+        DB::table('tbl_webhook_budpay')->insert(['payment_reference' => $input['data']['reference'] ?? '', 'payment_id' => $input['data']['id'], 'status' => $input['data']['status'], 'amount' => $input['data']['amount'], 'fees' => $input['data']['fees'], 'remote_address' => $_SERVER['REMOTE_ADDR'], 'extra' => $data2]);
 
 
         if ($input['notify'] != "transaction") {

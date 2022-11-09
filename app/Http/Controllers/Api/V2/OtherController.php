@@ -325,6 +325,8 @@ class OtherController extends Controller
             return response()->json(['status' => 0, 'message' => 'Incomplete request', 'error' => $validator->errors()]);
         }
 
+        $sett=Settings::where('name', 'fund_rave_key')->first();
+
         $data = '{
    "tx_ref":"' . $input['ref'] . '",
    "amount":"' . $input['amount'] . '",
@@ -337,12 +339,12 @@ class OtherController extends Controller
    "customer":{
       "email":"' . Auth::user()->email . '",
       "phonenumber":"' . Auth::user()->phoneno . '",
-      "name":"' . Auth::user()->user_name . ' MegaCheapData"
+      "name":"' . Auth::user()->user_name . ' PlanetF"
    },
    "customizations":{
       "title":"PLANETF",
-      "description":"...the cheapest you can always get",
-      "logo":"https://app.mcd.5starcompany.com.ng/img/mcd_logo.png"
+      "description":"...",
+      "logo":"https://softconnet.com.ng/img/PlanetfLogo.png"
    }
 }';
 
@@ -360,7 +362,7 @@ class OtherController extends Controller
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => $data,
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer ' . env('RAVE_SECRET_KEY'),
+                'Authorization: Bearer ' . $sett->value,
                 'Content-Type: application/json'
             ),
         ));
