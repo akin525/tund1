@@ -86,7 +86,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/transactions-pending', [TransactionController::class, 'pending'])->name('trans_pending');
     Route::post('/trans-resubmit', [TransactionController::class, 'trans_resubmit'])->name('trans_resubmit');
+    Route::post('/trans-resubmitAll', [TransactionController::class, 'trans_resubmitAll'])->name('trans_resubmitAll');
     Route::get('/trans_delivered/{id}', [TransactionController::class, 'trans_delivered'])->name('trans_delivered');
+    Route::get('/reverse-transaction2/{id}', [TransactionController::class, 'reverse2'])->name('reverse2');
 
     Route::get('/payment-gateway', [GatewayControl::class, 'gateway'])->name('paymentgateway');
     Route::get('/editpayment/{id}', [GatewayControl::class, 'editgateway'])->name('paymentgateway_edit');
@@ -242,7 +244,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/reversal-confirm', [TransactionController::class, 'reversal_confirm'])->name('reversal.confirm');
         Route::post('/updateairtimeserver', [ServerController::class, 'changeserver'])->name('updateairtimeserver');
         Route::get('/reverse-transaction/{id}', 'TransactionController@reverse')->name('reverse');
-        Route::get('/reverse-transaction2/{id}', [TransactionController::class, 'reverse2'])->name('reverse2');
         Route::any('/report_pnl', [ReportsController::class, 'pnl'])->name('report_pnl');
         Route::any('/report_yearly', [ReportsController::class, 'yearly'])->name('report_yearly');
         Route::any('/report_monthly', [ReportsController::class, 'monthly'])->name('report_monthly');

@@ -25,6 +25,13 @@
                         </div>
                     @endif
 
+                    <form id="allForm" method="post" action="{{route('trans_resubmitAll')}}">
+                        @csrf
+                        <input type="hidden" id="all_type" name="all_type" value="all_type">
+                        <button onclick="document.getElementById('all_type').value='reprocess';document.getElementById('allForm').submit();" type="button" class="btn btn-primary mb-2">Re-process Selected</button>
+                        <button onclick="document.getElementById('all_type').value='delivered';document.getElementById('allForm').submit();" type="submit" class="btn btn-success mb-2">Mark Delivered Selected</button>
+                        <button onclick="document.getElementById('all_type').value='reverse';document.getElementById('allForm').submit();" type="submit" class="btn btn-danger mb-2">Reverse Transaction Selected</button>
+
                     <div class="table-responsive">
                         <table class="table table-striped mb-0">
                             <thead>
@@ -44,7 +51,10 @@
                             <tbody>
                             @foreach($data as $dat)
                                 <tr>
-                                    <td>{{$dat->id}}</td>
+                                    <td>
+                                        <input type="checkbox" name="selectIDs[]" value="{{$dat->id}}">
+                                        {{$dat->id}}
+                                    </td>
                                     <td>{{$dat->ref}}</td>
                                     <td>&#8358;{{$dat->amount}}</td>
                                     <td>{{$dat->description}}</td>
@@ -78,6 +88,7 @@
                         </table>
                         {{ $data->links() }}
                     </div>
+                    </form>
                 </div>
             </div>
         </div>

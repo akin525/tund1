@@ -78,12 +78,152 @@ class TransactionController extends Controller
 
         $s = Serverlog::where("transid", $tran->ref)->first();
 
+        if(!$s){
+            return redirect()->route('trans_pending')->with('error', 'This transaction can not be reversed '.$tran->ref);
+        }
+
         ATMtransactionserveJob::dispatch($s->id, "reprocess");
 
         $tran->status = "inprogress";
         $tran->save();
 
         return back()->with('success', 'Transaction has been reprocess in background');
+
+    }
+
+    public function trans_resubmitAll(Request $request)
+    {
+        $input = $request->all();
+
+        try {
+            $numbers = $input['selectIDs'];
+        }catch (\Exception $e){
+            return redirect()->route('trans_pending')->with('error', 'Kindly select some box!');
+        }
+
+        $all_type=$input['all_type'];
+
+        if(count($numbers) < 1){
+            return redirect()->route('trans_pending')->with('error', 'Kindly select some box!');
+        }
+
+        if($all_type == "reprocess") {
+
+            foreach ($numbers as $id) {
+
+                $tran = Transaction::where('id', '=', $id)->orwhere('ref', '=', $id)->orderby('id', 'desc')->first();
+
+                if (!$tran) {
+                    return back()->with('error', 'Transaction doesnt exist!');
+                }
+
+                $s = Serverlog::where("transid", $tran->ref)->first();
+
+                if (!$s) {
+                    return redirect()->route('trans_pending')->with('error', 'This transaction can not be reversed ' . $tran->ref);
+                }
+
+                ATMtransactionserveJob::dispatch($s->id, "reprocess");
+
+                $tran->status = "inprogress";
+                $tran->save();
+            }
+        }
+
+
+        if($all_type == "delivered") {
+
+            foreach ($numbers as $id) {
+
+                $tran = Transaction::where('id', '=', $id)->orwhere('ref', '=', $id)->orderby('id', 'desc')->first();
+
+                if (!$tran) {
+                    return back()->with('error', 'Transaction doesnt exist!');
+                }
+
+                $tran->status = "delivered";
+                $tran->save();
+            }
+        }
+
+        if($all_type == "reverse") {
+
+            foreach ($numbers as $id) {
+
+
+                $tran = Transaction::find($id);
+
+                $desc = "Being reversal of " . $tran->description;
+                $user_name = $tran->user_name;
+
+                $rtran = Transaction::where('ref', '=', $tran->ref)->get();
+
+                foreach ($rtran as $tran) {
+                    $tran->status = "reversed";
+                    $tran->save();
+
+                    $amount = $tran->amount;
+
+                    $user = User::where("user_name", "=", $tran->user_name)->first();
+
+                    if ($tran->code == "tcommission") {
+                        $nBalance = $user->agent_commision - $tran->amount;
+
+                        $input["description"] = "Being reversal of " . $tran->description;
+                        $input["name"] = "Reversal";
+                        $input["status"] = "successful";
+                        $input["code"] = "reversal";
+                        $input["amount"] = $amount;
+                        $input["user_name"] = $tran->user_name;
+                        $input["i_wallet"] = $user->agent_commision;
+                        $input["f_wallet"] = $nBalance;
+                        $input["extra"] = 'Initiated by ' . Auth::user()->full_name;
+
+                        $user->update(["agent_commision" => $nBalance]);
+                        Transaction::create($input);
+                    } else {
+                        if ($tran->name == "data") {
+                            $amount = $tran->amount + 20;
+                            $nBalance = $user->wallet + $amount;
+
+                            $input["type"] = "expenses";
+                            $input["gl"] = "Data";
+                            $input["amount"] = 20;
+                            $input['date'] = Carbon::now();
+                            $input["narration"] = "Being data reversal of " . $tran->ref;
+
+                            PndL::create($input);
+                        } else {
+                            $nBalance = $user->wallet + $tran->amount;
+                        }
+
+                        $input["description"] = "Being reversal of " . $tran->description;
+                        $input["name"] = "Reversal";
+                        $input["status"] = "successful";
+                        $input["code"] = "reversal";
+                        $input["amount"] = $amount;
+                        $input["user_name"] = $tran->user_name;
+                        $input["i_wallet"] = $user->wallet;
+                        $input["f_wallet"] = $nBalance;
+                        $input["extra"] = 'Initiated by ' . Auth::user()->full_name;
+
+                        $user->update(["wallet" => $nBalance]);
+                        Transaction::create($input);
+
+                    }
+                }
+
+                try {
+                    $at = new PushNotificationController();
+                    $at->PushNoti($user_name, $desc, "Reversal");
+                } catch (Exception $e) {
+                    echo "error while sending notification";
+                }
+
+            }
+        }
+
+        return redirect()->route('trans_pending')->with('success', 'Transactions has been process in background');
 
     }
 
