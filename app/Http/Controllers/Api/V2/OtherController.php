@@ -382,7 +382,7 @@ class OtherController extends Controller
             return response()->json(['success' => 0, 'message' => 'An error occurred when processing your action.']);
         }
 
-        return response()->json(['success' => 1, 'message' => 'Payment link generated successfully', 'data' => ['link' => $rep['data']['link']]]);
+        return response()->json(['success' => 1, 'message' => 'Payment link generated successfully', 'data' => ['link' => $rep['data']['link']], 'link' => $rep['data']['link']]);
     }
 
     public function getFAQs(Request $request)
