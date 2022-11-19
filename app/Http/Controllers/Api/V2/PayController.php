@@ -902,7 +902,7 @@ class PayController extends Controller
         $t->server_response = $dada['server_response'];
         $t->save();
 
-        $this->reverse($t->ref);
+        $this->reverse($t->ref, $dada['server_response']);
 
         if (isset($dada['token'])) {
             return response()->json(['success' => 0, 'message' => 'Your transaction failed', 'ref' => $ref, 'debitAmount' => $dada['amount'], 'discountAmount' => $dada['discount'], 'token' => $dada['token']]);
@@ -983,7 +983,7 @@ class PayController extends Controller
         return response()->json(['success' => 1, 'message' => 'Transactions processed successfully. You will receive them within 2 minutes', 'ref' => $input['ref'], 'debitAmount' => $charge, 'discountAmount' => 0]);
     }
 
-    function reverse($reference){
+    function reverse($reference, $message){
 
         $rtran = Transaction::where('ref', '=', $reference)->get();
 
@@ -993,7 +993,7 @@ class PayController extends Controller
 
             $amount = $tran->amount;
 
-            $user = User::where("user_name", "=", $tran->user_name)->first();
+            $user = User::where("user_name", $tran->user_name)->first();
 
             if ($tran->code == "tcommission") {
                 $nBalance = $user->agent_commision - $tran->amount;
@@ -1019,10 +1019,11 @@ class PayController extends Controller
                 $input["code"] = "reversal";
                 $input["amount"] = $amount;
                 $input["user_name"] = $tran->user_name;
+                $input["ref"] = "refund_".$tran->ref;
                 $input["i_wallet"] = $user->wallet;
                 $input["f_wallet"] = $nBalance;
-                $input["extra"] = 'Initiated by webhook';
-                $input["server_ref"] = $input['message'];
+                $input["extra"] = 'Initiated on failure';
+                $input["server_ref"] = $message;
 
                 $user->update(["wallet" => $nBalance]);
                 Transaction::create($input);

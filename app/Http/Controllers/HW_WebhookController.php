@@ -34,7 +34,7 @@ class HW_WebhookController extends Controller
             return response()->json(['message' => 'ok'], 400);
         }
 
-        $tran=Transaction::where(['ref'=>$input['reference']])->first();
+        $tran=Transaction::where(['server_ref'=>$input['reference']])->first();
 
         if(!$tran){
             return response()->json(['message' => 'ok'], 404);
@@ -89,8 +89,9 @@ class HW_WebhookController extends Controller
                     $input["user_name"] = $tran->user_name;
                     $input["i_wallet"] = $user->wallet;
                     $input["f_wallet"] = $nBalance;
+                    $input["ref"] = "refund_".$tran->ref;
                     $input["extra"] = 'Initiated by webhook';
-                    $input["server_ref"] = $input['message'];
+                    $input["server_response"] = $input['message'];
 
                     $user->update(["wallet" => $nBalance]);
                     Transaction::create($input);
