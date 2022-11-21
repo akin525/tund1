@@ -87,7 +87,7 @@ class PayController extends Controller
             $discount = 0;
         }
 
-        $debitAmount = $input['amount'];
+        $debitAmount = $input['amount'] - $discount;
 
         $proceed['1'] = $input['provider'];
         $proceed['2'] = $debitAmount;
@@ -776,21 +776,21 @@ class PayController extends Controller
 
         $t = Transaction::create($tr);
 
-        if ($input['payment'] == "wallet") {
-            if ($discount > 0) {
-                $tr['name'] = "Commission";
-                $tr['description'] = "Commission on " . $ref;
-                $tr['code'] = "tcommission";
-                $tr['amount'] = $discount;
-                $tr['status'] = "successful";
-                $tr['i_wallet'] = $user->agent_commision;
-                $tr['f_wallet'] = $tr['i_wallet'] + $discount;
-                Transaction::create($tr);
-
-                $user->agent_commision = $tr['f_wallet'];
-                $user->save();
-            }
-        }
+//        if ($input['payment'] == "wallet") {
+//            if ($discount > 0) {
+//                $tr['name'] = "Commission";
+//                $tr['description'] = "Commission on " . $ref;
+//                $tr['code'] = "tcommission";
+//                $tr['amount'] = $discount;
+//                $tr['status'] = "successful";
+//                $tr['i_wallet'] = $user->agent_commision;
+//                $tr['f_wallet'] = $tr['i_wallet'] + $discount;
+//                Transaction::create($tr);
+//
+//                $user->agent_commision = $tr['f_wallet'];
+//                $user->save();
+//            }
+//        }
 
         $input["service"] = $requester;
         $job = (new ServeRequestJob($input, "1", $tr, $user->id))
@@ -862,11 +862,20 @@ class PayController extends Controller
                 return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low']);
             }
 
-            if ($input['amount'] > $user->wallet) {
-                $input['status'] = 'Balance too low';
-                Serverlog::create($input);
-                return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low']);
+            if($proceed['5'] == "airtime"){
+                if ($proceed['2'] > $user->wallet) {
+                    $input['status'] = 'Balance too low';
+                    Serverlog::create($input);
+                    return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low']);
+                }
+            }else {
+                if ($input['amount'] > $user->wallet) {
+                    $input['status'] = 'Balance too low';
+                    Serverlog::create($input);
+                    return response()->json(['success' => 0, 'message' => 'Error, wallet balance too low']);
+                }
             }
+
         }
 
         $number_count=isset(explode(",", $input['number'])[1]);

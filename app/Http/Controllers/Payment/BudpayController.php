@@ -77,7 +77,8 @@ class BudpayController extends Controller
         }
 
 
-        $this->RAfundwallet($u,$amount,$reference,$fee);
+        $atm=new ATMmanagerController();
+        $atm->RAfundwallet("", $amount, $u->user_name, $reference, $fee, $input, "Budpay");
 
         return "success";
     }
