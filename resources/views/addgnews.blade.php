@@ -23,7 +23,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" method="POST" action="{{ route('addgnews') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('addgnews') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group row">
                             <div class="col-md-12">
@@ -42,6 +42,13 @@
                                     <div class="input-group-prepend"><span class="input-group-text">Message</span></div>
                                     <textarea name="message" class="form-control" aria-label="With textarea"></textarea>
                                 </div>
+
+
+                                <div class="input-group mt-2">
+                                    <div class="input-group-prepend"><span class="input-group-text">Image </span></div>
+                                    <input type="file" name="image" placeholder="Select Image" class="form-control input-lg m-b" required>
+                                </div>
+
 
                                 <div class="form-group row mt-2">
                                     <div class="col-12">

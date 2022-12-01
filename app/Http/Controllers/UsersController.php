@@ -10,6 +10,7 @@ use App\Models\CGWallets;
 use App\Models\PndL;
 use App\Models\ResellerPaymentLink;
 use App\Models\Settings;
+use App\Models\Slider;
 use App\Models\Transaction;
 use App\Models\VirtualAccount;
 use App\Models\VirtualAccountClient;
@@ -20,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
@@ -346,6 +348,16 @@ class UsersController extends Controller
             }
 
             User::where('user_name','=',$input["user_name"])->update(['gnews'=>$input["message"]]);
+        }
+
+        if(isset($input['image'])){
+            $storage=Storage::put('public/banners', $input['image']);
+            $link=Storage::url($storage);
+            $image=explode("/", $link)[3];
+
+            $set=Settings::where('name','banner')->first();
+            $set->value=$image;
+            $set->save();
         }
 
         if(isset($input['push_notification'])){
