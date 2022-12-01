@@ -56,6 +56,7 @@
                                 </td>
 
                                 <td class="center">
+                                    <a href="{{route('cgbundle.edit',$da->id )}}" class="btn btn-primary">Edit</a>
                                     @if($da->status == 1)
                                         <a href="{{route('cgbundle.modify',$da->id )}}" class="btn btn-warning">Disable</a>
                                     @else

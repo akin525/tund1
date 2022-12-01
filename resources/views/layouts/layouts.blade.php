@@ -49,6 +49,7 @@
             <p class="online-icon text-dark"><i class="mdi mdi-record text-success"></i>online</p>
             <ul class="list-unstyled list-inline mb-0 mt-2">
                 <li class="list-inline-item"><a href="/profile/{{\Illuminate\Support\Facades\Auth::user()->user_name}}" class="" data-toggle="tooltip" data-placement="top" title="Profile"><i class="dripicons-user text-purple"></i></a></li>
+                <li class="list-inline-item"><a href="{{route('change_password')}}" class="" data-toggle="tooltip" data-placement="top" title="Change Password"><i class="dripicons-lock text-purple"></i></a></li>
                 <li class="list-inline-item"><a href="{{route('allsettings')}}" class="" data-toggle="tooltip" data-placement="top" title="Settings"><i class="dripicons-gear text-dark"></i></a></li>
                 <li class="list-inline-item"><a href="/logout" class="" data-toggle="tooltip" data-placement="top" title="Log out"><i class="dripicons-power text-danger"></i></a></li>
             </ul>
@@ -295,7 +296,7 @@
                                 </div>
                                 <a class="dropdown-item" href="/profile/{{\Illuminate\Support\Facades\Auth::user()->user_name}}"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a>
                                 <a class="dropdown-item" href="{{route('allsettings')}}"><span class="badge badge-success float-right">5</span><i class="mdi mdi-settings m-r-5 text-muted"></i> Settings</a>
-{{--                                <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline m-r-5 text-muted"></i> Lock screen</a>--}}
+                                <a class="dropdown-item" href="{{route('change_password')}}"><i class="mdi mdi-lock-open-outline m-r-5 text-muted"></i> C. Password</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/logout"><i class="mdi mdi-logout m-r-5 text-muted"></i> Logout</a>
                             </div>

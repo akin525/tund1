@@ -79,10 +79,10 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="mt-0 header-title">Transactions Table</h4>
+{{--                    <h4 class="mt-0 header-title">Transactions Table</h4>--}}
 {{--                    <p class="text-muted mb-4 font-13">Use <code>pencil icon</code> to view user profile.</p>--}}
                     <div class="table-responsive">
-                        <table class="table table-striped mb-0">
+                        <table id="datatable-buttons" class="table table-striped mb-0">
                             <thead>
                             <tr>
                                 <th>id</th>

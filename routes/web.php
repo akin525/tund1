@@ -53,6 +53,8 @@ Route::middleware(['auth'])->group(function () {
         Auth::logout();
         return redirect('/login')->with('success', 'You have successfully logout');
     });
+    Route::view('/change-password', 'change_password')->name('change_password');
+    Route::post('/change-password', [UsersController::class, 'change_password'])->name('change_password');
     Route::get('/users', 'UsersController@index')->name('users');
     Route::get('/agents', 'UsersController@agents')->name('agents');
     Route::get('/resellers', 'UsersController@resellers')->name('resellers');
@@ -209,6 +211,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('cg-bundle-list', [CGBundleController::class, 'lists'])->name('cgbundle.list');
         Route::get('cg-transactions-list', [CGBundleController::class, 'cgtrans'])->name('cgbundle.trans');
         Route::get('cg-bundle-modify/{id}', [CGBundleController::class, 'modify'])->name('cgbundle.modify');
+        Route::get('cg-bundle-edit/{id}', [CGBundleController::class, 'edit'])->name('cgbundle.edit');
+        Route::post('cg-bundle-update}', [CGBundleController::class, 'update'])->name('cgbundle.update');
         Route::get('cg-bundle-apply-credit/{id}', [CGBundleController::class, 'apply_credit'])->name('cgbundle.apply_credit');
 
         Route::get('cg-bundle-apply', [CGBundleController::class, 'applyView'])->name('cgbundle.apply');

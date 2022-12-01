@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -586,6 +587,37 @@ class UsersController extends Controller
         $datas['datas'] = ResellerPaymentLink::orderBy('id', 'desc')->paginate(10);
 
         return view('resellers_payment_links', $datas);
+    }
+
+    public function change_password(Request $request)
+    {
+        $input = $request->all();
+        $rules = array(
+            'current_password' => 'required',
+            'new_password' => 'required',
+            'confirm_password' => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        if (!$validator->passes()) {
+            return redirect()->route('change_password')->withInput($input)->withErrors($validator);
+        }
+
+        if(!Hash::check($input['current_password'], Auth::user()->password)){
+            return redirect()->route('change_password')->withInput($input)->with(['error' => 'Current password did not match']);
+        }
+
+        if($input['new_password'] != $input['confirm_password']){
+            return redirect()->route('change_password')->withInput($input)->with(['error' => 'New password did not match with confirm password']);
+        }
+
+        $user=User::find(Auth::id());
+        $user->password=Hash::make($input['new_password']);
+        $user->save();
+
+        return redirect()->route('change_password')->withInput($input)->with(['success' => 'Password changed successfully']);
+
     }
 
 }

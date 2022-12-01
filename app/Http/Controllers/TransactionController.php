@@ -917,23 +917,29 @@ class TransactionController extends Controller
         $date = $input['date'];
 
         // Instantiates a Query object
-        $query = Transaction::Where('user_name', 'LIKE', "%$user_name%")
-            ->orWhere('description', 'LIKE', "%$phoneno%")
-            ->orWhere('name', 'LIKE', "%$transaction_type%")
-            ->orWhere('ref', 'LIKE', "%$reference%")
-            ->orWhere('amount', "$amount")
-            ->orWhere('date', 'LIKE', "%$date%")
-            ->OrderBy('id', 'desc')
-            ->limit(1000)
+        $query = Transaction::OrderBy('id', 'desc')
+            ->when(isset($user_name), function ($query) use ($user_name) {
+                $query->where('user_name', 'LIKE', "%$user_name%");
+            })
+            ->when(isset($phoneno), function ($query) use ($phoneno) {
+                $query->where('description', 'LIKE', "%$phoneno%");
+            })
+            ->when(isset($transaction_type), function ($query) use ($transaction_type) {
+                $query->where('name', 'LIKE', "%$transaction_type%");
+            })
+            ->when(isset($reference), function ($query) use ($reference) {
+                $query->where('ref', 'LIKE', "%$reference%");
+            })
+            ->when(isset($amount), function ($query) use ($amount) {
+                $query->where('amount', "$amount");
+            })
+            ->when(isset($date), function ($query) use ($date) {
+                $query->where('date', 'LIKE', "%$date%");
+            })
+            ->limit(100)
             ->get();
 
-        $cquery = Transaction::Where('user_name', 'LIKE', "%$user_name%")
-            ->orWhere('description', 'LIKE', "%$phoneno%")
-            ->orWhere('name', 'LIKE', "%$transaction_type%")
-            ->orWhere('ref', 'LIKE', "%$reference%")
-            ->orWhere('amount', "$amount")
-            ->orWhere('date', 'LIKE', "%$date%")
-            ->count();
+        $cquery = $query->count();
 
         return view('find_transaction', ['datas' => $query, 'count' => $cquery, 'result' => true]);
     }

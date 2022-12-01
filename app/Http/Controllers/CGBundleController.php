@@ -47,6 +47,40 @@ class CGBundleController extends Controller
         return redirect()->route('cgbundle.list')->with(["success" => "Bundle created successfully"]);
     }
 
+    public function update(Request $request){
+        $input = $request->all();
+        $rules = array(
+            'id' => 'required',
+            'display_name' => 'required',
+            'value'      => 'required',
+            'network' => 'required',
+            'type' => 'required',
+            'price' => 'required'
+        );
+
+        $validator = Validator::make($input, $rules);
+
+
+        if (!$validator->passes()) {
+            return redirect()->route('cgbundle.edit', $input['id'])->with('error', 'Incomplete request. Kindly check and try again');
+        }
+
+        $fcg=CGBundle::find($input['id']);
+
+        if(!$fcg){
+            return redirect()->route('cgbundle.edit',$input['id'])->with(["error" => "Bundle not found"]);
+        }
+
+        $fcg->display_name=$input['display_name'];
+        $fcg->value=$input['value'];
+        $fcg->network=$input['network'];
+        $fcg->type=$input['type'];
+        $fcg->price=$input['price'];
+        $fcg->save();
+
+        return redirect()->route('cgbundle.list')->with(["success" => "Bundle updated successfully"]);
+    }
+
     public function lists(){
         $data=CGBundle::latest()->get();
         return view('cg_bundles', ['data' => $data]);
@@ -67,6 +101,15 @@ class CGBundleController extends Controller
         $data->save();
 
         return redirect()->route('cgbundle.list')->with(["success" => "Bundle modified successfully"]);
+    }
+
+    public function edit($id){
+        $data=CGBundle::find($id);
+        if(!$data){
+            return redirect()->route('cgbundle.list')->with(["error" => "Bundle not found"]);
+        }
+
+        return view('cg_bundle_edit', ['data' => $data]);
     }
 
     public function applyView(){
