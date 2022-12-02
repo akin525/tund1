@@ -96,8 +96,10 @@ class UsersController extends Controller
 
     public function dormant(Request $request)
     {
+        $startDate = '2022-06-01';
+        $endDate = Carbon::now()->subMonth();
 
-        $users = DB::table('tbl_agents')->whereMonth('last_login', '>', '3' )->paginate(10);
+        $users = DB::table('tbl_agents')->whereBetween('last_login',[$startDate, $endDate])->paginate(10);
 
         return view('dormant_users', ['users' => $users]);
     }

@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <p class="text-muted mb-4 font-13">The list of users greater than 3 months.</p>
+                    <p class="text-muted mb-4 font-13">The list of users dormant greater than a month.</p>
                     <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
