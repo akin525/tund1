@@ -66,7 +66,13 @@
                             <span class="float-right"><i class="mdi mdi-chevron-right"></i></span>
                         </a>
                         <ul class="list-unstyled">
-                            <li><a href="/transaction">Transaction History</a></li>
+                            <li><a href="{{route('transaction')}}">All Transaction History</a></li>
+                            <li><a href="{{route('transaction_data')}}">Data Transaction History</a></li>
+                            <li><a href="{{route('transaction_airtime')}}">Airtime Transaction History</a></li>
+                            <li><a href="{{route('transaction_tv')}}">Cable Transaction History</a></li>
+                            <li><a href="{{route('transaction_electricity')}}">Electricity Transaction History</a></li>
+                            <li><a href="{{route('transaction_resultchecker')}}">ResultChecker Transaction History</a></li>
+                            <li><a href="{{route('transaction_funding')}}">Funding Transaction History</a></li>
                             <li><a href="{{route('trans_pending')}}">Pending Transactions</a></li>
 {{--                            <li><a href="/generalmarket">General Market</a></li>--}}
                             <li><a href="{{route('findtransaction')}}">Find Transaction</a></li>

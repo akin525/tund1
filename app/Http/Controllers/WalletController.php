@@ -24,7 +24,40 @@ class WalletController extends Controller
 
     public function index(Request $request)
     {
-        $wallet = Wallet::orderBy('id', 'desc')->paginate(25);
+        $input = $request->all();
+
+        if($input) {
+            $user_name = $input['user_name'];
+            $status = $input['status'];
+            $medium = $input['medium'];
+            $reference = $input['ref'];
+            $amount = $input['amount'];
+            $date = $input['date'];
+
+            // Instantiates a Query object
+            $wallet = Wallet::OrderBy('id', 'desc')
+                ->when(isset($user_name), function ($query) use ($user_name) {
+                    $query->where('user_name', 'LIKE', "%$user_name%");
+                })
+                ->when(isset($status), function ($query) use ($status) {
+                    $query->where('status', 'LIKE', "%$status%");
+                })
+                ->when(isset($medium), function ($query) use ($medium) {
+                    $query->where('medium', 'LIKE', "%$medium%");
+                })
+                ->when(isset($reference), function ($query) use ($reference) {
+                    $query->where('ref', 'LIKE', "%$reference%");
+                })
+                ->when(isset($amount), function ($query) use ($amount) {
+                    $query->where('amount', "$amount");
+                })
+                ->when(isset($date), function ($query) use ($date) {
+                    $query->where('date', 'LIKE', "%$date%");
+                })
+                ->paginate(25);
+        }else{
+            $wallet = Wallet::orderBy('id', 'desc')->paginate(25);
+        }
 
         return view('wallets', ['data' => $wallet]);
     }

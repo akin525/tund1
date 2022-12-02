@@ -71,7 +71,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/user-password-reset', [UsersController::class, 'passwordReset'])->name('userPasswordReset');
     Route::get('/admin-password-reset/{id}', [UsersController::class, 'passwordResetAdmin'])->name('adminPasswordReset');
     Route::get('/admin-bann-user/{id}', [UsersController::class, 'bannUnbann'])->name('adminBannUnbann');
-    Route::get('/wallet', 'WalletController@index')->name('wallet');
+    Route::any('/wallet', [WalletController::class, 'index'])->name('wallet');
 
     Route::get('/virtual-accounts', [UsersController::class, 'vaccounts'])->name('virtual-accounts');
     Route::get('/block/{id}', [BlockReseller::class, 'updatereseller'])->name('block');
@@ -84,6 +84,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/reject-withdrawal', [WalletController::class, 'withdrawal_reject'])->name('withdrawal_reject');
 
     Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction');
+    Route::get('/transaction_data', [TransactionController::class, 'trans_data'])->name('transaction_data');
+    Route::get('/transaction_airtime', [TransactionController::class, 'trans_airtime'])->name('transaction_airtime');
+    Route::get('/transaction_electricity', [TransactionController::class, 'trans_electricity'])->name('transaction_electricity');
+    Route::get('/transaction_tv', [TransactionController::class, 'trans_tv'])->name('transaction_tv');
+    Route::get('/transaction_resultchecker', [TransactionController::class, 'trans_resultchecker'])->name('transaction_resultchecker');
+    Route::get('/transaction_funding', [TransactionController::class, 'trans_funding'])->name('transaction_funding');
     Route::get('/transaction_server8', [TransactionController::class, 'server8'])->name('transaction8');
 
     Route::get('/transactions-pending', [TransactionController::class, 'pending'])->name('trans_pending');

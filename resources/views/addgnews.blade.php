@@ -45,7 +45,7 @@
 
 
                                 <div class="input-group mt-2">
-                                    <div class="input-group-prepend"><span class="input-group-text">Image </span></div>
+                                    <div class="input-group-prepend"><span class="input-group-text">Banner </span></div>
                                     <input type="file" name="image" placeholder="Select Image" class="form-control input-lg m-b" required>
                                 </div>
 
