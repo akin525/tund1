@@ -61,7 +61,7 @@ class TransactionController extends Controller
     public function trans_data(Request $request)
     {
 
-        $data = Transaction::where("code", 'LIKE', 'data_%')->orderBy('id', 'desc')->paginate(10);
+        $data = Transaction::where("code", 'LIKE', 'data_%')->orderBy('id', 'desc')->limit(500)->get();
         $tt = Transaction::where("code", 'LIKE', 'data_%')->count();
         $ft = Transaction::where([["code", 'LIKE', 'data_%'],['date', 'like', Carbon::now()->format('Y-m-d') . '%']])->count();
         $st = Transaction::where([["code", 'LIKE', 'data_%'],['date', 'like', Carbon::now()->subDay()->format('Y-m-d') . '%']])->count();
