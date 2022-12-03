@@ -39,7 +39,6 @@ class ATMmanagerController extends Controller
                 $input['user_name'] = $u->user_name;
                 $input['code'] = 'afund_Personal Account';
                 $input['i_wallet'] = $u->wallet;
-                $wallet = $u->wallet + $amount;
                 $input['f_wallet'] = $wallet;
                 $input["ip_address"] = "127.0.0.1:A";
                 $input["ref"] = $transactionreference;
