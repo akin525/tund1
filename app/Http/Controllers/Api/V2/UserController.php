@@ -80,6 +80,7 @@ class UserController extends Controller
         $others['biz_verification_price_customer'] = $sett['biz_verification_price_customer'];
         $others['reseller_terms'] = $sett['reseller_terms'];
         $others['privacy_policy'] = $sett['privacy_policy'];
+        $others['banner'] = $sett['banner'];
 
         return response()->json(['success' => 1, 'message' => 'Fetched successfully', 'data' => ['user' => $me, 'balances' => $balances, 'services' => $services, 'news' => $user->gnews, 'others' => $others]]);
     }

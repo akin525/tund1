@@ -147,6 +147,9 @@ class AuthenticationController extends Controller
         CreateProvidusAccountJob::dispatch($user->id);
         BudpayVirtualAccountJob::dispatch($user->id);
 
+        $user->last_login=Carbon::now();
+        $user->save();
+
         // Revoke all tokens...
         $user->tokens()->delete();
 
@@ -203,6 +206,7 @@ class AuthenticationController extends Controller
         }
 
         $user->devices = $device;
+        $user->last_login=Carbon::now();
         $user->save();
 
         // Revoke all tokens...
@@ -281,6 +285,9 @@ class AuthenticationController extends Controller
 
         // Revoke all tokens...
         $user->tokens()->delete();
+
+        $user->last_login=Carbon::now();
+        $user->save();
 
         $token = $user->createToken($input['device'])->plainTextToken;
 
