@@ -24,7 +24,7 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
 
-        $data = Transaction::orderBy('id', 'desc')->orderBy('id', 'desc')->limit(500)->get();
+        $data = Transaction::orderBy('id', 'desc')->limit(500)->get();
         $tt = Transaction::count();
         $ft = Transaction::where([['date', 'like', Carbon::now()->format('Y-m-d') . '%']])->count();
         $st = Transaction::where([['date', 'like', Carbon::now()->subDay()->format('Y-m-d') . '%']])->count();
@@ -74,7 +74,7 @@ class TransactionController extends Controller
     public function trans_airtime(Request $request)
     {
 
-        $data = Transaction::where("code", 'LIKE', 'airtime_%')->orderBy('id', 'desc')->paginate(25);
+        $data = Transaction::where("code", 'LIKE', 'airtime_%')->limit(500)->get();
         $tt = Transaction::where("code", 'LIKE', 'airtime_%')->count();
         $ft = Transaction::where([["code", 'LIKE', 'airtime_%'],['date', 'like', Carbon::now()->format('Y-m-d') . '%']])->count();
         $st = Transaction::where([["code", 'LIKE', 'airtime_%'],['date', 'like', Carbon::now()->subDay()->format('Y-m-d') . '%']])->count();
@@ -86,7 +86,7 @@ class TransactionController extends Controller
     public function trans_tv(Request $request)
     {
 
-        $data = Transaction::where("code", 'LIKE', 'tv_%')->orderBy('id', 'desc')->paginate(25);
+        $data = Transaction::where("code", 'LIKE', 'tv_%')->orderBy('id', 'desc')->limit(500)->get();
         $tt = Transaction::where("code", 'LIKE', 'tv_%')->count();
         $ft = Transaction::where([["code", 'LIKE', 'tv_%'],['date', 'like', Carbon::now()->format('Y-m-d') . '%']])->count();
         $st = Transaction::where([["code", 'LIKE', 'tv_%'],['date', 'like', Carbon::now()->subDay()->format('Y-m-d') . '%']])->count();
@@ -97,7 +97,7 @@ class TransactionController extends Controller
 
     public function trans_electricity(Request $request)
     {
-        $data = Transaction::where("code", 'LIKE', 'electricity%')->orderBy('id', 'desc')->paginate(25);
+        $data = Transaction::where("code", 'LIKE', 'electricity%')->orderBy('id', 'desc')->limit(500)->get();
         $tt = Transaction::where("code", 'LIKE', 'electricity%')->count();
         $ft = Transaction::where([["code", 'LIKE', 'electricity%'],['date', 'like', Carbon::now()->format('Y-m-d') . '%']])->count();
         $st = Transaction::where([["code", 'LIKE', 'electricity%'],['date', 'like', Carbon::now()->subDay()->format('Y-m-d') . '%']])->count();
@@ -109,7 +109,7 @@ class TransactionController extends Controller
     public function trans_resultchecker(Request $request)
     {
 
-        $data = Transaction::where("code", 'LIKE', 'rch%')->orderBy('id', 'desc')->paginate(25);
+        $data = Transaction::where("code", 'LIKE', 'rch%')->orderBy('id', 'desc')->limit(500)->get();
         $tt = Transaction::where("code", 'LIKE', 'rch%')->count();
         $ft = Transaction::where([["code", 'LIKE', 'rch%'],['date', 'like', Carbon::now()->format('Y-m-d') . '%']])->count();
         $st = Transaction::where([["code", 'LIKE', 'rch%'],['date', 'like', Carbon::now()->subDay()->format('Y-m-d') . '%']])->count();
@@ -121,7 +121,7 @@ class TransactionController extends Controller
     public function trans_funding(Request $request)
     {
 
-        $data = Transaction::where("name", 'LIKE', 'wallet funding')->orderBy('id', 'desc')->paginate(25);
+        $data = Transaction::where("name", 'LIKE', 'wallet funding')->orderBy('id', 'desc')->limit(500)->get();
         $tt = Transaction::where("name", 'LIKE', 'wallet funding')->count();
         $ft = Transaction::where([["name", 'LIKE', 'wallet funding'],['date', 'like', Carbon::now()->format('Y-m-d') . '%']])->count();
         $st = Transaction::where([["name", 'LIKE', 'wallet funding'],['date', 'like', Carbon::now()->subDay()->format('Y-m-d') . '%']])->count();
