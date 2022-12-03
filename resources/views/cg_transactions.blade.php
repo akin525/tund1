@@ -43,7 +43,7 @@
                                 <td>{{$da->user_name}}</td>
                                 <td class="center">{{$da->cgbundle->network}} {{$da->cgbundle->type}}</td>
                                 <td class="center">{{$da->cgbundle->value}} GB</td>
-                                <td class="center">{{$da->cgbundle->price}}</td>
+                                <td class="center">{{number_format($da->cgbundle->price)}}</td>
                                 <td class="center">
                                     @if($da->status=="1")
                                         <span class="badge badge-success">Success</span>
