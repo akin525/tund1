@@ -24,7 +24,7 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
 
-        $data = Transaction::orderBy('id', 'desc')->paginate(10);
+        $data = Transaction::orderBy('id', 'desc')->orderBy('id', 'desc')->limit(500)->get();
         $tt = Transaction::count();
         $ft = Transaction::where([['date', 'like', Carbon::now()->format('Y-m-d') . '%']])->count();
         $st = Transaction::where([['date', 'like', Carbon::now()->subDay()->format('Y-m-d') . '%']])->count();
