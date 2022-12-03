@@ -24,7 +24,7 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
 
-        $data = Transaction::orderBy('id', 'desc')->paginate(25);
+        $data = Transaction::orderBy('id', 'desc')->paginate(10);
         $tt = Transaction::count();
         $ft = Transaction::where([['date', 'like', Carbon::now()->format('Y-m-d') . '%']])->count();
         $st = Transaction::where([['date', 'like', Carbon::now()->subDay()->format('Y-m-d') . '%']])->count();
@@ -61,7 +61,7 @@ class TransactionController extends Controller
     public function trans_data(Request $request)
     {
 
-        $data = Transaction::where("code", 'LIKE', 'data_%')->orderBy('id', 'desc')->paginate(25);
+        $data = Transaction::where("code", 'LIKE', 'data_%')->orderBy('id', 'desc')->paginate(10);
         $tt = Transaction::where("code", 'LIKE', 'data_%')->count();
         $ft = Transaction::where([["code", 'LIKE', 'data_%'],['date', 'like', Carbon::now()->format('Y-m-d') . '%']])->count();
         $st = Transaction::where([["code", 'LIKE', 'data_%'],['date', 'like', Carbon::now()->subDay()->format('Y-m-d') . '%']])->count();
