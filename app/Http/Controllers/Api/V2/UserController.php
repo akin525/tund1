@@ -763,6 +763,10 @@ class UserController extends Controller
             return response()->json(['success' => 0, 'message' => "Insufficient Balance"]);
         }
 
+        if($input['amount'] < 1){
+            return response()->json(['success' => 0, 'message' => "Invalid Amount"]);
+        }
+
         $obal=$oCGwallet->balance;
         $bal=$cgwallet->balance;
 
